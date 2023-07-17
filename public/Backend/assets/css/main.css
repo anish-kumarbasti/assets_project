@@ -1,0 +1,77 @@
+.footer-item {
+    float: right;
+}
+ .qr{
+position: relative;
+top: 21px;
+left: -24px;
+display: none;
+}
+#qrImage{
+border: 1px solid #77777733;
+padding: 13px 49px;
+border-radius:10px;
+position: relative;
+top: 6px;
+}
+.scan-text{
+color:black;
+font-weight:700;
+}
+
+.footer-item {
+    float: right;
+}
+
+.role-btn {
+    border-radius: 7px !important;
+    float: right;
+  }
+  .modal-footer{
+   border:none;
+  }
+  .modal-header{
+    border:none;
+  }
+  button.btn-close {
+      border: 1px solid black !important;
+      border-radius: 17px !important;
+  }
+
+ 
+  .card-text {
+    background: #5C61F21A;
+  }
+  .footer-item {
+    float: right;
+  }
+  .cross-icon {
+    border: 1px solid #77777733;
+    color: #5C61F2 !important;
+    float: right;
+    padding: 3px 9px;
+    position: relative;
+  }
+
+  .card-box{
+    width: 100%;
+        margin-top: 24px;
+  }
+
+
+ 
+    .ican-envo{
+    padding: 1px 12px;
+        border-radius: 5px;
+       
+    }
+    .ican-action {
+       padding: 1px 12px;
+        border-radius: 5px;
+        color:green;
+    }
+    .text-it{
+      font-size: 11px;  
+    }
+
+ 

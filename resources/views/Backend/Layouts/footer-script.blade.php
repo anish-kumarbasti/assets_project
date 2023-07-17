@@ -1,0 +1,41 @@
+<!-- latest jquery-->
+    <script src="{{ asset('Backend/assets/js/jquery-3.6.0.min.js')}}"></script>
+    <!-- Bootstrap js-->
+    <script src="{{ asset('Backend/assets/js/bootstrap/bootstrap.bundle.min.js')}}"></script>
+    <!-- feather icon js-->
+    <script src="{{ asset('Backend/assets/js/icons/feather-icon/feather.min.js')}}"></script>
+    <script src="{{ asset('Backend/assets/js/icons/feather-icon/feather-icon.js')}}"></script>
+    <!-- scrollbar js-->
+    <script src="{{ asset('Backend/assets/js/scrollbar/simplebar.js')}}"></script>
+    <script src="{{ asset('Backend/assets/js/scrollbar/custom.js')}}"></script>
+    <!-- Sidebar jquery-->
+    <script src="{{ asset('Backend/assets/js/config.js')}}"></script>
+    <script src="{{ asset('Backend/assets/js/sidebar-menu.js')}}"></script>
+    <script src="{{ asset('Backend/assets/js/chart/knob/knob.min.js')}}"></script>
+    <script src="{{ asset('Backend/assets/js/chart/knob/knob-chart.js')}}"></script>
+    <script src="{{ asset('Backend/assets/js/chart/apex-chart/apex-chart.js')}}"></script>
+    <script src="{{ asset('Backend/assets/js/chart/apex-chart/stock-prices.js')}}"></script>
+    <script src="{{ asset('Backend/assets/js/prism/prism.min.js')}}"></script>
+    <script src="{{ asset('Backend/assets/js/clipboard/clipboard.min.js')}}"></script>
+    <script src="{{ asset('Backend/assets/js/custom-card/custom-card.js')}}"></script>
+    <script src="{{ asset('Backend/assets/js/notify/bootstrap-notify.min.js')}}"></script>
+    <script src="{{ asset('Backend/assets/js/datepicker/date-picker/datepicker.js')}}"></script>
+    <script src="{{ asset('Backend/assets/js/datepicker/date-picker/datepicker.en.js')}}"></script>
+    <script src="{{ asset('Backend/assets/js/datepicker/date-picker/datepicker.custom.js')}}"></script>
+    <script src="{{ asset('Backend/assets/js/owlcarousel/owl.carousel.js')}}"></script>
+    <script src="{{ asset('Backend/assets/js/typeahead/handlebars.js')}}"></script>
+    <script src="{{ asset('Backend/assets/js/typeahead/typeahead.bundle.js')}}"></script>
+    <script src="{{ asset('Backend/assets/js/typeahead/typeahead.custom.js')}}"></script>
+    <script src="{{ asset('Backend/assets/js/typeahead-search/handlebars.js')}}"></script>
+    <script src="{{ asset('Backend/assets/js/typeahead-search/typeahead-custom.js')}}"></script>
+    <script src="{{ asset('Backend/assets/js/dashboard/dashboard_2.js')}}"></script>
+    <!-- Template js-->
+    <script src="{{ asset('Backend/assets/js/script.js')}}"></script>
+    <script src="{{ asset('Backend/assets/js/theme-customizer/customizer.js')}}"></script>
+    <script src="{{ asset('Backend/assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{ asset('Backend/assets/js/datatable/datatables/datatable.custom.js')}}"></script>
+    <script src="{{ asset('Backend/assets/js/tooltip-init.js')}}"></script>
+
+     <script src="{{ asset('Backend/assets/js/main.js')}}"></script>
+    <!-- login js-->
+
