@@ -13,7 +13,7 @@
                <div class="row p-3">
                   <div class="col-md-12 mb-4">
                      <label class="form-label" for="validationCustom01">Add Department </label>
-                     <input class="form-control" id="validationCustom01" type="text" required=""
+                     <input class="form-control" id="validationCustom01" type="text" name="departmernt" required=""
                         data-bs-original-title="" title="" placeholder="Enter Department Name ">
                   </div>
                </div>
