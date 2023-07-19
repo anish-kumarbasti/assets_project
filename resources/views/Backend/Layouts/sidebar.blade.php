@@ -26,7 +26,7 @@
 
                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="airplay"></i><span >Masters</span></a>
                     <ul class="sidebar-submenu">
-                      <li><a href="{{ url('department')}}">Department</a></li>
+                      <li><a href="{{ route('auth.create-department')}}">Department</a></li>
                       <li><a href="{{ url('designation')}}">Designation</a></li>
                       <li><a href="{{ url('asset-type')}}">Asset Type</a></li>
                        <li><a href="{{ url('asset-name')}}">Asset Name</a></li>
@@ -50,7 +50,7 @@
                     </ul>
                   </li>
 
-                 
+
 
                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="airplay"></i><span >Assets</span></a>
                     <ul class="sidebar-submenu">
@@ -61,38 +61,38 @@
                     </ul>
                   </li>
 
-                 
+
                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="box"></i><span>Setting</span></a>
                   </li>
-                
+
                     <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="box"></i><span>Issuence</span></a>
                     <ul class="sidebar-submenu">
                       <li><a href="{{ url('issuence')}}"> Add Issuence </a></li>
-                    
+
                     </ul>
                   </li>
                   <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="box"></i><span>Transfer</span></a>
                     <ul class="sidebar-submenu">
                       <li><a href="{{ url('transfer')}}">Add Transfer</a> </li>
-                     
+
                     </ul>
                   </li>
                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="box"></i><span>Dispose</span></a>
                     <ul class="sidebar-submenu">
                       <li><a href="{{ url('disposal')}}">Add Disposal</a>  </li>
-                     
+
                     </ul>
                   </li>
-                  
-                  
-               
+
+
+
                   {{-- <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="airplay"></i><span class="lan-6">Widgets</span></a>
                     <ul class="sidebar-submenu">
                       <li><a href="general-widget.html">General</a></li>
                       <li><a href="chart-widget.html">Chart</a></li>
                     </ul>
                   </li>
-                 
+
                   <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="box"></i><span>Project</span></a>
                     <ul class="sidebar-submenu">
                       <li><a href="projects.html">Project List</a></li>
@@ -198,7 +198,7 @@
                     </ul>
                   </li>
                   <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="box"></i><span>Ui Kits</span></a>
-                    <ul class="sidebar-submenu">                 
+                    <ul class="sidebar-submenu">
                       <li><a href="typography.html">Typography</a></li>
                       <li><a href="avatars.html">Avatars</a></li>
                       <li><a href="helper-classes.html">helper classes</a></li>
