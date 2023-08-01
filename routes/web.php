@@ -1,25 +1,22 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Backend\HomeController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\AssetController;
+use App\Http\Controllers\RolesController;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
-
-
-use App\Http\Controllers\Role\RoleController;
-use App\Http\Controllers\Role\PermissionController;
-
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\Stock\StockController;
+use App\Http\Controllers\Backend\HomeController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\Master\AssetNameController;
-use App\Http\Controllers\Master\AssetTypeController;
-use App\Http\Controllers\Master\DepartmentController;
-use App\Http\Controllers\Master\DesignationController;
-use App\Http\Controllers\Master\LocationController;
-
+use App\Http\Controllers\AssetTypeController;
 use App\Http\Controllers\Disposal\DisposalController;
 use App\Http\Controllers\Issuence\IssuenceController;
+use App\Http\Controllers\Master\DepartmentController;
 use App\Http\Controllers\Transfer\TransferController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\DesignationController;
 
 /*
 
@@ -40,43 +37,74 @@ Route::get('register', [RegisterController::class ,'register']);
 Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 // Routes with authentication
 Route::group(['middleware' => 'auth'], function () {
+
+Route::get('/roles', [RolesController::class, 'index'])->name('roles.index');
+Route::get('/roles/create', [RolesController::class, 'create'])->name('roles.create');
+Route::post('/roles', [RolesController::class, 'store'])->name('roles.store');
+Route::get('/roles/{role}/edit', [RolesController::class, 'edit'])->name('roles.edit');
+Route::put('/roles/{role}', [RolesController::class, 'update'])->name('roles.update');
+Route::get('/roles/{role}/permissions', [RolesController::class, 'permissions'])->name('roles.permissions');
+Route::put('/roles/{role}/permissions', [RolesController::class, 'updatePermissions'])->name('roles.update_permissions');
+Route::get('/users/{user}/assign-roles', [UserController::class, 'assignRoles'])->name('users.assign_roles');
+Route::delete('/roles/{role}', [RolesController::class, 'destroy'])->name('roles.destroy');
+Route::get('view-permissions', [PermissionController::class, 'index'])->name('permissions.index');
+Route::put('update-permissions', [PermissionController::class, 'update'])->name('permissions.update');
+
+
+Route::put('/users/{user}/assign-roles', [UserController::class, 'updateRoles'])->name('users.update_roles');
+
     Route::get('home', [HomeController::class, 'index'])->name('home');
     Route::get('stock', [StockController::class, 'index']);
     Route::get('manage-stocks', [StockController::class, 'manage']);
     Route::get('it-assets-stock', [StockController::class, 'stockStatus']);
     Route::get('location', [LocationController::class, 'index']);
-    Route::get('designation', [DesignationController::class, 'index']);
+    //Route::get('designation', [DesignationController::class, 'index']);
     Route::get('department', [DepartmentController::class, 'index']);
     Route::get('asset-name', [AssetNameController::class, 'index']);
     Route::get('asset-type', [AssetTypeController::class, 'index']);
-    Route::get('add-role', [RoleController::class, 'role']);
     Route::get('add-permission', [PermissionController::class, 'permission']);
     Route::get('disposal', [DisposalController::class, 'index']);
     Route::get('issuance', [IssuenceController::class, 'index']);
     Route::get('transfer', [TransferController::class, 'index']);
     Route::get('add-user', [UserController::class, 'user']);
     Route::get('user-details', [UserController::class, 'userCard']);
-    Route::get('user-profile', [UserController::class, 'userProfile']);
+    //asset type
+    Route::get('assets-type-show', [AssetTypeController::class, 'show'])->name('assets-type-show');
+    Route::get('assets-type-index', [AssetTypeController::class, 'index'])->name('assets-type-index');
+    Route::get('assets-type-create', [AssetTypeController::class, 'create'])->name('assets-type-create');
+    Route::post('assets-type-store', [AssetTypeController::class, 'store'])->name('assets-type-store');
+    Route::put('assets-type-update/{asset}', [AssetTypeController::class, 'update'])->name('assets-type-update');
+    Route::put('assets-type-status/{assetId}', [AssetTypeController::class, 'assetTypeStatus'])->name('assets-type-status');
+    Route::delete('assets-type-destroy/{asset}', [AssetTypeController::class, 'destroy'])->name('assets-type-destroy');
+    Route::get('assets-type-edit/{id}', [AssetTypeController::class, 'edit'])->name('assets-type-edit');
+    // Route::resource('assets', AssetTypeController::class);
+    //locations
+    Route::get('location-show', [LocationController::class, 'show'])->name('location-show');
+    Route::get('location-index', [LocationController::class, 'index'])->name('location-index');
+    Route::get('location-create', [LocationController::class, 'create'])->name('location-create');
+    Route::post('location-store', [LocationController::class, 'store'])->name('location-store');
+    Route::put('location-update/{location}', [LocationController::class, 'update'])->name('location-update');
+    Route::put('location-status/{locationId}', [LocationController::class, 'locationStatus'])->name('location-status');
+    Route::delete('location-destroy/{location}', [LocationController::class, 'destroy'])->name('location-destroy');
+    Route::get('location-edit/{id}', [LocationController::class, 'edit'])->name('location-edit');
+    //designation
+    Route::get('designations', [DesignationController::class, 'index'])->name('designations.index');
+    Route::post('designations', [DesignationController::class, 'store'])->name('designations.store');
+    Route::get('/designations/create', [DesignationController::class, 'create'])->name('designations.create');
+    Route::get('designations/{id}/edit', [DesignationController::class, 'edit'])->name('designations.edit');
+    Route::put('designations/{id}', [DesignationController::class, 'update'])->name('designations.update');
+    Route::delete('designations/{id}', [DesignationController::class, 'destroy'])->name('designations.destroy');
 
     Route::group(['middleware' => ['permission.checkDepartment']], function () {
             // Route to display the "Add Department" form
             Route::get('/departments/create', [DepartmentController::class, 'create'])->name('auth.create-department');
-
-            // Route to handle the form submission and store the department
             Route::post('/departments', [DepartmentController::class, 'store']);
-
-            // Route to display the list of departments
             Route::get('/departments', [DepartmentController::class, 'index']);
-
-            // Route to display the "Edit Department" form
             Route::get('/departments/{id}/edit', [DepartmentController::class, 'edit']);
-
-            // Route to handle the form submission and update the department
             Route::put('/departments/{id}', [DepartmentController::class, 'update'])->name('departments.update');
-
-            // Route to delete a department
             Route::delete('/departments/{id}', [DepartmentController::class, 'destroy']);
             Route::post('/departments/{department}', [DepartmentController::class, 'updateStatus'])->name('departments.updateStatus');
 
     });
+
 });

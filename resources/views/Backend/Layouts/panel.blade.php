@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
   @include('Backend.Layouts.head')
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+
   @yield('Style-Area')
-  <body>  
+  <body>
   <div class="tap-top"><i data-feather="chevrons-up"></i></div>
  @include('Backend.Layouts.loader')
    <!-- page-wrapper Start-->
@@ -18,7 +20,7 @@
          @include('Backend.Layouts.breadcrumbs')
         @yield('Content-Area')
           <!-- Container-fluid starts-->
-          
+
 
 
 

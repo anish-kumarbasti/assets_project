@@ -27,10 +27,10 @@
                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="airplay"></i><span >Masters</span></a>
                     <ul class="sidebar-submenu">
                       <li><a href="{{ route('auth.create-department')}}">Department</a></li>
-                      <li><a href="{{ url('designation')}}">Designation</a></li>
-                      <li><a href="{{ url('asset-type')}}">Asset Type</a></li>
+                      <li><a href="{{ url('designations')}}">Designation</a></li>
+                      <li><a href="{{ route('assets-type-index')}}">Asset Type</a></li>
                        <li><a href="{{ url('asset-name')}}">Asset Name</a></li>
-                           <li><a href="{{ url('location')}}">Locations</a></li>
+                           <li><a href="{{ url('location-index')}}">Locations</a></li>
                     </ul>
                   </li>
                     <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="layout"></i><span >User</span></a>
@@ -39,7 +39,7 @@
                       <li><a href="{{ url('user-details')}}">User Card</a></li>
                        <li><a href="{{ url('user-profile')}}">User Card</a></li>
                        <li><a href="{{url('add-role') }}">Add Role</a></li>
-                      <li><a href="{{url('add-permission') }}">Add Permission</a></li>
+                      <li><a href="{{url('view-permissions') }}">All Permission</a></li>
                     </ul>
                   </li>
 
