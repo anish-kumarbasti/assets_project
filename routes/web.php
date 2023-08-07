@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\AssetController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\PermissionController;
@@ -12,6 +11,8 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\Master\AssetNameController;
 use App\Http\Controllers\AssetTypeController;
+use App\Http\Controllers\AssetController;
+use App\Http\Controllers\BrandController;
 use App\Http\Controllers\Disposal\DisposalController;
 use App\Http\Controllers\Issuence\IssuenceController;
 use App\Http\Controllers\Master\DepartmentController;
@@ -50,6 +51,14 @@ Route::delete('/roles/{role}', [RolesController::class, 'destroy'])->name('roles
 Route::get('view-permissions', [PermissionController::class, 'index'])->name('permissions.index');
 Route::put('update-permissions', [PermissionController::class, 'update'])->name('permissions.update');
 
+Route::get('users', [UserController::class, 'index'])->name('users.index');
+Route::get('show', [UserController::class, 'showUsers'])->name('users.show');
+Route::get('users/create', [UserController::class, 'create'])->name('users.create');
+Route::post('users', [UserController::class, 'store'])->name('users.store');
+Route::get('users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+Route::put('users/{user}', [UserController::class, 'update'])->name('users.update');
+Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+Route::get('/get-designations/{departmentId}', [UserController::class,'getDesignations']);
 
 Route::put('/users/{user}/assign-roles', [UserController::class, 'updateRoles'])->name('users.update_roles');
 
@@ -94,6 +103,23 @@ Route::put('/users/{user}/assign-roles', [UserController::class, 'updateRoles'])
     Route::get('designations/{id}/edit', [DesignationController::class, 'edit'])->name('designations.edit');
     Route::put('designations/{id}', [DesignationController::class, 'update'])->name('designations.update');
     Route::delete('designations/{id}', [DesignationController::class, 'destroy'])->name('designations.destroy');
+//assets
+
+
+Route::get('assets', [AssetController::class, 'index'])->name('assets.index');
+Route::get('assets/create', [AssetController::class, 'create'])->name('assets.create');
+Route::post('assets', [AssetController::class, 'store'])->name('assets.store');
+Route::get('assets/{id}/edit', [AssetController::class, 'edit'])->name('assets.edit');
+Route::put('assets/{id}', [AssetController::class, 'update'])->name('assets.update');
+Route::delete('assets/{id}', [AssetController::class, 'destroy'])->name('assets.destroy');
+//Brand
+Route::get('/brands/create', [BrandController::class, 'create'])->name('create-brand');
+Route::post('/brands', [BrandController::class, 'store']);
+Route::get('/brands', [BrandController::class, 'index']);
+Route::get('/brands/{id}/edit', [BrandController::class, 'edit']);
+Route::put('/brands/{id}', [BrandController::class, 'update'])->name('brands.update');
+Route::delete('/brands/{id}', [BrandController::class, 'destroy']);
+Route::post('/brands/{brand}', [BrandController::class, 'updateStatus'])->name('brands.updateStatus');
 
     Route::group(['middleware' => ['permission.checkDepartment']], function () {
             // Route to display the "Add Department" form
