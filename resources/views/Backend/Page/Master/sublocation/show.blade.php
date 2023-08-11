@@ -19,7 +19,7 @@
             </div>
          </div>
          <div class="footer-item">
-            <a href="{{ route('sublocation-index') }}" class="btn btn-primary mt-3">Back</a>
+            <a href="{{ route('location-index') }}" class="btn btn-primary mt-3">Back</a>
          </div>
       </div>
    </div>
