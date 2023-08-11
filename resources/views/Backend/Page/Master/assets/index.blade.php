@@ -28,7 +28,7 @@
                             <td>{{ $asset->name }}</td>
                             <td class="w-20">
                                 <label class="mb-0 switch">
-                                <input type="checkbox" checked=""><span class="switch-state"></span>
+                                <input type="checkbox" data-id="{{$asset->id}}" {{ $asset->status ? 'checked' : '' }}><span class="switch-state"></span>
                                 </label>
                             </td>
                             <td>
@@ -48,4 +48,34 @@
     </div>
 </div>
 
+@endsection
+@section('Script-Area')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+
+       $('input[type="checkbox"]').on('change', function() {
+          const assetId = $(this).data('id');
+          const status = $(this).prop('checked');
+          const csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+          $.ajax({
+             url: `/assets-status/${assetId}`,
+             type: 'PUT',
+             data: {
+                status: status
+             },
+             headers: {
+                'X-CSRF-TOKEN': csrfToken
+             },
+             success: function(response) {
+                console.log('Status updated successfully');
+             },
+             error: function(error) {
+                console.error('Error:', error);
+             }
+          });
+       });
+    });
+ </script>
 @endsection

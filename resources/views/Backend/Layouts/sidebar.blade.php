@@ -50,6 +50,7 @@
                      <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="home"></i><span >Stocks</span></a>
                     <ul class="sidebar-submenu">
                       <li><a  href="{{ url('manage-stocks')}}">Manage Stocks</a></li>
+                      <li><a  href="{{ url('all-stock')}}">All Stocks</a></li>
                       <li><a  href="{{ url('stock')}}">Stocks</a></li>
                     </ul>
                   </li>
