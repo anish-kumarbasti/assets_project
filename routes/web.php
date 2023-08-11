@@ -13,6 +13,7 @@ use App\Http\Controllers\Master\AssetNameController;
 use App\Http\Controllers\AssetTypeController;
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\BrandmodelController;
 use App\Http\Controllers\Disposal\DisposalController;
 use App\Http\Controllers\Issuence\IssuenceController;
 use App\Http\Controllers\Master\DepartmentController;
@@ -120,6 +121,7 @@ Route::get('/brands/{id}/edit', [BrandController::class, 'edit']);
 Route::put('/brands/{id}', [BrandController::class, 'update'])->name('brands.update');
 Route::delete('/brands/{id}', [BrandController::class, 'destroy']);
 Route::post('/brands/{brand}', [BrandController::class, 'updateStatus'])->name('brands.updateStatus');
+Route::resource('brand-model', BrandmodelController::class);
 
     Route::group(['middleware' => ['permission.checkDepartment']], function () {
             // Route to display the "Add Department" form
@@ -134,3 +136,4 @@ Route::post('/brands/{brand}', [BrandController::class, 'updateStatus'])->name('
     });
 
 });
+

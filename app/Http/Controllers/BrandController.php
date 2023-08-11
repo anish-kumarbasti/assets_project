@@ -45,7 +45,6 @@ class BrandController extends Controller
     // Show the "Edit brand" form
     public function edit($id)
     {
-
         $brand = Brand::findOrFail($id);
         return view('Backend.Page.Master.brands.edit', ['brand' => $brand]);
     }
