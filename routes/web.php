@@ -64,6 +64,9 @@ Route::put('/users/{user}/assign-roles', [UserController::class, 'updateRoles'])
 
     Route::get('home', [HomeController::class, 'index'])->name('home');
     Route::get('stock', [StockController::class, 'index']);
+    Route::get('all-stock', [StockController::class, 'ShowStock']);
+    Route::post('store-stock',[StockController::class,'store'])->name('store.stock');
+    Route::put('stock-status/{stockId}', [StockController::class, 'changestockstatus'])->name('change-stock-status');
     Route::get('manage-stocks', [StockController::class, 'manage']);
     Route::get('it-assets-stock', [StockController::class, 'stockStatus']);
     Route::get('location', [LocationController::class, 'index']);
@@ -84,6 +87,7 @@ Route::put('/users/{user}/assign-roles', [UserController::class, 'updateRoles'])
     Route::post('assets-type-store', [AssetTypeController::class, 'store'])->name('assets-type-store');
     Route::put('assets-type-update/{asset}', [AssetTypeController::class, 'update'])->name('assets-type-update');
     Route::put('assets-type-status/{assetId}', [AssetTypeController::class, 'assetTypeStatus'])->name('assets-type-status');
+    Route::put('assets-status/{assetId}', [AssetController::class, 'assetStatus'])->name('assets-status');
     Route::delete('assets-type-destroy/{asset}', [AssetTypeController::class, 'destroy'])->name('assets-type-destroy');
     Route::get('assets-type-edit/{id}', [AssetTypeController::class, 'edit'])->name('assets-type-edit');
     // Route::resource('assets', AssetTypeController::class);

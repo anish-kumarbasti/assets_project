@@ -27,6 +27,24 @@ public function store(Request $request)
 
     return redirect()->route('assets.index');
 }
+public function assetStatus(Request $request, $assetId)
+    {
+
+        $asset = Asset::findOrFail($assetId);
+
+        if($asset->status==true){
+            Asset::where('id',$assetId)->update([
+                'status' => 0
+            ]);
+        }else{
+            Asset::where('id',$assetId)->update([
+            'status' => 1
+        ]);
+
+        }
+
+        return response()->json(['message' => 'Asset Type status updated successfully']);
+    }
 
 public function edit($id)
 {
