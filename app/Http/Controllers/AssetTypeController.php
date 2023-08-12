@@ -55,7 +55,7 @@ class AssetTypeController extends Controller
         return redirect()->route('assets.index')
                          ->with('success', 'Asset Type updated successfully');
     }
-    public function locationStatus(Request $request, $assetId)
+    public function assetTypeStatus(Request $request, $assetId)
     {
 
         $asset = AssetType::findOrFail($assetId);
