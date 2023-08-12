@@ -47,28 +47,6 @@
                     </ul>
                   </li>
 
-           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="airplay"></i><span>Masters</span></a>
-             <ul class="sidebar-submenu">
-               <li><a href="{{ route('auth.create-department')}}">Department</a></li>
-               <li><a href="{{ url('designations')}}">Designation</a></li>
-               <li><a href="{{ route('assets-type-index')}}">Asset Type</a></li>
-               <li><a href="{{ url('assets')}}">Asset Name</a></li>
-               <li><a href="{{ route('create-brand')}}">Brand</a></li>
-               <li><a href="{{ url('assets')}}">Brand Model</a></li>
-               <li><a href="{{ url('location-index')}}">Locations</a></li>
-               <li><a href="{{ url('sublocation-index')}}">Sub-Locations</a></li>
-             </ul>
-           </li>
-           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="layout"></i><span>User</span></a>
-             <ul class="sidebar-submenu">
-               <li><a href="{{url('users')}}">All Users</a></li>
-               <li><a href="{{route('users.create')}}">Add User</a></li>
-               <li><a href="{{ url('show')}}">User Details</a></li>
-               <li><a href="{{ url('user-profile')}}">User Card</a></li>
-               <li><a href="{{url('add-role') }}">Add Role</a></li>
-               <li><a href="{{url('view-permissions') }}">All Permission</a></li>
-             </ul>
-           </li>
                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="home"></i><span >Stocks</span></a>
                     <ul class="sidebar-submenu">
                       <li><a  href="{{ url('manage-stocks')}}">Manage Stocks</a></li>
