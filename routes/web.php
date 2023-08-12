@@ -18,6 +18,8 @@ use App\Http\Controllers\Issuence\IssuenceController;
 use App\Http\Controllers\Master\DepartmentController;
 use App\Http\Controllers\Transfer\TransferController;
 use App\Http\Controllers\DesignationController;
+use App\Http\Controllers\SubLocationController;
+use App\Models\SubLocationModel;
 
 /*
 
@@ -32,35 +34,36 @@ use App\Http\Controllers\DesignationController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('/');
 Route::post('check-login', [LoginController::class, 'login'])->name('check-login');
-Route::get('register', [RegisterController::class ,'register']);
+Route::get('register', [RegisterController::class, 'register']);
 Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 // Routes with authentication
 Route::group(['middleware' => 'auth'], function () {
 
-Route::get('/roles', [RolesController::class, 'index'])->name('roles.index');
-Route::get('/roles/create', [RolesController::class, 'create'])->name('roles.create');
-Route::post('/roles', [RolesController::class, 'store'])->name('roles.store');
-Route::get('/roles/{role}/edit', [RolesController::class, 'edit'])->name('roles.edit');
-Route::put('/roles/{role}', [RolesController::class, 'update'])->name('roles.update');
-Route::get('/roles/{role}/permissions', [RolesController::class, 'permissions'])->name('roles.permissions');
-Route::put('/roles/{role}/permissions', [RolesController::class, 'updatePermissions'])->name('roles.update_permissions');
-Route::get('/users/{user}/assign-roles', [UserController::class, 'assignRoles'])->name('users.assign_roles');
-Route::delete('/roles/{role}', [RolesController::class, 'destroy'])->name('roles.destroy');
-Route::get('view-permissions', [PermissionController::class, 'index'])->name('permissions.index');
-Route::put('update-permissions', [PermissionController::class, 'update'])->name('permissions.update');
+    Route::get('/roles', [RolesController::class, 'index'])->name('roles.index');
+    Route::get('/roles/create', [RolesController::class, 'create'])->name('roles.create');
+    Route::post('/roles', [RolesController::class, 'store'])->name('roles.store');
+    Route::get('/roles/{role}/edit', [RolesController::class, 'edit'])->name('roles.edit');
+    Route::put('/roles/{role}', [RolesController::class, 'update'])->name('roles.update');
+    Route::get('/roles/{role}/permissions', [RolesController::class, 'permissions'])->name('roles.permissions');
+    Route::put('/roles/{role}/permissions', [RolesController::class, 'updatePermissions'])->name('roles.update_permissions');
+    Route::get('/users/{user}/assign-roles', [UserController::class, 'assignRoles'])->name('users.assign_roles');
+    Route::delete('/roles/{role}', [RolesController::class, 'destroy'])->name('roles.destroy');
+    Route::get('view-permissions', [PermissionController::class, 'index'])->name('permissions.index');
+    Route::put('update-permissions', [PermissionController::class, 'update'])->name('permissions.update');
 
-Route::get('users', [UserController::class, 'index'])->name('users.index');
-Route::get('show', [UserController::class, 'showUsers'])->name('users.show');
-Route::get('users/create', [UserController::class, 'create'])->name('users.create');
-Route::post('users', [UserController::class, 'store'])->name('users.store');
-Route::get('users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
-Route::put('users/{user}', [UserController::class, 'update'])->name('users.update');
-Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
-Route::get('/get-designations/{departmentId}', [UserController::class,'getDesignations']);
+    Route::get('users', [UserController::class, 'index'])->name('users.index');
+    Route::get('show', [UserController::class, 'showUsers'])->name('users.show');
+    Route::get('users/create', [UserController::class, 'create'])->name('users.create');
+    Route::post('users', [UserController::class, 'store'])->name('users.store');
+    Route::get('users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+    Route::put('users/{user}', [UserController::class, 'update'])->name('users.update');
+    Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+    Route::get('/get-designations/{departmentId}', [UserController::class, 'getDesignations']);
 
-Route::put('/users/{user}/assign-roles', [UserController::class, 'updateRoles'])->name('users.update_roles');
+    Route::put('/users/{user}/assign-roles', [UserController::class, 'updateRoles'])->name('users.update_roles');
 
     Route::get('home', [HomeController::class, 'index'])->name('home');
     Route::get('stock', [StockController::class, 'index']);
@@ -100,6 +103,14 @@ Route::put('/users/{user}/assign-roles', [UserController::class, 'updateRoles'])
     Route::put('location-status/{locationId}', [LocationController::class, 'locationStatus'])->name('location-status');
     Route::delete('location-destroy/{location}', [LocationController::class, 'destroy'])->name('location-destroy');
     Route::get('location-edit/{id}', [LocationController::class, 'edit'])->name('location-edit');
+    //Sub-Location 
+    Route::get('sublocation-show', [SubLocationController::class, 'show'])->name('sublocation-show');
+    Route::get('sublocation-index', [SubLocationController::class, 'index'])->name('sublocation-index');
+    Route::get('sublocation-create', [SubLocationController::class, 'create'])->name('sublocation-create');
+    Route::post('sublocation-store', [SubLocationController::class, 'store'])->name('sublocation-store');
+    Route::get('sublocation-edit/{id}', [SubLocationController::class, 'edit'])->name('sublocation-edit');
+    Route::put('sublocation-update/{sublocation}', [SubLocationModel::class, 'update'])->name('sublocation-update');
+
     //designation
     Route::get('designations', [DesignationController::class, 'index'])->name('designations.index');
     Route::post('designations', [DesignationController::class, 'store'])->name('designations.store');
@@ -107,34 +118,32 @@ Route::put('/users/{user}/assign-roles', [UserController::class, 'updateRoles'])
     Route::get('designations/{id}/edit', [DesignationController::class, 'edit'])->name('designations.edit');
     Route::put('designations/{id}', [DesignationController::class, 'update'])->name('designations.update');
     Route::delete('designations/{id}', [DesignationController::class, 'destroy'])->name('designations.destroy');
-//assets
+    //assets
 
 
-Route::get('assets', [AssetController::class, 'index'])->name('assets.index');
-Route::get('assets/create', [AssetController::class, 'create'])->name('assets.create');
-Route::post('assets', [AssetController::class, 'store'])->name('assets.store');
-Route::get('assets/{id}/edit', [AssetController::class, 'edit'])->name('assets.edit');
-Route::put('assets/{id}', [AssetController::class, 'update'])->name('assets.update');
-Route::delete('assets/{id}', [AssetController::class, 'destroy'])->name('assets.destroy');
-//Brand
-Route::get('/brands/create', [BrandController::class, 'create'])->name('create-brand');
-Route::post('/brands', [BrandController::class, 'store']);
-Route::get('/brands', [BrandController::class, 'index']);
-Route::get('/brands/{id}/edit', [BrandController::class, 'edit']);
-Route::put('/brands/{id}', [BrandController::class, 'update'])->name('brands.update');
-Route::delete('/brands/{id}', [BrandController::class, 'destroy']);
-Route::post('/brands/{brand}', [BrandController::class, 'updateStatus'])->name('brands.updateStatus');
+    Route::get('assets', [AssetController::class, 'index'])->name('assets.index');
+    Route::get('assets/create', [AssetController::class, 'create'])->name('assets.create');
+    Route::post('assets', [AssetController::class, 'store'])->name('assets.store');
+    Route::get('assets/{id}/edit', [AssetController::class, 'edit'])->name('assets.edit');
+    Route::put('assets/{id}', [AssetController::class, 'update'])->name('assets.update');
+    Route::delete('assets/{id}', [AssetController::class, 'destroy'])->name('assets.destroy');
+    //Brand
+    Route::get('/brands/create', [BrandController::class, 'create'])->name('create-brand');
+    Route::post('/brands', [BrandController::class, 'store']);
+    Route::get('/brands', [BrandController::class, 'index']);
+    Route::get('/brands/{id}/edit', [BrandController::class, 'edit']);
+    Route::put('/brands/{id}', [BrandController::class, 'update'])->name('brands.update');
+    Route::delete('/brands/{id}', [BrandController::class, 'destroy']);
+    Route::post('/brands/{brand}', [BrandController::class, 'updateStatus'])->name('brands.updateStatus');
 
     Route::group(['middleware' => ['permission.checkDepartment']], function () {
-            // Route to display the "Add Department" form
-            Route::get('/departments/create', [DepartmentController::class, 'create'])->name('auth.create-department');
-            Route::post('/departments', [DepartmentController::class, 'store']);
-            Route::get('/departments', [DepartmentController::class, 'index']);
-            Route::get('/departments/{id}/edit', [DepartmentController::class, 'edit']);
-            Route::put('/departments/{id}', [DepartmentController::class, 'update'])->name('departments.update');
-            Route::delete('/departments/{id}', [DepartmentController::class, 'destroy']);
-            Route::post('/departments/{department}', [DepartmentController::class, 'updateStatus'])->name('departments.updateStatus');
-
+        // Route to display the "Add Department" form
+        Route::get('/departments/create', [DepartmentController::class, 'create'])->name('auth.create-department');
+        Route::post('/departments', [DepartmentController::class, 'store']);
+        Route::get('/departments', [DepartmentController::class, 'index']);
+        Route::get('/departments/{id}/edit', [DepartmentController::class, 'edit']);
+        Route::put('/departments/{id}', [DepartmentController::class, 'update'])->name('departments.update');
+        Route::delete('/departments/{id}', [DepartmentController::class, 'destroy']);
+        Route::post('/departments/{department}', [DepartmentController::class, 'updateStatus'])->name('departments.updateStatus');
     });
-
 });
