@@ -2,6 +2,12 @@
 @section('Style-Area')
 @endsection
 @section('Content-Area')
+@if (session('success'))
+      <div class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
+        <p><b> Well done! </b>{{session('success')}}</p>
+        <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    @endif
 <div class="col-sm-12">
    <form class="needs-validation" method="POST" action="{{ route('store.stock') }}">
       @csrf
@@ -67,12 +73,12 @@
                      </select>
                   </div>
                   <div class="col-md-4 mb-4">
-                     <label class="form-label" for="validationCustom01">Model</label>
+                     <label class="form-label" for="validationCustom01">Brand Model</label>
                      <select class="form-select" name="brand_model" aria-label="Default select example">
                         <option selected>--Select Model--</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                        @foreach ($brand_model as $brand)
+                        <option value="{{$brand->id}}">{{$brand->name}}</option>
+                        @endforeach
                      </select>
                   </div>
                   <div class="col-md-4 mb-4">

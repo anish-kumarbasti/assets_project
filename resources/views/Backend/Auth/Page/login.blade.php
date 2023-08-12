@@ -44,8 +44,8 @@
                   <div class="form-group">
                     <label class="col-form-label">Password</label>
                     <div class="form-input position-relative">
-                      <input class="form-control" type="password" name="password" required="" placeholder="*********">
-                      <div class="show-hide"><span class="show">                         </span></div>
+                      <input class="form-control" type="password" id="password" name="password" required="" placeholder="*********">
+                      <div class="show-hide"><span class="show" id="password-toggle"></span></div>
                     </div>
                   </div>
                   <div class="form-group mb-0">
@@ -65,5 +65,32 @@
           </div>
         </div>
       </div>
-
+      <script>
+        const passwordInput = document.getElementById('password');
+        const passwordToggle = document.getElementById('password-toggle');
+    
+        passwordToggle.addEventListener('click', function() {
+          if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+          } else {
+            passwordInput.type = 'password';
+          }
+        });
+      </script>
+    @endsection
+    @section('script-area')
+    <script>
+      const passwordInput = document.getElementById('password');
+      const passwordToggle = document.getElementById('password-toggle');
+  
+      passwordToggle.addEventListener('click', function() {
+        if (passwordInput.type === 'password') {
+          passwordInput.type = 'text';
+          passwordToggle.textContent = 'Hide';
+        } else {
+          passwordInput.type = 'password';
+          passwordToggle.textContent = 'Show';
+        }
+      });
+    </script>
     @endsection

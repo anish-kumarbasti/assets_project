@@ -4,6 +4,12 @@
 @endsection
 
 @section('Content-Area')
+    @if (session('message'))
+      <div class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
+        <p><b> Well done! </b>{{session('message')}}</p>
+        <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    @endif
     <div class="col-sm-12">
         <div class="card">
             <div class="card-header pb-0">
@@ -49,14 +55,14 @@
                             <tr>
                                 <th>SL</th>
                                 <th>ID</th>
-                                <th>Name</th>
-                                <th>ModelName</th>
+                                <th>Model Name</th>
+                                <th>Branch Name</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($brands as $brand)
+                            @foreach ($brands_model as $brand)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $brand->id }}</td>
@@ -97,7 +103,7 @@
                 const status = this.checked;
 
                 // Send an AJAX request to update the status
-                fetch(`/brands/${brandId}`, {
+                fetch(`/brands-model/${brandId}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

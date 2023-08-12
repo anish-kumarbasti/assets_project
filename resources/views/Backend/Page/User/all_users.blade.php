@@ -40,7 +40,7 @@
                                 <form method="POST" action="{{ route('users.destroy', $user->id) }}">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                    <button class="btn btn-danger sweet-5" type="submit" onclick="_gaq.push(['_trackEvent', 'example', 'try', 'sweet-5']);">Delete</button>
                                 </form>
                             </td>
                         </tr>
@@ -51,5 +51,4 @@
         </div>
     </div>
 </div>
-
 @endsection

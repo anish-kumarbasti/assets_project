@@ -13,8 +13,9 @@ class BrandmodelController extends Controller
      */
     public function index()
     {
-        $brands = Brandmodel::all();
-        return view('Backend.Page.Master.brandmodel.create', compact('brands'));
+        $brands = Brand::all();
+        $brands_model = Brandmodel::all();
+        return view('Backend.Page.Master.brandmodel.create', compact('brands','brands_model'));
     }
 
     /**
@@ -44,7 +45,7 @@ class BrandmodelController extends Controller
         ]);
 
         // Redirect back to the list of brands
-        return redirect()->back();
+        return redirect()->back()->with('message','Brand Model Registered Succesfully');
     }
 
     /**
@@ -83,7 +84,7 @@ class BrandmodelController extends Controller
             'brand_id' => $request->brand_id,
             // Add other fields if needed
         ]);
-        return redirect()->route('brand-model.index');
+        return redirect()->route('brand-model.index')->with('message','Brand Model updated Succesfully');
     }
 
     /**
@@ -98,4 +99,26 @@ if ($brand) {
 }
         return redirect()->route('brand-model.index');
     }
+    public function updateStatus(Request $request, Brandmodel $brand)
+{
+
+    $request->validate([
+        'status' => 'required|boolean',
+    ]);
+if($brand->status==1){
+    Brandmodel::where('id',$brand->id)->update([
+        'status' => 0
+    ]);
+}else{
+Brandmodel::where('id',$brand->id)->update([
+    'status' => 1
+]);
+
 }
+    // dd($brand);
+
+    return redirect()->route('create-brand')->with('success', 'brand Model status updated successfully.');
+}
+
+}
+

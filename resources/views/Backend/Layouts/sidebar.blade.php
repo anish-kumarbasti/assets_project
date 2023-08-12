@@ -31,7 +31,7 @@
                       <li><a href="{{ route('assets-type-index')}}">Asset Type</a></li>
                        <li><a href="{{ url('assets')}}">Asset Name</a></li>
                        <li><a href="{{ route('create-brand')}}">Brand</a></li>
-                       <li><a href="{{ url('brand-model')}}">Brand Model</a></li>
+                       <li><a href="{{ route('brand-model.index')}}">Brand Model</a></li>
                            <li><a href="{{ url('location-index')}}">Locations</a></li>
                            <li><a href="{{ url('location-index')}}">Sub-Locations</a></li>
                     </ul>

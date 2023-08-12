@@ -137,6 +137,7 @@ Route::get('/brands/{id}/edit', [BrandController::class, 'edit']);
 Route::put('/brands/{id}', [BrandController::class, 'update'])->name('brands.update');
 Route::delete('/brands/{id}', [BrandController::class, 'destroy']);
 Route::post('/brands/{brand}', [BrandController::class, 'updateStatus'])->name('brands.updateStatus');
+Route::post('/brands-model/{brand}', [BrandModelController::class, 'updateStatus'])->name('brands.model.updateStatus');
 Route::resource('brand-model', BrandmodelController::class);
 
 

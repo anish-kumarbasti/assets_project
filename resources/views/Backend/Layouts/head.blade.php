@@ -35,6 +35,6 @@
 
   <link rel="stylesheet" type="text/css" href="{{ asset('Backend/assets/css/main.css')}}">
 
-
+   <link rel="stylesheet" href="{{ asset('Backend/assets/css/vendors/sweetalert2.css')}}">
      <link rel="stylesheet" type="text/css" href="{{ asset('Backend/assets/css/vendors/datatables.css')}}">
   </head>

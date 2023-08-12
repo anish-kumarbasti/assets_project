@@ -50,8 +50,8 @@ Global, And You May Wish To Present Controls That Search On Specific Columns.</s
                      <td>{{$stock->id}}</td>
                      <td>{{$stock->product_info}}</td>
                      <td>{{$stock->asset_type->name}}</td>
-                     @dd($stock->asset->name)
-                       <td>{{$stock->asset->name}}</td>
+                     {{-- @dd($stock->assetmain); --}}
+                       <td>{{$stock->assetmain->name}}</td>
                          <td>{{$stock->brand->name}}</td>
                            <td>780</td>
                         <td>{{$stock->location->name}}</td>
