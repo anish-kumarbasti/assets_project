@@ -19,6 +19,7 @@ use App\Http\Controllers\Master\DepartmentController;
 use App\Http\Controllers\Transfer\TransferController;
 use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\SubLocationController;
+use App\Models\SubLocationModel;
 
 /*
 
@@ -99,10 +100,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('location-destroy/{location}', [LocationController::class, 'destroy'])->name('location-destroy');
     Route::get('location-edit/{id}', [LocationController::class, 'edit'])->name('location-edit');
     //Sub-Location 
+    Route::get('sublocation-show', [SubLocationController::class, 'show'])->name('sublocation-show');
     Route::get('sublocation-index', [SubLocationController::class, 'index'])->name('sublocation-index');
     Route::get('sublocation-create', [SubLocationController::class, 'create'])->name('sublocation-create');
     Route::post('sublocation-store', [SubLocationController::class, 'store'])->name('sublocation-store');
-    Route::get('sublocation-edit', [SubLocationController::class, 'update'])->name('sublocation-edit');
+    Route::get('sublocation-edit/{id}', [SubLocationController::class, 'edit'])->name('sublocation-edit');
+    Route::put('sublocation-update/{sublocation}', [SubLocationModel::class, 'update'])->name('sublocation-update');
+
     //designation
     Route::get('designations', [DesignationController::class, 'index'])->name('designations.index');
     Route::post('designations', [DesignationController::class, 'store'])->name('designations.store');

@@ -14,7 +14,7 @@
             <div class="row p-3">
                <div class="col-md-12 mb-4">
                   <label class="form-label">Location</label>
-                  <p>{{ $locatin->name }}</p>
+                  <p>{{ $sublocation->name }}</p>
                </div>
             </div>
          </div>

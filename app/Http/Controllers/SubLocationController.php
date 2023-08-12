@@ -32,6 +32,15 @@ class SubLocationController extends Controller
         return redirect()->route('sublocation-index')
             ->with('success', 'Location created successfully');
     }
+    public function show(SubLocationModel $sublocation)
+    {
+        return view('Backend.Page.Master.sublocation.show', compact('sublocation'));
+    }
+    public function edit(SubLocationModel $sublocation, $id)
+    {
+        $sublocation = SubLocationModel::findOrFail($id);
+        return view('Backend.Page.Master.sublocation.edit', compact('sublocation'));
+    }
     public function update(Request $request, SubLocationModel $sublocation)
     {
         $request->validate([

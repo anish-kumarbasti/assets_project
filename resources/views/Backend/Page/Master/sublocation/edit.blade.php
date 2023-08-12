@@ -19,8 +19,7 @@
                <div class="row p-3">
                   <div class="col-md-12 mb-4">
                      <label class="form-label" for="validationCustom01">Location</label>
-                     <input class="form-control" id="validationCustom01" name="name" type="text" required=""
-                        data-bs-original-title="" title="" placeholder="Enter Location" value="{{ $location->name }}">
+                     <input class="form-control" id="validationCustom01" name="name" type="text" required="" data-bs-original-title="" title="" placeholder="Enter Location" value="{{ $sublocation->name }}">
                   </div>
                </div>
             </div>
