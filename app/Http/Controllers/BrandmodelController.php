@@ -14,6 +14,7 @@ class BrandmodelController extends Controller
     public function index()
     {
         $brands = Brandmodel::all();
+        // dd($brands);
         return view('Backend.Page.Master.brandmodel.create', compact('brands'));
     }
 
@@ -32,7 +33,7 @@ class BrandmodelController extends Controller
     {
          // Validate the form data
          $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required',
             // Add other validation rules if needed
         ]);
 
@@ -44,6 +45,7 @@ class BrandmodelController extends Controller
         ]);
 
         // Redirect back to the list of brands
+        session()->flash('success', 'Data has been successfully stored.');
         return redirect()->back();
     }
 
@@ -73,13 +75,13 @@ class BrandmodelController extends Controller
           // Validate the form data
           $brand = Brandmodel::findOrFail($id);
           $brand->update([
-            'name' => 'required|string|max:255',
+            'brand' => 'required',
             // Add other validation rules if needed
         ]);
 
         // Create the brand using the brand model
         Brandmodel::create([
-            'name' => $request->name,
+            'name' => $request->brand,
             'brand_id' => $request->brand_id,
             // Add other fields if needed
         ]);

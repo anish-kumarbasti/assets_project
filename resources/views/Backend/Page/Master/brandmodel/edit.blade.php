@@ -25,7 +25,7 @@
                                     @endforeach
                                 </select>
                                 <input class="form-control" @error('name') is-invalid @enderror id="name" type="text"
-                                    name="name" value="{{$brand->name}}" required>
+                                    name="brand" value="{{$brand->name}}" required>
                                 @error('name')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror

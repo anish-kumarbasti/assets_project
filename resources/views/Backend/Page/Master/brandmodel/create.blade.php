@@ -4,13 +4,18 @@
 @endsection
 
 @section('Content-Area')
+@if (Session::has('success'))
+<div class="alert alert-success" role="alert">
+    {{ session::get('success') }}
+</div>
+    @endif
     <div class="col-sm-12">
         <div class="card">
             <div class="card-header pb-0">
                 <h4>Add Brand Model </h4>
             </div>
             <div class="card-body">
-                <form class="needs-validation" novalidate method="POST" action="{{ url('/brand-model') }}">
+                <form class="needs-validation" action="{{ route('brand-model.store') }}" method="post">
                     @csrf
                     <div class="card-item border">
                         <div class="row p-4">
@@ -23,6 +28,11 @@
                                 </select>
                                 <input class="form-control me-2" id="validationCustom01" type="text" name="name"
                                        required="" data-bs-original-title="" title="" placeholder="Enter Model Name">
+                                       @error('name')
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                       @enderror
                             </div>
                         </div>
                     </div>
@@ -49,8 +59,8 @@
                             <tr>
                                 <th>SL</th>
                                 <th>ID</th>
-                                <th>Name</th>
-                                <th>ModelName</th>
+                                <th>Model Name</th>
+                                <th>Brand Name</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -118,5 +128,13 @@
                 });
             });
         });
+        <!--toastr message -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    @if (session::has('success'))
+    <script>
+        toastr.success("{{ Session::get('success') }}");
+    </script>
+    @endif
     </script>
 @endsection

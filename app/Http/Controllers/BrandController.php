@@ -32,6 +32,7 @@ class BrandController extends Controller
         ]);
 
         // Redirect back to the list of brands
+        session()->flash('success', 'Data has been successfully stored.');
         return redirect('/brands/create');
     }
 

@@ -11,7 +11,7 @@ class Brandmodel extends Model
     protected $fillable = [
         'name',
         'brand_id',
-        'status'
+        'status',
     ];
     public function Brandmodel(){
         return $this->belongsTo('App\Models\Brand','brand_id');
