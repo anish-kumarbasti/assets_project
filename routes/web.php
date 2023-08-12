@@ -13,6 +13,7 @@ use App\Http\Controllers\Master\AssetNameController;
 use App\Http\Controllers\AssetTypeController;
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\BrandmodelController;
 use App\Http\Controllers\Disposal\DisposalController;
 use App\Http\Controllers\Issuence\IssuenceController;
 use App\Http\Controllers\Master\DepartmentController;
@@ -121,20 +122,23 @@ Route::group(['middleware' => 'auth'], function () {
     //assets
 
 
-    Route::get('assets', [AssetController::class, 'index'])->name('assets.index');
-    Route::get('assets/create', [AssetController::class, 'create'])->name('assets.create');
-    Route::post('assets', [AssetController::class, 'store'])->name('assets.store');
-    Route::get('assets/{id}/edit', [AssetController::class, 'edit'])->name('assets.edit');
-    Route::put('assets/{id}', [AssetController::class, 'update'])->name('assets.update');
-    Route::delete('assets/{id}', [AssetController::class, 'destroy'])->name('assets.destroy');
-    //Brand
-    Route::get('/brands/create', [BrandController::class, 'create'])->name('create-brand');
-    Route::post('/brands', [BrandController::class, 'store']);
-    Route::get('/brands', [BrandController::class, 'index']);
-    Route::get('/brands/{id}/edit', [BrandController::class, 'edit']);
-    Route::put('/brands/{id}', [BrandController::class, 'update'])->name('brands.update');
-    Route::delete('/brands/{id}', [BrandController::class, 'destroy']);
-    Route::post('/brands/{brand}', [BrandController::class, 'updateStatus'])->name('brands.updateStatus');
+
+Route::get('assets', [AssetController::class, 'index'])->name('assets.index');
+Route::get('assets/create', [AssetController::class, 'create'])->name('assets.create');
+Route::post('assets', [AssetController::class, 'store'])->name('assets.store');
+Route::get('assets/{id}/edit', [AssetController::class, 'edit'])->name('assets.edit');
+Route::put('assets/{id}', [AssetController::class, 'update'])->name('assets.update');
+Route::delete('assets/{id}', [AssetController::class, 'destroy'])->name('assets.destroy');
+//Brand
+Route::get('/brands/create', [BrandController::class, 'create'])->name('create-brand');
+Route::post('/brands', [BrandController::class, 'store']);
+Route::get('/brands', [BrandController::class, 'index']);
+Route::get('/brands/{id}/edit', [BrandController::class, 'edit']);
+Route::put('/brands/{id}', [BrandController::class, 'update'])->name('brands.update');
+Route::delete('/brands/{id}', [BrandController::class, 'destroy']);
+Route::post('/brands/{brand}', [BrandController::class, 'updateStatus'])->name('brands.updateStatus');
+Route::resource('brand-model', BrandmodelController::class);
+
 
     Route::group(['middleware' => ['permission.checkDepartment']], function () {
         // Route to display the "Add Department" form
@@ -147,3 +151,4 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/departments/{department}', [DepartmentController::class, 'updateStatus'])->name('departments.updateStatus');
     });
 });
+
