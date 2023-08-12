@@ -19,8 +19,8 @@
                         <tr>
                             <th>SL</th>
                             <th>ID</th>
-                            <th>Sub Location</th>
                             <th>Location</th>
+                            <th>Sub Location</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -30,8 +30,8 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $sublocation->id }}</td>
+                            <td>{{ $sublocation->locations->name??''}}</td>
                             <td>{{ $sublocation->name }}</td>
-                            <td>{{ $sublocation->location->name }}</td>
                             <td class="w-20">
                                 <label class="mb-0 switch">
                                     <input type="checkbox" data-id="{{ $sublocation->id }}" {{ $sublocation->status ? 'checked' : '' }}>
@@ -40,7 +40,7 @@
                             </td>
                             <td>
                                 <a href="{{ route('sublocation-edit', $sublocation->id) }}" class="btn btn-primary" data-bs-original-title="" title="">Edit</a>
-                                <form action="{{ route('location-destroy', $sublocation->id) }}" method="post" style="display: inline-block;">
+                                <form action="{{ route('sublocation-destroy', $sublocation->id) }}" method="post" style="display: inline-block;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this location?')" data-bs-original-title="" title="">Delete</button>

@@ -13,7 +13,7 @@
          <div class="card-item border">
             <div class="row p-3">
                <div class="col-md-12 mb-4">
-                  <label class="form-label">Location</label>
+                  <label class="form-label">Sub Location</label>
                   <p>{{ $sublocation->name }}</p>
                </div>
             </div>

@@ -9,7 +9,7 @@
 <div class="col-sm-12">
    <div class="card">
       <div class="card-header pb-0">
-         <h4>Edit Location</h4>
+         <h4>Edit Sub Location</h4>
       </div>
       <div class="card-body">
          <form action="{{ route('sublocation-update', $sublocation->id) }}" method="post" class="needs-validation" novalidate="">
@@ -18,7 +18,7 @@
             <div class="card-item border">
                <div class="row p-3">
                   <div class="col-md-12 mb-4">
-                     <label class="form-label" for="validationCustom01">Location</label>
+                     <label class="form-label" for="validationCustom01">Sub Location</label>
                      <input class="form-control" id="validationCustom01" name="name" type="text" required="" data-bs-original-title="" title="" placeholder="Enter Location" value="{{ $sublocation->name }}">
                   </div>
                </div>

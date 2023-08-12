@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use App\Http\Controllers\Master\LocationController;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Location;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class SubLocationModel extends Model
 {
@@ -12,7 +12,7 @@ class SubLocationModel extends Model
     protected $table = "sublocations";
     protected $fillable = ['name', 'location_id'];
 
-    public function location()
+    public function locations()
     {
         return $this->belongsTo(Location::class, 'location_id');
     }
