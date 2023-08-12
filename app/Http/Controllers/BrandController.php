@@ -12,7 +12,6 @@ class BrandController extends Controller
     {
 
         $brands = Brand::all();
-
         return view('Backend.Page.Master.brands.create', ['brands' => $brands]);
     }
 
