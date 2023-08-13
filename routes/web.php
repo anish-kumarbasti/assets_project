@@ -105,7 +105,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('sublocation-create', [SubLocationController::class, 'create'])->name('sublocation-create');
     Route::post('sublocation-store', [SubLocationController::class, 'store'])->name('sublocation-store');
     Route::get('sublocation-edit/{id}', [SubLocationController::class, 'edit'])->name('sublocation-edit');
-    Route::put('sublocation-update/{sublocation}', [SubLocationModel::class, 'update'])->name('sublocation-update');
+    Route::put('sublocation-update/{sublocation}', [SubLocationController::class, 'update'])->name('sublocation-update');
     Route::delete('sublocation-destroy/{sublocation}', [SubLocationController::class, 'destroy'])->name('sublocation-destroy');
     //designation
     Route::get('designations', [DesignationController::class, 'index'])->name('designations.index');

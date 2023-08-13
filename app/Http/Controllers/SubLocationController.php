@@ -38,12 +38,12 @@ class SubLocationController extends Controller
     }
     public function edit(SubLocationModel $sublocation, $id)
     {
+        $locations = Location::all();
         $sublocation = SubLocationModel::findOrFail($id);
-        return view('Backend.Page.Master.sublocation.edit', compact('sublocation'));
+        return view('Backend.Page.Master.sublocation.edit', compact('sublocation', 'locations'));
     }
     public function update(Request $request, $id)
     {
-        dd($request->all());
         $request->validate([
             'name' => 'required',
         ]);

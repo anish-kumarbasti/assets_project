@@ -17,7 +17,15 @@
             @method('PUT')
             <div class="card-item border">
                <div class="row p-3">
-                  <div class="col-md-12 mb-4">
+                  <div class="col-md-6 mb-4">
+                     <label class="form-label" for="validationCustom01">Location</label>
+                     <select class="form-control" id="validationCustom01" name="location_id">
+                        @foreach ($locations as $location)
+                        <option value="{{$location->id}}">{{$location->name}}</option>
+                        @endforeach
+                     </select>
+                  </div>
+                  <div class="col-md-6 mb-4">
                      <label class="form-label" for="validationCustom01">Sub Location</label>
                      <input class="form-control" id="validationCustom01" name="name" type="text" required="" data-bs-original-title="" title="" placeholder="Enter Location" value="{{ $sublocation->name }}">
                   </div>
