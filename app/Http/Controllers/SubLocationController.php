@@ -49,12 +49,13 @@ class SubLocationController extends Controller
         ]);
         $sublocation = SubLocationModel::findOrFail($id);
         $sublocation->name = $request->input('name');
+        $sublocation->location_id = $request->input('location_id');
         $sublocation->update();
 
-        SubLocationModel::create([
-            'name' => $request->name,
-            'location_id' => $request->location_id,
-        ]);
+        // SubLocationModel::create([
+        //     'name' => $request->name,
+        //     'location_id' => $request->location_id,
+        // ]);
         return redirect()->route('sublocation-index')->with('success', 'Sub location  updated successfully');
     }
     public function destroy(SubLocationModel $sublocation)
