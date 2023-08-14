@@ -21,7 +21,9 @@
                      <label class="form-label" for="validationCustom01">Location</label>
                      <select class="form-control" id="validationCustom01" name="location_id">
                         @foreach ($locations as $location)
-                        <option value="{{$location->id}}">{{$location->name}}</option>
+                        <option value="{{ $location->id }}" {{ $sublocation->location_id == $location->id ? 'selected' : '' }}>
+                           {{ $location->name }}
+                        </option>
                         @endforeach
                      </select>
                   </div>
