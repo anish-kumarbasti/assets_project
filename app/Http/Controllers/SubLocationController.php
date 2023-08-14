@@ -63,23 +63,21 @@ class SubLocationController extends Controller
         $sublocation->delete();
         return redirect()->route('sublocation-index')->with('success', 'Delete Sub Location successfully');
     }
-    public function updateStatus(Request $request, SubLocationModel $sublocationId)
+    public function locationStatus($locationId)
     {
 
-        $request->validate([
-            'status' => 'required|boolean',
-        ]);
-        if ($sublocationId->status == 1) {
-            SubLocationModel::where('id', $sublocationId->id)->update([
-                'status' => 0
-            ]);
-        } else {
-            Location::where('id', $sublocationId->id)->update([
+        $location = SubLocationModel::findOrFail($locationId);
+
+        if ($location->status == false) {
+            SubLocationModel::where('id', $locationId)->update([
                 'status' => 1
             ]);
+        } else {
+            SubLocationModel::where('id', $locationId)->update([
+                'status' => 0
+            ]);
         }
-        // dd($Location);
 
-        return redirect()->route('sublocation-index')->with('success', 'Location status updated successfully.');
+        return response()->json(['message' => 'location Type status updated successfully']);
     }
 }
