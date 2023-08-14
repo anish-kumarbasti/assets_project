@@ -42,7 +42,7 @@ class SubLocationController extends Controller
         $sublocation = SubLocationModel::findOrFail($id);
         return view('Backend.Page.Master.sublocation.edit', compact('sublocation', 'locations'));
     }
-    public function update(Request $request, $id)
+    public function update(Request $request, string $id)
     {
         $request->validate([
             'name' => 'required',
@@ -50,11 +50,35 @@ class SubLocationController extends Controller
         $sublocation = SubLocationModel::findOrFail($id);
         $sublocation->name = $request->input('name');
         $sublocation->update();
+
+        SubLocationModel::create([
+            'name' => $request->name,
+            'location_id' => $request->location_id,
+        ]);
         return redirect()->route('sublocation-index')->with('success', 'Sub location  updated successfully');
     }
     public function destroy(SubLocationModel $sublocation)
     {
         $sublocation->delete();
         return redirect()->route('sublocation-index')->with('success', 'Delete Sub Location successfully');
+    }
+    public function updateStatus(Request $request, SubLocationModel $sublocationId)
+    {
+
+        $request->validate([
+            'status' => 'required|boolean',
+        ]);
+        if ($sublocationId->status == 1) {
+            SubLocationModel::where('id', $sublocationId->id)->update([
+                'status' => 0
+            ]);
+        } else {
+            Location::where('id', $sublocationId->id)->update([
+                'status' => 1
+            ]);
+        }
+        // dd($Location);
+
+        return redirect()->route('sublocation-index')->with('success', 'Location status updated successfully.');
     }
 }

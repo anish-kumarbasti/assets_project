@@ -69,7 +69,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('home', [HomeController::class, 'index'])->name('home');
     Route::get('stock', [StockController::class, 'index']);
     Route::get('all-stock', [StockController::class, 'ShowStock']);
-    Route::post('store-stock',[StockController::class,'store'])->name('store.stock');
+    Route::post('store-stock', [StockController::class, 'store'])->name('store.stock');
     Route::put('stock-status/{stockId}', [StockController::class, 'changestockstatus'])->name('change-stock-status');
     Route::get('manage-stocks', [StockController::class, 'manage']);
     Route::get('it-assets-stock', [StockController::class, 'stockStatus']);
@@ -112,6 +112,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('sublocation-edit/{id}', [SubLocationController::class, 'edit'])->name('sublocation-edit');
     Route::put('sublocation-update/{sublocation}', [SubLocationController::class, 'update'])->name('sublocation-update');
     Route::delete('sublocation-destroy/{sublocation}', [SubLocationController::class, 'destroy'])->name('sublocation-destroy');
+    Route::put('sublocation-status/{sublocationId}', [SubLocationController::class, 'updateStatus'])->name('sublocation-status');
     //designation
     Route::get('designations', [DesignationController::class, 'index'])->name('designations.index');
     Route::post('designations', [DesignationController::class, 'store'])->name('designations.store');
@@ -123,21 +124,21 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 
-Route::get('assets', [AssetController::class, 'index'])->name('assets.index');
-Route::get('assets/create', [AssetController::class, 'create'])->name('assets.create');
-Route::post('assets', [AssetController::class, 'store'])->name('assets.store');
-Route::get('assets/{id}/edit', [AssetController::class, 'edit'])->name('assets.edit');
-Route::put('assets/{id}', [AssetController::class, 'update'])->name('assets.update');
-Route::delete('assets/{id}', [AssetController::class, 'destroy'])->name('assets.destroy');
-//Brand
-Route::get('/brands/create', [BrandController::class, 'create'])->name('create-brand');
-Route::post('/brands', [BrandController::class, 'store']);
-Route::get('/brands', [BrandController::class, 'index']);
-Route::get('/brands/{id}/edit', [BrandController::class, 'edit']);
-Route::put('/brands/{id}', [BrandController::class, 'update'])->name('brands.update');
-Route::delete('/brands/{id}', [BrandController::class, 'destroy']);
-Route::post('/brands/{brand}', [BrandController::class, 'updateStatus'])->name('brands.updateStatus');
-Route::resource('brand-model', BrandmodelController::class);
+    Route::get('assets', [AssetController::class, 'index'])->name('assets.index');
+    Route::get('assets/create', [AssetController::class, 'create'])->name('assets.create');
+    Route::post('assets', [AssetController::class, 'store'])->name('assets.store');
+    Route::get('assets/{id}/edit', [AssetController::class, 'edit'])->name('assets.edit');
+    Route::put('assets/{id}', [AssetController::class, 'update'])->name('assets.update');
+    Route::delete('assets/{id}', [AssetController::class, 'destroy'])->name('assets.destroy');
+    //Brand
+    Route::get('/brands/create', [BrandController::class, 'create'])->name('create-brand');
+    Route::post('/brands', [BrandController::class, 'store']);
+    Route::get('/brands', [BrandController::class, 'index']);
+    Route::get('/brands/{id}/edit', [BrandController::class, 'edit']);
+    Route::put('/brands/{id}', [BrandController::class, 'update'])->name('brands.update');
+    Route::delete('/brands/{id}', [BrandController::class, 'destroy']);
+    Route::post('/brands/{brand}', [BrandController::class, 'updateStatus'])->name('brands.updateStatus');
+    Route::resource('brand-model', BrandmodelController::class);
 
 
     Route::group(['middleware' => ['permission.checkDepartment']], function () {
@@ -151,4 +152,3 @@ Route::resource('brand-model', BrandmodelController::class);
         Route::post('/departments/{department}', [DepartmentController::class, 'updateStatus'])->name('departments.updateStatus');
     });
 });
-
