@@ -42,7 +42,7 @@
                <li><a href="{{url('users')}}">All Users</a></li>
                <li><a href="{{route('users.create')}}">Add User</a></li>
                <li><a href="{{ url('show')}}">User Details</a></li>
-               <li><a href="{{ url('user-profile')}}">User Card</a></li>
+               <li><a href="{{ url('users.user-profile')}}">User Card</a></li>
                <li><a href="{{url('add-role') }}">Add Role</a></li>
                <li><a href="{{url('view-permissions') }}">All Permission</a></li>
              </ul>
