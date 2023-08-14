@@ -58,7 +58,6 @@
                         <thead>
                             <tr>
                                 <th>SL</th>
-                                <th>ID</th>
                                 <th>Model Name</th>
                                 <th>Brand Name</th>
                                 <th>Status</th>
@@ -66,23 +65,23 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($brands as $brand)
+                            {{-- @dd($brandmodel); --}}
+                            @foreach ($brandmodel as $brandmodel)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $brand->id }}</td>
-                                    <td>{{ $brand->name }}</td>
-                                    <td>{{ $brand->Brandmodel->name??''}}</td>
+                                    <td>{{ $brandmodel->name }}</td>
+                                    <td>{{ $brandmodel->Brandmodel->name??''}}</td>
                                     <td class="w-20">
                                         <label class="mb-0 switch">
-                                            <input type="checkbox" data-id="{{ $brand->id }}"
-                                                {{ $brand->status ? 'checked' : '' }}>
+                                            <input type="checkbox" data-id="{{ $brandmodel->id }}"
+                                                {{ $brandmodel->status ? 'checked' : '' }}>
                                             <span class="switch-state"></span>
                                         </label>
                                     </td>
                                     <td>
                                         <a class="btn btn-primary"
-                                            href="{{ url('/brand-model/' . $brand->id . '/edit') }}">Edit</a>
-                                        <form class="d-inline" method="POST" action="{{ url('/brand-model/' . $brand->id) }}">
+                                            href="{{ url('/brand-model/' . $brandmodel->id . '/edit') }}">Edit</a>
+                                        <form class="d-inline" method="POST" action="{{ url('/brand-model/' . $brandmodel->id) }}">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger">Delete</button>
