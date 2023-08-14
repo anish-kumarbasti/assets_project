@@ -94,10 +94,11 @@ class BrandmodelController extends Controller
     {
         $brand = Brandmodel::find($id);
 
-if ($brand) {
+    if ($brand) {
     $brand->delete();
-}
-        return redirect()->route('brand-model.index');
+    
+     }
+     return response()->json(['success' => true]);
     }
     public function updateStatus(Request $request, Brandmodel $brand)
 {
