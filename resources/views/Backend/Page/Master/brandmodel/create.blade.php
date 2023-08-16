@@ -78,7 +78,7 @@
                                     </td>
                                     <td>
                                         <a class="btn btn-primary"
-                                            href="{{ url('/brand-model/' . $brand->id . '/edit') }}">Edit</a>
+                                            href="{{ url('brand-model' . $brand->id . '/edit') }}">Edit</a>
                                         <button class="btn btn-danger delete-button" type="button"
                                             data-id="{{ $brand->id }}">Delete</button>
                                     </td>

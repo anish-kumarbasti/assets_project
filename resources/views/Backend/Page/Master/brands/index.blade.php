@@ -36,7 +36,7 @@
                                 <a class="btn btn-primary"
                                     href="{{ url('/brands/' . $brand->id . '/edit') }}">Edit</a>
                                 <form class="d-inline" method="POST"
-                                    action="{{ url('/brands/' . $brand->id) }}">
+                                    action="{{ url('brands' . $brand->id) }}">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger">Delete</button>
