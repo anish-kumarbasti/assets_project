@@ -41,7 +41,7 @@
                         <td>{{ $sublocation->name }}</td>
                         <td class="w-20">
                             <label class="mb-0 switch">
-                                <input type="checkbox" data-id="{{ $sublocation->id }}" {{ $sublocation->status ? 'checked' : '' }}>
+                                <input type="checkbox" data-id="{{ $sublocation->id }}" value="{{$sublocation->id}}" {{ $sublocation->status ? 'checked' : '' }}>
                                 <span class="switch-state"></span>
                             </label>
                         </td>
@@ -70,13 +70,12 @@
     $(document).ready(function() {
 
         $('input[type="checkbox"]').on('change', function() {
-            const locationId = $(this).data('id');
+            const locationId = $(this).val();
             const status = $(this).prop('checked');
             const csrfToken = $('meta[name="csrf-token"]').attr('content');
-
             $.ajax({
-                url: `/location-status/${locationId}`,
-                type: 'PUT',
+                url: `/location-update-status/${locationId}`,
+                method: 'post',
                 data: {
                     status: status
                 },

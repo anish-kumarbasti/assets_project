@@ -59,8 +59,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('show', [UserController::class, 'showUsers'])->name('users.show');
     Route::get('users/create', [UserController::class, 'create'])->name('users.create');
     Route::post('users', [UserController::class, 'store'])->name('users.store');
-    Route::get('users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
-    Route::put('users/{user}', [UserController::class, 'update'])->name('users.update');
+    Route::get('users/{user}', [UserController::class, 'edit'])->name('users.edit');
+    Route::post('users-update/{id}', [UserController::class, 'update'])->name('users.update');
     Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
     Route::get('/get-designations/{departmentId}', [UserController::class, 'getDesignations']);
 
@@ -110,6 +110,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('sublocation-create', [SubLocationController::class, 'create'])->name('sublocation-create');
     Route::post('sublocation-store', [SubLocationController::class, 'store'])->name('sublocation-store');
     Route::get('sublocation-edit/{id}', [SubLocationController::class, 'edit'])->name('sublocation-edit');
+    Route::post('location-update-status/{id}', [SubLocationController::class, 'updateStatus'])->name('location-update-status');
     Route::put('sublocation-update/{sublocation}', [SubLocationController::class, 'update'])->name('sublocation-update');
     Route::delete('sublocation-destroy/{sublocation}', [SubLocationController::class, 'destroy'])->name('sublocation-destroy');
     Route::put('sublocation-status/{sublocationId}', [SubLocationController::class, 'updateStatus'])->name('sublocation-status');

@@ -33,8 +33,8 @@
                             <td>
                                 <img src="{{ Storage::url($user->profile_photo) }}" alt="Profile Photo" style="width: 50px; height: 50px;">
                             </td>
-                            <td>{{ $user->department->name }}</td>
-                            <td>{{ $user->designation->designation }}</td>
+                            <td>{{$user->department->name}}</td>
+                            <td> {{ $user->designation->designation }} </td>
                             <td>
                                 <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary">Edit</a>
                                 <form method="POST" action="{{ route('users.destroy', $user->id) }}">

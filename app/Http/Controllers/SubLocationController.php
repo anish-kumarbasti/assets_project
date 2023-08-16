@@ -66,9 +66,10 @@ class SubLocationController extends Controller
     public function updateStatus(Request $request, $sublocationId)
     {
 
+
         $location = SubLocationModel::findOrFail($sublocationId);
 
-        if ($location->status == false) {
+        if ($location->status == 0) {
             SubLocationModel::where('id', $sublocationId)->update([
                 'status' => 1
             ]);
