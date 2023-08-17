@@ -17,12 +17,15 @@ class Stock extends Model
     {
         return $this->belongsTo(Location::class, 'location_id');
     }
-    public function asset()
+    public function assetmain()
     {
         return $this->belongsTo(Asset::class, 'asset');
     }
     public function asset_type()
     {
         return $this->belongsTo(AssetType::class, 'asset_type_id');
+    }
+    public function brandmodel(){
+        return $this->belongsTo(Brandmodel::class, 'brand_model_id');
     }
 }

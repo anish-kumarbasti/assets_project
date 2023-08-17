@@ -68,8 +68,10 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('home', [HomeController::class, 'index'])->name('home');
     Route::get('stock', [StockController::class, 'index']);
-    Route::get('all-stock', [StockController::class, 'ShowStock']);
+    Route::get('edit-stock/{id}', [StockController::class, 'edit']);
+    Route::get('all-stock', [StockController::class, 'ShowStock'])->name('all.stock');
     Route::post('store-stock',[StockController::class,'store'])->name('store.stock');
+    Route::post('update-stock/{id}',[StockController::class,'update'])->name('update.stock');
     Route::put('stock-status/{stockId}', [StockController::class, 'changestockstatus'])->name('change-stock-status');
     Route::get('manage-stocks', [StockController::class, 'manage']);
     Route::get('it-assets-stock', [StockController::class, 'stockStatus']);
@@ -137,6 +139,7 @@ Route::get('/brands/{id}/edit', [BrandController::class, 'edit']);
 Route::put('/brands/{id}', [BrandController::class, 'update'])->name('brands.update');
 Route::delete('/brands/{id}', [BrandController::class, 'destroy']);
 Route::post('/brands/{brand}', [BrandController::class, 'updateStatus'])->name('brands.updateStatus');
+Route::post('/brands-model/{brand}', [BrandModelController::class, 'updateStatus'])->name('brands.model.updateStatus');
 Route::resource('brand-model', BrandmodelController::class);
 
 
