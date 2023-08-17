@@ -10,7 +10,7 @@
             User Info
         </div>
         <div class="card-body">
-            <form action="{{route('users.update',$user->id)}}" method="post" enctype="multipart/form-data">
+            <form action="{{url('users',$user->id)}}" method="post" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="card-item border ">

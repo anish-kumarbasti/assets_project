@@ -10,6 +10,7 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
+
 class UserController extends Controller
 {
     public function assignRoles(User $user)
@@ -91,8 +92,10 @@ class UserController extends Controller
         if ($request->hasFile('cover_photo')) {
             $cover_photo = $request->file('cover_photo')->storePublicly('cover_photos', 'public');
         }
+        $randomno = mt_rand('100000', '999999');
 
         $user = User::create([
+            'employee_id' => $randomno,
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
@@ -102,8 +105,8 @@ class UserController extends Controller
             'department_id' => $request->department_id,
             'designation_id' => $request->designation_id,
             'mobile_number' => $request->mobile_number,
-            'age'=>$request->age,
-            'gender'=>$request->gender,
+            'age' => $request->age,
+            'gender' => $request->gender,
         ]);
 
         return redirect()->route('users.index')->with('success', 'User created successfully!');
@@ -124,10 +127,11 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit($id)
     {
         $department = Department::all();
         $designation = Designation::all();
+        $user = User::find($id);
         return view('Backend.Page.User.edit', compact('user', 'department', 'designation'));
     }
 
@@ -138,40 +142,37 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, string $id)
+    public function update($id, Request $request)
     {
-
         $request->validate([
-            'first_name' => 'required',
+            'first_name' => 'required|max:25',
             'last_name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'nullable|min:6|confirmed',
-            'profile_photo' => 'nullable|image',
-            'cover_photo' => 'nullable|image',
-            'department_id' => 'required|exists:departments,id',
-            'designation_id' => 'required|exists:designations,id',
-            'mobile_number' => 'required|numeric',
+            'email' => 'required|email|unique:users,email,' . $id,
+            'department_id' => 'required',
+            'designation_id' => 'required',
+            'age' => 'required',
+            'mobile_number' => 'required',
         ]);
         //$user = User::where('id', $id)->first();
         $user = User::findOrFail($id);
         $user->first_name = $request->input('first_name');
         $user->last_name = $request->input('last_name');
         $user->email = $request->input('email');
-        $user->profile_photo = $request->input('profile_photo');
+        $user->age = $request->input('age');
         $user->department_id = $request->input('department_id');
         $user->designation_id = $request->input('designation_id');
         $user->mobile_number = $request->input('mobile_number');
-        dd($user);
-        $user->update();
+
         if ($request->hasFile('profile_photo')) {
-            $request['profile_photo'] = $request->file('profile_photo')->store('profile_photos');
+            $profilePhotoPath = $request->file('profile_photo')->store('profile_photos');
+            $user->profile_photo = $profilePhotoPath;
         }
 
         if ($request->hasFile('cover_photo')) {
-            $request['cover_photo_path'] = $request->file('cover_photo')->store('cover_photos');
+            $coverPhotoPath = $request->file('cover_photo')->store('cover_photos');
+            $user->cover_photo = $coverPhotoPath;
         }
-        // User::where('id', $id)->update($data);
-        // $user->update($data)->where('id', $id);
+        $user->update();
         return redirect()->route('users.index')->with('success', 'User updated successfully!');
     }
 

@@ -59,8 +59,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('show', [UserController::class, 'showUsers'])->name('users.show');
     Route::get('users/create', [UserController::class, 'create'])->name('users.create');
     Route::post('users', [UserController::class, 'store'])->name('users.store');
-    Route::get('users/{user}', [UserController::class, 'edit'])->name('users.edit');
-    Route::put('users-update/{user}', [UserController::class, 'update'])->name('users.update');
+    Route::get('users/{id}', [UserController::class, 'edit'])->name('users.edit');
+    Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
     Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
     Route::get('/get-designations/{departmentId}', [UserController::class, 'getDesignations']);
     Route::get('users.user-profile', [UserController::class, 'users_profile'])->name('users.user-profile');
@@ -72,8 +72,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('edit-stock/{id}', [StockController::class, 'edit']);
     Route::get('all-stock', [StockController::class, 'ShowStock'])->name('all.stock');
-    Route::post('store-stock',[StockController::class,'store'])->name('store.stock');
-    Route::post('update-stock/{id}',[StockController::class,'update'])->name('update.stock');
+    Route::post('store-stock', [StockController::class, 'store'])->name('store.stock');
+    Route::post('update-stock/{id}', [StockController::class, 'update'])->name('update.stock');
     Route::put('stock-status/{stockId}', [StockController::class, 'changestockstatus'])->name('change-stock-status');
     Route::get('manage-stocks', [StockController::class, 'manage']);
     Route::get('it-assets-stock', [StockController::class, 'stockStatus']);
@@ -130,22 +130,22 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 
-Route::get('assets', [AssetController::class, 'index'])->name('assets.index');
-Route::get('assets/create', [AssetController::class, 'create'])->name('assets.create');
-Route::post('assets', [AssetController::class, 'store'])->name('assets.store');
-Route::get('assets/{id}/edit', [AssetController::class, 'edit'])->name('assets.edit');
-Route::put('assets/{id}', [AssetController::class, 'update'])->name('assets.update');
-Route::delete('assets/{id}', [AssetController::class, 'destroy'])->name('assets.destroy');
-//Brand
-Route::get('/brands/create', [BrandController::class, 'create'])->name('create-brand');
-Route::post('/brands', [BrandController::class, 'store']);
-Route::get('/brands', [BrandController::class, 'index']);
-Route::get('/brands/{id}/edit', [BrandController::class, 'edit']);
-Route::put('/brands/{id}', [BrandController::class, 'update'])->name('brands.update');
-Route::delete('/brands/{id}', [BrandController::class, 'destroy']);
-Route::post('/brands/{brand}', [BrandController::class, 'updateStatus'])->name('brands.updateStatus');
-Route::post('/brands-model/{brand}', [BrandModelController::class, 'updateStatus'])->name('brands.model.updateStatus');
-Route::resource('brand-model', BrandmodelController::class);
+    Route::get('assets', [AssetController::class, 'index'])->name('assets.index');
+    Route::get('assets/create', [AssetController::class, 'create'])->name('assets.create');
+    Route::post('assets', [AssetController::class, 'store'])->name('assets.store');
+    Route::get('assets/{id}/edit', [AssetController::class, 'edit'])->name('assets.edit');
+    Route::put('assets/{id}', [AssetController::class, 'update'])->name('assets.update');
+    Route::delete('assets/{id}', [AssetController::class, 'destroy'])->name('assets.destroy');
+    //Brand
+    Route::get('/brands/create', [BrandController::class, 'create'])->name('create-brand');
+    Route::post('/brands', [BrandController::class, 'store']);
+    Route::get('/brands', [BrandController::class, 'index']);
+    Route::get('/brands/{id}/edit', [BrandController::class, 'edit']);
+    Route::put('/brands/{id}', [BrandController::class, 'update'])->name('brands.update');
+    Route::delete('/brands/{id}', [BrandController::class, 'destroy']);
+    Route::post('/brands/{brand}', [BrandController::class, 'updateStatus'])->name('brands.updateStatus');
+    Route::post('/brands-model/{brand}', [BrandModelController::class, 'updateStatus'])->name('brands.model.updateStatus');
+    Route::resource('brand-model', BrandmodelController::class);
 
 
 
