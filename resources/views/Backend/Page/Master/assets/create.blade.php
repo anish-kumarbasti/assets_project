@@ -1,6 +1,7 @@
 @extends('Backend.Layouts.panel')
 
 @section('Content-Area')
+
     <div class="col-sm-12">
         <div class="card">
             <div class="card-header pb-0">
@@ -20,7 +21,7 @@
                         <div class="row p-3">
                             <div class="col-md-12 mb-4">
                                 <label class="form-label" for="assetName">Select Asset Type </label>
-                                <select class="form-select" id="" name="" required>
+                                <select class="form-select" id="" name="assettype_id" required>
                                     <option value="" disabled selected>Select type</option>
                                     @foreach ($assettype as $assettype)
                                     <option value="{{ $assettype->id }}">{{ $assettype->name }}</option>

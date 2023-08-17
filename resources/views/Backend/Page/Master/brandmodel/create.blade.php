@@ -5,10 +5,10 @@
 
 @section('Content-Area')
 
-    @if (session('message'))
+    @if (session('success'))
         <div class="alert alert-success inverse alert-dismissible fade show" role="alert"><i
                 class="icon-thumb-up alert-center"></i>
-            <p><b> Well done! </b>{{ session('message') }}</p>
+            <p><b> Well done! </b>{{ session('success') }}</p>
             <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
 
@@ -48,6 +48,7 @@
             </div>
         </div>
     </div>
+    @isset($brandmodel)?'':
     <div class="col-sm-12">
         <div class="card">
             <div class="card-header pb-0">
@@ -70,28 +71,29 @@
                         <tbody>
 
                             {{-- @dd($brandmodel); --}}
-                            @foreach ($brandmodel as $brandmodel)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $brandmodel->name }}</td>
-                                    <td>{{ $brandmodel->Brandmodel->name??''}}</td>
+                            @foreach($brandmodel as $brandmodel)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $brandmodel->name }}</td>
+                                <td>{{ $brandmodel->Brandmodel->name??''}}</td>
 
-                                    <td class="w-20">
-                                        <label class="mb-0 switch">
-                                            <input type="checkbox" data-id="{{ $brandmodel->id }}"
-                                                {{ $brandmodel->status ? 'checked' : '' }}>
-                                            <span class="switch-state"></span>
-                                        </label>
-                                    </td>
-                                    <td>
-                                        <a class="btn btn-primary"
+                                <td class="w-20">
+                                    <label class="mb-0 switch">
+                                        <input type="checkbox" data-id="{{ $brandmodel->id }}"
+                                        {{ $brandmodel->status ? 'checked' : '' }}>
+                                        <span class="switch-state"></span>
+                                    </label>
+                                </td>
+                                {{-- @dd($brandmodel->id); --}}
+                                <td>
+                                    <a class="btn btn-primary"
 
-                                            href="{{ url('/brand-model/' . $brand->id . '/edit') }}">Edit</a>
-                                        <button class="btn btn-danger delete-button" type="button"
-                                            data-id="{{ $brand->id }}">Delete</button>
+                                    href="{{ url('brand-model/' . $brandmodel->id . '/edit' ) }}">Edit</a>
+                                    <button class="btn btn-danger delete-button" type="button"
+                                    data-id="{{ $brand->id }}">Delete</button>
 
-                                    </td>
-                                </tr>
+                                </td>
+                            </tr>
                             @endforeach
                         </tbody>
                     </table>
@@ -99,7 +101,8 @@
             </div>
         </div>
     </div>
-@endsection
+    @endisset
+    @endsection
 
 @section('Script-Area')
     <script>
@@ -132,15 +135,7 @@
                 });
             });
         });
-        <!--toastr message -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
-    @if (session::has('success'))
-    <script>
-        toastr.success("{{ Session::get('success') }}");
-    </script>
-    @endif
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
 
     <script>
@@ -169,9 +164,9 @@
                             // You can set headers and other options here
                             })
                             .then(response => response.json())
-                            
+
                             .then(data => {
-                                
+
                                 if ('success' in data && data.success) {
                                     Swal.fire(
                                         'Deleted!',

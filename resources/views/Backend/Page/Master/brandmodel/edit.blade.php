@@ -4,9 +4,9 @@
 @endsection
 
 @section('Content-Area')
-@if (session('message'))
+@if (session('success'))
       <div class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
-        <p><b> Well done! </b>{{session('message')}}</p>
+        <p><b> Well done! </b>{{session('success')}}</p>
         <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
     @endif
@@ -16,6 +16,7 @@
                 <h4>Edit BrandModel</h4>
             </div>
             <div class="card-body">
+                {{-- @dd($brandmodel); --}}
                 <form action="{{ route('brand-model.update', $brandmodel->id) }}" method="POST">
                     @isset($brandmodel)
                     @method('PATCH')
@@ -27,14 +28,11 @@
                                 <select class="form-select" id="brand_id" name="brand_id" required>
                                     <option value="" disabled>Select a Brand</option>
                                     @foreach ($brands as $brand)
-                                    <option value="{{ $brand->id }}" @if($brand->id == $brandmodel->brand_id) selected @endif>{{ $brand->name }}</option>
+                                        <option value="{{ $brand->id }}" @if($brand->id == $brandmodel->brand_id) selected @endif>{{ $brand->name }}</option>
                                     @endforeach
                                 </select>
                                 <input class="form-control" @error('name') is-invalid @enderror id="name" type="text"
                                     name="brand" value="{{ $brandmodel->name }}" required>
-                                @error('name')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
                             </div>
                         </div>
                     </div>
