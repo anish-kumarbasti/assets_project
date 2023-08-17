@@ -37,6 +37,10 @@
 
   <link rel="stylesheet" type="text/css" href="{{ asset('Backend/assets/css/main.css')}}">
 
+  <!-- SweetAlert2 CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.0/dist/sweetalert2.min.css">
+
+<!-- Other CSS and scripts -->
 
      <link rel="stylesheet" type="text/css" href="{{ asset('Backend/assets/css/vendors/datatables.css')}}">
   </head>

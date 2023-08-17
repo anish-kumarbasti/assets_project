@@ -4,10 +4,14 @@
 @endsection
 
 @section('Content-Area')
-@if (Session::has('success'))
-<div class="alert alert-success" role="alert">
-    {{ session::get('success') }}
-</div>
+
+    @if (session('message'))
+        <div class="alert alert-success inverse alert-dismissible fade show" role="alert"><i
+                class="icon-thumb-up alert-center"></i>
+            <p><b> Well done! </b>{{ session('message') }}</p>
+            <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
     @endif
     <div class="col-sm-12">
         <div class="card">
@@ -22,17 +26,14 @@
                             <div class="col-md-12 mb-1 d-flex align-items-center">
                                 <select class="form-select" id="brand_id" name="brand_id" required>
                                     <option value="" disabled selected>Select a Brand</option>
-                                      @foreach ($brands as $brand)
-                                    <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                                    @foreach ($brands as $brand)
+                                        <option value="{{ $brand->id }}">{{ $brand->name }}</option>
                                     @endforeach
                                 </select>
                                 <input class="form-control me-2" id="validationCustom01" type="text" name="name"
-                                       required="" data-bs-original-title="" title="" placeholder="Enter Model Name">
-                                       @error('name')
-                                        <div class="alert alert-danger" role="alert">
-                                            {{ $message }}
-                                        </div>
-                                       @enderror
+
+                                    required="" data-bs-original-title="" title="" placeholder="Enter Model Name">
+
                             </div>
                         </div>
                     </div>
@@ -58,19 +59,23 @@
                         <thead>
                             <tr>
                                 <th>SL</th>
+
                                 <th>Model Name</th>
                                 <th>Brand Name</th>
+
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
+
                             {{-- @dd($brandmodel); --}}
                             @foreach ($brandmodel as $brandmodel)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $brandmodel->name }}</td>
                                     <td>{{ $brandmodel->Brandmodel->name??''}}</td>
+
                                     <td class="w-20">
                                         <label class="mb-0 switch">
                                             <input type="checkbox" data-id="{{ $brandmodel->id }}"
@@ -80,12 +85,11 @@
                                     </td>
                                     <td>
                                         <a class="btn btn-primary"
-                                            href="{{ url('/brand-model/' . $brandmodel->id . '/edit') }}">Edit</a>
-                                        <form class="d-inline" method="POST" action="{{ url('/brand-model/' . $brandmodel->id) }}">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger">Delete</button>
-                                        </form>
+
+                                            href="{{ url('/brand-model/' . $brand->id . '/edit') }}">Edit</a>
+                                        <button class="btn btn-danger delete-button" type="button"
+                                            data-id="{{ $brand->id }}">Delete</button>
+
                                     </td>
                                 </tr>
                             @endforeach
@@ -106,7 +110,7 @@
                 const status = this.checked;
 
                 // Send an AJAX request to update the status
-                fetch(`/brands/${brandId}`, {
+                fetch(`/brands-model/${brandId}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -116,6 +120,7 @@
                         status: status
                     }) // Send the correct status value
                 }).then(function(response) {
+                    console.log(response);
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
                     }
@@ -135,5 +140,64 @@
         toastr.success("{{ Session::get('success') }}");
     </script>
     @endif
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
+
+    <script>
+        document.querySelectorAll('.delete-button').forEach(function(button) {
+            button.addEventListener('click', function() {
+                const brandId = this.getAttribute('data-id');
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                // Show SweetAlert2 confirmation dialog
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Send AJAX request to the server to delete the item
+                        fetch('/brand-model/' + brandId, {
+                                method: 'delete',
+                                headers: {
+                                    'X-CSRF-TOKEN': csrfToken, // Include the CSRF token in the headers
+                                    'Content-Type': 'application/json' // Set the content type
+                                }
+                            // You can set headers and other options here
+                            })
+                            .then(response => response.json())
+                            
+                            .then(data => {
+                                
+                                if ('success' in data && data.success) {
+                                    Swal.fire(
+                                        'Deleted!',
+                                        'Your file has been deleted.',
+                                        'success'
+                                    ).then(() => {
+                                        location.reload(); // Reload the page after the alert is closed
+                                    });
+                                } else {
+                                    Swal.fire(
+                                        'Error',
+                                        'Failed to delete the file.',
+                                        'error'
+                                    );
+                                }
+                            })
+                            .catch(error => {
+                                Swal.fire(
+                                    'Error',
+                                    'An error occurred while deleting the file.',
+                                    'error'
+                                );
+                            });
+                    }
+                });
+            });
+        });
     </script>
 @endsection

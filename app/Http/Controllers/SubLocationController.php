@@ -10,7 +10,7 @@ class SubLocationController extends Controller
 {
     public function index()
     {
-        $sublocations = SubLocationModel::all();
+        $sublocations = SubLocationModel::with('locations')->get();
         return view('Backend.Page.Master.sublocation.index', compact('sublocations'));
     }
 
@@ -30,7 +30,7 @@ class SubLocationController extends Controller
         SubLocationModel::create($request->all());
 
         return redirect()->route('sublocation-index')
-            ->with('success', 'Location created successfully');
+            ->with('success', 'Sub Location created successfully');
     }
     public function show(SubLocationModel $sublocation)
     {
@@ -38,15 +38,47 @@ class SubLocationController extends Controller
     }
     public function edit(SubLocationModel $sublocation, $id)
     {
+        $locations = Location::all();
         $sublocation = SubLocationModel::findOrFail($id);
-        return view('Backend.Page.Master.sublocation.edit', compact('sublocation'));
+        return view('Backend.Page.Master.sublocation.edit', compact('sublocation', 'locations'));
     }
-    public function update(Request $request, SubLocationModel $sublocation)
+    public function update(Request $request, string $id)
     {
         $request->validate([
             'name' => 'required',
         ]);
-        $sublocation->update($request->all());
-        return redirect()->route('sublocation-index')->with('success', 'location  updated successfully');
+        $sublocation = SubLocationModel::findOrFail($id);
+        $sublocation->name = $request->input('name');
+        $sublocation->location_id = $request->input('location_id');
+        $sublocation->update();
+
+        // SubLocationModel::create([
+        //     'name' => $request->name,
+        //     'location_id' => $request->location_id,
+        // ]);
+        return redirect()->route('sublocation-index')->with('success', 'Sub location  updated successfully');
+    }
+    public function destroy(SubLocationModel $sublocation)
+    {
+        $sublocation->delete();
+        return redirect()->route('sublocation-index')->with('success', 'Delete Sub Location successfully');
+    }
+    public function updateStatus(Request $request, $sublocationId)
+    {
+
+
+        $location = SubLocationModel::findOrFail($sublocationId);
+
+        if ($location->status == 0) {
+            SubLocationModel::where('id', $sublocationId)->update([
+                'status' => 1
+            ]);
+        } else {
+            SubLocationModel::where('id', $sublocationId)->update([
+                'status' => 0
+            ]);
+        }
+
+        return response()->json(['message' => 'Sub location Type status updated successfully']);
     }
 }

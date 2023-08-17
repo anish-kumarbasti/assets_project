@@ -11,7 +11,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable ,HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -27,7 +27,9 @@ class User extends Authenticatable
         'cover_photo',
         'department_id',
         'designation_id',
-        'mobile_number'
+        'mobile_number',
+        'age',
+        'gender',
     ];
     /**
      * The attributes that should be hidden for serialization.
@@ -49,11 +51,11 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
     public function department()
-{
-    return $this->belongsTo(Department::class);
-}
-public function designation()
-{
-    return $this->belongsTo(Designation::class);
-}
+    {
+        return $this->belongsTo(Department::class);
+    }
+    public function designation()
+    {
+        return $this->belongsTo(Designation::class);
+    }
 }

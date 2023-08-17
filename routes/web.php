@@ -59,8 +59,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('show', [UserController::class, 'showUsers'])->name('users.show');
     Route::get('users/create', [UserController::class, 'create'])->name('users.create');
     Route::post('users', [UserController::class, 'store'])->name('users.store');
-    Route::get('users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
-    Route::put('users/{user}', [UserController::class, 'update'])->name('users.update');
+    Route::get('users/{user}', [UserController::class, 'edit'])->name('users.edit');
+    Route::post('users-update/{id}', [UserController::class, 'update'])->name('users.update');
     Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
     Route::get('/get-designations/{departmentId}', [UserController::class, 'getDesignations']);
 
@@ -68,8 +68,11 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('home', [HomeController::class, 'index'])->name('home');
     Route::get('stock', [StockController::class, 'index']);
-    Route::get('all-stock', [StockController::class, 'ShowStock']);
+
+    Route::get('edit-stock/{id}', [StockController::class, 'edit']);
+    Route::get('all-stock', [StockController::class, 'ShowStock'])->name('all.stock');
     Route::post('store-stock',[StockController::class,'store'])->name('store.stock');
+    Route::post('update-stock/{id}',[StockController::class,'update'])->name('update.stock');
     Route::put('stock-status/{stockId}', [StockController::class, 'changestockstatus'])->name('change-stock-status');
     Route::get('manage-stocks', [StockController::class, 'manage']);
     Route::get('it-assets-stock', [StockController::class, 'stockStatus']);
@@ -110,8 +113,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('sublocation-create', [SubLocationController::class, 'create'])->name('sublocation-create');
     Route::post('sublocation-store', [SubLocationController::class, 'store'])->name('sublocation-store');
     Route::get('sublocation-edit/{id}', [SubLocationController::class, 'edit'])->name('sublocation-edit');
-    Route::put('sublocation-update/{sublocation}', [SubLocationModel::class, 'update'])->name('sublocation-update');
-
+    Route::post('location-update-status/{id}', [SubLocationController::class, 'updateStatus'])->name('location-update-status');
+    Route::put('sublocation-update/{sublocation}', [SubLocationController::class, 'update'])->name('sublocation-update');
+    Route::delete('sublocation-destroy/{sublocation}', [SubLocationController::class, 'destroy'])->name('sublocation-destroy');
+    Route::put('sublocation-status/{sublocationId}', [SubLocationController::class, 'updateStatus'])->name('sublocation-status');
     //designation
     Route::get('designations', [DesignationController::class, 'index'])->name('designations.index');
     Route::post('designations', [DesignationController::class, 'store'])->name('designations.store');
@@ -120,6 +125,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('designations/{id}', [DesignationController::class, 'update'])->name('designations.update');
     Route::delete('designations/{id}', [DesignationController::class, 'destroy'])->name('designations.destroy');
     //assets
+
 
 
 
@@ -137,7 +143,9 @@ Route::get('/brands/{id}/edit', [BrandController::class, 'edit']);
 Route::put('/brands/{id}', [BrandController::class, 'update'])->name('brands.update');
 Route::delete('/brands/{id}', [BrandController::class, 'destroy']);
 Route::post('/brands/{brand}', [BrandController::class, 'updateStatus'])->name('brands.updateStatus');
+Route::post('/brands-model/{brand}', [BrandModelController::class, 'updateStatus'])->name('brands.model.updateStatus');
 Route::resource('brand-model', BrandmodelController::class);
+
 
 
     Route::group(['middleware' => ['permission.checkDepartment']], function () {
@@ -152,4 +160,3 @@ Route::resource('brand-model', BrandmodelController::class);
     });
     Route::get('/issuences', [IssuenceController::class, 'index'])->name('issuences.index');
 });
-
