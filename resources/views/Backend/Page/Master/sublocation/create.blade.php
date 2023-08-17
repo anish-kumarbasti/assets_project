@@ -18,7 +18,7 @@
                             <label class="form-label" for="validationCustom01">Location</label>
                             <select class="form-control" id="validationCustom01" name="location_id">
                                 @foreach ($locations as $location)
-                                <option value="{{$location->id}}">{{$location->id}}</option>
+                                <option value="{{$location->id}}">{{$location->name}}</option>
                                 @endforeach
                             </select>
                         </div>
