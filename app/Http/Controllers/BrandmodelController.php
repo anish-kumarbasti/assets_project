@@ -14,8 +14,11 @@ class BrandmodelController extends Controller
     public function index()
     {
         $brands = Brand::all();
-        $brands_model = Brandmodel::all();
-        return view('Backend.Page.Master.brandmodel.create', compact('brands','brands_model'));
+
+        $brandmodel = Brandmodel::all();
+        // dd($brands);
+        return view('Backend.Page.Master.brandmodel.create', compact('brands','brandmodel'));
+
     }
 
     /**
@@ -33,7 +36,7 @@ class BrandmodelController extends Controller
     {
          // Validate the form data
          $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required',
             // Add other validation rules if needed
         ]);
 
@@ -45,7 +48,10 @@ class BrandmodelController extends Controller
         ]);
 
         // Redirect back to the list of brands
-        return redirect()->back()->with('message','Brand Model Registered Succesfully');
+
+        session()->flash('success', 'Data has been successfully stored.');
+        return redirect()->back();
+
     }
 
     /**
@@ -61,9 +67,9 @@ class BrandmodelController extends Controller
      */
     public function edit(string $id)
     {
-        $brand = Brandmodel::find($id);
-        $brands = Brandmodel::all();
-        return view('Backend.Page.Master.brandmodel.edit', compact('brands','brand'));
+        $brandmodel = Brandmodel::find($id);
+        $brands = Brand::all();
+        return view('Backend.Page.Master.brandmodel.edit', compact('brands','brandmodel'));
     }
 
     /**
@@ -72,15 +78,19 @@ class BrandmodelController extends Controller
     public function update(Request $request, string $id)
     {
           // Validate the form data
-          $brand = Brandmodel::findOrFail($id);
-          $brand->update([
-            'name' => 'required|string|max:255',
-            // Add other validation rules if needed
-        ]);
+        //   $brandmodel = Brandmodel::findOrFail($id);
+        //   $brand->name = $request->input('name');
+        //   $brand->brand_id = $request->input('brand_id');
+        //   $brand->update();
+
+        //   $brand->update([
+        //     'brand' => 'required',
+        //     // Add other validation rules if needed
+        // ]);
 
         // Create the brand using the brand model
-        Brandmodel::create([
-            'name' => $request->name,
+        $brandmodel= Brandmodel::find($id)->update([
+            'name' => $request->brand,
             'brand_id' => $request->brand_id,
             // Add other fields if needed
         ]);

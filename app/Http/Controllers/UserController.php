@@ -23,22 +23,23 @@ class UserController extends Controller
         $user->syncRoles($request->input('roles'));
         return redirect()->route('users.index')->with('success', 'Roles assigned successfully.');
     }
-    public function user(){
+    public function user()
+    {
         return view('Backend.Page.User.add-user');
-
     }
 
-    public function userCard(){
+    public function userCard()
+    {
         return view('Backend.Page.User.user-details');
     }
-        public function userProfile(){
-            return view('Backend.Page.User.user-profile');
-
+    public function userProfile()
+    {
+        return view('Backend.Page.User.user-profile');
     }
     public function index()
     {
         $users = User::with(['department', 'designation'])->get();
-        // dd($users);
+
         return view('Backend.Page.User.all_users', compact('users'));
     }
     public function showUsers()
@@ -55,8 +56,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        $departments=Department::all();
-        return view('Backend.Page.User.add-user',compact('departments'));
+        $departments = Department::all();
+        return view('Backend.Page.User.add-user', compact('departments'));
     }
 
     /**
@@ -85,7 +86,6 @@ class UserController extends Controller
 
         if ($request->hasFile('profile_photo')) {
             $profile_photo = $request->file('profile_photo')->storePublicly('profile_photos', 'public');
-
         }
 
         if ($request->hasFile('cover_photo')) {
@@ -126,7 +126,9 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('users.edit', compact('user'));
+        $department = Department::all();
+        $designation = Designation::all();
+        return view('Backend.Page.User.edit', compact('user', 'department', 'designation'));
     }
 
     /**
@@ -173,5 +175,4 @@ class UserController extends Controller
         $user->delete();
         return redirect()->route('users.index')->with('success', 'User deleted successfully!');
     }
-
 }

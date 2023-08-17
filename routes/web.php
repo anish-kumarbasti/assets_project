@@ -59,8 +59,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('show', [UserController::class, 'showUsers'])->name('users.show');
     Route::get('users/create', [UserController::class, 'create'])->name('users.create');
     Route::post('users', [UserController::class, 'store'])->name('users.store');
-    Route::get('users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
-    Route::put('users/{user}', [UserController::class, 'update'])->name('users.update');
+    Route::get('users/{user}', [UserController::class, 'edit'])->name('users.edit');
+    Route::post('users-update/{id}', [UserController::class, 'update'])->name('users.update');
     Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
     Route::get('/get-designations/{departmentId}', [UserController::class, 'getDesignations']);
 
@@ -68,6 +68,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('home', [HomeController::class, 'index'])->name('home');
     Route::get('stock', [StockController::class, 'index']);
+
     Route::get('edit-stock/{id}', [StockController::class, 'edit']);
     Route::get('all-stock', [StockController::class, 'ShowStock'])->name('all.stock');
     Route::post('store-stock',[StockController::class,'store'])->name('store.stock');
@@ -106,14 +107,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('location-status/{locationId}', [LocationController::class, 'locationStatus'])->name('location-status');
     Route::delete('location-destroy/{location}', [LocationController::class, 'destroy'])->name('location-destroy');
     Route::get('location-edit/{id}', [LocationController::class, 'edit'])->name('location-edit');
-    //Sub-Location 
+    //Sub-Location
     Route::get('sublocation-show', [SubLocationController::class, 'show'])->name('sublocation-show');
     Route::get('sublocation-index', [SubLocationController::class, 'index'])->name('sublocation-index');
     Route::get('sublocation-create', [SubLocationController::class, 'create'])->name('sublocation-create');
     Route::post('sublocation-store', [SubLocationController::class, 'store'])->name('sublocation-store');
     Route::get('sublocation-edit/{id}', [SubLocationController::class, 'edit'])->name('sublocation-edit');
-    Route::put('sublocation-update/{sublocation}', [SubLocationModel::class, 'update'])->name('sublocation-update');
-
+    Route::post('location-update-status/{id}', [SubLocationController::class, 'updateStatus'])->name('location-update-status');
+    Route::put('sublocation-update/{sublocation}', [SubLocationController::class, 'update'])->name('sublocation-update');
+    Route::delete('sublocation-destroy/{sublocation}', [SubLocationController::class, 'destroy'])->name('sublocation-destroy');
+    Route::put('sublocation-status/{sublocationId}', [SubLocationController::class, 'updateStatus'])->name('sublocation-status');
     //designation
     Route::get('designations', [DesignationController::class, 'index'])->name('designations.index');
     Route::post('designations', [DesignationController::class, 'store'])->name('designations.store');
@@ -122,6 +125,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('designations/{id}', [DesignationController::class, 'update'])->name('designations.update');
     Route::delete('designations/{id}', [DesignationController::class, 'destroy'])->name('designations.destroy');
     //assets
+
 
 
 
@@ -143,6 +147,7 @@ Route::post('/brands-model/{brand}', [BrandModelController::class, 'updateStatus
 Route::resource('brand-model', BrandmodelController::class);
 
 
+
     Route::group(['middleware' => ['permission.checkDepartment']], function () {
         // Route to display the "Add Department" form
         Route::get('/departments/create', [DepartmentController::class, 'create'])->name('auth.create-department');
@@ -153,5 +158,5 @@ Route::resource('brand-model', BrandmodelController::class);
         Route::delete('/departments/{id}', [DepartmentController::class, 'destroy']);
         Route::post('/departments/{department}', [DepartmentController::class, 'updateStatus'])->name('departments.updateStatus');
     });
+    Route::get('/issuences', [IssuenceController::class, 'index'])->name('issuences.index');
 });
-

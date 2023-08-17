@@ -31,6 +31,8 @@
                      <input class="form-control" id="mobileNumber" name="mobile_number" type="tel" required="" placeholder="Mobile Number">
                   </div>
                   <div class="col-md-6">
+          
+
                     <label class="form-label" for="Age">Age</label>
                     <input class="form-control" id="Age" name="age" type="age" required="" placeholder="Enter Age">
                  </div>
@@ -39,14 +41,15 @@
                     <select class="form-select" id="gender" name="gender" aria-label="Default select example">
                        <option selected> Select Gender</option>
 
-                           <option value="1">Male</option>
-                           <option value="2">Female</option>
-                           <option value="3">Others</option>
+
+                        <option value="1">Male</option>
+                        <option value="2">Female</option>
+                        <option value="3">Others</option>
 
 
 
-                    </select>
-                 </div>
+                     </select>
+                  </div>
                   <div class="col-md-6">
                      <label class="form-label" for="password">Password</label>
                      <input class="form-control" id="password" name="password" type="password" required="" placeholder="Password">
@@ -72,7 +75,7 @@
                      <select class="form-select" id="department" name="department_id" aria-label="Default select example">
                         <option selected> Enter Department </option>
                         @foreach ($departments as $department)
-                            <option value="{{ $department->id }}">{{ $department->name }}</option>
+                        <option value="{{ $department->id }}">{{ $department->name }}</option>
                         @endforeach
                      </select>
                   </div>
@@ -86,7 +89,7 @@
                </div>
                <div class="footer-item mt-3 mb-3">
                   <button class="btn btn-primary mt-3" type="submit" data-bs-original-title="" title="">Add</button>
-                  <button class="btn btn-warning mt-3" type="submit" data-bs-original-title="" title="">Cancel</button>
+                  <a href="{{route('users.index')}}" class="btn btn-warning mt-3" data-bs-original-title="">Cancel</a>
                </div>
             </div>
          </form>
@@ -98,23 +101,23 @@
 @section('Script-Area')
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-$(document).ready(function () {
-    $("#department").change(function () {
-        var departmentId = $(this).val();
-        if (departmentId) {
+   $(document).ready(function() {
+      $("#department").change(function() {
+         var departmentId = $(this).val();
+         if (departmentId) {
             $.ajax({
-                url: '/get-designations/' + departmentId,
-                type: 'GET',
-                dataType: 'json',
-                success: function (data) {
-                    $('#designation').empty();
-                    $.each(data, function (key, value) {
-                        $('#designation').append('<option value="' + key + '">' + value + '</option>');
-                    });
-                }
+               url: '/get-designations/' + departmentId,
+               type: 'GET',
+               dataType: 'json',
+               success: function(data) {
+                  $('#designation').empty();
+                  $.each(data, function(key, value) {
+                     $('#designation').append('<option value="' + key + '">' + value + '</option>');
+                  });
+               }
             });
-        }
-    });
-});
+         }
+      });
+   });
 </script>
 @endsection

@@ -15,9 +15,9 @@ class AssetController extends Controller
 
 public function create()
 {
-    return view('Backend.Page.Master.assets.create');
+    $assettype = Asset::all();
+    return view('Backend.Page.Master.assets.create', compact('assettype'));
 }
-
 public function store(Request $request)
 {
     $asset = new Asset;
