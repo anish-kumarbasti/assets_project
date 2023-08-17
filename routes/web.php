@@ -146,17 +146,16 @@ Route::post('/brands/{brand}', [BrandController::class, 'updateStatus'])->name('
 Route::post('/brands-model/{brand}', [BrandModelController::class, 'updateStatus'])->name('brands.model.updateStatus');
 Route::resource('brand-model', BrandmodelController::class);
 
-
-
-    Route::group(['middleware' => ['permission.checkDepartment']], function () {
+Route::get('/departments/create', [DepartmentController::class, 'create'])->name('auth.create-department');
+Route::post('/departments', [DepartmentController::class, 'store']);
+Route::get('/departments', [DepartmentController::class, 'index']);
+Route::get('/departments/{id}/edit', [DepartmentController::class, 'edit']);
+Route::put('/departments/{id}', [DepartmentController::class, 'update'])->name('departments.update');
+Route::delete('/departments/{id}', [DepartmentController::class, 'destroy']);
+Route::post('/departments/{department}', [DepartmentController::class, 'updateStatus'])->name('departments.updateStatus');
+Route::group(['middleware' => ['permission.checkDepartment']], function () {
         // Route to display the "Add Department" form
-        Route::get('/departments/create', [DepartmentController::class, 'create'])->name('auth.create-department');
-        Route::post('/departments', [DepartmentController::class, 'store']);
-        Route::get('/departments', [DepartmentController::class, 'index']);
-        Route::get('/departments/{id}/edit', [DepartmentController::class, 'edit']);
-        Route::put('/departments/{id}', [DepartmentController::class, 'update'])->name('departments.update');
-        Route::delete('/departments/{id}', [DepartmentController::class, 'destroy']);
-        Route::post('/departments/{department}', [DepartmentController::class, 'updateStatus'])->name('departments.updateStatus');
-    });
+      
+});
     Route::get('/issuences', [IssuenceController::class, 'index'])->name('issuences.index');
 });

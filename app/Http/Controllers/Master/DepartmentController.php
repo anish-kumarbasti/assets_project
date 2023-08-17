@@ -11,9 +11,7 @@ class DepartmentController extends Controller
 
      public function create()
     {
-
         $departments = Department::all();
-
         return view('Backend.Page.Master.department.create', ['departments' => $departments]);
     }
 
@@ -79,7 +77,7 @@ class DepartmentController extends Controller
         $department->delete();
 
         // Redirect back to the list of departments
-        return redirect('/departments/create');
+        return response()->json(['success' => true]);
     }
     public function updateStatus(Request $request, Department $department)
 {

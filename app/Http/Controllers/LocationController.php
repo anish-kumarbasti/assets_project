@@ -77,7 +77,6 @@ class LocationController extends Controller
     {
         $location->delete();
 
-        return redirect()->route('location-index')
-                         ->with('success', 'location Type deleted successfully');
+        return response()->json(['success' => true]);
     }
 }

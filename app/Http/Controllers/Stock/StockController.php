@@ -47,6 +47,7 @@ class StockController extends Controller
             'configuration' => 'required',
             'serial_number' => 'required',
             'price' => 'required',
+            'host_name'=>'required',
             'vendor' => 'required', // Fixed the typo here ('vedor' to 'vendor')
         ]);
     
@@ -62,6 +63,8 @@ class StockController extends Controller
             'serial_number' => $request->serial_number,
             'price' => $request->price,
             'vendor' => $request->vendor,
+            'host_name'=>$request->host_name,
+            'product_number'=>$request->generate_number,
         ]);
     
         // You might want to redirect the user somewhere after successful creation

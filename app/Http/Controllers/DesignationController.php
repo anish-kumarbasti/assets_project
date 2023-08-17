@@ -10,6 +10,7 @@ class DesignationController extends Controller
     public function index()
     {
         $designations = Designation::with('department')->get();
+        // dd($designations);
         return view('Backend.Page.Master.designations.index', compact('designations'));
     }
 
@@ -61,6 +62,6 @@ class DesignationController extends Controller
         $designation = Designation::find($id);
         $designation->delete();
 
-        return redirect()->route('designations.index')->with('message', 'Designation deleted successfully!');
+        return response()->json(['success' => true]);
     }
 }

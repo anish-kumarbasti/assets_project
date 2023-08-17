@@ -66,7 +66,7 @@ class BrandController extends Controller
         ]);
 
         // Redirect back to the list of brands
-        return redirect('/brands/create');
+        return redirect('/brands/create')->with('success','Data Updated Successfully!');
     }
 
     // Delete the brand
@@ -77,7 +77,7 @@ class BrandController extends Controller
         if ($brand){
             $brand->delete();
         }
-        dd($brand);
+        // dd($brand);
         // $asset->delete();
     
         return response()->json(['success' => true]);
