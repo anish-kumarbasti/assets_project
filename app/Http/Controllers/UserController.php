@@ -138,12 +138,13 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, string $id)
     {
+
         $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => 'required|email|unique:users,email,' . $user->id,
+            'email' => 'required|email|unique:users,email',
             'password' => 'nullable|min:6|confirmed',
             'profile_photo' => 'nullable|image',
             'cover_photo' => 'nullable|image',
@@ -151,7 +152,17 @@ class UserController extends Controller
             'designation_id' => 'required|exists:designations,id',
             'mobile_number' => 'required|numeric',
         ]);
-
+        //$user = User::where('id', $id)->first();
+        $user = User::findOrFail($id);
+        $user->first_name = $request->input('first_name');
+        $user->last_name = $request->input('last_name');
+        $user->email = $request->input('email');
+        $user->profile_photo = $request->input('profile_photo');
+        $user->department_id = $request->input('department_id');
+        $user->designation_id = $request->input('designation_id');
+        $user->mobile_number = $request->input('mobile_number');
+        dd($user);
+        $user->update();
         if ($request->hasFile('profile_photo')) {
             $request['profile_photo'] = $request->file('profile_photo')->store('profile_photos');
         }
@@ -159,8 +170,8 @@ class UserController extends Controller
         if ($request->hasFile('cover_photo')) {
             $request['cover_photo_path'] = $request->file('cover_photo')->store('cover_photos');
         }
-
-        $user->update($request->all());
+        // User::where('id', $id)->update($data);
+        // $user->update($data)->where('id', $id);
         return redirect()->route('users.index')->with('success', 'User updated successfully!');
     }
 
@@ -174,5 +185,9 @@ class UserController extends Controller
     {
         $user->delete();
         return redirect()->route('users.index')->with('success', 'User deleted successfully!');
+    }
+    public function users_profile()
+    {
+        return view('Backend.Page.User.user-profile');
     }
 }

@@ -10,8 +10,9 @@
             User Info
         </div>
         <div class="card-body">
-            <form action="{{url('users-update',$user->id)}}" method="post" enctype="multipart/form-data">
+            <form action="{{route('users.update',$user->id)}}" method="post" enctype="multipart/form-data">
                 @csrf
+                @method('PUT')
                 <div class="card-item border ">
                     <div class="row p-3">
                         <div class="col-md-6">
@@ -61,7 +62,7 @@
                             <label class="form-label" for="department">Department</label>
                             <select class="form-select" id="department" name="department_id" aria-label="Default select example">
                                 @foreach ($department as $depart )
-                                <option value="{{$depart->id}}" {{ $depart->department_id == $depart->id ? 'checked' : '' }}>{{$depart->name}}</option>
+                                <option value="{{$depart->id}}" {{ $user->department_id == $depart->id ? 'selected' : '' }}>{{$depart->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -69,7 +70,7 @@
                             <label class="form-label" for="designation">Designation</label>
                             <select class="form-select" id="designation" name="designation_id" aria-label="Default select example">
                                 @foreach ($designation as $designations)
-                                <option value="$designations->id" {{$designations->designation_id == $designations ? 'checked':''}}>{{$designations->designation}} </option>
+                                <option value="$designations->id" {{$user->designation_id == $designations->id ? 'selected':''}}>{{$designations->designation}} </option>
                                 @endforeach
                                 <!-- Add designations dynamically -->
                             </select>

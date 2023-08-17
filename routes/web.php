@@ -60,9 +60,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('users/create', [UserController::class, 'create'])->name('users.create');
     Route::post('users', [UserController::class, 'store'])->name('users.store');
     Route::get('users/{user}', [UserController::class, 'edit'])->name('users.edit');
-    Route::post('users-update/{id}', [UserController::class, 'update'])->name('users.update');
+    Route::put('users-update/{user}', [UserController::class, 'update'])->name('users.update');
     Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
     Route::get('/get-designations/{departmentId}', [UserController::class, 'getDesignations']);
+    Route::get('users.user-profile', [UserController::class, 'users_profile'])->name('users.user-profile');
 
     Route::put('/users/{user}/assign-roles', [UserController::class, 'updateRoles'])->name('users.update_roles');
 
