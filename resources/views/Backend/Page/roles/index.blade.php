@@ -43,7 +43,7 @@
 
         <div class="card-body">
             <div class="table-responsive theme-scrollbar">
-                <table class="display" id="rolesTable">
+                <table class="display" id="basic-1">
                     <thead>
                         <tr class="text-center">
                             <th>SL</th>
@@ -59,7 +59,11 @@
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $role->id }}</td>
                             <td>{{ $role->name }}</td>
-                            <td>Created At</td>
+                            <td class="w-20">
+                                <label class="mb-0 switch">
+                                    <input type="checkbox" checked=""><span class="switch-state"></span>
+                                </label>
+                            </td>
                             <td>
                                 <a href="{{ route('roles.permissions', $role->id) }}" class="btn btn-warning" data-bs-original-title="" title="">Permission</a>
                                 <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-primary" data-bs-original-title="" title="">Edit</a>

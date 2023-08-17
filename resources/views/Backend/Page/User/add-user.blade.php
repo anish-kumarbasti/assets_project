@@ -31,13 +31,16 @@
                      <input class="form-control" id="mobileNumber" name="mobile_number" type="tel" required="" placeholder="Mobile Number">
                   </div>
                   <div class="col-md-6">
-                     <label class="form-label" for="Age">Age</label>
-                     <input class="form-control" id="Age" name="age" type="tel" required="" placeholder="Enter Age">
-                  </div>
-                  <div class="col-md-6">
-                     <label class="form-label" for="gender">Gender</label>
-                     <select class="form-select" id="gender" name="gender" aria-label="Default select example">
-                        <option selected> Select Gender </option>
+          
+
+                    <label class="form-label" for="Age">Age</label>
+                    <input class="form-control" id="Age" name="age" type="age" required="" placeholder="Enter Age">
+                 </div>
+                 <div class="col-md-6">
+                    <label class="form-label" for="gender">Gender</label>
+                    <select class="form-select" id="gender" name="gender" aria-label="Default select example">
+                       <option selected> Select Gender</option>
+
 
                         <option value="1">Male</option>
                         <option value="2">Female</option>

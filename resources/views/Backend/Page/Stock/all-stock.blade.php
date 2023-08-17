@@ -8,7 +8,12 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('Backend/assets/css/vendors/datatables.css')}}">
 @endsection
 @section('Content-Area')
-
+@if (session('success'))
+      <div class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
+        <p><b> Well done! </b>{{session('success')}}</p>
+        <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    @endif
 <div class="col-sm-12">
    <div class="card">
       <div class="card-header pb-0">
@@ -50,8 +55,8 @@ Global, And You May Wish To Present Controls That Search On Specific Columns.</s
                      <td>{{$stock->id}}</td>
                      <td>{{$stock->product_info}}</td>
                      <td>{{$stock->asset_type->name}}</td>
-                     @dd($stock->asset->name)
-                       <td>{{$stock->asset->name}}</td>
+                     {{-- @dd($stock->assetmain); --}}
+                       <td>{{$stock->assetmain->name}}</td>
                          <td>{{$stock->brand->name}}</td>
                            <td>780</td>
                         <td>{{$stock->location->name}}</td>
@@ -67,8 +72,7 @@ Global, And You May Wish To Present Controls That Search On Specific Columns.</s
                             </label>
                         </td>
                            <td>
-                        <button class="btn btn-primary" type="submit" data-bs-original-title=""
-                           title="">Edit</button>
+                           <a class="btn btn-primary" href="{{ url('/edit-stock/' . $stock->id) }}">Edit</a>
                      </td>
                   </tr>
                 @endforeach

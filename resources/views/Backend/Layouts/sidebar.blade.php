@@ -48,6 +48,7 @@
              </ul>
            </li>
 
+
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="home"></i><span>Stocks</span></a>
              <ul class="sidebar-submenu">
                <li><a href="{{ url('manage-stocks')}}">Manage Stocks</a></li>
@@ -70,7 +71,7 @@
 
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="box"></i><span>Issuence</span></a>
              <ul class="sidebar-submenu">
-               <li><a href="{{ url('issuence')}}"> Add Issuence </a></li>
+               <li><a href="{{ url('issuance')}}"> Add Issuence </a></li>
 
              </ul>
            </li>
