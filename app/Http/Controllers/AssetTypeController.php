@@ -52,7 +52,7 @@ class AssetTypeController extends Controller
 
         $asset->update($request->all());
 
-        return redirect()->route('assets.index')
+        return redirect()->route('assets-type-index')
                          ->with('success', 'Asset Type updated successfully');
     }
     public function assetTypeStatus(Request $request, $assetId)

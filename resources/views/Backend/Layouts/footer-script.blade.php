@@ -31,11 +31,16 @@
     <script src="{{ asset('Backend/assets/js/dashboard/dashboard_2.js')}}"></script>
     <!-- Template js-->
     <script src="{{ asset('Backend/assets/js/script.js')}}"></script>
+    <script src="{{asset('Backend/assets/js/theme-customizer/customizer.js')}}"></script>
 
     <script src="{{ asset('Backend/assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{ asset('Backend/assets/js/datatable/datatables/datatable.custom.js')}}"></script>
     <script src="{{ asset('Backend/assets/js/tooltip-init.js')}}"></script>
 
+    <script src="{{asset('Backend/assets/js/sweet-alert/app.js')}}"></script>
+    <script src="{{asset('Backend/assets/js/sweet-alert/sweetalert.min.js')}}"></script>
      <script src="{{ asset('Backend/assets/js/main.js')}}"></script>
     <!-- login js-->
+
+
 

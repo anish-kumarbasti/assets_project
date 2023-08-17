@@ -80,7 +80,7 @@ class UserController extends Controller
             'designation_id' => 'required',
 
         ]);
-
+        // dd($request);
         $profile_photo = null;
         $cover_photo = null;
 
@@ -96,14 +96,14 @@ class UserController extends Controller
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
-            'age' => $request->age,
-            'gender' => $request->gender,
             'password' => Hash::make($request->password),
             'profile_photo' => $profile_photo,
             'cover_photo' => $cover_photo,
             'department_id' => $request->department_id,
             'designation_id' => $request->designation_id,
             'mobile_number' => $request->mobile_number,
+            'age'=>$request->age,
+            'gender'=>$request->gender,
         ]);
 
         return redirect()->route('users.index')->with('success', 'User created successfully!');

@@ -69,8 +69,11 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('home', [HomeController::class, 'index'])->name('home');
     Route::get('stock', [StockController::class, 'index']);
-    Route::get('all-stock', [StockController::class, 'ShowStock']);
-    Route::post('store-stock', [StockController::class, 'store'])->name('store.stock');
+
+    Route::get('edit-stock/{id}', [StockController::class, 'edit']);
+    Route::get('all-stock', [StockController::class, 'ShowStock'])->name('all.stock');
+    Route::post('store-stock',[StockController::class,'store'])->name('store.stock');
+    Route::post('update-stock/{id}',[StockController::class,'update'])->name('update.stock');
     Route::put('stock-status/{stockId}', [StockController::class, 'changestockstatus'])->name('change-stock-status');
     Route::get('manage-stocks', [StockController::class, 'manage']);
     Route::get('it-assets-stock', [StockController::class, 'stockStatus']);
@@ -105,7 +108,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('location-status/{locationId}', [LocationController::class, 'locationStatus'])->name('location-status');
     Route::delete('location-destroy/{location}', [LocationController::class, 'destroy'])->name('location-destroy');
     Route::get('location-edit/{id}', [LocationController::class, 'edit'])->name('location-edit');
-    //Sub-Location 
+    //Sub-Location
     Route::get('sublocation-show', [SubLocationController::class, 'show'])->name('sublocation-show');
     Route::get('sublocation-index', [SubLocationController::class, 'index'])->name('sublocation-index');
     Route::get('sublocation-create', [SubLocationController::class, 'create'])->name('sublocation-create');
@@ -126,21 +129,24 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 
-    Route::get('assets', [AssetController::class, 'index'])->name('assets.index');
-    Route::get('assets/create', [AssetController::class, 'create'])->name('assets.create');
-    Route::post('assets', [AssetController::class, 'store'])->name('assets.store');
-    Route::get('assets/{id}/edit', [AssetController::class, 'edit'])->name('assets.edit');
-    Route::put('assets/{id}', [AssetController::class, 'update'])->name('assets.update');
-    Route::delete('assets/{id}', [AssetController::class, 'destroy'])->name('assets.destroy');
-    //Brand
-    Route::get('/brands/create', [BrandController::class, 'create'])->name('create-brand');
-    Route::post('/brands', [BrandController::class, 'store']);
-    Route::get('/brands', [BrandController::class, 'index']);
-    Route::get('/brands/{id}/edit', [BrandController::class, 'edit']);
-    Route::put('/brands/{id}', [BrandController::class, 'update'])->name('brands.update');
-    Route::delete('/brands/{id}', [BrandController::class, 'destroy']);
-    Route::post('/brands/{brand}', [BrandController::class, 'updateStatus'])->name('brands.updateStatus');
-    Route::resource('brand-model', BrandmodelController::class);
+
+Route::get('assets', [AssetController::class, 'index'])->name('assets.index');
+Route::get('assets/create', [AssetController::class, 'create'])->name('assets.create');
+Route::post('assets', [AssetController::class, 'store'])->name('assets.store');
+Route::get('assets/{id}/edit', [AssetController::class, 'edit'])->name('assets.edit');
+Route::put('assets/{id}', [AssetController::class, 'update'])->name('assets.update');
+Route::delete('assets/{id}', [AssetController::class, 'destroy'])->name('assets.destroy');
+//Brand
+Route::get('/brands/create', [BrandController::class, 'create'])->name('create-brand');
+Route::post('/brands', [BrandController::class, 'store']);
+Route::get('/brands', [BrandController::class, 'index']);
+Route::get('/brands/{id}/edit', [BrandController::class, 'edit']);
+Route::put('/brands/{id}', [BrandController::class, 'update'])->name('brands.update');
+Route::delete('/brands/{id}', [BrandController::class, 'destroy']);
+Route::post('/brands/{brand}', [BrandController::class, 'updateStatus'])->name('brands.updateStatus');
+Route::post('/brands-model/{brand}', [BrandModelController::class, 'updateStatus'])->name('brands.model.updateStatus');
+Route::resource('brand-model', BrandmodelController::class);
+
 
 
     Route::group(['middleware' => ['permission.checkDepartment']], function () {
@@ -153,4 +159,5 @@ Route::group(['middleware' => 'auth'], function () {
         Route::delete('/departments/{id}', [DepartmentController::class, 'destroy']);
         Route::post('/departments/{department}', [DepartmentController::class, 'updateStatus'])->name('departments.updateStatus');
     });
+    Route::get('/issuences', [IssuenceController::class, 'index'])->name('issuences.index');
 });
