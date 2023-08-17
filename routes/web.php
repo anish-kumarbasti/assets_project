@@ -107,7 +107,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('location-status/{locationId}', [LocationController::class, 'locationStatus'])->name('location-status');
     Route::delete('location-destroy/{location}', [LocationController::class, 'destroy'])->name('location-destroy');
     Route::get('location-edit/{id}', [LocationController::class, 'edit'])->name('location-edit');
-    //Sub-Location 
+    //Sub-Location
     Route::get('sublocation-show', [SubLocationController::class, 'show'])->name('sublocation-show');
     Route::get('sublocation-index', [SubLocationController::class, 'index'])->name('sublocation-index');
     Route::get('sublocation-create', [SubLocationController::class, 'create'])->name('sublocation-create');
@@ -158,4 +158,5 @@ Route::resource('brand-model', BrandmodelController::class);
         Route::delete('/departments/{id}', [DepartmentController::class, 'destroy']);
         Route::post('/departments/{department}', [DepartmentController::class, 'updateStatus'])->name('departments.updateStatus');
     });
+    Route::get('/issuences', [IssuenceController::class, 'index'])->name('issuences.index');
 });

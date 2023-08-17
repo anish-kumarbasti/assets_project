@@ -4,6 +4,11 @@
 @endsection
 
 @section('Content-Area')
+@if (Session::has('success'))
+<div class="alert alert-success" role="alert">
+    {{ session::get('success') }}
+</div>
+    @endif
 <div class="col-sm-12">
     <div class="card">
         <div class="card-header pb-0">
@@ -18,6 +23,11 @@
                             <label class="form-label" for="validationCustom01">Add Brand</label>
                             <input class="form-control" id="validationCustom01" type="text" name="name" required=""
                                 data-bs-original-title="" title="" placeholder="Enter Brand Name">
+                                @error('name')
+                                <div class="alert alert-danger" role="alert">
+                                    {{ $message }}
+                                </div>
+                               @enderror
                         </div>
                     </div>
                 </div>
@@ -107,5 +117,12 @@
             });
         });
     });
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    @if (session::has('success'))
+    <script>
+        toastr.success("{{ Session::get('success') }}");
+    </script>
+    @endif
 </script>
 @endsection

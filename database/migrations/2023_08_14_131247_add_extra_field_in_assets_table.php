@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('assets', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('status');
-            $table->timestamps();
+        Schema::table('assets', function (Blueprint $table) {
+            $table->string('asset_type_id');
         });
     }
 
@@ -24,6 +21,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('assets');
+        Schema::table('assets', function (Blueprint $table) {
+            //
+        });
     }
 };
+
