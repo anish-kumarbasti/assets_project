@@ -65,6 +65,8 @@ class StockController extends Controller
             'vendor' => $request->vendor,
             'host_name'=>$request->host_name,
             'product_number'=>$request->generate_number,
+            'product_warranty'=>$request->product_warranty,
+
         ]);
     
         // You might want to redirect the user somewhere after successful creation
@@ -134,5 +136,8 @@ class StockController extends Controller
     
         // You might want to redirect the user somewhere after successful creation
         return redirect()->route('all.stock')->with('success', 'Stock Updated successfully!');
+    }
+    public function timeline(){
+        return view('Backend.Page.Stock.timeline');
     }
 }

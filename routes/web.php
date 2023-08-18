@@ -76,6 +76,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('stock-status/{stockId}', [StockController::class, 'changestockstatus'])->name('change-stock-status');
     Route::get('manage-stocks', [StockController::class, 'manage']);
     Route::get('it-assets-stock', [StockController::class, 'stockStatus']);
+    Route::get('timeline',[StockController::class,'timeline']);
     Route::get('location', [LocationController::class, 'index']);
     //Route::get('designation', [DesignationController::class, 'index']);
     Route::get('department', [DepartmentController::class, 'index']);

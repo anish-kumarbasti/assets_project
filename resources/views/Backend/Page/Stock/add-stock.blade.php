@@ -101,6 +101,11 @@
                      <input class="form-control" id="validationCustom01" name="host_name" type="text" required=""
                         data-bs-original-title="" title="" placeholder="Enter Host Name">
                   </div>
+                  <div class="col-md-4 mb-4">
+                     <label class="form-label" for="validationCustom01">Warranty    </label>
+                     <input class="form-control" id="validationCustom01" name="product_warranty" type="date" required=""
+                        data-bs-original-title="" title="" placeholder="Enter Warranty Name">
+                  </div>
                </div>
             </div>
             <div class="card-item border">
