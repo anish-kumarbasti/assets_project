@@ -88,6 +88,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('transfer', [TransferController::class, 'index']);
     Route::get('add-user', [UserController::class, 'user']);
     Route::get('user-details', [UserController::class, 'userCard']);
+    //Assets
+    Route::get('non-it-asset', [AssetController::class, 'nonitasset'])->name('non.it.assets');
+    Route::get('asset-components', [AssetController::class, 'assetscomponent'])->name('assets.components');
+    Route::get('asset-software', [AssetController::class, 'assetsoftware'])->name('assets.software');
+
     //asset type
     Route::get('assets-type-show', [AssetTypeController::class, 'show'])->name('assets-type-show');
     Route::get('assets-type-index', [AssetTypeController::class, 'index'])->name('assets-type-index');
