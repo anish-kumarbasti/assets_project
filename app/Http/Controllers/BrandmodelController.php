@@ -14,7 +14,6 @@ class BrandmodelController extends Controller
     public function index()
     {
         $brands = Brand::all();
-
         $brandmodel = Brandmodel::all();
         // dd($brands);
         return view('Backend.Page.Master.brandmodel.create', compact('brands','brandmodel'));
@@ -67,10 +66,12 @@ class BrandmodelController extends Controller
      */
     public function edit(string $id)
     {
-        $brandmodel = Brandmodel::find($id);
+        // dd($id);
+        $brandmodel = Brandmodel::find($id); // Add this line for debugging
         $brands = Brand::all();
-        return view('Backend.Page.Master.brandmodel.edit', compact('brands','brandmodel'));
+        return view('Backend.Page.Master.brandmodel.edit', compact('brandmodel', 'brands'));
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -89,12 +90,14 @@ class BrandmodelController extends Controller
         // ]);
 
         // Create the brand using the brand model
-        $brandmodel= Brandmodel::find($id)->update([
+        // dd($request);
+        $brand= Brandmodel::find($id)->update([
             'name' => $request->brand,
             'brand_id' => $request->brand_id,
             // Add other fields if needed
         ]);
-        return redirect()->route('brand-model.index')->with('message','Brand Model updated Succesfully');
+        session()->flash('success', 'Data has been successfully Updated.');
+        return redirect()->route('brand-model.index');
     }
 
     /**
@@ -106,7 +109,6 @@ class BrandmodelController extends Controller
 
     if ($brand) {
     $brand->delete();
-    
      }
      return response()->json(['success' => true]);
     }
