@@ -61,13 +61,18 @@ class AssetController extends Controller
         return redirect()->route('assets.index');
     }
 
-    public function destroy($id)
-    {
-        $asset = Asset::findOrFail($id);
+public function destroy($id)
+{
+    $asset = Asset::find($id);
+    if ($asset){
         $asset->delete();
-
-        return redirect()->route('assets.index');
     }
+    // $asset->delete();
+
+    return response()->json(['success' => true]);
+
+}
+
 
     public function nonitasset()
     {

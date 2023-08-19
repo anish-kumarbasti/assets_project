@@ -23,13 +23,9 @@
                      data-bs-original-title="" title="" placeholder="Enter Product Info">
                </div>
                <div class="col-md-6">
-                  <div class="mb-3 row">
-                     <label class="col-sm-3 col-form-label pt-5 ">Scan Barcode :</label>
-                     <div class="col-sm-9 pt-4">
-                        <input class="form-control qr" type="file" accept="image/*" capture="environment" id="qrInput">
-                        <img id="" src="{{ asset('Backend/assets/images/IT-Assets/Vector_qr.png')}}" alt="QR Code">
-                     </div>
-                  </div>
+                     <label class="form-label" style="float: left;">Scan Barcode :</label><a href="#" style="float: left;">Generate Number</a>
+                        <input class="form-control" type="text" name="generate_number" placeholder="Number">
+                        {{-- <img id="" src="{{ asset('Backend/assets/images/IT-Assets/Vector_qr.png')}}" alt="QR Code"> --}}
                </div>
             </div>
             <div class="card-item border">
@@ -99,6 +95,16 @@
                         <option value="{{$sublocation->id}}" {{ isset($stockedit) && $stockedit->sublocation_id == $sublocation->id ? 'selected' : '' }}>{{$sublocation->name}}</option>
                         @endforeach
                      </select>
+                  </div>
+                  <div class="col-md-4 mb-4">
+                     <label class="form-label" for="validationCustom01">Host Name</label>
+                     <input class="form-control" id="validationCustom01" name="host_name" type="text" required=""
+                        data-bs-original-title="" title="" placeholder="Enter Host Name">
+                  </div>
+                  <div class="col-md-4 mb-4">
+                     <label class="form-label" for="validationCustom01">Warranty    </label>
+                     <input class="form-control" id="validationCustom01" name="product_warranty" type="date" required=""
+                        data-bs-original-title="" title="" placeholder="Enter Warranty Name">
                   </div>
                </div>
             </div>

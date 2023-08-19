@@ -9,7 +9,7 @@
           <div class="nav-right col-6 pull-right right-header p-0">
             <ul class="nav-menus">
              <div class="input-group p-2">
-             <input type="text" class="form-control" placeholder="Search this blog">
+             <input type="text" class="form-control" placeholder="Search">
              <div class="input-group-append">
 
               <i class="fa fa-search"></i>
