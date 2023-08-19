@@ -1,5 +1,6 @@
 @extends('Backend.Layouts.panel')
 @section('Style-Area')
+
     <style>
         .btn-view {
             background: #BB4F00 !important;

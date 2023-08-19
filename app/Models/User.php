@@ -30,6 +30,7 @@ class User extends Authenticatable
         'mobile_number',
         'age',
         'gender',
+        'employee_id',
     ];
     /**
      * The attributes that should be hidden for serialization.

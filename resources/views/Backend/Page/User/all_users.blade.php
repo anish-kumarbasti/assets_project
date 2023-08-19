@@ -3,6 +3,12 @@
 @section('Content-Area')
 
 <div class="col-sm-12">
+    @if (session('success'))
+    <div class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
+        <p>{{ session('success') }}</b>
+            <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
     <div class="card">
         <div class="card-header pb-0">
             <h4>
@@ -40,7 +46,7 @@
                                 <form method="POST" action="{{ route('users.destroy', $user->id) }}">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="btn btn-danger sweet-5" type="submit" onclick="_gaq.push(['_trackEvent', 'example', 'try', 'sweet-5']);">Delete</button>
+                                    <button class="btn btn-danger sweet-5" type="submit" style="display: inline-block;" onclick="return  confirm('Are you sure')">Delete</button>
                                 </form>
                             </td>
                         </tr>
@@ -52,4 +58,3 @@
     </div>
 </div>
 @endsection
-
