@@ -64,10 +64,14 @@ public function update(Request $request, $id)
 
 public function destroy($id)
 {
-    $asset = Asset::findOrFail($id);
-    $asset->delete();
+    $asset = Asset::find($id);
+    if ($asset){
+        $asset->delete();
+    }
+    // $asset->delete();
 
-    return redirect()->route('assets.index');
+    return response()->json(['success' => true]);
+
 }
 
 }

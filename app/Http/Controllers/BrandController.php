@@ -66,18 +66,21 @@ class BrandController extends Controller
         ]);
 
         // Redirect back to the list of brands
-        return redirect('/brands/create');
+        return redirect('/brands/create')->with('success','Data Updated Successfully!');
     }
 
     // Delete the brand
     public function destroy($id)
     {
         // Find the brand and delete it
-        $brand = Brand::findOrFail($id);
-        $brand->delete();
-
-        // Redirect back to the list of brands
-        return redirect('/brands/create');
+        $brand = Brand::find($id);
+        if ($brand){
+            $brand->delete();
+        }
+        // dd($brand);
+        // $asset->delete();
+    
+        return response()->json(['success' => true]);
     }
     public function updateStatus(Request $request, brand $brand)
 {
