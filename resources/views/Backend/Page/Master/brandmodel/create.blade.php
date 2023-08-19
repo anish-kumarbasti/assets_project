@@ -71,6 +71,7 @@
                         <tbody>
 
                             {{-- @dd($brandmodel); --}}
+
                             @foreach($brandmodel as $brandmodel)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
@@ -94,6 +95,12 @@
 
                                 </td>
                             </tr>
+
+                                        <button class="btn btn-danger delete-button" type="button"
+                                            data-id="{{ $brand->id }}">Delete</button>
+
+                                    </td>
+                                </tr>
                             @endforeach
                         </tbody>
                     </table>

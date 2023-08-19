@@ -21,7 +21,7 @@
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="home"></i><span class="lan-3">Dashboard</span></a>
              <ul class="sidebar-submenu">
                <li><a href="{{ url('home')}}">Admin Dashboard</a></li>
-               <li><a href="javascript:;">Ecommerce Dashboard</a></li>
+               {{-- <li><a href="javascript:;">Ecommerce Dashboard</a></li> --}}
              </ul>
            </li>
 
@@ -59,9 +59,9 @@
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="airplay"></i><span>Assets</span></a>
              <ul class="sidebar-submenu">
                <li><a href="{{ url('it-assets-stock')}}">IT Assets</a></li>
-               <li><a href="javascript:;">Non-IT Assets</a></li>
-               <li><a href="javascript:;">Assets Components</a></li>
-               <li><a href="javascript:;">Software</a></li>
+               <li><a href="{{route('non.it.assets')}}">Non-IT Assets</a></li>
+               <li><a href="{{route('assets.components')}}">Assets Components</a></li>
+               <li><a href="{{route('assets.software')}}">Software</a></li>
              </ul>
            </li>
 

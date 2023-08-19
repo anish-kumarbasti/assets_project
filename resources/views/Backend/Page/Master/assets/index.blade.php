@@ -42,8 +42,10 @@
                             </td>
                             <td>
                                 <a href="{{ route('assets.edit', $asset->id) }}" class="btn btn-primary">Edit</a>
+
                                 <button class="btn btn-danger delete-button" type="button"
                                 data-id="{{ $asset->id }}">Delete</button>
+
                             </td>
                         </tr>
                         @endforeach
@@ -66,8 +68,8 @@
           const csrfToken = $('meta[name="csrf-token"]').attr('content');
 
           $.ajax({
-             url: `/assets-status/${assetId}`,
-             type: 'PUT',
+             url: `assets.destroy${assetId}`,
+             type: 'delete',
              data: {
                 status: status
              },
@@ -89,6 +91,7 @@
 
     <script>
         document.querySelectorAll('.delete-button').forEach(function(button) {
+
             button.addEventListener('click', function() {
                 const assetId = this.getAttribute('data-id');
                 const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -104,7 +107,9 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         // Send AJAX request to the server to delete the item
+
                         fetch('assets/' + assetId, {
+
                                 method: 'delete',
                                 headers: {
                                     'X-CSRF-TOKEN': csrfToken, // Include the CSRF token in the headers
@@ -113,6 +118,7 @@
                             // You can set headers and other options here
                             })
                             .then(response => response.json())
+
 
                             .then(data => {
 
@@ -143,5 +149,7 @@
                 });
             });
         });
-    </script>
-    @endsection
+
+ </script>
+@endsection
+

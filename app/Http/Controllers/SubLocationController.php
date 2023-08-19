@@ -61,7 +61,7 @@ class SubLocationController extends Controller
     public function destroy(SubLocationModel $sublocation)
     {
         $sublocation->delete();
-        return redirect()->route('sublocation-index')->with('success', 'Delete Sub Location successfully');
+        return response()->json(['success' => true]);
     }
     public function updateStatus(Request $request, $sublocationId)
     {

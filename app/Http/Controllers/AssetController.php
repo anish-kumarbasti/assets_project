@@ -9,10 +9,11 @@ use Illuminate\Http\Request;
 class AssetController extends Controller
 {
     public function index()
-{
-    $assets = Asset::all();
-    return view('Backend.Page.Master.assets.index', compact('assets'));
-}
+    {
+        $assets = Asset::all();
+        return view('Backend.Page.Master.assets.index', compact('assets'));
+    }
+
 
 public function create()
 {
@@ -36,22 +37,23 @@ public function store(Request $request)
     return redirect()->route('assets.index');
 }
 public function assetStatus(Request $request, $assetId)
+
     {
         $asset = Asset::findOrFail($assetId);
 
-        if($asset->status==true){
-            Asset::where('id',$assetId)->update([
+        if ($asset->status == true) {
+            Asset::where('id', $assetId)->update([
                 'status' => 0
             ]);
-        }else{
-            Asset::where('id',$assetId)->update([
-            'status' => 1
-        ]);
-
+        } else {
+            Asset::where('id', $assetId)->update([
+                'status' => 1
+            ]);
         }
 
         return response()->json(['message' => 'Asset Type status updated successfully']);
     }
+
 public function edit($id)
 {
     $asset = Asset::findOrFail($id);
@@ -72,12 +74,32 @@ public function update(Request $request, $id)
     return redirect()->route('assets.index');
 }
 
+
 public function destroy($id)
 {
-    $asset = Asset::findOrFail($id);
-    $asset->delete();
+    $asset = Asset::find($id);
+    if ($asset){
+        $asset->delete();
+    }
+    // $asset->delete();
 
     return response()->json(['success' => true]);
+
+
+
 }
 
+
+    public function nonitasset()
+    {
+        return view('Backend.Page.It-Asset.non-it-stock');
+    }
+    public function assetscomponent()
+    {
+        return view('Backend.Page.It-Asset.assets-components');
+    }
+    public function assetsoftware()
+    {
+        return view('Backend.Page.It-Asset.assets-software');
+    }
 }
