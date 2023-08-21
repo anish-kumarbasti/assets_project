@@ -70,6 +70,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('home', [HomeController::class, 'index'])->name('home');
     Route::get('stock', [StockController::class, 'index']);
 
+    Route::post('/get-brand-models/{brandId}', [StockController::class, 'getBrandModels']);
+    Route::post('/get-slocation/{locationId}', [StockController::class, 'getslocation']);
+    Route::post('/get-asset-type/{assettypeId}', [StockController::class, 'getasset']);
+
+
     Route::get('edit-stock/{id}', [StockController::class, 'edit']);
     Route::get('all-stock', [StockController::class, 'ShowStock'])->name('all.stock');
     Route::post('store-stock', [StockController::class, 'store'])->name('store.stock');
@@ -77,7 +82,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('stock-status/{stockId}', [StockController::class, 'changestockstatus'])->name('change-stock-status');
     Route::get('manage-stocks', [StockController::class, 'manage']);
     Route::get('it-assets-stock', [StockController::class, 'stockStatus']);
-    Route::get('timeline',[StockController::class,'timeline']);
+    Route::get('timeline', [StockController::class, 'timeline']);
     Route::get('location', [LocationController::class, 'index']);
     //Route::get('designation', [DesignationController::class, 'index']);
     Route::get('department', [DepartmentController::class, 'index']);
@@ -153,16 +158,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/brands-model/{brand}', [BrandModelController::class, 'updateStatus'])->name('brands.model.updateStatus');
     Route::resource('brand-model', BrandmodelController::class);
 
-Route::get('/departments/create', [DepartmentController::class, 'create'])->name('auth.create-department');
-Route::post('/departments', [DepartmentController::class, 'store']);
-Route::get('/departments', [DepartmentController::class, 'index']);
-Route::get('/departments/{id}/edit', [DepartmentController::class, 'edit']);
-Route::put('/departments/{id}', [DepartmentController::class, 'update'])->name('departments.update');
-Route::delete('/departments/{id}', [DepartmentController::class, 'destroy']);
-Route::post('/departments/{department}', [DepartmentController::class, 'updateStatus'])->name('departments.updateStatus');
-Route::group(['middleware' => ['permission.checkDepartment']], function () {
+    Route::get('/departments/create', [DepartmentController::class, 'create'])->name('auth.create-department');
+    Route::post('/departments', [DepartmentController::class, 'store']);
+    Route::get('/departments', [DepartmentController::class, 'index']);
+    Route::get('/departments/{id}/edit', [DepartmentController::class, 'edit']);
+    Route::put('/departments/{id}', [DepartmentController::class, 'update'])->name('departments.update');
+    Route::delete('/departments/{id}', [DepartmentController::class, 'destroy']);
+    Route::post('/departments/{department}', [DepartmentController::class, 'updateStatus'])->name('departments.updateStatus');
+    Route::group(['middleware' => ['permission.checkDepartment']], function () {
         // Route to display the "Add Department" form
-      
-});
+
+    });
     Route::get('/issuences', [IssuenceController::class, 'index'])->name('issuences.index');
 });
