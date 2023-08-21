@@ -31,7 +31,7 @@
                <div class="row mb-2 p-2">
                   <div class="col-md-6">
                      <label class="form-label" for="validationCustom01">Asset Type</label>
-                     <select class="form-select" name="asset_type" aria-label="Default select example">
+                     <select class="form-select" id="assettype" name="asset_type" aria-label="Default select example">
                         <option>--Select Asset Type--</option>
                         @foreach ($asset_type as $asset_type)
                         <option value="{{$asset_type->id}}" {{ isset($stockedit) && $stockedit->asset_type_id == $asset_type->id ? 'selected' : '' }}>{{$asset_type->name}}</option>
@@ -40,11 +40,8 @@
                   </div>
                   <div class="col-md-6">
                      <label class="form-label" for="validationCustom01">Asset</label>
-                     <select class="form-select" name="asset" aria-label="Default select example">
-                        <option>--Select Asset--</option>
-                        @foreach ($asset as $asset)
-                        <option value="{{$asset->id}}" {{ isset($stockedit) && $stockedit->asset == $asset->id ? 'selected' : '' }}>{{$asset->name}}</option>
-                        @endforeach
+                     <select class="form-select" id="asset" name="asset" aria-label="Default select example">
+                        <option value="">--Select Asset--</option>
                      </select>
                   </div>
                </div>
@@ -171,6 +168,27 @@
                   jQuery('#slocation').append('<option value="">--Select Sub-location--</option>');
                   jQuery.each(data.locations, function(key, value) {
                      jQuery('#slocation').append('<option value="' + value.id + '">' + value.name + '</option>');
+                  });
+               }
+            });
+         }
+      });
+   });
+
+   jQuery(document).ready(function() {
+      jQuery('#assettype').change(function() {
+         let assettypeId = jQuery(this).val();
+         jQuery('#asset').empty();
+
+         if (assettypeId) {
+            jQuery.ajax({
+               url: '/get-asset-type/' + assettypeId,
+               type: 'POST',
+               data: 'assettypeId' + assettypeId + '&_token={{csrf_token()}}',
+               success: function(data) {
+                  jQuery('#asset').append('<option value="">--Select Sub-location--</option>');
+                  jQuery.each(data.assets, function(key, value) {
+                     jQuery('#asset').append('<option value="' + value.id + '">' + value.name + '</option>');
                   });
                }
             });

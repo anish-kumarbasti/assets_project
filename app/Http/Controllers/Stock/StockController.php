@@ -38,6 +38,12 @@ class StockController extends Controller
         return response()->json(['locations' => $slocations]);
     }
 
+    public function getasset($assettypeId)
+    {
+        $assettypeId = Asset::where('asset-type_id', $assettypeId)->get();
+        return response()->json(['assets' => $assettypeId]);
+    }
+
 
     public function  manage()
     {

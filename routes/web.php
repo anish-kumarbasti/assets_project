@@ -72,6 +72,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('/get-brand-models/{brandId}', [StockController::class, 'getBrandModels']);
     Route::post('/get-slocation/{locationId}', [StockController::class, 'getslocation']);
+    Route::post('/get-asset-type/{assettypeId}', [StockController::class, 'getasset']);
 
 
     Route::get('edit-stock/{id}', [StockController::class, 'edit']);
