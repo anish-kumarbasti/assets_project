@@ -40,6 +40,9 @@
     <script src="{{asset('Backend/assets/js/timeline/timeline-v-1/main.js')}}"></script>
     <script src="{{asset('Backend/assets/js/modernizr.js')}}"></script>
 
+    <script src="{{asset('Backend/assets/js/select2/select2-custom.js')}}"></script>
+    <script src="{{asset('Backend/assets/js/select2/select2.full.min.js')}}"></script>
+
     <script src="{{asset('Backend/assets/js/sweet-alert/app.js')}}"></script>
     <script src="{{asset('Backend/assets/js/sweet-alert/sweetalert.min.js')}}"></script>
      <script src="{{ asset('Backend/assets/js/main.js')}}"></script>

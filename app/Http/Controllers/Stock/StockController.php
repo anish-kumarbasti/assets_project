@@ -27,7 +27,8 @@ class StockController extends Controller
         // dd($asset_type);
         return view('Backend.Page.Stock.add-stock',compact('asset_type','asset','brand','location','brand_model','sublocation','attribute'));
 
-  
+    }
+
 
     public function getBrandModels($brandId)
     {
@@ -44,7 +45,7 @@ class StockController extends Controller
 
     public function getasset($assettypeId)
     {
-        $assettypeId = Asset::where('asset-type_id', $assettypeId)->get();
+        $assettypeId = Asset::where('asset_type_id', $assettypeId)->get();
         return response()->json(['assets' => $assettypeId]);
     }
 

@@ -103,4 +103,17 @@ public function destroy($id)
     {
         return view('Backend.Page.It-Asset.assets-software');
     }
+    public function getAssetDetails($assetTypeId)
+{
+    // Fetch the asset type details from the database
+    $assetType = AssetType::findOrFail($assetTypeId);
+
+    // You can customize this part based on your database structure
+    // Return a JSON response with the fetched data
+    return response()->json([
+        'assetType' => $assetType->name, // Assuming the column name is 'name'
+        // Add other data you want to use in the script here
+    ]);
+}
+
 }

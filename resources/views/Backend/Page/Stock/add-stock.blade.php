@@ -1,17 +1,11 @@
 @extends('Backend.Layouts.panel')
 @section('Style-Area')
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
 <style>
-   #dynamicFields {
-       margin-top: 20px;
-   }
    
    .dynamic-field {
        border: 1px solid #ccc;
        padding: 10px;
-       margin-top: 10px;
-       background-color: #f5f5f5;
+       /* margin-top: 10px; */
        border-radius: 5px;
        display: flex;
    }
@@ -50,7 +44,6 @@
        font-weight: bold;
    }
    </style>
-   
 @endsection
 @section('Content-Area')
 @if (session('success'))
@@ -68,12 +61,11 @@
       </div>
       <div class="card-body">
             <div class="card-item border mb-3 p-2">
-
                <div class="row mb-2 p-2">
                   <div class="col-md-6">
-                     <label class="form-label" for="validationCustom01">Asset Type</label>
+                     <label class="form-label" for="validationCustom01">Asset Category</label>
                      <select class="form-select" id="assettype" name="asset_type" aria-label="Default select example">
-                        <option>--Select Asset Type--</option>
+                        <option>--Select Asset Category--</option>
                         @foreach ($asset_type as $asset_type)
                         <option value="{{$asset_type->id}}" {{ isset($stockedit) && $stockedit->asset_type_id == $asset_type->id ? 'selected' : '' }}>{{$asset_type->name}}</option>
                         @endforeach
@@ -88,16 +80,9 @@
 
                </div>
             </div>
-         </div>
-      </div>
-      <div class="card">
-         <div class="card-header pb-0">
-            <h4>Product Details</h4>
-         </div>
-         <div class="card-body">
             <div class="card-item border">
                <div class="row p-3">
-                  <div class="col-md-4 mb-4">
+                  <div class="col-md-6 mb-4">
                      <label class="form-label" for="validationCustom01">Brand</label>
                      <select class="form-select" id="brand" name="brand" aria-label="Default select example">
                         <option>--Select Brand --</option>
@@ -114,8 +99,8 @@
                   </div>
                </div>
             </div>
+         </div>
       </div>
-   </div>
    <div class="card">
       <div class="card-header pb-0">
          <h4>Product Details</h4>
@@ -141,39 +126,33 @@
                      <div class="col-md-6 select-item-list--single">
                         <div class="form-group">
                            <label for="multiSelect">Select Items:</label>
-                           <select class="form-control" id="multiSelect" multiple>
+                           <select class="form-control js-example-placeholder-multiple" id="multiSelect" multiple>
                               @foreach ($attribute as $attribute)
                               <option value="{{$attribute->id}}">{{$attribute->name}}</option>
                               @endforeach
                            </select>
                          </div>
-                    </div>
-                    <div id="dynamicFields" class="col-md-6"></div> 
-                  {{-- <div class="col-md-4 mb-4">
-                     <label class="form-label" for="validationCustom01">Location</label>
-                     <select class="form-select" id="location" name="location" aria-label="Default select example">
-                        <option>--Select Location--</option>
-                        @foreach ($location as $location)
-                        <option value="{{$location->id}}" {{ isset($stockedit) && $stockedit->location_id == $location->id ? 'selected' : '' }}>{{$location->name}}</option>
-                        @endforeach
-                     </select>
-                  </div>
-                  <div class="col-md-4 mb-4">
+                        </div>
+                        {{-- <div class="col-md-4 mb-4">
+                           <label class="form-label" for="validationCustom01">Location</label>
+                           <select class="form-select" id="location" name="location" aria-label="Default select example">
+                              <option>--Select Location--</option>
+                              @foreach ($location as $location)
+                              <option value="{{$location->id}}" {{ isset($stockedit) && $stockedit->location_id == $location->id ? 'selected' : '' }}>{{$location->name}}</option>
+                              @endforeach
+                           </select>
+                        </div>
+                        <div class="col-md-4 mb-4">
                      <label class="form-label" for="validationCustom01">Sub Location</label>
                      <select id="slocation" class="form-select" name="sublocation" aria-label="Default select example">
                         <option value="">--Select Sub Location--</option>
                      </select>
                   </div> --}}
-                  <div class="col-md-3 mb-4">
+                  <div class="col-md-6 mb-4">
                      <label class="form-label" for="validationCustom01">Host Name</label>
                      <input class="form-control" id="validationCustom01" name="host_name" type="text" required="" data-bs-original-title="" title="" placeholder="Enter Host Name">
                   </div>
-
-                  <div class="col-md-3 mb-4">
-                     <label class="form-label" for="validationCustom01">Warranty    </label>
-                     <input class="form-control" id="validationCustom01" name="product_warranty" type="date" required=""
-                        data-bs-original-title="" title="" placeholder="Enter Warranty Name">
-                  </div>
+                  <div id="dynamicFields" class="col-md-12"></div> 
                </div>
             </div>
             <div class="card-item border">
@@ -184,6 +163,30 @@
                   </div>
                </div>
             </div>
+            <!-- ... (existing form content) ... -->
+
+<div class="col-md-4 mb-4" id="quantityField">
+   <label class="form-label" for="validationCustom01">Quantity</label>
+   <input class="form-control" id="validationCustom01" type="text" name="quantity" data-bs-original-title="" title="" placeholder="Enter Quantity">
+</div>
+
+<div class="col-md-12 mb-4" id="specificationField">
+   <label class="form-label" for="validationCustom01">Specification</label>
+   <textarea class="form-control" name="specification" id="exampleFormControlTextarea1" placeholder="" rows="3"></textarea>
+</div>
+
+<div class="col-md-4 mb-4" id="licenseNumberField">
+   <label class="form-label" for="validationCustom01">License Number</label>
+   <input class="form-control" id="validationCustom01" type="text" name="license_number" data-bs-original-title="" title="" placeholder="Enter License Number">
+</div>
+
+<div class="col-md-4 mb-4" id="expiryField">
+   <label class="form-label" for="validationCustom01">Expiry</label>
+   <input class="form-control" id="validationCustom01" name="expiry" type="date" data-bs-original-title="" title="" placeholder="Enter Expiry Date">
+</div>
+
+<!-- ... (existing form content) ... -->
+
             <div class="card-item border">
                <div class="row p-3">
                   <div class="col-md-4">
@@ -193,6 +196,11 @@
                   <div class="col-md-4 mb-4">
                      <label class="form-label" for="validationCustom01">Price</label>
                      <input class="form-control" id="validationCustom01" value="{{isset($stockedit)?$stockedit->price:''}}" type="text" name="price" required="" data-bs-original-title="" title="" placeholder="Enter Price">
+                  </div>
+                  <div class="col-md-4 mb-4">
+                     <label class="form-label" for="validationCustom01">Warranty</label>
+                     <input class="form-control" id="validationCustom01" name="product_warranty" type="date" required=""
+                        data-bs-original-title="" title="" placeholder="Enter Warranty Name">
                   </div>
                </div>
             </div>
@@ -206,39 +214,35 @@
 </div>
 @endsection
 @section('Script-Area')
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script>
    $(document).ready(function() {
-       $('#multiSelect').on('change', function() {
-           $('#dynamicFields').empty();
-   
-           $('#multiSelect option:selected').each(function() {
-               var optionValue = $(this).val();
-               var optionText = $(this).text();
-   
-               var dynamicField = `
-                   <div class="dynamic-field">
-                       <input type="" readonly value="${optionText}">
-                       <input type="text" name="selected_${optionValue}_input" placeholder="Enter input">
-                       <span class="remove-field" onclick="removeField(this)">Remove</span>
-                   </div>
+      $('#multiSelect').on('change', function() {
+         $('#dynamicFields').empty();
+         
+         $('#multiSelect option:selected').each(function() {
+            var optionValue = $(this).val();
+            var optionText = $(this).text();
+            
+            var dynamicField = `
+            <div class="dynamic-field">
+               <input type="text" style="background:#ffecfb;" readonly value="${optionText}">
+               <input type="text" name="selected_${optionValue}_input" placeholder="Enter input">
+               </div>
                `;
-   
+               
                $('#dynamicFields').append(dynamicField);
            });
        });
    });
-   
-   function removeField(element) {
-       $(element).parent().remove();
-   }
    </script>
-<script src="https://unpkg.com/@zxing/library@latest"></script>
 <script>
    jQuery(document).ready(function() {
       jQuery('#brand').change(function() {
          let brandId = jQuery(this).val();
          jQuery('#brand_model').empty();
-
+         
          if (brandId) {
             jQuery.ajax({
                url: '/get-brand-models/' + brandId,
@@ -283,11 +287,13 @@
          jQuery('#asset').empty();
 
          if (assettypeId) {
+            // alert('hi');
             jQuery.ajax({
                url: '/get-asset-type/' + assettypeId,
                type: 'POST',
                data: 'assettypeId' + assettypeId + '&_token={{csrf_token()}}',
                success: function(data) {
+                  // alert('hi');
                   jQuery('#asset').append('<option value="">--Select Sub-location--</option>');
                   jQuery.each(data.assets, function(key, value) {
                      jQuery('#asset').append('<option value="' + value.id + '">' + value.name + '</option>');
@@ -298,4 +304,44 @@
       });
    });
 </script>
+<script>
+   $(document).ready(function () {
+       // Hide all dynamic fields initially
+       $('#quantityField, #specificationField, #licenseNumberField, #expiryField').hide();
+
+       // Handle changes in the asset type dropdown
+       $('#assettype').change(function () {
+           var selectedAssetTypeId = $(this).val();
+
+           // Make an AJAX call to fetch data from the server
+           $.ajax({
+               url: '/get-asset-details/' + selectedAssetTypeId, // Replace with your actual route
+               method: 'GET',
+               success: function (data) {
+                   // Hide all dynamic fields
+                   $('#quantityField, #specificationField, #licenseNumberField, #expiryField').hide();
+
+                   // Show/hide fields based on the fetched data
+                   if (data.assetType === 'Asset Component') {
+                       // Show quantity and specification fields
+                       $('#quantityField, #specificationField').show();
+                       $('#serial_number_label').text('Serial Number');
+                   } else if (data.assetType === 'Non IT Asset') {
+                       // Show quantity and specification fields
+                       $('#quantityField, #specificationField').show();
+                       $('#serial_number_label').text('Serial Number');
+                   } else if (data.assetType === 'Software') {
+                       // Show license number and expiry fields
+                       $('#licenseNumberField, #expiryField').show();
+                       $('#serial_number_label').text('License Number');
+                   } else {
+                       // Default: Show serial number field only
+                       $('#serial_number_label').text('Serial Number');
+                   }
+               }
+           });
+       });
+   });
+</script>
+   <script src="https://unpkg.com/@zxing/library@latest"></script>
 @endsection

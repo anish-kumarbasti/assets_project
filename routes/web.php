@@ -144,6 +144,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('assets/{id}/edit', [AssetController::class, 'edit'])->name('assets.edit');
     Route::put('assets/{id}', [AssetController::class, 'update'])->name('assets.update');
     Route::delete('assets/{id}', [AssetController::class, 'destroy'])->name('assets.destroy');
+    // routes/web.php
+    Route::get('/get-asset-details/{assetTypeId}', 'AssetController@getAssetDetails');
     //Brand
     Route::get('/brands/create', [BrandController::class, 'create'])->name('create-brand');
     Route::post('/brands', [BrandController::class, 'store']);
