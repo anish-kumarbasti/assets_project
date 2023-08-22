@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 
 class StockController extends Controller
 {
+
     public function  index(){
         $asset_type=AssetType::all();
         $asset=Asset::all();
@@ -25,19 +26,44 @@ class StockController extends Controller
         $attribute=Attribute::all();
         // dd($asset_type);
         return view('Backend.Page.Stock.add-stock',compact('asset_type','asset','brand','location','brand_model','sublocation','attribute'));
+
     }
 
-    public function  manage(){
-      
+
+    public function getBrandModels($brandId)
+    {
+        $brandModels = BrandModel::where('brand_id', $brandId)->get();
+        return response()->json(['models' => $brandModels]);
+    }
+
+    public function getslocation($locationId)
+    {
+        $slocations = SubLocationModel::where('location_id', $locationId)->get();
+        return response()->json(['locations' => $slocations]);
+
+    }
+
+    public function getasset($assettypeId)
+    {
+        $assettypeId = Asset::where('asset_type_id', $assettypeId)->get();
+        return response()->json(['assets' => $assettypeId]);
+    }
+
+
+    public function  manage()
+    {
+
         return view('Backend.Page.Stock.manage-stock');
     }
-   
-    public function  stockStatus(){
-      
+
+    public function  stockStatus()
+    {
+
         return view('Backend.Page.Stock.stock-status');
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $request->validate([
             'product_info' => 'required',
             'asset_type' => 'required',
@@ -49,10 +75,10 @@ class StockController extends Controller
             'configuration' => 'required',
             'serial_number' => 'required',
             'price' => 'required',
-            'host_name'=>'required',
+            'host_name' => 'required',
             'vendor' => 'required', // Fixed the typo here ('vedor' to 'vendor')
         ]);
-    
+
         $data = Stock::create([
             'product_info' => $request->product_info,
             'asset_type_id' => $request->asset_type,
@@ -65,48 +91,50 @@ class StockController extends Controller
             'serial_number' => $request->serial_number,
             'price' => $request->price,
             'vendor' => $request->vendor,
-            'host_name'=>$request->host_name,
-            'product_number'=>$request->generate_number,
-            'product_warranty'=>$request->product_warranty,
+            'host_name' => $request->host_name,
+            'product_number' => $request->generate_number,
+            'product_warranty' => $request->product_warranty,
 
         ]);
-    
+
         // You might want to redirect the user somewhere after successful creation
         return redirect()->back()->with('success', 'Stock created successfully!');
     }
-    public function ShowStock(){
-        $stock=Stock::all();
-        return view('Backend.Page.Stock.all-stock',compact('stock'));
+    public function ShowStock()
+    {
+        $stock = Stock::all();
+        return view('Backend.Page.Stock.all-stock', compact('stock'));
     }
     public function ChangeStockStatus(Request $request, $stockId)
     {
 
         $asset = Stock::findOrFail($stockId);
 
-        if($asset->status==true){
-            Stock::where('id',$stockId)->update([
+        if ($asset->status == true) {
+            Stock::where('id', $stockId)->update([
                 'status' => 0
             ]);
-        }else{
-            Stock::where('id',$stockId)->update([
-            'status' => 1
-        ]);
-
+        } else {
+            Stock::where('id', $stockId)->update([
+                'status' => 1
+            ]);
         }
 
         return response()->json(['message' => 'Stock status updated successfully']);
     }
-    public function edit($id){
-        $stockedit=Stock::find($id);
-        $asset_type=AssetType::all();
-        $asset=Asset::all();
-        $brand=Brand::all();
-        $location=Location::all();
-        $brand_model=Brandmodel::all();
-        $sublocation=SubLocationModel::all();
-        return view('Backend.Page.Stock.add-stock',compact('stockedit','asset','asset_type','brand','brand_model','location','sublocation'));
+    public function edit($id)
+    {
+        $stockedit = Stock::find($id);
+        $asset_type = AssetType::all();
+        $asset = Asset::all();
+        $brand = Brand::all();
+        $location = Location::all();
+        $brand_model = Brandmodel::all();
+        $sublocation = SubLocationModel::all();
+        return view('Backend.Page.Stock.add-stock', compact('stockedit', 'asset', 'asset_type', 'brand', 'brand_model', 'location', 'sublocation'));
     }
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id)
+    {
         // dd($request);
         $request->validate([
             'product_info' => 'required',
@@ -121,7 +149,7 @@ class StockController extends Controller
             'price' => 'required',
             'vendor' => 'required', // Fixed the typo here ('vedor' to 'vendor')
         ]);
-    
+
         $data = Stock::find($id)->update([
             'product_info' => $request->product_info,
             'asset_type_id' => $request->asset_type,
@@ -135,11 +163,12 @@ class StockController extends Controller
             'price' => $request->price,
             'vendor' => $request->vendor,
         ]);
-    
+
         // You might want to redirect the user somewhere after successful creation
         return redirect()->route('all.stock')->with('success', 'Stock Updated successfully!');
     }
-    public function timeline(){
+    public function timeline()
+    {
         return view('Backend.Page.Stock.timeline');
     }
 }
