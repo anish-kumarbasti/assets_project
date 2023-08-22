@@ -32,9 +32,9 @@
                     <tbody>
                         @foreach($assets as $asset)
                         <tr>
-                            <td>{{ $asset->id }}</td>
+                            <td>{{ $loop->iteration }}</td>
                             <td>{{ $asset->name }}</td>
-                            <td>{{ $asset->Asset->name }}</td>
+                            <td>{{ $asset->AssetName->name }}</td>
                             <td class="w-20">
                                 <label class="mb-0 switch">
                                 <input type="checkbox" data-id="{{$asset->id}}" {{ $asset->status ? 'checked' : '' }}><span class="switch-state"></span>

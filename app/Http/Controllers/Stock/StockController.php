@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Stock;
 use App\Http\Controllers\Controller;
 use App\Models\Asset;
 use App\Models\AssetType;
+use App\Models\Attribute;
 use App\Models\Brand;
 use App\Models\Brandmodel;
 use App\Models\Location;
@@ -14,17 +15,19 @@ use Illuminate\Http\Request;
 
 class StockController extends Controller
 {
-    public function  index(Request $request)
-    {
-        $asset_type = AssetType::all();
-        $asset = Asset::all();
-        $brand = Brand::all();
-        $location = Location::all();
-        $brand_model = Brandmodel::all();
-        $sublocation = SubLocationModel::all();
+
+    public function  index(){
+        $asset_type=AssetType::all();
+        $asset=Asset::all();
+        $brand=Brand::all();
+        $location=Location::all();
+        $brand_model=Brandmodel::all();
+        $sublocation=SubLocationModel::all();
+        $attribute=Attribute::all();
         // dd($asset_type);
-        return view('Backend.Page.Stock.add-stock', compact('asset_type', 'asset', 'brand', 'location', 'brand_model', 'sublocation'));
-    }
+        return view('Backend.Page.Stock.add-stock',compact('asset_type','asset','brand','location','brand_model','sublocation','attribute'));
+
+  
 
     public function getBrandModels($brandId)
     {
@@ -36,6 +39,7 @@ class StockController extends Controller
     {
         $slocations = SubLocationModel::where('location_id', $locationId)->get();
         return response()->json(['locations' => $slocations]);
+
     }
 
     public function getasset($assettypeId)
