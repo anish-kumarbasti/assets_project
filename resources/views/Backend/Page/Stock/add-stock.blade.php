@@ -1,7 +1,5 @@
 @extends('Backend.Layouts.panel')
 @section('Style-Area')
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
 <style>
    #dynamicFields {
        margin-top: 20px;
@@ -70,9 +68,9 @@
             <div class="card-item border mb-3 p-2">
                <div class="row mb-2 p-2">
                   <div class="col-md-6">
-                     <label class="form-label" for="validationCustom01">Asset Type</label>
+                     <label class="form-label" for="validationCustom01">Asset Category</label>
                      <select class="form-select" name="asset_type" aria-label="Default select example">
-                        <option>--Select Asset Type--</option>
+                        <option>--Select Asset Category--</option>
                         @foreach ($asset_type as $asset_type)
                         <option value="{{$asset_type->id}}" {{ isset($stockedit) && $stockedit->asset_type_id == $asset_type->id ? 'selected' : '' }}>{{$asset_type->name}}</option>
                         @endforeach
@@ -135,15 +133,15 @@
                      </div>
                      <div class="col-md-6 select-item-list--single">
                         <div class="form-group">
-                           <label for="multiSelect">Select Items:</label>
-                           <select class="form-control" id="multiSelect" multiple>
+                           <label for="multiSelect" class="col-form-label">Select Items:</label>
+                           <select class="form-control js-example-placeholder-multiple" id="multiSelect" multiple>
                               @foreach ($attribute as $attribute)
                               <option value="{{$attribute->id}}">{{$attribute->name}}</option>
                               @endforeach
                            </select>
                          </div>
-                    </div>
-                    <div id="dynamicFields" class="col-md-6"></div> 
+                        </div>
+                        <div id="dynamicFields" class="col-md-6"></div> 
                   {{-- <div class="col-md-4 mb-4">
                      <label class="form-label" for="validationCustom01">Location</label>
                      <select class="form-select" name="location" aria-label="Default select example">
@@ -208,28 +206,51 @@
 </div>
 @endsection
 @section('Script-Area')
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script>
    $(document).ready(function() {
-      $('#multiSelect').select2({
-           theme: 'bootstrap',
-           width: '100%',
-           placeholder: 'Select an option',
-           allowClear: true,
-    });
-   });
-</script>
-<script>
-   $(document).ready(function() {
-       $('#multiSelect').on('change', function() {
-           $('#dynamicFields').empty();
+      $('#multiSelect').on('change', function() {
+         $('#dynamicFields').empty();
+         
+         $('#multiSelect option:selected').each(function() {
+            var optionValue = $(this).val();
+            var optionText = $(this).text();
+            
+            var dynamicField = `
+            <div class="dynamic-field">
+               <input type="text" readonly value="${optionText}">
+               <input type="text" name="selected_${optionValue}_input" placeholder="Enter input">
+               <span class="remove-field" onclick="removeField(this)">Remove</span>
+               </div>
+               `;
+               
+               $('#dynamicFields').append(dynamicField);
+            });
+         });
+      });
+      
+      function removeField(element) {
+         $(element).parent().remove();
+      }
+      </script>
+      {{-- <script>
+document.addEventListener('DOMContentLoaded', function() {
+   var multiSelect = document.getElementById('multiSelect');
+   var dynamicFields = document.getElementById('dynamicFields');
    
-           $('#multiSelect option:selected').each(function() {
-               var optionValue = $(this).val();
-               var optionText = $(this).text();
-   
-               var dynamicField = `
+   multiSelect.addEventListener('change', function() {
+       alert('hi');
+        dynamicFields.innerHTML = ''; // Clear existing fields
+        
+        var selectedOptions = multiSelect.selectedOptions;
+        for (var i = 0; i < selectedOptions.length; i++) {
+            var optionValue = selectedOptions[i].value;
+            var optionText = selectedOptions[i].textContent;
+            
+            var dynamicField = document.createElement('div');
+            dynamicField.className = 'dynamic-field';
+            
+            dynamicField.innerHTML = `
                    <div class="dynamic-field">
                        <input type="" readonly value="${optionText}">
                        <input type="text" name="selected_${optionValue}_input" placeholder="Enter input">
@@ -237,15 +258,14 @@
                    </div>
                `;
    
-               $('#dynamicFields').append(dynamicField);
+               dynamicFields.appendChild(dynamicField);
+                  }
            });
        });
-   });
-   
-   function removeField(element) {
-       $(element).parent().remove();
-   }
-   </script>
+  function removeField(element) {
+    element.parentElement.remove();
+}
+   </script> --}}
       
    <script src="https://unpkg.com/@zxing/library@latest"></script>
 @endsection
