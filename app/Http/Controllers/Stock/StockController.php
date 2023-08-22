@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Stock;
 use App\Http\Controllers\Controller;
 use App\Models\Asset;
 use App\Models\AssetType;
+use App\Models\Attribute;
 use App\Models\Brand;
 use App\Models\Brandmodel;
 use App\Models\Location;
@@ -21,8 +22,9 @@ class StockController extends Controller
         $location=Location::all();
         $brand_model=Brandmodel::all();
         $sublocation=SubLocationModel::all();
+        $attribute=Attribute::all();
         // dd($asset_type);
-        return view('Backend.Page.Stock.add-stock',compact('asset_type','asset','brand','location','brand_model','sublocation'));
+        return view('Backend.Page.Stock.add-stock',compact('asset_type','asset','brand','location','brand_model','sublocation','attribute'));
     }
 
     public function  manage(){

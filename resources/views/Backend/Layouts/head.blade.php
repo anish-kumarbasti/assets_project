@@ -29,6 +29,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('Backend/assets/css/vendors/prism.css')}}">
     <!-- Bootstrap css-->
     <link rel="stylesheet" type="text/css" href="{{ asset('Backend/assets/css/vendors/bootstrap.css')}}">
+
     <!-- App css-->
     <link rel="stylesheet" type="text/css" href="{{ asset('Backend/assets/css/style.css')}}">
     <link id="color" rel="stylesheet" href="{{ asset('Backend/assets/css/color-1.css')}}" media="screen">

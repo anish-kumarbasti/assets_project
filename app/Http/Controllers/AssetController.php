@@ -11,6 +11,7 @@ class AssetController extends Controller
     public function index()
     {
         $assets = Asset::all();
+        // dd($assets);
         return view('Backend.Page.Master.assets.index', compact('assets'));
     }
 
@@ -29,7 +30,7 @@ public function store(Request $request)
 
      $asset = new Asset;
     $asset->name = $request->name;
-    $asset->assettype_id = $request->assettype_id;
+    $asset->asset_type_id = $request->assettype_id;
     $asset->status = 1;
     $asset->save();
 

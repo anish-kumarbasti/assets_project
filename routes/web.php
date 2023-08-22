@@ -20,6 +20,7 @@ use App\Http\Controllers\Master\DepartmentController;
 use App\Http\Controllers\Transfer\TransferController;
 use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\SubLocationController;
+use App\Http\Controllers\AttributeController;
 use App\Models\SubLocationModel;
 
 /*
@@ -132,10 +133,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('designations/{id}', [DesignationController::class, 'update'])->name('designations.update');
     Route::delete('designations/{id}', [DesignationController::class, 'destroy'])->name('designations.destroy');
     //assets
-
-
-
-
     Route::get('assets', [AssetController::class, 'index'])->name('assets.index');
     Route::get('assets/create', [AssetController::class, 'create'])->name('assets.create');
     Route::post('assets', [AssetController::class, 'store'])->name('assets.store');
@@ -152,6 +149,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/brands/{brand}', [BrandController::class, 'updateStatus'])->name('brands.updateStatus');
     Route::post('/brands-model/{brand}', [BrandModelController::class, 'updateStatus'])->name('brands.model.updateStatus');
     Route::resource('brand-model', BrandmodelController::class);
+    //Attribute
+    Route::get('attributes',[AttributeController::class,'home'])->name('attributes-index');
+    Route::post('attribute-store',[AttributeController::class,'store'])->name('attribute-store');
+    Route::get('/attributes/{id}/edit', [AttributeController::class, 'edit']);
+    Route::put('/attributes/{id}', [AttributeController::class, 'update'])->name('attribute-update');
+    Route::delete('/attributes/{id}', [AttributeController::class, 'destroy']);
+    Route::post('/attributes/{attributes}', [AttributeController::class, 'updateStatus'])->name('attribute-updateStatus');
+
 
 Route::get('/departments/create', [DepartmentController::class, 'create'])->name('auth.create-department');
 Route::post('/departments', [DepartmentController::class, 'store']);
@@ -160,9 +165,9 @@ Route::get('/departments/{id}/edit', [DepartmentController::class, 'edit']);
 Route::put('/departments/{id}', [DepartmentController::class, 'update'])->name('departments.update');
 Route::delete('/departments/{id}', [DepartmentController::class, 'destroy']);
 Route::post('/departments/{department}', [DepartmentController::class, 'updateStatus'])->name('departments.updateStatus');
+     
 Route::group(['middleware' => ['permission.checkDepartment']], function () {
-        // Route to display the "Add Department" form
-      
+
 });
     Route::get('/issuences', [IssuenceController::class, 'index'])->name('issuences.index');
 });
