@@ -71,6 +71,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('home', [HomeController::class, 'index'])->name('home');
     Route::get('stock', [StockController::class, 'index']);
 
+    Route::post('/get-brand-models/{brandId}', [StockController::class, 'getBrandModels']);
+    Route::post('/get-slocation/{locationId}', [StockController::class, 'getslocation']);
+    Route::post('/get-asset-type/{assettypeId}', [StockController::class, 'getasset']);
+
+
     Route::get('edit-stock/{id}', [StockController::class, 'edit']);
     Route::get('all-stock', [StockController::class, 'ShowStock'])->name('all.stock');
     Route::post('store-stock', [StockController::class, 'store'])->name('store.stock');
@@ -78,7 +83,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('stock-status/{stockId}', [StockController::class, 'changestockstatus'])->name('change-stock-status');
     Route::get('manage-stocks', [StockController::class, 'manage']);
     Route::get('it-assets-stock', [StockController::class, 'stockStatus']);
-    Route::get('timeline',[StockController::class,'timeline']);
+    Route::get('timeline', [StockController::class, 'timeline']);
     Route::get('location', [LocationController::class, 'index']);
     //Route::get('designation', [DesignationController::class, 'index']);
     Route::get('department', [DepartmentController::class, 'index']);
@@ -157,7 +162,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('/attributes/{id}', [AttributeController::class, 'destroy']);
     Route::post('/attributes/{attributes}', [AttributeController::class, 'updateStatus'])->name('attribute-updateStatus');
 
-
 Route::get('/departments/create', [DepartmentController::class, 'create'])->name('auth.create-department');
 Route::post('/departments', [DepartmentController::class, 'store']);
 Route::get('/departments', [DepartmentController::class, 'index']);
@@ -169,5 +173,6 @@ Route::post('/departments/{department}', [DepartmentController::class, 'updateSt
 Route::group(['middleware' => ['permission.checkDepartment']], function () {
 
 });
+
     Route::get('/issuences', [IssuenceController::class, 'index'])->name('issuences.index');
 });
