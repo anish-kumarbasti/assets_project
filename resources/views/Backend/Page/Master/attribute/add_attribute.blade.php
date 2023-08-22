@@ -16,24 +16,15 @@
     <div class="col-sm-12">
         <div class="card">
             <div class="card-header pb-0">
-                <h4>Add Brand Model </h4>
+                <h4>Add Attribute </h4>
             </div>
             <div class="card-body">
-                <form class="needs-validation" action="{{ route('brand-model.store') }}" method="post">
+                <form class="needs-validation" action="{{ route('attribute-store') }}" method="post">
                     @csrf
                     <div class="card-item border">
                         <div class="row p-4">
                             <div class="col-md-12 mb-1 d-flex align-items-center">
-                                <select class="form-select" id="brand_id" name="brand_id" required>
-                                    <option value="" disabled selected>Select a Brand</option>
-                                    @foreach ($brands as $brand)
-                                        <option value="{{ $brand->id }}">{{ $brand->name }}</option>
-                                    @endforeach
-                                </select>
-                                <input class="form-control me-2" id="validationCustom01" type="text" name="name"
-
-                                    required="" data-bs-original-title="" title="" placeholder="Enter Model Name">
-
+                                <input class="form-control me-2" id="validationCustom01" type="text" name="name" required data-bs-original-title="" title="" placeholder="Enter Model Name">
                             </div>
                         </div>
                     </div>
@@ -48,7 +39,6 @@
             </div>
         </div>
     </div>
-    @isset($brandmodel)
     <div class="col-sm-12">
         <div class="card">
             <div class="card-header pb-0">
@@ -61,9 +51,7 @@
                             <tr>
                                 <th>SL</th>
 
-                                <th>Model Name</th>
-                                <th>Brand Name</th>
-
+                                <th>Attribute Name</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -72,16 +60,15 @@
 
                             {{-- @dd($brandmodel); --}}
 
-                            @foreach($brandmodel as $brandmodel)
+                            @foreach($attributes as $attribute)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $brandmodel->name }}</td>
-                                <td>{{ $brandmodel->Brandmodel->name??''}}</td>
+                                <td>{{ $attribute->name }}</td>
 
                                 <td class="w-20">
                                     <label class="mb-0 switch">
-                                        <input type="checkbox" data-id="{{ $brandmodel->id }}"
-                                        {{ $brandmodel->status ? 'checked' : '' }}>
+                                        <input type="checkbox" data-id="{{ $attribute->id }}"
+                                        {{ $attribute->status ? 'checked' : '' }}>
                                         <span class="switch-state"></span>
                                     </label>
                                 </td>
@@ -89,9 +76,9 @@
                                 <td>
                                     <a class="btn btn-primary"
 
-                                    href="{{ url('brand-model/' . $brandmodel->id . '/edit' ) }}">Edit</a>
+                                    href="{{ url('attributes/' . $attribute->id . '/edit' ) }}">Edit</a>
                                     <button class="btn btn-danger delete-button" type="button"
-                                    data-id="{{ $brand->id }}">Delete</button>
+                                    data-id="{{ $attribute->id }}">Delete</button>
 
                                     </td>
                                 </tr>
@@ -102,7 +89,6 @@
             </div>
         </div>
     </div>
-    @endisset
     @endsection
 
 @section('Script-Area')
@@ -110,11 +96,11 @@
         // Add an event listener to the checkboxes for updating the brand status
         document.querySelectorAll('input[type="checkbox"]').forEach(function(checkbox) {
             checkbox.addEventListener('change', function() {
-                const brandId = this.getAttribute('data-id');
+                const attributeID = this.getAttribute('data-id');
                 const status = this.checked;
 
                 // Send an AJAX request to update the status
-                fetch(`/brands-model/${brandId}`, {
+                fetch(`/attributes/${attributeID}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -142,7 +128,7 @@
     <script>
         document.querySelectorAll('.delete-button').forEach(function(button) {
             button.addEventListener('click', function() {
-                const brandId = this.getAttribute('data-id');
+                const attributeId = this.getAttribute('data-id');
                 const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
                 // Show SweetAlert2 confirmation dialog
                 Swal.fire({
@@ -156,7 +142,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         // Send AJAX request to the server to delete the item
-                        fetch('/brand-model/' + brandId, {
+                        fetch('/attributes/' + attributeId, {
                                 method: 'delete',
                                 headers: {
                                     'X-CSRF-TOKEN': csrfToken, // Include the CSRF token in the headers

@@ -13,7 +13,7 @@
                <div class="row p-3">
                   <div class="col-md-6 mb-4">
                      <label class="form-label" for="employeeId">Employee's ID</label>
-                     <input class="form-control" id="employeeId" type="text" required="" data-bs-original-title=""
+                     <input class="form-control" id="employeeId" type="search" name="employeeId" required="" data-bs-original-title=""
                         title="" placeholder="Enter Employee's ID">
                   </div>
                   <div class="col-md-6 mb-4">
@@ -253,4 +253,26 @@
       </div>
    </div>
 </div>
+@endsection
+@section('Script-Area')
+   <script>
+      $.ajaxSetup({
+    headers: { 'csrftoken': '{{ csrf_token() }}' }
+   });
+   </script>
+   <script>
+      $(document).ready(function () {
+         .$('#employeeId').keyup(function() { 
+            var value=$(this).val();
+            $.ajax({
+               type: "get",
+               url: "/issuance",
+               data: "employeeId",
+               success: function (data) {
+                  console.log(data);
+               }
+            });
+         });
+      });
+   </script>
 @endsection
