@@ -1,0 +1,14 @@
+        .sidebar-links li {
+            position: relative;
+            list-style: none;
+        }
+        
+        .sidebar-links li:hover {
+            /* background-color: #f5f5f5; */
+            color: #007bff;
+        }
+        
+        .sidebar-links li.active {
+            /* background-color: #007bff; */
+            color: #007bff;
+        }

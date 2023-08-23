@@ -54,12 +54,12 @@ Global, And You May Wish To Present Controls That Search On Specific Columns.</s
                      <td>{{$loop->iteration}}</td>
                      <td>{{$stock->id}}</td>
                      <td>{{$stock->product_info}}</td>
-                     <td>{{$stock->asset_type->name}}</td>
+                     <td>{{$stock->asset_type->name??''}}</td>
                      {{-- @dd($stock->assetmain); --}}
-                       <td>{{$stock->assetmain->name}}</td>
-                         <td>{{$stock->brand->name}}</td>
+                       <td>{{$stock->assetmain->name??''}}</td>
+                         <td>{{$stock->brand->name??''}}</td>
                            <td>780</td>
-                        <td>{{$stock->location->name}}</td>
+                        <td>{{$stock->location->name??''}}</td>
                         
                          <td>50</td>
                            <td>{{$stock->configuration}} </td>

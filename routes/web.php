@@ -91,7 +91,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('asset-type', [AssetTypeController::class, 'index']);
     Route::get('add-permission', [PermissionController::class, 'permission']);
     Route::get('disposal', [DisposalController::class, 'index']);
-    Route::get('issuance', [IssuenceController::class, 'index']);
+    //Searct Employee id
+    Route::get('server_script', [IssuenceController::class, 'index']);
     Route::get('transfer', [TransferController::class, 'index']);
     Route::get('add-user', [UserController::class, 'user']);
     Route::get('user-details', [UserController::class, 'userCard']);
@@ -138,12 +139,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('designations/{id}', [DesignationController::class, 'update'])->name('designations.update');
     Route::delete('designations/{id}', [DesignationController::class, 'destroy'])->name('designations.destroy');
     //assets
+    Route::post('get-asset-details/{assetTypeId}', [AssetController::class,'getassetdetails']);
     Route::get('assets', [AssetController::class, 'index'])->name('assets.index');
     Route::get('assets/create', [AssetController::class, 'create'])->name('assets.create');
     Route::post('assets', [AssetController::class, 'store'])->name('assets.store');
     Route::get('assets/{id}/edit', [AssetController::class, 'edit'])->name('assets.edit');
     Route::put('assets/{id}', [AssetController::class, 'update'])->name('assets.update');
     Route::delete('assets/{id}', [AssetController::class, 'destroy'])->name('assets.destroy');
+    // routes/web.php
     //Brand
     Route::get('/brands/create', [BrandController::class, 'create'])->name('create-brand');
     Route::post('/brands', [BrandController::class, 'store']);
@@ -155,24 +158,23 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/brands-model/{brand}', [BrandModelController::class, 'updateStatus'])->name('brands.model.updateStatus');
     Route::resource('brand-model', BrandmodelController::class);
     //Attribute
-    Route::get('attributes',[AttributeController::class,'home'])->name('attributes-index');
-    Route::post('attribute-store',[AttributeController::class,'store'])->name('attribute-store');
+    Route::get('attributes', [AttributeController::class, 'home'])->name('attributes-index');
+    Route::post('attribute-store', [AttributeController::class, 'store'])->name('attribute-store');
     Route::get('/attributes/{id}/edit', [AttributeController::class, 'edit']);
     Route::put('/attributes/{id}', [AttributeController::class, 'update'])->name('attribute-update');
     Route::delete('/attributes/{id}', [AttributeController::class, 'destroy']);
     Route::post('/attributes/{attributes}', [AttributeController::class, 'updateStatus'])->name('attribute-updateStatus');
 
-Route::get('/departments/create', [DepartmentController::class, 'create'])->name('auth.create-department');
-Route::post('/departments', [DepartmentController::class, 'store']);
-Route::get('/departments', [DepartmentController::class, 'index']);
-Route::get('/departments/{id}/edit', [DepartmentController::class, 'edit']);
-Route::put('/departments/{id}', [DepartmentController::class, 'update'])->name('departments.update');
-Route::delete('/departments/{id}', [DepartmentController::class, 'destroy']);
-Route::post('/departments/{department}', [DepartmentController::class, 'updateStatus'])->name('departments.updateStatus');
-     
-Route::group(['middleware' => ['permission.checkDepartment']], function () {
+    Route::get('/departments/create', [DepartmentController::class, 'create'])->name('auth.create-department');
+    Route::post('/departments', [DepartmentController::class, 'store']);
+    Route::get('/departments', [DepartmentController::class, 'index']);
+    Route::get('/departments/{id}/edit', [DepartmentController::class, 'edit']);
+    Route::put('/departments/{id}', [DepartmentController::class, 'update'])->name('departments.update');
+    Route::delete('/departments/{id}', [DepartmentController::class, 'destroy']);
+    Route::post('/departments/{department}', [DepartmentController::class, 'updateStatus'])->name('departments.updateStatus');
 
-});
+    Route::group(['middleware' => ['permission.checkDepartment']], function () {
+    });
 
     Route::get('/issuences', [IssuenceController::class, 'index'])->name('issuences.index');
 });

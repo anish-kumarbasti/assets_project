@@ -106,9 +106,9 @@ class BrandmodelController extends Controller
     public function destroy(string $id)
     {
         $brand = Brandmodel::find($id);
-
-    if ($brand) {
-    $brand->delete();
+        // dd($brand);
+    if($brand) {
+        $brand->delete();
      }
      return response()->json(['success' => true]);
     }
