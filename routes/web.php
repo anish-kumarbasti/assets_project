@@ -138,6 +138,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('designations/{id}', [DesignationController::class, 'update'])->name('designations.update');
     Route::delete('designations/{id}', [DesignationController::class, 'destroy'])->name('designations.destroy');
     //assets
+    Route::post('get-asset-details/{assetTypeId}', [AssetController::class,'getassetdetails']);
     Route::get('assets', [AssetController::class, 'index'])->name('assets.index');
     Route::get('assets/create', [AssetController::class, 'create'])->name('assets.create');
     Route::post('assets', [AssetController::class, 'store'])->name('assets.store');
@@ -145,7 +146,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('assets/{id}', [AssetController::class, 'update'])->name('assets.update');
     Route::delete('assets/{id}', [AssetController::class, 'destroy'])->name('assets.destroy');
     // routes/web.php
-    Route::get('/get-asset-details/{assetTypeId}', 'AssetController@getAssetDetails');
     //Brand
     Route::get('/brands/create', [BrandController::class, 'create'])->name('create-brand');
     Route::post('/brands', [BrandController::class, 'store']);
