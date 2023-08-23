@@ -362,3 +362,20 @@ function toggleFullScreen() {
         }
     }
 }
+$(document).ready(function() {
+    // Add 'active' class on menu item click
+    $('.sidebar-links li').click(function() {
+        $('.sidebar-links li').removeClass('active');
+        $(this).addClass('active');
+    });
+
+    // Check if current page's URL contains data-link attribute and add 'active' class
+    var currentUrl = window.location.href;
+    $('.sidebar-links li').each(function() {
+        var link = $(this).attr('data-link');
+        if (currentUrl.indexOf(link) !== -1) {
+            $(this).addClass('active');
+        }
+    });
+});
+

@@ -29,13 +29,13 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('Backend/assets/css/vendors/prism.css')}}">
     <!-- Bootstrap css-->
     <link rel="stylesheet" type="text/css" href="{{ asset('Backend/assets/css/vendors/bootstrap.css')}}">
-
+    <link rel="stylesheet" type="text/css" href="{{asset('Backend/assets/css/vendors/select2.css')}}">
     <!-- App css-->
     <link rel="stylesheet" type="text/css" href="{{ asset('Backend/assets/css/style.css')}}">
     <link id="color" rel="stylesheet" href="{{ asset('Backend/assets/css/color-1.css')}}" media="screen">
     <!-- Responsive css-->
     <link rel="stylesheet" type="text/css" href="{{ asset('Backend/assets/css/responsive.css')}}">
-
+    <link rel="stylesheet" href="{{asset('Backend/assets/css/vendors/slidebarcustom.css')}}">
   <link rel="stylesheet" type="text/css" href="{{ asset('Backend/assets/css/main.css')}}">
 
   <!-- SweetAlert2 CSS -->

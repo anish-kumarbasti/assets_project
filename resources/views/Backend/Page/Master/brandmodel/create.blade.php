@@ -91,7 +91,7 @@
 
                                     href="{{ url('brand-model/' . $brandmodel->id . '/edit' ) }}">Edit</a>
                                     <button class="btn btn-danger delete-button" type="button"
-                                    data-id="{{ $brand->id }}">Delete</button>
+                                    data-id="{{ $brandmodel->id }}">Delete</button>
 
                                     </td>
                                 </tr>
@@ -165,9 +165,7 @@
                             // You can set headers and other options here
                             })
                             .then(response => response.json())
-
                             .then(data => {
-
                                 if ('success' in data && data.success) {
                                     Swal.fire(
                                         'Deleted!',
