@@ -69,7 +69,18 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-
+        if ($image = $request->file('profile_photo')) {
+            $destinationPath = 'images';
+            $imagess = date('YmdHis') . random_int(1, 10000)."." . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $imagess);
+            $path = $destinationPath.'/'.$imagess;
+        }
+        if ($image = $request->file('cover_photo')) {
+            $destinationPath = 'images';
+            $imagess = date('YmdHis') . random_int(1, 10000)."." . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $imagess);
+            $path = $destinationPath.'/'.$imagess;
+        }
         $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
@@ -82,16 +93,16 @@ class UserController extends Controller
 
         ]);
         // dd($request);
-        $profile_photo = null;
-        $cover_photo = null;
+        // $profile_photo = null;
+        // $cover_photo = null;
 
-        if ($request->hasFile('profile_photo')) {
-            $profile_photo = $request->file('profile_photo')->storePublicly('profile_photos', 'public');
-        }
+        // if ($request->hasFile('profile_photo')) {
+        //     $profile_photo = $request->file('profile_photo')->storePublicly('profile_photos', 'public');
+        // }
 
-        if ($request->hasFile('cover_photo')) {
-            $cover_photo = $request->file('cover_photo')->storePublicly('cover_photos', 'public');
-        }
+        // if ($request->hasFile('cover_photo')) {
+        //     $cover_photo = $request->file('cover_photo')->storePublicly('cover_photos', 'public');
+        // }
         $randomno = mt_rand('100000', '999999');
 
         $user = User::create([
@@ -100,13 +111,14 @@ class UserController extends Controller
             'last_name' => $request->last_name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'profile_photo' => $profile_photo,
-            'cover_photo' => $cover_photo,
+            'profile_photo'=>$path??'dfsrdg',
+            'cover_photo' =>$path??'dfsrdg',
             'department_id' => $request->department_id,
             'designation_id' => $request->designation_id,
             'mobile_number' => $request->mobile_number,
             'age' => $request->age,
             'gender' => $request->gender,
+
         ]);
 
         return redirect()->route('users.index')->with('success', 'User created successfully!');

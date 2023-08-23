@@ -12,7 +12,9 @@
         <div class="card-body">
             <form action="{{url('users',$user->id)}}" method="post" enctype="multipart/form-data">
                 @csrf
+                @isset($user)
                 @method('PUT')
+                @endisset
                 <div class="card-item border ">
                     <div class="row p-3">
                         <div class="col-md-6">
@@ -70,7 +72,7 @@
                             <label class="form-label" for="designation">Designation</label>
                             <select class="form-select" id="designation" name="designation_id" aria-label="Default select example">
                                 @foreach ($designation as $designations)
-                                <option value="$designations->id" {{$user->designation_id == $designations->id ? 'selected':''}}>{{$designations->designation}} </option>
+                                <option value="{{$designations->id}}" {{$user->designation_id == $designations->id ? 'selected':''}}>{{$designations->designation}} </option>
                                 @endforeach
                                 <!-- Add designations dynamically -->
                             </select>

@@ -50,37 +50,36 @@
       </div>
    </div>
    <div class="card mt-3">
-      <div class="card-body">
-         <div class="row">
-            <div class="col-md-3 mt-2">
-               <label class="form-label pt-3 scan-text" for="validationCustom01">Disposal Code :</label>
-            </div>
-            <div class="col-md-3 mt-2">
-               <select class="form-select" aria-label="Default select example" id="transferTypeSelect">
-                  <option selected>Clearance Type</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
-               </select>
-            </div>
-            <div class="col-md-3 mt-2">
-               <div class="form-check pt-3">
-                  <input class="form-check-input" type="radio" name="transferReason" id="itClearanceRadio"
-                     value="itClearance" required>
-                  <label class="form-check-label scan-text" for="itClearanceRadio">Condition Code :</label>
-               </div>
-            </div>
-            <div class="col-md-3 mt-2">
-               <select class="form-select" aria-label="Default select example" id="transferTypeSelect">
-                  <option selected>Clearance Type</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
-               </select>
-            </div>
-         </div>
-      </div>
-   </div>
+    <div class="card-body">
+       <div class="row">
+          <div class="col-md-3 mt-2">
+             <label class="form-label" for="validationCustom01">Transfer Reason:</label>
+          </div>
+          <div class="col-md-3 mt-2">
+             <div class="form-check">
+                <input class="form-check-input" type="radio" name="transferReason" id="replacementRadio"
+                   value="replacement">
+                <label class="form-check-label" for="replacementRadio">Replacement</label>
+             </div>
+          </div>
+          <div class="col-md-3 mt-2">
+             <div class="form-check">
+                <input class="form-check-input" type="radio" name="transferReason" id="itClearanceRadio"
+                   value="itClearance" required>
+                <label class="form-check-label" for="itClearanceRadio">IT Clearance</label>
+             </div>
+          </div>
+          <div class="col-md-3 mt-2">
+             <select class="form-select" aria-label="Default select example" id="transferTypeSelect">
+                <option selected>Vacation</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+             </select>
+          </div>
+       </div>
+    </div>
+ </div>
    <div class="card mt-3">
       <div class="card-body">
          <div class="card-header pb-0">

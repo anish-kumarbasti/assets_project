@@ -31,7 +31,7 @@
                      <input class="form-control" id="mobileNumber" name="mobile_number" type="tel" required="" placeholder="Mobile Number">
                   </div>
                   <div class="col-md-6">
-          
+
 
                     <label class="form-label" for="Age">Age</label>
                     <input class="form-control" id="Age" name="age" type="age" required="" placeholder="Enter Age">
@@ -59,13 +59,15 @@
                      <input class="form-control" id="confirmPassword" name="confirm_password" type="password" required="" placeholder="Confirm Password">
                   </div>
                   <div class="col-md-6">
-                     <label class="form-label" for="profilePhoto">Profile Photo</label>
-                     <input class="form-control" id="profilePhoto" name="profile_photo" type="file" required="">
+                     <label class="form-label" for="exampleInputfile1">Profile Photo</label>
+                     <input type="file" class="form-control" name="profile_photo" id="exampleInputFile" aria-describedby="fileHelp" placeholder="Enter file">
+                     <small id="fileHelp" class="form-text text-muted"></small>
                   </div>
                   <div class="col-md-6">
-                     <label class="form-label" for="coverPhoto">Cover Photo</label>
-                     <input class="form-control" id="coverPhoto" name="cover_photo" type="file" required="">
-                  </div>
+                    <label class="form-label" for="exampleInputfile1">Cover Photo</label>
+                    <input type="file" class="form-control" name="cover_photo" id="exampleInputFile" aria-describedby="fileHelp" placeholder="Enter file">
+                    <small id="fileHelp" class="form-text text-muted"></small>
+                 </div>
                </div>
             </div>
             <div class="card-item border ">
@@ -83,6 +85,9 @@
                      <label class="form-label" for="designation">Designation</label>
                      <select class="form-select" id="designation" name="designation_id" aria-label="Default select example">
                         <option selected> Enter Designation </option>
+                        {{-- @foreach ($designations as $designation )
+                        <option value="{{ $designation->id }}">{{ $designation->name }}</option>
+                        @endforeach --}}
                         <!-- Add designations dynamically -->
                      </select>
                   </div>

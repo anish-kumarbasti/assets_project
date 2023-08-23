@@ -16,18 +16,18 @@ use Illuminate\Http\Request;
 class StockController extends Controller
 {
 
-    public function  index()
-    {
-        $asset_type = AssetType::all();
-        $asset = Asset::all();
-        $brand = Brand::all();
-        $location = Location::all();
-        $brand_model = Brandmodel::all();
-        $sublocation = SubLocationModel::all();
-        $attribute = Attribute::all();
-        // dd($asset_type);
-        return view('Backend.Page.Stock.add-stock',compact('asset_type','asset','brand','location','brand_model','sublocation','attribute'));
-    }
+    public function  index(){
+    $asset_type = AssetType::all();
+    $asset = Asset::all();
+    $brand = Brand::all();
+    $location = Location::all();
+    $brand_model = Brandmodel::all();
+    $sublocation = SubLocationModel::all();
+    $attribute = Attribute::all();
+    // dd($asset_type);
+    return view('Backend.Page.Stock.add-stock', compact('asset_type', 'asset', 'brand', 'location', 'brand_model', 'sublocation', 'attribute'));
+
+}
 
     public function getBrandModels($brandId)
     {

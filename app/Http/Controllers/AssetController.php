@@ -30,7 +30,7 @@ public function store(Request $request)
 
      $asset = new Asset;
     $asset->name = $request->name;
-    $asset->asset_type_id = $request->assettype_id;
+    $asset->assettype_id = $request->assettype_id;
     $asset->status = 1;
     $asset->save();
 

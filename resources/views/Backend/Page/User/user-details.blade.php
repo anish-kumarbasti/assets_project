@@ -15,8 +15,8 @@
     @foreach ($users as $user )
     <div class="col-lg-4 col-md-6 box-col-33">
         <div class="card custom-card">
-          <div class="card-header"><img class="img-fluid img" src="{{ Storage::url($user->cover_photo) }}" alt=""></div>
-          <div class="card-profile"><img class="rounded-circle" src="{{ Storage::url($user->profile_photo) }}" alt=""></div>
+          <div class="card-header"><img class="img-fluid img" src="{{ asset($user->cover_photo) }}" style="width: 300px; height: 100px;" alt="Uploaded Image"></div>
+          <div class="card-profile"><img class="rounded-circle" src="{{ asset($user->profile_photo) }}" alt=""></div>
           <div class="text-center profile-details"><a href="user-profile.html" data-bs-original-title="" title="">
               <h4>{{ $user->first_name }} {{ $user->last_name }}</h4></a>
             <h6>{{ $user->designation->designation }}</h6>

@@ -29,7 +29,7 @@
              <ul class="sidebar-submenu">
                <li><a href="{{ route('auth.create-department')}}">Department</a></li>
                <li><a href="{{ url('designations')}}">Designation</a></li>
-               {{-- <li><a href="{{ route('assets-type-index')}}">Asset Type</a></li> --}}
+               <li><a href="{{ route('assets-type-index')}}">Asset Type</a></li>
                <li><a href="{{ url('assets')}}">Asset Name</a></li>
                <li><a href="{{ route('create-brand')}}">Brand</a></li>
                <li><a href="{{ url('brand-model')}}">Brand Model</a></li>
