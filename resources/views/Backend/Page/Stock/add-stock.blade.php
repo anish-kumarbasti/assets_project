@@ -255,7 +255,6 @@
                <input type="text" name="attribute_value" placeholder="Enter input">
                </div>
                `;
-
                     $('#dynamicFields').append(dynamicField);
                 });
             });
