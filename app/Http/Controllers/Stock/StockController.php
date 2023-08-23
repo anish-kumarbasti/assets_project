@@ -58,35 +58,31 @@ class StockController extends Controller
 
     public function  stockStatus()
     {
-
+        // $asset = Asset::where('name','IT Asset')->first();
+        // dd($asset);
+        // if($asset){
+        //    Stock::where('asset_type_id') ;
+        // }
         return view('Backend.Page.Stock.stock-status');
     }
 
     public function store(Request $request)
     {
+        // dd($request);
         $request->validate([
             'product_info' => 'required',
-            'asset_type' => 'required',
-            'asset' => 'required',
-            'brand' => 'required',
-            'brand_model' => 'required',
-            'location' => 'required',
-            'sublocation' => 'required',
-            'configuration' => 'required',
-            'serial_number' => 'required',
             'price' => 'required',
-            'host_name' => 'required',
             'vendor' => 'required', // Fixed the typo here ('vedor' to 'vendor')
         ]);
-
+        // dd($request);
         $data = Stock::create([
             'product_info' => $request->product_info,
             'asset_type_id' => $request->asset_type,
             'asset' => $request->asset,
-            'brand_id' => $request->brand,
-            'brand_model_id' => $request->brand_model,
-            'location_id' => $request->location,
-            'sublocation_id' => $request->sublocation,
+            'brand_id' => $request->brand??'0',
+            'brand_model_id' => $request->brand_model??'0',
+            // 'location_id' => $request->location,
+            // 'sublocation_id' => $request->sublocation,
             'configuration' => $request->configuration,
             'serial_number' => $request->serial_number,
             'price' => $request->price,
@@ -94,7 +90,12 @@ class StockController extends Controller
             'host_name' => $request->host_name,
             'product_number' => $request->generate_number,
             'product_warranty' => $request->product_warranty,
-
+            'specification'=>$request->specification,
+            'attribute'=>$request->attribute,
+            'atribute_value'=>$request->attribute_value,
+            'expiry_date'=>$request->expiry,
+            'quantity'=>$request->quantity,
+            'liscence_number'=>$request->liscence_number,
         ]);
 
         // You might want to redirect the user somewhere after successful creation
@@ -138,14 +139,6 @@ class StockController extends Controller
         // dd($request);
         $request->validate([
             'product_info' => 'required',
-            'asset_type' => 'required',
-            'asset' => 'required',
-            'brand' => 'required',
-            'brand_model' => 'required',
-            'location' => 'required',
-            'sublocation' => 'required',
-            'configuration' => 'required',
-            'serial_number' => 'required',
             'price' => 'required',
             'vendor' => 'required', // Fixed the typo here ('vedor' to 'vendor')
         ]);
@@ -154,14 +147,23 @@ class StockController extends Controller
             'product_info' => $request->product_info,
             'asset_type_id' => $request->asset_type,
             'asset' => $request->asset,
-            'brand_id' => $request->brand,
-            'brand_model_id' => $request->brand_model,
-            'location_id' => $request->location,
-            'sublocation_id' => $request->sublocation,
+            'brand_id' => $request->brand??'0',
+            'brand_model_id' => $request->brand_model??'0',
+            // 'location_id' => $request->location,
+            // 'sublocation_id' => $request->sublocation,
             'configuration' => $request->configuration,
             'serial_number' => $request->serial_number,
             'price' => $request->price,
             'vendor' => $request->vendor,
+            'host_name' => $request->host_name,
+            'product_number' => $request->generate_number,
+            'product_warranty' => $request->product_warranty,
+            'specification'=>$request->specification,
+            'attribute'=>$request->attribute,
+            'atribute_value'=>$request->attribute_value,
+            'expiry_date'=>$request->expiry,
+            'quantity'=>$request->quantity,
+            'liscence_number'=>$request->liscence_number,
         ]);
 
         // You might want to redirect the user somewhere after successful creation

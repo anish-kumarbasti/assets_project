@@ -107,6 +107,7 @@ public function destroy($id)
 {
     // Fetch the asset type details from the database
     $assetType = AssetType::findOrFail($assetTypeId);
+    // dd($assetTypeId);
 
     // You can customize this part based on your database structure
     // Return a JSON response with the fetched data
