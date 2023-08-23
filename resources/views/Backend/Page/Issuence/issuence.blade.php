@@ -1,5 +1,10 @@
 @extends('Backend.Layouts.panel')
 @section('Style-Area')
+<style>
+   #myDiv {
+      display: none;
+   }
+</style>
 @endsection
 @section('Content-Area')
 <div class="col-sm-12">
@@ -13,8 +18,7 @@
                <div class="row p-3">
                   <div class="col-md-6 mb-4">
                      <label class="form-label" for="employeeId">Employee's ID</label>
-                     <input class="form-control" id="employeeId" type="search" name="employeeId" required="" data-bs-original-title=""
-                        title="" placeholder="Enter Employee's ID">
+                     <input class="form-control" oninput="showDiv()" id="employeeId" type="search" name="employeeId" required="" data-bs-original-title="" title="" placeholder="Enter Employee's ID">
                   </div>
                   <div class="col-md-6 mb-4">
                      <div class="mb-3 row">
@@ -27,29 +31,26 @@
                   </div>
                </div>
             </div>
-            <div class="card-item border mt-3">
+            <div class="card-item border mt-3" id="myDiv">
                <div class="row p-3">
                   <div class="col-md-4 mb-4">
                      <label class="form-label" for="validationCustom01">Name:</label>
-                     <input class="form-control" id="validationCustom01" type="text" required="" data-bs-original-title=""
-                        title="" placeholder="Abhi" readonly>
+                     <input class="form-control" id="name" type="text" required="" data-bs-original-title="" title="" placeholder="Abhi" readonly>
                   </div>
                   <div class="col-md-4 mb-4">
                      <label class="form-label" for="validationCustom01">Department:</label>
-                     <input class="form-control" id="validationCustom01" type="text" required="" data-bs-original-title=""
-                        title="" placeholder="IT Department" readonly>
+                     <input class="form-control" id="depart" type="text" required="" data-bs-original-title="" title="" placeholder="IT Department" readonly>
                   </div>
                   <div class="col-md-4 mb-4">
                      <label class="form-label" for="validationCustom01">Location:</label>
-                     <input class="form-control" id="validationCustom01" type="text" required="" data-bs-original-title=""
-                        title="" placeholder="Lucknow" readonly>
+                     <input class="form-control" id="location" type="text" required="" data-bs-original-title="" title="" placeholder="Lucknow" readonly>
                   </div>
                </div>
             </div>
          </form>
       </div>
    </div>
-   <div class="card mt-3">
+   <!-- <div class="card mt-3">
       <div class="card-body">
          <div class="row">
             <div class="col-md-3 mt-2">
@@ -57,15 +58,13 @@
             </div>
             <div class="col-md-3 mt-2">
                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="transferReason" id="replacementRadio"
-                     value="replacement">
+                  <input class="form-check-input" type="radio" name="transferReason" id="replacementRadio" value="replacement">
                   <label class="form-check-label" for="replacementRadio">Replacement</label>
                </div>
             </div>
             <div class="col-md-3 mt-2">
                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="transferReason" id="itClearanceRadio"
-                     value="itClearance" required>
+                  <input class="form-check-input" type="radio" name="transferReason" id="itClearanceRadio" value="itClearance" required>
                   <label class="form-check-label" for="itClearanceRadio">IT Clearance</label>
                </div>
             </div>
@@ -79,7 +78,7 @@
             </div>
          </div>
       </div>
-   </div>
+   </div> -->
    <div class="card mt-3">
       <div class="card-body">
          <div class="card-header pb-0">
@@ -232,18 +231,15 @@
             <div class="row p-3">
                <div class="col-md-4 mb-4">
                   <label class="form-label" for="validationCustom01">Issuing Time:</label>
-                  <input class="form-control" id="validationCustom01" type="time" required="" data-bs-original-title=""
-                     title="">
+                  <input class="form-control" id="validationCustom01" type="time" required="" data-bs-original-title="" title="">
                </div>
                <div class="col-md-4 mb-4">
                   <label class="form-label" for="validationCustom01">Date of Issuing</label>
-                  <input class="form-control" id="validationCustom01" type="date" required="" data-bs-original-title=""
-                     title="">
+                  <input class="form-control" id="validationCustom01" type="date" required="" data-bs-original-title="" title="">
                </div>
                <div class="col-md-4 mb-4">
                   <label class="form-label" for="validationCustom01">Due Date</label>
-                  <input class="form-control" id="validationCustom01" type="date" required="" data-bs-original-title=""
-                     title="">
+                  <input class="form-control" id="validationCustom01" type="date" required="" data-bs-original-title="" title="">
                </div>
             </div>
          </div>
@@ -255,24 +251,52 @@
 </div>
 @endsection
 @section('Script-Area')
-   <script>
-      $.ajaxSetup({
-    headers: { 'csrftoken': '{{ csrf_token() }}' }
-   });
-   </script>
-   <script>
-      $(document).ready(function () {
-         .$('#employeeId').keyup(function() { 
-            var value=$(this).val();
-            $.ajax({
-               type: "get",
-               url: "/issuance",
-               data: "employeeId",
-               success: function (data) {
-                  console.log(data);
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+   $(document).ready(function() {
+      $("#employeeId").on("input", function() {
+         var employeeId = $(this).val();
+         // jQuery('#name').empty();
+         // jQuery('#depart').empty();
+         // jQuery('#location').empty();
+         $.ajax({
+            url: "server_script",
+            method: "GET",
+            data: {
+               employeeId: employeeId
+            },
+            dataType: "json",
+            success: function(data) {
+               $("#name").val(data.first_name);
+               if (data.department) {
+                  $("#depart").val(data.department.name);
+               } else {
+                  $('#depart').val("");
                }
-            });
+               if (data.location) {
+
+                  $("#location").val(data.location.name);
+               } else {
+                  $("#location").val("");
+               }
+            }
          });
       });
-   </script>
+   });
+</script>
+
+<script>
+   function showDiv() {
+      var inputField = document.getElementById('employeeId');
+      var div = document.getElementById('myDiv');
+
+      if (inputField.value.trim() !== '') {
+         div.style.display = 'block';
+      } else {
+         div.style.display = 'none';
+      }
+   }
+</script>
+
 @endsection
