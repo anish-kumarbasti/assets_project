@@ -33,8 +33,10 @@
                      <img class="rounded-circle" src="{{ asset('Backend/assets/images/avtar/3.png') }}" alt="">
                   </div>
                   <div class="text-center profile-details">
-                     <a href="user-profile.html" data-bs-original-title="" title="">
-                        <h4>Mark Jecno</h4>
+                     <a href="users.user-profile" data-bs-original-title="" title="">
+                        <h4>{{ $user->first_name??'' }}</h4>
+                        {{-- @dd($user->mobile_number??''); --}}
+                        <option value=""></option>
                      </a>
                      <h6>Manager</h6>
                   </div>
