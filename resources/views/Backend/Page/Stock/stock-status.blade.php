@@ -148,12 +148,13 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($stock as $stock)
                                 <tr>
-                                    <td>1</td>
+                                    <td>{{$loop->iteration}}</td>
                                     <td>a23</td>
-                                    <td>Laptop</td>
-                                    <td>Inspiron</td>
-                                    <td>Dell</td>
+                                    <td>{{$stock->assetmain->name??''}}</td>
+                                    <td>{{$stock->brandmodel->name??''}}</td>
+                                    <td>{{$stock->$brand->name??''}}</td>
                                     <td>0123456789</td>
 
                                     <td>Processor: Intel Core i5-1235U
@@ -167,44 +168,7 @@
                                             title="">View</a>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>a23</td>
-                                    <td>Laptop</td>
-                                    <td>Inspiron</td>
-                                    <td>Dell</td>
-                                    <td>0123456789</td>
-
-                                    <td>Processor: Intel Core i5-1235U
-                                        12th Generation
-                                        (up to 4.40 GHz, 12MB 10 Cores)
-                                        RAM & Storage: 8GB</td>
-                                    <td> ₹62,443</td>
-
-                                    <td>
-                                        <a class="btn btn-primary btn-view" href="{{url('timeline')}}" data-bs-original-title=""
-                                            title="">View</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>a23</td>
-                                    <td>Laptop</td>
-                                    <td>Inspiron</td>
-                                    <td>Dell</td>
-                                    <td>0123456789</td>
-
-                                    <td>Processor: Intel Core i5-1235U
-                                        12th Generation
-                                        (up to 4.40 GHz, 12MB 10 Cores)
-                                        RAM & Storage: 8GB</td>
-                                    <td> ₹62,443</td>
-
-                                    <td>
-                                        <a class="btn btn-primary btn-view" href="{{url('timeline')}}" data-bs-original-title=""
-                                            title="">View</a>
-                                    </td>
-                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

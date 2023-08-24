@@ -56,16 +56,13 @@ class StockController extends Controller
 
     public function  stockStatus()
     {
-        // $asset = Asset::where('name','IT Asset')->first();
-        // dd($asset);
-        // if($asset){
-        //    Stock::where('asset_type_id') ;
-        // }
-        return view('Backend.Page.Stock.stock-status');
+        $stock = Stock::where('asset_type_id',10)->get();
+        return view('Backend.Page.Stock.stock-status',compact('stock'));
     }
 
     public function store(Request $request)
     {
+        
         // dd($request);
         $request->validate([
             'product_info' => 'required',

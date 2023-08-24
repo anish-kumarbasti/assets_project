@@ -251,8 +251,8 @@
 </div>
 @endsection
 @section('Script-Area')
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script>
    $(document).ready(function() {
       $("#employeeId").on("input", function() {
@@ -260,8 +260,9 @@
          // jQuery('#name').empty();
          // jQuery('#depart').empty();
          // jQuery('#location').empty();
+         // alert(employeeId);
          $.ajax({
-            url: "server_script",
+            url: "/server_script",
             method: "GET",
             data: {
                employeeId: employeeId
