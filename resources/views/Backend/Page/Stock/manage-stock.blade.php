@@ -23,17 +23,17 @@ Global, And You May Wish To Present Controls That Search On Specific Columns.</s
                   <tr>
                      <th>SL</th>
                      <th>ID</th>
-                     <th>Model</th>
+                     <th>Name</th>
 
                      <th>Asset Type</th>
                      <th>Asset</th>
                       <th>InStock</th>
                      <th>Allocated</th>
                      <th>Stolen</th>
-                     
+
                      <th>Lost</th>
-                    
-                     
+
+
                      <th>Scrapped</th>
                       <th>Under Repair</th>
 
@@ -48,11 +48,11 @@ Global, And You May Wish To Present Controls That Search On Specific Columns.</s
                      <td>IT Assets</td>
                        <td>Laptop</td>
                          <td>
-                         
+
                          <span class="badge rounded-pill badge-light-success">1,443</span></td>
                            <td>780</td>
                         <td>50</td>
-                        
+
                          <td>50</td>
                            <td>50 </td>
                            <td>50 </td>
@@ -68,11 +68,11 @@ Global, And You May Wish To Present Controls That Search On Specific Columns.</s
                      <td>IT Assets</td>
                        <td>Laptop</td>
                          <td>
-                         
+
                          <span class="badge rounded-pill badge-light-success">1,443</span></td>
                            <td>780</td>
                         <td>50</td>
-                        
+
                          <td>50</td>
                            <td>50 </td>
                            <td>50 </td>

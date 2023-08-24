@@ -29,6 +29,7 @@ class StockController extends Controller
         return view('Backend.Page.Stock.add-stock', compact('asset_type', 'asset', 'brand', 'location', 'brand_model', 'sublocation', 'attribute'));
     }
 
+
     public function getBrandModels($brandId)
     {
         $brandModels = BrandModel::where('brand_id', $brandId)->get();

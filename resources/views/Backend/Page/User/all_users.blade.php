@@ -37,7 +37,7 @@
                             <td>{{ $user->first_name }} {{ $user->last_name }}</td>
                             <td>{{ $user->email }}</td>
                             <td>
-                                <img src="{{ Storage::url($user->profile_photo) }}" alt="Profile Photo" style="width: 50px; height: 50px;">
+                                <img src="{{ asset($user->profile_photo) }}" alt="Profile Photo" style="width: 100px; height: 100;">
                             </td>
                             <td>{{$user->department->name}}</td>
                             <td> {{ $user->designation->designation }} </td>

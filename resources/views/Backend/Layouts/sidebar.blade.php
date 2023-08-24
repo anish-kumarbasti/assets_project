@@ -29,7 +29,7 @@
              <ul class="sidebar-submenu">
                <li><a href="{{ route('auth.create-department')}}">Department</a></li>
                <li><a href="{{ url('designations')}}">Designation</a></li>
-               {{-- <li><a href="{{ route('assets-type-index')}}">Asset Type</a></li> --}}
+               <li><a href="{{ route('assets-type-index')}}">Asset Type</a></li>
                <li><a href="{{ url('assets')}}">Asset Name</a></li>
                <li><a href="{{ route('create-brand')}}">Brand</a></li>
                <li><a href="{{ url('brand-model')}}">Brand Model</a></li>
@@ -60,9 +60,9 @@
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="airplay"></i><span>Assets</span></a>
              <ul class="sidebar-submenu">
                <li><a href="{{ url('it-assets-stock')}}">IT Assets</a></li>
-               <li><a href="{{route('non.it.assets')}}">Non-IT Assets</a></li>
-               <li><a href="{{route('assets.components')}}">Assets Components</a></li>
-               <li><a href="{{route('assets.software')}}">Software</a></li>
+               <li><a href="{{url('non.it.assets')}}">Non-IT Assets</a></li>
+               <li><a href="{{url('assets.components')}}">Assets Components</a></li>
+               <li><a href="{{url('assets.software')}}">Software</a></li>
              </ul>
            </li>
 
