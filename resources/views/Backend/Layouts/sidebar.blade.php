@@ -60,9 +60,9 @@
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="airplay"></i><span>Assets</span></a>
              <ul class="sidebar-submenu">
                <li><a href="{{ url('it-assets-stock')}}">IT Assets</a></li>
-               <li><a href="{{url('non.it.assets')}}">Non-IT Assets</a></li>
-               <li><a href="{{url('assets.components')}}">Assets Components</a></li>
-               <li><a href="{{url('assets.software')}}">Software</a></li>
+               <li><a href="{{route('non.it.assets')}}">Non-IT Assets</a></li>
+               <li><a href="{{route('assets.components')}}">Assets Components</a></li>
+               <li><a href="{{route('assets.software')}}">Software</a></li>
              </ul>
            </li>
 

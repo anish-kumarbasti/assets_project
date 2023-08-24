@@ -74,6 +74,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/get-brand-models/{brandId}', [StockController::class, 'getBrandModels']);
     Route::post('/get-slocation/{locationId}', [StockController::class, 'getslocation']);
     Route::post('/get-asset-type/{assettypeId}', [StockController::class, 'getasset']);
+    Route::post('/get-asset-all-details/{assetdetail}',[IssuenceController::class,'getassetdetail']);
 
 
     Route::get('edit-stock/{id}', [StockController::class, 'edit']);
@@ -131,7 +132,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('sublocation-update/{sublocation}', [SubLocationController::class, 'update'])->name('sublocation-update');
     Route::delete('sublocation-destroy/{sublocation}', [SubLocationController::class, 'destroy'])->name('sublocation-destroy');
     Route::put('sublocation-status/{sublocationId}', [SubLocationController::class, 'updateStatus'])->name('sublocation-status');
-    //designation
+    //designationFget
     Route::get('designations', [DesignationController::class, 'index'])->name('designations.index');
     Route::post('designations', [DesignationController::class, 'store'])->name('designations.store');
     Route::get('/designations/create', [DesignationController::class, 'create'])->name('designations.create');

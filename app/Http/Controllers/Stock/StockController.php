@@ -44,7 +44,7 @@ class StockController extends Controller
 
     public function getasset($assettypeId)
     {
-        $assettypeId = Asset::where('asset-type_id', $assettypeId)->get();
+        $assettypeId = Asset::where('asset_type_id', $assettypeId)->get();
         return response()->json(['assets' => $assettypeId]);
     }
 
@@ -128,7 +128,8 @@ class StockController extends Controller
         $location = Location::all();
         $brand_model = Brandmodel::all();
         $sublocation = SubLocationModel::all();
-        return view('Backend.Page.Stock.add-stock', compact('stockedit', 'asset', 'asset_type', 'brand', 'brand_model', 'location', 'sublocation'));
+        $attribute = Attribute::all();
+        return view('Backend.Page.Stock.add-stock', compact('stockedit', 'asset', 'asset_type', 'brand', 'brand_model', 'location', 'sublocation','attribute'));
     }
     public function update(Request $request, $id)
     {
