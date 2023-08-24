@@ -16,18 +16,19 @@ use Illuminate\Http\Request;
 class StockController extends Controller
 {
 
-    public function  index(){
-    $asset_type = AssetType::all();
-    $asset = Asset::all();
-    $brand = Brand::all();
-    $location = Location::all();
-    $brand_model = Brandmodel::all();
-    $sublocation = SubLocationModel::all();
-    $attribute = Attribute::all();
-    // dd($asset_type);
-    return view('Backend.Page.Stock.add-stock', compact('asset_type', 'asset', 'brand', 'location', 'brand_model', 'sublocation', 'attribute'));
+    public function  index()
+    {
+        $asset_type = AssetType::all();
+        $asset = Asset::all();
+        $brand = Brand::all();
+        $location = Location::all();
+        $brand_model = Brandmodel::all();
+        $sublocation = SubLocationModel::all();
+        $attribute = Attribute::all();
+        // dd($asset_type);
+        return view('Backend.Page.Stock.add-stock', compact('asset_type', 'asset', 'brand', 'location', 'brand_model', 'sublocation', 'attribute'));
+    }
 
-}
 
     public function getBrandModels($brandId)
     {
@@ -43,7 +44,7 @@ class StockController extends Controller
 
     public function getasset($assettypeId)
     {
-        $assettypeId = Asset::where('asset_type_id', $assettypeId)->get();
+        $assettypeId = Asset::where('asset-type_id', $assettypeId)->get();
         return response()->json(['assets' => $assettypeId]);
     }
 
@@ -56,16 +57,13 @@ class StockController extends Controller
 
     public function  stockStatus()
     {
-        // $asset = Asset::where('name','IT Asset')->first();
-        // dd($asset);
-        // if($asset){
-        //    Stock::where('asset_type_id') ;
-        // }
-        return view('Backend.Page.Stock.stock-status');
+        $stock = Stock::where('asset_type_id',10)->get();
+        return view('Backend.Page.Stock.stock-status',compact('stock'));
     }
 
     public function store(Request $request)
     {
+        
         // dd($request);
         $request->validate([
             'product_info' => 'required',
@@ -77,8 +75,8 @@ class StockController extends Controller
             'product_info' => $request->product_info,
             'asset_type_id' => $request->asset_type,
             'asset' => $request->asset,
-            'brand_id' => $request->brand??'0',
-            'brand_model_id' => $request->brand_model??'0',
+            'brand_id' => $request->brand ?? '0',
+            'brand_model_id' => $request->brand_model ?? '0',
             // 'location_id' => $request->location,
             // 'sublocation_id' => $request->sublocation,
             'configuration' => $request->configuration,
@@ -88,12 +86,12 @@ class StockController extends Controller
             'host_name' => $request->host_name,
             'product_number' => $request->generate_number,
             'product_warranty' => $request->product_warranty,
-            'specification'=>$request->specification,
-            'attribute'=>$request->attribute,
-            'atribute_value'=>$request->attribute_value,
-            'expiry_date'=>$request->expiry,
-            'quantity'=>$request->quantity,
-            'liscence_number'=>$request->liscence_number,
+            'specification' => $request->specification,
+            'attribute' => $request->attribute,
+            'atribute_value' => $request->attribute_value,
+            'expiry_date' => $request->expiry,
+            'quantity' => $request->quantity,
+            'liscence_number' => $request->liscence_number,
         ]);
 
         // You might want to redirect the user somewhere after successful creation
@@ -145,8 +143,8 @@ class StockController extends Controller
             'product_info' => $request->product_info,
             'asset_type_id' => $request->asset_type,
             'asset' => $request->asset,
-            'brand_id' => $request->brand??'0',
-            'brand_model_id' => $request->brand_model??'0',
+            'brand_id' => $request->brand ?? '0',
+            'brand_model_id' => $request->brand_model ?? '0',
             // 'location_id' => $request->location,
             // 'sublocation_id' => $request->sublocation,
             'configuration' => $request->configuration,
@@ -156,12 +154,12 @@ class StockController extends Controller
             'host_name' => $request->host_name,
             'product_number' => $request->generate_number,
             'product_warranty' => $request->product_warranty,
-            'specification'=>$request->specification,
-            'attribute'=>$request->attribute,
-            'atribute_value'=>$request->attribute_value,
-            'expiry_date'=>$request->expiry,
-            'quantity'=>$request->quantity,
-            'liscence_number'=>$request->liscence_number,
+            'specification' => $request->specification,
+            'attribute' => $request->attribute,
+            'atribute_value' => $request->attribute_value,
+            'expiry_date' => $request->expiry,
+            'quantity' => $request->quantity,
+            'liscence_number' => $request->liscence_number,
         ]);
 
         // You might want to redirect the user somewhere after successful creation
