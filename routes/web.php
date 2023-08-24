@@ -97,6 +97,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('add-user', [UserController::class, 'user']);
     Route::get('user-details', [UserController::class, 'userCard']);
     //Assets
+    Route::get('non-it-assets-timeline', [AssetController::class, 'views'])->name('non-it-assets-timeline');
+
     Route::get('non-it-asset', [AssetController::class, 'nonitasset'])->name('non.it.assets');
     Route::get('asset-components', [AssetController::class, 'assetscomponent'])->name('assets.components');
     Route::get('asset-software', [AssetController::class, 'assetsoftware'])->name('assets.software');
@@ -139,7 +141,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('designations/{id}', [DesignationController::class, 'update'])->name('designations.update');
     Route::delete('designations/{id}', [DesignationController::class, 'destroy'])->name('designations.destroy');
     //assets
-    Route::post('get-asset-details/{assetTypeId}', [AssetController::class,'getassetdetails']);
+    Route::post('get-asset-details/{assetTypeId}', [AssetController::class, 'getassetdetails']);
     Route::get('assets', [AssetController::class, 'index'])->name('assets.index');
     Route::get('assets/create', [AssetController::class, 'create'])->name('assets.create');
     Route::post('assets', [AssetController::class, 'store'])->name('assets.store');

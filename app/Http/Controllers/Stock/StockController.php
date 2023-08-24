@@ -44,7 +44,7 @@ class StockController extends Controller
 
     public function getasset($assettypeId)
     {
-        $assettypeId = Asset::where('asset-type_id', $assettypeId)->get();
+        $assettypeId = Asset::where('asset_type_id', $assettypeId)->get();
         return response()->json(['assets' => $assettypeId]);
     }
 
@@ -57,13 +57,13 @@ class StockController extends Controller
 
     public function  stockStatus()
     {
-        $stock = Stock::where('asset_type_id',10)->get();
-        return view('Backend.Page.Stock.stock-status',compact('stock'));
+        $stock = Stock::where('asset_type_id', 10)->get();
+        return view('Backend.Page.Stock.stock-status', compact('stock'));
     }
 
     public function store(Request $request)
     {
-        
+
         // dd($request);
         $request->validate([
             'product_info' => 'required',
