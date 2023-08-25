@@ -192,11 +192,7 @@
                               <textarea class="form-control" name="specification" id="exampleFormControlTextarea1" placeholder="" rows="3"></textarea>
                            </div>
                         </div>
-                    </div>
-                    <!-- ... (existing form content) ... -->
-
-            <!-- ... (existing form content) ... -->
-
+                  </div>
                     <div class="card-item border">
                         <div class="row p-3">
                             <div class="col-md-4">

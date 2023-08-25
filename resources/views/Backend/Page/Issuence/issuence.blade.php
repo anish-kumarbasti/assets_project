@@ -82,9 +82,11 @@
    <div class="card">
       <div class="card-header pb-0">
          <div class="row d-flex">
-         <div class="col-sm-6  p-3"><h4 style="">Asset Details</h4></div>
-         <div class="col-sm-6  p-3 text-end"><a class="btn btn-outline-primary" id="addasset">+ &nbsp;&nbsp;&nbsp;&nbsp;Add Asset</a></div>
-      </div>
+            <div class="col-sm-6  p-3">
+               <h4 style="">Asset Details</h4>
+            </div>
+            <div class="col-sm-6  p-3 text-end"><a class="btn btn-outline-primary" id="addasset">+ &nbsp;&nbsp;&nbsp;&nbsp;Add Asset</a></div>
+         </div>
       </div>
       <hr>
       <div class="card-body">
@@ -149,7 +151,7 @@
                   <select class="form-select" aria-label="Default select example" id="assettype">
                      <option selected>Select Asset Type</option>
                      @foreach ($assettype as $assettype)
-                        <option value="{{$assettype->id}}">{{$assettype->name}}</option>
+                     <option value="{{$assettype->id}}">{{$assettype->name}}</option>
                      @endforeach
                   </select>
                </div>
@@ -164,8 +166,7 @@
                      <label class="col-sm-6 col-form-label pt-5 scan-text">Scan Barcode :</label>
                      <div class="col-sm-6 pt-4">
                         <input class="form-control qr" type="file" accept="image/*" capture="environment" id="qrInput">
-                        <img id="qrImage" 
-                        src="{{ asset('Backend/assets/images/IT-Assets/Vector_qr.png')}}" alt="QR Code">
+                        <img id="qrImage" src="{{ asset('Backend/assets/images/IT-Assets/Vector_qr.png')}}" alt="QR Code">
                      </div>
                   </div>
                </div>
@@ -173,7 +174,7 @@
          </div>
          <div class="card-item border mt-4" id="cardasset">
             <div class="row py-3" id="assetdetails">
-             
+
             </div>
          </div>
       </div>
@@ -247,16 +248,16 @@
    });
 </script>
 <script>
-   $(document).ready(function () {
+   $(document).ready(function() {
       $('#assetSelect').hide();
-      $('#addasset').on("click", function () {
+      $('#addasset').on("click", function() {
          $('#assetSelect').show();
       });
    });
    jQuery(document).ready(function() {
-            jQuery('#assettype').change(function() {
-                let assettypeId = jQuery(this).val();
-                jQuery('#asset').empty();
+      jQuery('#assettype').change(function() {
+         let assettypeId = jQuery(this).val();
+         jQuery('#asset').empty();
 
          if (assettypeId) {
             jQuery.ajax({
@@ -275,28 +276,28 @@
    });
 </script>
 <script>
- $(document).ready(function () {
-   $('#cardasset').hide();
-   $('#asset').change(function () { 
-      var assetId = $(this).val();
-      if (assetId) {
-         $.ajax({
-            type: "POST",
-            url: "/get-asset-all-details/" + assetId,
-            data: {
-                    _token: "{{ csrf_token() }}",
-                    _cache: new Date().getTime() // Add a cache-busting parameter
-                },
-                dataType: "json",
-            success: function (response) {
-               var assetDetailsContainer = $('#assetdetails');
-               $('#cardasset').show();
-               assetDetailsContainer.empty(); 
-               $.each(response, function (index, asset) {
-                  // alert('hi');
-                  var allbrand = asset.brand;
-                  // alert(allbrand);
-                  var assetCard = `
+   $(document).ready(function() {
+      $('#cardasset').hide();
+      $('#asset').change(function() {
+         var assetId = $(this).val();
+         if (assetId) {
+            $.ajax({
+               type: "POST",
+               url: "/get-asset-all-details/" + assetId,
+               data: {
+                  _token: "{{ csrf_token() }}",
+                  _cache: new Date().getTime() // Add a cache-busting parameter
+               },
+               dataType: "json",
+               success: function(response) {
+                  var assetDetailsContainer = $('#assetdetails');
+                  $('#cardasset').show();
+                  assetDetailsContainer.empty();
+                  $.each(response, function(index, asset) {
+                     // alert('hi');
+                     var allbrand = asset.brand;
+                     // alert(allbrand);
+                     var assetCard = `
                   <div class="col-md-3">
                      <div class="card">
                         <div class="card-body">
@@ -309,14 +310,13 @@
                         </div>
                      </div>
                   </div>`;
-                  assetDetailsContainer.append(assetCard);
-               });
-            } 
-         });
-      }
+                     assetDetailsContainer.append(assetCard);
+                  });
+               }
+            });
+         }
+      });
    });
-});
-
 </script>
 <script>
    function showDiv() {
