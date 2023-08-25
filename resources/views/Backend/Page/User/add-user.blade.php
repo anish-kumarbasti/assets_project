@@ -33,13 +33,13 @@
                   <div class="col-md-6">
 
 
-                    <label class="form-label" for="Age">Age</label>
-                    <input class="form-control" id="Age" name="age" type="age" required="" placeholder="Enter Age">
-                 </div>
-                 <div class="col-md-6">
-                    <label class="form-label" for="gender">Gender</label>
-                    <select class="form-select" id="gender" name="gender" aria-label="Default select example">
-                       <option selected> Select Gender</option>
+                     <label class="form-label" for="Age">Age</label>
+                     <input class="form-control" id="Age" name="age" type="age" required="" placeholder="Enter Age">
+                  </div>
+                  <div class="col-md-6">
+                     <label class="form-label" for="gender">Gender</label>
+                     <select class="form-select" id="gender" name="gender" aria-label="Default select example">
+                        <option selected> Select Gender</option>
 
 
                         <option value="1">Male</option>
@@ -64,10 +64,10 @@
                      <small id="fileHelp" class="form-text text-muted"></small>
                   </div>
                   <div class="col-md-6">
-                    <label class="form-label" for="exampleInputfile1">Cover Photo</label>
-                    <input type="file" class="form-control" name="cover_photo" id="exampleInputFile" aria-describedby="fileHelp" placeholder="Enter file">
-                    <small id="fileHelp" class="form-text text-muted"></small>
-                 </div>
+                     <label class="form-label" for="exampleInputfile1">Cover Photo</label>
+                     <input type="file" class="form-control" name="cover_photo" id="exampleInputFile" aria-describedby="fileHelp" placeholder="Enter file">
+                     <small id="fileHelp" class="form-text text-muted"></small>
+                  </div>
                </div>
             </div>
             <div class="card-item border ">
@@ -89,6 +89,17 @@
                         <option value="{{ $designation->id }}">{{ $designation->name }}</option>
                         @endforeach --}}
                         <!-- Add designations dynamically -->
+                     </select>
+                  </div>
+               </div>
+               <div class="row p-3">
+                  <div class="col-md-6">
+                     <label class="form-label" for="department">Role</label>
+                     <select name="role" id="role" class="form-select" aria-label="Default select example">
+                        <option selected>--Select Role--</option>
+                        <option value="">Admin</option>
+                        <option value="">IT Management</option>
+                        <option value="">Sub Admin</option>
                      </select>
                   </div>
                </div>

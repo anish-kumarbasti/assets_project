@@ -68,7 +68,7 @@ class AssetController extends Controller
 
         $assetType = Asset::findOrFail($id);
         $assetType->name = $request->name;
-        $assetType->asset_type_id = $request->assettype_id;
+        $assetType->asset_type_id = $request->asset_type_id;
         $assetType->status = 1;
         $assetType->save();
 
@@ -91,21 +91,28 @@ class AssetController extends Controller
 
     public function nonitasset()
     {
-        // $nonITAssets = Asset::where('asset_type_id', 2)->get();
         $matchingData = Stock::join('assets', 'stocks.asset_type_id', '=', 'assets.asset_type_id')
-            ->select('stocks.*', 'assets.name', 'stocks.specification', 'stocks.quantity', 'stocks.price')
             ->where('assets.asset_type_id', 2)
+            ->select('assets.name', 'stocks.specification', 'stocks.quantity', 'stocks.price')
+            // ->groupBy('assets.name', 'stocks.specification', 'stocks.quantity', 'stocks.price')
             ->get();
 
         return view('Backend.Page.It-Asset.non-it-stock', compact('matchingData'));
     }
     public function assetscomponent()
     {
-        return view('Backend.Page.It-Asset.assets-components');
+        $assteComponent = Stock::join('assets', 'stocks.asset_type_id', '=', 'assets.asset_type_id')
+            ->select('stocks.*', 'assets.name', 'stocks.specification', 'stocks.quantity', 'stocks.price')
+            ->where('assets.asset_type_id', 3)->get();
+        return view('Backend.Page.It-Asset.assets-components', compact('assteComponent'));
     }
     public function assetsoftware()
     {
-        return view('Backend.Page.It-Asset.assets-software');
+        $softwareData = Stock::join('assets', 'stocks.asset_type_id', '=', 'assets.asset_type_id')
+            ->select('stocks.*', 'assets.name', 'stocks.quantity', 'stocks.price')
+            ->where('assets.asset_type_id', 4)
+            ->get();
+        return view('Backend.Page.It-Asset.assets-software', compact('softwareData'));
     }
     public function getAssetDetails($assetTypeId)
     {
@@ -121,6 +128,14 @@ class AssetController extends Controller
         ]);
     }
     public function views()
+    {
+        return view('Backend.Page.Stock.timeline');
+    }
+    public function compotimeline()
+    {
+        return view('Backend.Page.Stock.timeline');
+    }
+    public function softwaretimeline()
     {
         return view('Backend.Page.Stock.timeline');
     }

@@ -29,7 +29,7 @@
              <ul class="sidebar-submenu">
                <li><a href="{{ route('auth.create-department')}}">Department</a></li>
                <li><a href="{{ url('designations')}}">Designation</a></li>
-               <li><a href="{{ route('assets-type-index')}}">Asset Type</a></li>
+               <!-- <li><a href="{{ route('assets-type-index')}}">Asset Type</a></li> -->
                <li><a href="{{ url('assets')}}">Asset Name</a></li>
                <li><a href="{{ route('create-brand')}}">Brand</a></li>
                <li><a href="{{ url('brand-model')}}">Brand Model</a></li>
@@ -42,8 +42,8 @@
              <ul class="sidebar-submenu">
                <li><a href="{{url('users')}}">All Users</a></li>
                <li><a href="{{route('users.create')}}">Add User</a></li>
-               <li><a href="{{ url('show')}}">User Details</a></li>
-               <li><a href="{{ url('users.user-profile')}}">User Card</a></li>
+               <!-- <li><a href="{{ url('show')}}">User Details</a></li> -->
+               <!-- <li><a href="{{ url('users.user.profile')}}">User Card</a></li> -->
                <li><a href="{{url('add-role') }}">Add Role</a></li>
                <li><a href="{{url('view-permissions') }}">All Permission</a></li>
              </ul>
@@ -53,46 +53,43 @@
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="home"></i><span>Stocks</span></a>
              <ul class="sidebar-submenu">
                <li><a href="{{ url('manage-stocks')}}">Manage Stocks</a></li>
+               <li><a href="{{ url('all-stock')}}">All Stocks</a>
+               </li>
+               <li><a href="{{ url('stock')}}">Stocks</a></li>
+             </ul>
+           </li>
+           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="airplay"></i><span>Assets</span></a>
+             <ul class="sidebar-submenu">
+               <li><a href="{{ url('it-assets-stock')}}">IT Assets</a></li>
+               <li><a href="{{url('non-it-asset')}}">Non-IT Assets</a></li>
+               <li><a href="{{url('asset-components')}}">Assets Components</a></li>
+               <li><a href="{{url('asset-software')}}">Software</a></li>
+             </ul>
+           </li>
 
-               {{-- <li><a href="{{ url('all-stock')}}">All Stocks</a>
-           </li> --}}
-           <li><a href="{{ url('stock')}}">Stocks</a></li>
-         </ul>
-         </li>
-         <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="airplay"></i><span>Assets</span></a>
-           <ul class="sidebar-submenu">
-             <li><a href="{{ url('it-assets-stock')}}">IT Assets</a></li>
-             <li><a href="{{url('non-it-asset')}}">Non-IT Assets</a></li>
-             <li><a href="{{url('asset-components')}}">Assets Components</a></li>
-             <li><a href="{{url('asset-software')}}">Software</a></li>
-           </ul>
-         </li>
+           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="box"></i><span>Setting</span></a>
+           </li>
 
+           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="box"></i><span>Issuence</span></a>
+             <ul class="sidebar-submenu">
 
-
-         <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="box"></i><span>Setting</span></a>
-         </li>
-
-         <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="box"></i><span>Issuence</span></a>
-           <ul class="sidebar-submenu">
-
-             <li><a href="{{ url('issuences')}}"> Add Issuence </a></li>
+               <li><a href="{{ url('issuences')}}"> Add Issuence </a></li>
 
 
-           </ul>
-         </li>
-         <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="box"></i><span>Transfer</span></a>
-           <ul class="sidebar-submenu">
-             <li><a href="{{ url('transfer')}}">Add Transfer</a> </li>
+             </ul>
+           </li>
+           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="box"></i><span>Transfer</span></a>
+             <ul class="sidebar-submenu">
+               <li><a href="{{ url('transfer')}}">Add Transfer</a> </li>
 
-           </ul>
-         </li>
-         <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="box"></i><span>Dispose</span></a>
-           <ul class="sidebar-submenu">
-             <li><a href="{{ url('disposal')}}">Add Disposal</a> </li>
+             </ul>
+           </li>
+           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="box"></i><span>Dispose</span></a>
+             <ul class="sidebar-submenu">
+               <li><a href="{{ url('disposal')}}">Add Disposal</a> </li>
 
-           </ul>
-         </li>
+             </ul>
+           </li>
          </ul>
        </div>
        <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>

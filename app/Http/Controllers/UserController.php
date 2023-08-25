@@ -71,22 +71,21 @@ class UserController extends Controller
     {
         if ($image = $request->file('profile_photo')) {
             $destinationPath = 'images';
-            $imagess = date('YmdHis') . random_int(1, 10000)."." . $image->getClientOriginalExtension();
+            $imagess = date('YmdHis') . random_int(1, 10000) . "." . $image->getClientOriginalExtension();
             $image->move($destinationPath, $imagess);
-            $path = $destinationPath.'/'.$imagess;
+            $path = $destinationPath . '/' . $imagess;
         }
         if ($image = $request->file('cover_photo')) {
             $destinationPath = 'images';
-            $imagess = date('YmdHis') . random_int(1, 10000)."." . $image->getClientOriginalExtension();
+            $imagess = date('YmdHis') . random_int(1, 10000) . "." . $image->getClientOriginalExtension();
             $image->move($destinationPath, $imagess);
-            $path = $destinationPath.'/'.$imagess;
+            $path = $destinationPath . '/' . $imagess;
         }
         $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
             'email' => 'required',
             'age' => 'required',
-            'gender' => 'required',
             'password' => 'required',
             'department_id' => 'required',
             'designation_id' => 'required',
@@ -111,8 +110,8 @@ class UserController extends Controller
             'last_name' => $request->last_name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'profile_photo'=>$path??'dfsrdg',
-            'cover_photo' =>$path??'dfsrdg',
+            'profile_photo' => $path ?? 'dfsrdg',
+            'cover_photo' => $path ?? 'dfsrdg',
             'department_id' => $request->department_id,
             'designation_id' => $request->designation_id,
             'mobile_number' => $request->mobile_number,
@@ -203,5 +202,9 @@ class UserController extends Controller
     {
         $user = User::find($id);
         return view('Backend.Page.User.user-profile', compact('user'));
+    }
+    public function usersprofile()
+    {
+        return view('Backend.Page.User.user-profile');
     }
 }
