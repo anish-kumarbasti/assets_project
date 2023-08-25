@@ -199,8 +199,9 @@ class UserController extends Controller
         $user->delete();
         return redirect()->route('users.index')->with('success', 'User deleted successfully!');
     }
-    public function users_profile()
+    public function users_profile($id)
     {
-        return view('Backend.Page.User.user-profile');
+        $user = User::find($id);
+        return view('Backend.Page.User.user-profile', compact('user'));
     }
 }

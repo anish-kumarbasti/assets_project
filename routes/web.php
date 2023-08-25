@@ -64,7 +64,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
     Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
     Route::get('/get-designations/{departmentId}', [UserController::class, 'getDesignations']);
-    Route::get('users.user-profile', [UserController::class, 'users_profile'])->name('users.user-profile');
+    Route::get('users.user-profile/{id}', [UserController::class, 'users_profile'])->name('users.user-profile');
 
     Route::put('/users/{user}/assign-roles', [UserController::class, 'updateRoles'])->name('users.update_roles');
 
@@ -74,6 +74,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/get-brand-models/{brandId}', [StockController::class, 'getBrandModels']);
     Route::post('/get-slocation/{locationId}', [StockController::class, 'getslocation']);
     Route::post('/get-asset-type/{assettypeId}', [StockController::class, 'getasset']);
+    Route::post('/get-asset-all-details/{assetdetail}',[IssuenceController::class,'getassetdetail']);
 
 
     Route::get('edit-stock/{id}', [StockController::class, 'edit']);
@@ -133,7 +134,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('sublocation-update/{sublocation}', [SubLocationController::class, 'update'])->name('sublocation-update');
     Route::delete('sublocation-destroy/{sublocation}', [SubLocationController::class, 'destroy'])->name('sublocation-destroy');
     Route::put('sublocation-status/{sublocationId}', [SubLocationController::class, 'updateStatus'])->name('sublocation-status');
-    //designation
+    //designationFget
     Route::get('designations', [DesignationController::class, 'index'])->name('designations.index');
     Route::post('designations', [DesignationController::class, 'store'])->name('designations.store');
     Route::get('/designations/create', [DesignationController::class, 'create'])->name('designations.create');
