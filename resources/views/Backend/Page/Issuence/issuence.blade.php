@@ -83,7 +83,7 @@
       <div class="card-header pb-0">
          <div class="row d-flex">
             <div class="col-sm-6  p-3">
-               <h4 style="">Asset Details</h4>
+               <h4>Asset Details</h4>
             </div>
             <div class="col-sm-6  p-3 text-end"><a class="btn btn-outline-primary" id="addasset">+ &nbsp;&nbsp;&nbsp;&nbsp;Add Asset</a></div>
          </div>
