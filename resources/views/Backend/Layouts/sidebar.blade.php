@@ -53,43 +53,46 @@
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="home"></i><span>Stocks</span></a>
              <ul class="sidebar-submenu">
                <li><a href="{{ url('manage-stocks')}}">Manage Stocks</a></li>
-               {{-- <li><a href="{{ url('all-stock')}}">All Stocks</a></li> --}}
-               <li><a href="{{ url('stock')}}">Stocks</a></li>
-             </ul>
-           </li>
-           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="airplay"></i><span>Assets</span></a>
-             <ul class="sidebar-submenu">
-               <li><a href="{{ url('it-assets-stock')}}">IT Assets</a></li>
-               <li><a href="{{route('non.it.assets')}}">Non-IT Assets</a></li>
-               <li><a href="{{route('assets.components')}}">Assets Components</a></li>
-               <li><a href="{{route('assets.software')}}">Software</a></li>
-             </ul>
-           </li>
+
+               {{-- <li><a href="{{ url('all-stock')}}">All Stocks</a>
+           </li> --}}
+           <li><a href="{{ url('stock')}}">Stocks</a></li>
+         </ul>
+         </li>
+         <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="airplay"></i><span>Assets</span></a>
+           <ul class="sidebar-submenu">
+             <li><a href="{{ url('it-assets-stock')}}">IT Assets</a></li>
+             <li><a href="{{url('non-it-asset')}}">Non-IT Assets</a></li>
+             <li><a href="{{url('asset-components')}}">Assets Components</a></li>
+             <li><a href="{{url('asset-software')}}">Software</a></li>
+           </ul>
+         </li>
 
 
-           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="box"></i><span>Setting</span></a>
-           </li>
 
-           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="box"></i><span>Issuence</span></a>
-             <ul class="sidebar-submenu">
+         <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="box"></i><span>Setting</span></a>
+         </li>
 
-               <li><a href="{{ url('issuences')}}"> Add Issuence </a></li>
+         <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="box"></i><span>Issuence</span></a>
+           <ul class="sidebar-submenu">
+
+             <li><a href="{{ url('issuences')}}"> Add Issuence </a></li>
 
 
-             </ul>
-           </li>
-           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="box"></i><span>Transfer</span></a>
-             <ul class="sidebar-submenu">
-               <li><a href="{{ url('transfer')}}">Add Transfer</a> </li>
+           </ul>
+         </li>
+         <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="box"></i><span>Transfer</span></a>
+           <ul class="sidebar-submenu">
+             <li><a href="{{ url('transfer')}}">Add Transfer</a> </li>
 
-             </ul>
-           </li>
-           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="box"></i><span>Dispose</span></a>
-             <ul class="sidebar-submenu">
-               <li><a href="{{ url('disposal')}}">Add Disposal</a> </li>
+           </ul>
+         </li>
+         <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="box"></i><span>Dispose</span></a>
+           <ul class="sidebar-submenu">
+             <li><a href="{{ url('disposal')}}">Add Disposal</a> </li>
 
-             </ul>
-           </li>
+           </ul>
+         </li>
          </ul>
        </div>
        <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>
