@@ -15,7 +15,7 @@
             <div class="card">
                 <div class="row ">
                     <div class="col-md-6">
-                        <h4>IT Assets</h4>
+                        <h4>Assets Software</h4>
                     </div>
                     <div class="col-md-6 text-end p-4">
                         <button class="btn btn-primary qr_btn"><img src="{{ asset('Backend/assets/images/It-Assets/Vector1.svg') }}" alt='...'></button>
@@ -42,48 +42,22 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach ($softwareData as $software)
                         <tr>
-                            <td>1</td>
+                            <td>{{$software->id}}</td>
                             <td>a23</td>
-                            <td>Windows 10</td>
+                            <td>{{$software->name}}</td>
                             <td>xxxx xxxx xxxx</td>
                             <td>
-                                <span class="badge rounded-pill badge-light-success">1,443</span>
+                                <span class="badge rounded-pill badge-light-success">{{$software->quantity}}</span>
                             </td>
                             <td>15 </td>
-                            <td>5 </td>
+                            <td>{{$software->price}}</td>
                             <td>
-                                <button class="btn btn-primary" type="submit" data-bs-original-title="" title="">View</button>
+                                <a href="{{url('assets-software-timeline')}}" class="btn btn-primary" type="submit" data-bs-original-title="" title="">View</a>
                             </td>
                         </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>a23</td>
-                            <td>Windows 10</td>
-                            <td>xxxx xxxx xxxx</td>
-                            <td>
-                                <span class="badge rounded-pill badge-light-success">1,443</span>
-                            </td>
-                            <td>15 </td>
-                            <td>5 </td>
-                            <td>
-                                <button class="btn btn-primary" type="submit" data-bs-original-title="" title="">View</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>a23</td>
-                            <td>Windows 10</td>
-                            <td>xxxx xxxx xxxx</td>
-                            <td>
-                                <span class="badge rounded-pill badge-light-success">1,443</span>
-                            </td>
-                            <td>15 </td>
-                            <td>5 </td>
-                            <td>
-                                <button class="btn btn-primary" type="submit" data-bs-original-title="" title="">View</button>
-                            </td>
-                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

@@ -32,7 +32,7 @@
             <div class="card">
                 <div class="row ">
                     <div class="col-md-9">
-                        <h4>IT Assets</h4>
+                        <h4>Assets Components</h4>
                     </div>
                     <div class="col-md-3 text-end p-4">
                         <button class="btn btn-primary qr_btn"><img src="{{ asset('Backend/assets/images/It-Assets/Vector1.svg') }}" alt='...'></button>
@@ -61,63 +61,24 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach ($assteComponent as $component)
                         <tr>
-                            <td>1</td>
+                            <td>{{$component->id}}</td>
                             <td>a23</td>
-                            <td>Dell</td>
-                            <td>Processor: Intel Core i5-1235U
-                                12th Generation
-                                (up to 4.40 GHz, 12MB 10 Cores)
-                                RAM & Storage: 8GB</td>
+                            <td>{{$component->name}}</td>
+                            <td>{{$component->specification}}</td>
                             <td>20</td>
                             <td>15</td>
                             <td>
                                 <span class="badge rounded-pill badge-light-success">143</span>
                             </td>
                             <td>5</td>
-                            <td>10</td>
+                            <td>{{$component->price}}</td>
                             <td>
-                                <button class="btn btn-primary btn-view" type="submit" data-bs-original-title="" title="">View</button>
+                                <a href="{{url('assets-component-timeline')}}" class="btn btn-primary btn-view" type="submit" data-bs-original-title="" title="">View</a>
                             </td>
                         </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>a23</td>
-                            <td>Dell</td>
-                            <td>Processor: Intel Core i5-1235U
-                                12th Generation
-                                (up to 4.40 GHz, 12MB 10 Cores)
-                                RAM & Storage: 8GB</td>
-                            <td>20</td>
-                            <td>15</td>
-                            <td>
-                                <span class="badge rounded-pill badge-light-success">43</span>
-                            </td>
-                            <td>10</td>
-                            <td>5</td>
-                            <td>
-                                <button class="btn btn-primary btn-view" type="submit" data-bs-original-title="" title="">View</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>a23</td>
-                            <td>Dell</td>
-                            <td>Processor: Intel Core i5-1235U
-                                12th Generation
-                                (up to 4.40 GHz, 12MB 10 Cores)
-                                RAM & Storage: 8GB</td>
-                            <td>20</td>
-                            <td>15</td>
-                            <td>
-                                <span class="badge rounded-pill badge-light-success">43</span>
-                            </td>
-                            <td>5</td>
-                            <td>22</td>
-                            <td>
-                                <button class="btn btn-primary btn-view" type="submit" data-bs-original-title="" title="">View</button>
-                            </td>
-                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

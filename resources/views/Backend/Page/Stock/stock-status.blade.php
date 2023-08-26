@@ -154,14 +154,11 @@
                                     <td>a23</td>
                                     <td>{{$stock->assetmain->name??''}}</td>
                                     <td>{{$stock->brandmodel->name??''}}</td>
-                                    <td>{{$stock->$brand->name??''}}</td>
-                                    <td>0123456789</td>
+                                    <td>{{$stock->brand->name??''}}</td>
+                                    <td>{{$stock->serial_number}}</td>
 
-                                    <td>Processor: Intel Core i5-1235U
-                                        12th Generation
-                                        (up to 4.40 GHz, 12MB 10 Cores)
-                                        RAM & Storage: 8GB</td>
-                                    <td> ₹62,443</td>
+                                    <td>{{$stock->configuration}}</td>
+                                    <td> ₹{{$stock->price}}</td>
 
                                     <td>
                                         <a class="btn btn-primary btn-view" href="{{url('timeline')}}" data-bs-original-title=""

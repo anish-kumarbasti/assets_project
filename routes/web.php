@@ -21,7 +21,6 @@ use App\Http\Controllers\Transfer\TransferController;
 use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\SubLocationController;
 use App\Http\Controllers\AttributeController;
-use App\Models\SubLocationModel;
 
 /*
 
@@ -64,7 +63,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
     Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
     Route::get('/get-designations/{departmentId}', [UserController::class, 'getDesignations']);
-    Route::get('users.user-profile', [UserController::class, 'users_profile'])->name('users.user-profile');
+    Route::get('users.user-profile/{id}', [UserController::class, 'users_profile'])->name('users.user-profile');
+    Route::get('users.user.profile', [UserController::class, 'usersprofile']);
 
     Route::put('/users/{user}/assign-roles', [UserController::class, 'updateRoles'])->name('users.update_roles');
 
@@ -74,7 +74,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/get-brand-models/{brandId}', [StockController::class, 'getBrandModels']);
     Route::post('/get-slocation/{locationId}', [StockController::class, 'getslocation']);
     Route::post('/get-asset-type/{assettypeId}', [StockController::class, 'getasset']);
-    Route::post('/get-asset-all-details/{assetdetail}',[IssuenceController::class,'getassetdetail']);
+    Route::post('/get-asset-all-details/{assetdetail}', [IssuenceController::class, 'getassetdetail']);
 
 
     Route::get('edit-stock/{id}', [StockController::class, 'edit']);
@@ -98,6 +98,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('add-user', [UserController::class, 'user']);
     Route::get('user-details', [UserController::class, 'userCard']);
     //Assets
+    Route::get('non-it-assets-timeline', [AssetController::class, 'views'])->name('non-it-assets-timeline');
+    Route::get('assets-component-timeline', [AssetController::class, 'compotimeline'])->name('assets-component-timeline');
+    Route::get('assets-software-timeline', [AssetController::class, 'softwaretimeline'])->name('assets-software-timeline');
     Route::get('non-it-asset', [AssetController::class, 'nonitasset'])->name('non.it.assets');
     Route::get('asset-components', [AssetController::class, 'assetscomponent'])->name('assets.components');
     Route::get('asset-software', [AssetController::class, 'assetsoftware'])->name('assets.software');
@@ -140,7 +143,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('designations/{id}', [DesignationController::class, 'update'])->name('designations.update');
     Route::delete('designations/{id}', [DesignationController::class, 'destroy'])->name('designations.destroy');
     //assets
-    Route::post('get-asset-details/{assetTypeId}', [AssetController::class,'getassetdetails']);
+    Route::post('get-asset-details/{assetTypeId}', [AssetController::class, 'getassetdetails']);
     Route::get('assets', [AssetController::class, 'index'])->name('assets.index');
     Route::get('assets/create', [AssetController::class, 'create'])->name('assets.create');
     Route::post('assets', [AssetController::class, 'store'])->name('assets.store');
