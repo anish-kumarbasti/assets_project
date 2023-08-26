@@ -39,8 +39,8 @@
                             <td>
                                 <img src="{{ asset($user->profile_photo) }}" alt="Profile Photo" style="width: 100px; height: 100;">
                             </td>
-                            <td>{{$user->department->name}}</td>
-                            <td> {{ $user->designation->designation }} </td>
+                            <td>{{$user->department->name??''}}</td>
+                            <td> {{ $user->designation->designation??'' }} </td>
                             <td>
                                 <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary">Edit</a>
                                 <form method="POST" action="{{ route('users.destroy', $user->id) }}">

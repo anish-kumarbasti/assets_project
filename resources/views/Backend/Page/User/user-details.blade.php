@@ -19,7 +19,7 @@
           <div class="card-profile"><img class="rounded-circle" src="{{ asset($user->profile_photo) }}" alt=""></div>
           <div class="text-center profile-details"><a href="user-profile.html" data-bs-original-title="" title="">
               <h4>{{ $user->first_name }} {{ $user->last_name }}</h4></a>
-            <h6>{{ $user->designation->designation }}</h6>
+            <h6>{{ $user->designation->designation??'' }}</h6>
           </div>
           <ul class="card-social">
           <button class="btn btn-light ican-envo"><i class="fa fa-envelope" aria-hidden="true"></i></button>
