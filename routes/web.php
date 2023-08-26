@@ -61,7 +61,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('users', [UserController::class, 'store'])->name('users.store');
     Route::get('users/{id}', [UserController::class, 'edit'])->name('users.edit');
     Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
-    Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+    Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
     Route::get('/get-designations/{departmentId}', [UserController::class, 'getDesignations']);
     Route::get('users.user-profile/{id}', [UserController::class, 'users_profile'])->name('users.user-profile');
     Route::get('users.user.profile', [UserController::class, 'usersprofile']);
