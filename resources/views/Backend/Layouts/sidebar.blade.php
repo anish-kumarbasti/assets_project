@@ -38,13 +38,13 @@
                <li><a href="{{ url('attributes')}}">Attribute</a></li>
              </ul>
            </li>
-           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="layout"></i><span>User</span></a>
+           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="layout"></i><span>Security</span></a>
              <ul class="sidebar-submenu">
                <li><a href="{{url('users')}}">All Users</a></li>
                <li><a href="{{route('users.create')}}">Add User</a></li>
                <!-- <li><a href="{{ url('show')}}">User Details</a></li> -->
                <!-- <li><a href="{{ url('users.user.profile')}}">User Card</a></li> -->
-               <li><a href="{{url('add-role') }}">Add Role</a></li>
+               <li><a href="{{url('roles') }}">Add Role</a></li>
                <li><a href="{{url('view-permissions') }}">All Permission</a></li>
              </ul>
            </li>
@@ -89,6 +89,13 @@
                <li><a href="{{ url('disposal')}}">Add Disposal</a> </li>
 
              </ul>
+           </li>
+           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="box"></i><span>Reports</span></a>
+             <ul class="sidebar-submenu">
+               <li><a href="{{url('all-reports')}}">All Report</a> </li>
+             </ul>
+           </li>
+           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="{{route('assets-maintenances')}}"><i data-feather="box"></i><span>Maintenance</span></a>
            </li>
          </ul>
        </div>
