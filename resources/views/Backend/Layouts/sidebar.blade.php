@@ -35,7 +35,8 @@
                <li><a href="{{ url('brand-model')}}">Brand Model</a></li>
                <li><a href="{{ url('location-index')}}">Locations</a></li>
                <li><a href="{{ url('sublocation-index')}}">Sub-Locations</a></li>
-               <li><a href="{{ url('attributes')}}">Attribute</a></li>
+               <li><a href="{{ url('attributes')}}">Attributes</a></li>
+               <li><a href="{{ url('suppliers')}}">Suppliers</a></li>
              </ul>
            </li>
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="layout"></i><span>User</span></a>
