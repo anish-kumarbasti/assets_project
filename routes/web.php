@@ -21,8 +21,10 @@ use App\Http\Controllers\Transfer\TransferController;
 use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\SubLocationController;
 use App\Http\Controllers\AttributeController;
+use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\ReportController;
+
 
 /*
 
@@ -187,6 +189,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('/departments/{id}', [DepartmentController::class, 'update'])->name('departments.update');
     Route::delete('/departments/{id}', [DepartmentController::class, 'destroy']);
     Route::post('/departments/{department}', [DepartmentController::class, 'updateStatus'])->name('departments.updateStatus');
+
+    Route::get('/suppliers', [SupplierController::class, 'index'])->name('suppliers.index');
+    Route::post('/suppliers', [SupplierController::class, 'store'])->name('suppliers.store');
+    Route::get('/suppliers/create', [SupplierController::class, 'create'])->name('suppliers.create');
+    Route::get('/suppliers/{id}/edit', [SupplierController::class, 'edit'])->name('suppliers.edit');
+    Route::post('/suppliers/{id}', [SupplierController::class, 'update'])->name('suppliers.update');
+    Route::delete('/suppliers/{id}', [SupplierController::class, 'destroy'])->name('suppliers.destroy');
+
 
     Route::group(['middleware' => ['permission.checkDepartment']], function () {
     });
