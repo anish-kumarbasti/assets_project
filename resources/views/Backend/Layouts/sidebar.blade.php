@@ -90,6 +90,13 @@
 
              </ul>
            </li>
+           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="box"></i><span>Reports</span></a>
+             <ul class="sidebar-submenu">
+               <li><a href="{{url('all-reports')}}">All Report</a> </li>
+             </ul>
+           </li>
+           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="{{route('assets-maintenances')}}"><i data-feather="box"></i><span>Maintenance</span></a>
+           </li>
          </ul>
        </div>
        <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>

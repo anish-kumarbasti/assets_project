@@ -21,6 +21,8 @@ use App\Http\Controllers\Transfer\TransferController;
 use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\SubLocationController;
 use App\Http\Controllers\AttributeController;
+use App\Http\Controllers\MaintenanceController;
+use App\Http\Controllers\ReportController;
 
 /*
 
@@ -161,6 +163,15 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/brands/{brand}', [BrandController::class, 'updateStatus'])->name('brands.updateStatus');
     Route::post('/brands-model/{brand}', [BrandModelController::class, 'updateStatus'])->name('brands.model.updateStatus');
     Route::resource('brand-model', BrandmodelController::class);
+
+    //Reports
+    Route::get('all-reports', [ReportController::class, 'allreport'])->name('all-reports');
+    Route::get('asset-activity-report', [ReportController::class, 'activity_report'])->name('activity-reports');
+    Route::get('assets-report-status', [ReportController::class, 'report_status'])->name('report-status');
+
+    //Maintenances
+    Route::get('asset-maintenances', [MaintenanceController::class, 'maintenances'])->name('assets-maintenances');
+    Route::post('asset-maintenance', [MaintenanceController::class, 'maintenance_save'])->name('maintenance-save');
     //Attribute
     Route::get('attributes', [AttributeController::class, 'home'])->name('attributes-index');
     Route::post('attribute-store', [AttributeController::class, 'store'])->name('attribute-store');
