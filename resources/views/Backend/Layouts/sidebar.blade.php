@@ -39,7 +39,7 @@
                <li><a href="{{ url('suppliers')}}">Suppliers</a></li>
              </ul>
            </li>
-           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="layout"></i><span>Security</span></a>
+           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="layout"></i><span>User Management</span></a>
              <ul class="sidebar-submenu">
                <li><a href="{{url('users')}}">All Users</a></li>
                <li><a href="{{route('users.create')}}">Add User</a></li>
@@ -68,13 +68,13 @@
              </ul>
            </li>
 
-           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="box"></i><span>Setting</span></a>
+           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="box"></i><span>System Settings</span></a>
              <ul class="sidebar-submenu">
                <li><a href="#">
-                   User Setting</a>
+                   User Settings</a>
                </li>
                <li><a href="#">
-                   Profile Setting</a></li>
+                   Application Settings</a></li>
              </ul>
            </li>
 
@@ -92,15 +92,15 @@
 
              </ul>
            </li>
-           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="box"></i><span>Dispose</span></a>
+           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="box"></i><span>Depreciation</span></a>
              <ul class="sidebar-submenu">
-               <li><a href="{{ url('disposal')}}">Add Disposal</a> </li>
+               <li><a href="{{ url('disposal')}}">Add Depreciation</a> </li>
 
              </ul>
            </li>
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="box"></i><span>Reports</span></a>
              <ul class="sidebar-submenu">
-               <li><a href="{{url('all-reports')}}">All Report</a> </li>
+               <li><a href="{{url('all-reports')}}">All Reports</a> </li>
              </ul>
            </li>
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="{{route('assets-maintenances')}}"><i data-feather="box"></i><span>Maintenance</span></a>
