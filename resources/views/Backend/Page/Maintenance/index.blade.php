@@ -35,19 +35,28 @@
                                 <div class="mb-2">
                                     <label class="form-label">Asset</label>
                                     <select class="form-select" id="asset" name="asset" aria-label="Default select example">
-                                        <option value=""></option>
+                                        <option value="">--Select Asset--</option>
+                                        @foreach ($asset as $assets)
+                                        <option value="{{$assets->name}}">{{$assets->name}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="mb-2">
                                     <label class="form-label">Supplier</label>
                                     <select class="form-select" id="supplier" name="supplier" aria-label="Default select example">
-                                        <option value=""></option>
+                                        <option value="">--Select Supplier--</option>
+                                        @foreach ($supplier as $suppliers)
+                                        <option value="{{$suppliers->name}}">{{$suppliers->name}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="mb-2">
-                                    <label class="form-label">Type</label>
+                                    <label class="form-label">Asset Type</label>
                                     <select class="form-select" id="type" name="type" aria-label="Default select example">
-                                        <option value=""></option>
+                                        <option value="">--Select Asset Type--</option>
+                                        @foreach ($assettype as $assettypes)
+                                        <option value="{{$assettypes->name}}">{{$assettypes->name}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="mb-2">
@@ -75,21 +84,30 @@
                     <table class="display" id="basic-1">
                         <thead>
                             <tr class="text-center">
+                                <th>Asste Tag</th>
                                 <th>Asset</th>
-                                <th>Employees</th>
-                                <th>Status</th>
-                                <th>Location</th>
-                                <th>Date</th>
+                                <th>Supplier</th>
+                                <th>Type</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach ($maintain as $maintainans)
                             <tr class="copy-content">
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>{{$maintainans->id}}</td>
+                                <td>{{$maintainans->asset}}</td>
+                                <td>{{$maintainans->supplier}}</td>
+                                <td>{{$maintainans->type}}</td>
+                                <td>{{$maintainans->start_date}}</td>
+                                <td>{{$maintainans->end_date}}</td>
+                                <td>
+                                    <a href="{{ route('maintainans-edit', $maintainans->id) }}" class="btn btn-primary">Edit</a>
+                                    <button class="btn btn-danger delete-button" type="button" data-id="{{ $maintainans->id }}">Delete</button>
+                                </td>
                             </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -107,5 +125,64 @@
     $('#myModal').on('shown.bs.modal', function() {
         $('#myInput').trigger('focus')
     })
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
+
+<script>
+    document.querySelectorAll('.delete-button').forEach(function(button) {
+
+        button.addEventListener('click', function() {
+            const Id = this.getAttribute('data-id');
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch('maintainans-delete/' + Id, {
+
+                            method: 'delete',
+                            headers: {
+                                'X-CSRF-TOKEN': csrfToken,
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                        .then(response => response.json())
+
+
+                        .then(data => {
+
+                            if ('success' in data && data.success) {
+                                Swal.fire(
+                                    'Deleted!',
+                                    'Your file has been deleted.',
+                                    'success'
+                                ).then(() => {
+                                    location.reload();
+                                });
+                            } else {
+                                Swal.fire(
+                                    'Error',
+                                    'Failed to delete the file.',
+                                    'error'
+                                );
+                            }
+                        })
+                        .catch(error => {
+                            Swal.fire(
+                                'Error',
+                                'An error occurred while deleting the file.',
+                                'error'
+                            );
+                        });
+                }
+            });
+        });
+    });
 </script>
 @endsection
