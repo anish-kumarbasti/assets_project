@@ -37,7 +37,7 @@
                                 </select>
                             </div>
                             <div class="mb-2">
-                                <label class="form-label">Desposal Code</label>
+                                <label class="form-label">Disposal Code</label>
                                 <input type="text" class="form-control" value="{{$disposal->desposal_code}}" name="desposal_code" id="desposal">
                             </div>
                         </div>
