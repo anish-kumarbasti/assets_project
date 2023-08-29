@@ -1,16 +1,18 @@
 @extends('Backend.Layouts.panel')
 
 @section('Style-Area')
-<style>
-    .img {
-        width: 100%;
-    }
+    <style>
+        .img {
+            width: 100%;
+        }
 
-    .square-image {
-        width: 100px; /* You can adjust this value to your desired square size */
-        height: 100px; /* Keep the same value as width to maintain a square aspect ratio */
-    }
-</style>
+        .square-image {
+            width: 100px;
+            /* You can adjust this value to your desired square size */
+            height: 100px;
+            /* Keep the same value as width to maintain a square aspect ratio */
+        }
+    </style>
 @endsection
 
 @section('Content-Area')
@@ -23,7 +25,7 @@
                 <div class="card-profile"><img class="rounded-circle square-image" src="{{ asset($user->profile_photo) }}" alt=""></div>
                 <div class="text-center profile-details"><a href="user-profile.html" data-bs-original-title="" title="">
                         <h4>{{ $user->first_name }} {{ $user->last_name }}</h4></a>
-                    <h6>{{ $user->designation->designation }}</h6>
+                    <h6>{{ $user->designation->designation??'' }}</h6>
                 </div>
                 <ul class="card-social">
                     <button class="btn btn-light ican-envo"><i class="fa fa-envelope" aria-hidden="true"></i></button>
@@ -47,7 +49,9 @@
             </div>
         </div>
 
-        @endforeach
-    </div>
-</div>
+    @endforeach
+
+
+
+
 @endsection

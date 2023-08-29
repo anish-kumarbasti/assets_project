@@ -26,4 +26,15 @@ class IssuenceController extends Controller
         // dd($response);
         return response()->json($response);
     }
+    public function getchangecard(Request $request) {
+        $requestData = json_decode($request->getContent(), true);
+        
+        $result = Stock::where('id', $requestData['cardId'])->with('brand', 'brandmodel')->get();
+        // dd($result);
+        return response()->json($result);
+    }
+    public function store(Request $request){
+        dd($request);
+    }
+    
 }

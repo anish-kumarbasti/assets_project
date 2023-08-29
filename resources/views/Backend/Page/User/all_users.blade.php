@@ -7,10 +7,8 @@
     }
 
     .square-image {
-        width: 100px;
-        /* You can adjust this value to your desired square size */
-        height: 100px;
-        /* Keep the same value as width to maintain a square aspect ratio */
+        width: 100px; /* You can adjust this value to your desired square size */
+        height: 100px; /* Keep the same value as width to maintain a square aspect ratio */
     }
 </style>
 @endsection
@@ -19,9 +17,9 @@
 <div class="col-sm-12">
     <div class="row">
         <div class="col-md-12 mb-3">
-            <div class="" role="group" aria-label="Toggle View">
-                <button id="toggleListView" class="btn btn-primary">View List</button>
-                <button id="toggleCardView" class="btn btn-primary">View Card</button>
+            <div class="float-end" role="group" aria-label="Toggle View">
+                <a id="toggleListView" class="fw-bold link" href="#"><i class="fa fa-list-alt"></i> View List</a>
+                <a id="toggleCardView" class="fw-bold link" href="#"><i class="fa fa-user"></i>View Card</a>
             </div>
         </div>
     </div>
@@ -40,24 +38,28 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($users as $user)
-                    <tr>
-                        <td>{{ $user->id }}</td>
-                        <td>{{ $user->first_name }} {{ $user->last_name }}</td>
-                        <td>{{ $user->email }}</td>
-                        <td>
-                            <img src="{{ asset($user->profile_photo) }}" alt="Profile Photo" style="width: 100px; height: 50px;">
-                        </td>
-                        <td>{{$user->department->name}}</td>
-                        <td> {{ $user->designation->designation }} </td>
-                        <td>
-                            <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary">Edit</a>
-                            <button class="btn btn-danger delete-button" type="button" data-id="{{ $user->id }}">Delete</button>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            @foreach ($users as $user)
+                        <tr>
+                            <td>{{ $user->id }}</td>
+                            <td>{{ $user->first_name }} {{ $user->last_name }}</td>
+                            <td>{{ $user->email }}</td>
+                            <td>
+                                <img src="{{ asset($user->profile_photo) }}" alt="Profile Photo" style="width: 100px; height: 50px;">
+                            </td>
+                            <td>{{$user->department->name??''}}</td>
+                            <td> {{ $user->designation->designation??'' }} </td>
+                            <td>
+                                <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary">Edit</a>
+                                <form method="POST" action="{{ route('users.destroy', $user->id) }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-danger sweet-5" type="submit" style="display: inline-block;" onclick="return  confirm('Are you sure')">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
         </div>
     </div>
     <div class="row" id="userCard">
@@ -68,8 +70,7 @@
                 <div class="card-header"><img class="img-fluid img" src="{{ asset($user->cover_photo) }}" style="width: 300px; height: 100px;" alt="Uploaded Image"></div>
                 <div class="card-profile"><img class="rounded-circle square-image" src="{{ asset($user->profile_photo) }}" alt=""></div>
                 <div class="text-center profile-details"><a href="{{ route('users.user-profile', $user->id) }}" data-bs-original-title="" title="">
-                        <h4>{{ $user->first_name }} {{ $user->last_name }}</h4>
-                    </a>
+                        <h4>{{ $user->first_name }} {{ $user->last_name }}</h4></a>
                     <h6>{{ $user->designation->designation }}</h6>
                 </div>
                 <ul class="card-social">
