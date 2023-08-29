@@ -21,10 +21,14 @@ use App\Http\Controllers\Transfer\TransferController;
 use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\SubLocationController;
 use App\Http\Controllers\AttributeController;
+<<<<<<< Updated upstream
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\ReportController;
 
+=======
+use App\Models\Issuence;
+>>>>>>> Stashed changes
 
 /*
 
@@ -79,7 +83,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/get-slocation/{locationId}', [StockController::class, 'getslocation']);
     Route::post('/get-asset-type/{assettypeId}', [StockController::class, 'getasset']);
     Route::post('/get-asset-all-details/{assetdetail}', [IssuenceController::class, 'getassetdetail']);
-
+    Route::post('/get-change-position',[IssuenceController::class,'getchangecard']);
 
     Route::get('edit-stock/{id}', [StockController::class, 'edit']);
     Route::get('all-stock', [StockController::class, 'ShowStock'])->name('all.stock');
@@ -97,7 +101,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('asset-name', [AssetNameController::class, 'index']);
     Route::get('asset-type', [AssetTypeController::class, 'index']);
     Route::get('add-permission', [PermissionController::class, 'permission']);
-    Route::get('disposal', [DisposalController::class, 'index']);
+    //Disposal
+    Route::get('disposal', [DisposalController::class, 'index'])->name('disposal');
+    Route::post('disposal-store', [DisposalController::class, 'store'])->name('store-disposal');
+    Route::get('disposal-edit/{id}', [DisposalController::class, 'edit'])->name('disposal-edit');
+    Route::delete('disposal-delete/{id}', [DisposalController::class, 'destroy'])->name('disposal-delete');
+    Route::put('disposal-update/{id}', [DisposalController::class, 'update'])->name('disposal-update');
+
     //Searct Employee id
     Route::get('server_script', [IssuenceController::class, 'index']);
     Route::get('transfer', [TransferController::class, 'index']);
@@ -176,6 +186,9 @@ Route::group(['middleware' => 'auth'], function () {
     //Maintenances
     Route::get('asset-maintenances', [MaintenanceController::class, 'maintenances'])->name('assets-maintenances');
     Route::post('asset-maintenance', [MaintenanceController::class, 'maintenance_save'])->name('maintenance-save');
+    Route::get('maintainans-edit/{id}', [MaintenanceController::class, 'edit'])->name('maintainans-edit');
+    Route::delete('maintainans-delete/{id}', [MaintenanceController::class, 'destroy'])->name('maintainans-delete');
+    Route::put('maintainans-update/{id}', [MaintenanceController::class, 'update'])->name('maintainans-Update');
     //Attribute
     Route::get('attributes', [AttributeController::class, 'home'])->name('attributes-index');
     Route::post('attribute-store', [AttributeController::class, 'store'])->name('attribute-store');
@@ -204,4 +217,5 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::get('/issuences', [IssuenceController::class, 'index'])->name('issuences.index');
+    Route::post('/issuence/store',[IssuenceController::class,'store'])->name('issuence.store');
 });

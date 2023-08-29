@@ -7,10 +7,8 @@
     }
 
     .square-image {
-        width: 100px;
-        /* You can adjust this value to your desired square size */
-        height: 100px;
-        /* Keep the same value as width to maintain a square aspect ratio */
+        width: 100px; /* You can adjust this value to your desired square size */
+        height: 100px; /* Keep the same value as width to maintain a square aspect ratio */
     }
 </style>
 @endsection
@@ -19,9 +17,9 @@
 <div class="col-sm-12">
     <div class="row">
         <div class="col-md-12 mb-3">
-            <div class="" role="group" aria-label="Toggle View">
-                <button id="toggleListView" class="btn btn-primary">View List</button>
-                <button id="toggleCardView" class="btn btn-primary">View Card</button>
+            <div class="float-end" role="group" aria-label="Toggle View">
+                <a id="toggleListView" class="fw-bold link" href="#"><i class="fa fa-list-alt"></i> View List</a>
+                <a id="toggleCardView" class="fw-bold link" href="#"><i class="fa fa-user"></i>View Card</a>
             </div>
         </div>
     </div>
@@ -40,6 +38,7 @@
                     </tr>
                 </thead>
                 <tbody>
+
                     @foreach ($users as $user)
                     <tr>
                         <td>{{ $user->id }}</td>
@@ -58,6 +57,7 @@
                     @endforeach
                 </tbody>
             </table>
+
         </div>
     </div>
     <div class="row" id="userCard">
@@ -68,9 +68,11 @@
                 <div class="card-header"><img class="img-fluid img" src="{{ asset($user->cover_photo) }}" style="width: 300px; height: 100px;" alt="Uploaded Image"></div>
                 <div class="card-profile"><img class="rounded-circle square-image" src="{{ asset($user->profile_photo) }}" alt=""></div>
                 <div class="text-center profile-details"><a href="{{ route('users.user-profile', $user->id) }}" data-bs-original-title="" title="">
+
                         <h4>{{ $user->first_name }} {{ $user->last_name }}</h4>
                     </a>
                     <h6>{{ $user->designation->designation??'' }}</h6>
+
                 </div>
                 <ul class="card-social">
                     <button class="btn btn-light ican-envo"><i class="fa fa-envelope" aria-hidden="true"></i></button>

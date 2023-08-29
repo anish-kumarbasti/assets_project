@@ -39,6 +39,11 @@
 
     <script src="{{asset('Backend/assets/js/timeline/timeline-v-1/main.js')}}"></script>
     <script src="{{asset('Backend/assets/js/modernizr.js')}}"></script>
+    <script src="{{asset('Backend/assets/js/jquery.ui.min.js')}}"></script>
+    <script src="{{asset('Backend/assets/js/dragable/sortable-custom.js')}}"></script>
+    <script src="{{asset('Backend/assets/js/dragable/sortable.js')}}"></script>
+    <script src="{{asset('Backend/assets/js/form-wizard/form-wizard-three.js')}}"></script>
+    <script src="{{asset('Backend/assets/js/form-wizard/jquery.backstretch.min.js')}}"></script>
 
     <script src="{{asset('Backend/assets/js/select2/select2-custom.js')}}"></script>
     <script src="{{asset('Backend/assets/js/select2/select2.full.min.js')}}"></script>
@@ -46,7 +51,9 @@
     <script src="{{asset('Backend/assets/js/sweet-alert/app.js')}}"></script>
     <script src="{{asset('Backend/assets/js/sweet-alert/sweetalert.min.js')}}"></script>
      <script src="{{ asset('Backend/assets/js/main.js')}}"></script>
+     <script src="{{asset('Backend/assets/js/issuence.js')}}"></script>
     <!-- login js-->
+
 
 
 
