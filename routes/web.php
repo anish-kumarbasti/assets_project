@@ -88,6 +88,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('edit-stock/{id}', [StockController::class, 'edit']);
     Route::get('all-stock', [StockController::class, 'ShowStock'])->name('all.stock');
     Route::post('store-stock', [StockController::class, 'store'])->name('store.stock');
+    Route::delete('/delete-stock/{id}', [StockController::class, 'destroy'])->name('delete.stock');
+
     Route::post('update-stock/{id}', [StockController::class, 'update'])->name('update.stock');
     Route::put('stock-status/{stockId}', [StockController::class, 'changestockstatus'])->name('change-stock-status');
     Route::get('manage-stocks', [StockController::class, 'manage']);

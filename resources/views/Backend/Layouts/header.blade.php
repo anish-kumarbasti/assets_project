@@ -30,7 +30,7 @@
                     <div class="d-flex align-items-center">
 
                       <div class="flex-grow-1">
-                        <p><a href="order-history.html">Delivery processing </a><span class="pull-right">6 hr</span></p>
+                        <p><a href="order-history.html">Asset alloted! </a><span class="pull-right">6 hr</span></p>
                       </div>
                     </div>
                   </li>
@@ -38,30 +38,15 @@
                     <div class="d-flex align-items-center">
                       <div class="flex-shrink-0"><i data-feather="shopping-cart"></i></div>
                       <div class="flex-grow-1">
-                        <p><a href="cart.html">Order Complete</a><span class="pull-right">3 hr</span></p>
+                        <p><a href="cart.html">New Stock Uploaded!</a><span class="pull-right">3 hr</span></p>
                       </div>
                     </div>
                   </li>
-                  <li>
-                    <div class="d-flex align-items-center">
-                      <div class="flex-shrink-0"><i data-feather="file-text"></i></div>
-                      <div class="flex-grow-1">
-                        <p><a href="invoice-template.html">Tickets Generated</a><span class="pull-right">1 hr</span></p>
-                      </div>
-                    </div>
-                  </li>
-                  <li>
-                    <div class="d-flex align-items-center">
-                      <div class="flex-shrink-0"><i data-feather="send"></i></div>
-                      <div class="flex-grow-1">
-                        <p><a href="email_inbox.html">Delivery Complete</a><span class="pull-right">45 min</span></p>
-                      </div>
-                    </div>
-                  </li>
+
                   <li><a class="btn btn-primary" href="javascript:void(0)">Check all notification</a></li>
                 </ul>
               </li>
-              <li class="onhover-dropdown">
+              {{-- <li class="onhover-dropdown">
                 <div class="message"><i data-feather="message-square"></i></div>
                 <ul class="message-dropdown onhover-show-div">
                   <li><i data-feather="message-square">            </i>
@@ -71,8 +56,8 @@
                     <div class="d-flex align-items-start">
                       <div class="message-img bg-light-primary"><img src="../assets/images/user/3.jpg" alt=""></div>
                       <div class="flex-grow-1">
-                        <h5 class="mb-1"><a href="email_inbox.html">Emay Walter</a></h5>
-                        <p>Do you want to go see movie?</p>
+                        <h5 class="mb-1"><a href="email_inbox.html">User 1</a></h5>
+                        <p>Ha</p>
                       </div>
                       <div class="notification-right"><i data-feather="x"></i></div>
                     </div>
@@ -99,7 +84,7 @@
                   </li>
                   <li><a class="btn btn-primary" href="email_inbox.html">Check Messages</a></li>
                 </ul>
-              </li>
+              </li> --}}
 
               <li class="profile-nav onhover-dropdown">
                 <div class="account-user"><i data-feather="user"></i></div>

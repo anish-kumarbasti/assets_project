@@ -11,6 +11,7 @@ use App\Models\Brandmodel;
 use App\Models\Location;
 use App\Models\Stock;
 use App\Models\SubLocationModel;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
 
 class StockController extends Controller
@@ -25,8 +26,9 @@ class StockController extends Controller
         $brand_model = Brandmodel::all();
         $sublocation = SubLocationModel::all();
         $attribute = Attribute::all();
+        $supplier = Supplier::all();
         // dd($asset_type);
-        return view('Backend.Page.Stock.add-stock', compact('asset_type', 'asset', 'brand', 'location', 'brand_model', 'sublocation', 'attribute'));
+        return view('Backend.Page.Stock.add-stock', compact('asset_type', 'asset', 'brand', 'location', 'brand_model', 'sublocation', 'attribute', 'supplier'));
     }
 
 
@@ -61,14 +63,23 @@ class StockController extends Controller
         return view('Backend.Page.Stock.stock-status', compact('stock'));
     }
 
+
     public function store(Request $request)
     {
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images'), $imageName);
+            $data['image'] = $imageName;
+        }
 
         // dd($request);
         $request->validate([
             'product_info' => 'required',
             'price' => 'required',
-            'vendor' => 'required', // Fixed the typo here ('vedor' to 'vendor')
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust the file size limit if needed
+
+            // 'vendor' => 'required', // Fixed the typo here ('vedor' to 'vendor')
         ]);
         // dd($request);
         $data = Stock::create([
@@ -82,7 +93,6 @@ class StockController extends Controller
             'configuration' => $request->configuration,
             'serial_number' => $request->serial_number,
             'price' => $request->price,
-            'vendor' => $request->vendor,
             'host_name' => $request->host_name,
             'product_number' => $request->generate_number,
             'product_warranty' => $request->product_warranty,
@@ -92,6 +102,7 @@ class StockController extends Controller
             'expiry_date' => $request->expiry,
             'quantity' => $request->quantity,
             'liscence_number' => $request->liscence_number,
+            'supplier' => $request->supplier,
         ]);
 
         // You might want to redirect the user somewhere after successful creation
@@ -129,7 +140,8 @@ class StockController extends Controller
         $brand_model = Brandmodel::all();
         $sublocation = SubLocationModel::all();
         $attribute = Attribute::all();
-        return view('Backend.Page.Stock.add-stock', compact('stockedit', 'asset', 'asset_type', 'brand', 'brand_model', 'location', 'sublocation','attribute'));
+        $supplier = Supplier::all();
+        return view('Backend.Page.Stock.add-stock', compact('stockedit', 'asset', 'asset_type', 'brand', 'brand_model', 'location', 'sublocation','attribute', 'supplier'));
     }
     public function update(Request $request, $id)
     {
@@ -137,7 +149,7 @@ class StockController extends Controller
         $request->validate([
             'product_info' => 'required',
             'price' => 'required',
-            'vendor' => 'required', // Fixed the typo here ('vedor' to 'vendor')
+            // 'vendor' => 'required', // Fixed the typo here ('vedor' to 'vendor')
         ]);
 
         $data = Stock::find($id)->update([
@@ -151,7 +163,7 @@ class StockController extends Controller
             'configuration' => $request->configuration,
             'serial_number' => $request->serial_number,
             'price' => $request->price,
-            'vendor' => $request->vendor,
+            // 'vendor' => $request->vendor,
             'host_name' => $request->host_name,
             'product_number' => $request->generate_number,
             'product_warranty' => $request->product_warranty,
@@ -161,6 +173,7 @@ class StockController extends Controller
             'expiry_date' => $request->expiry,
             'quantity' => $request->quantity,
             'liscence_number' => $request->liscence_number,
+            'supplier' => $request->supplier ?? '0',
         ]);
 
         // You might want to redirect the user somewhere after successful creation
@@ -169,5 +182,13 @@ class StockController extends Controller
     public function timeline()
     {
         return view('Backend.Page.Stock.timeline');
+    }
+
+    public function destroy($id)
+    {
+        $stock = Stock::findOrFail($id);
+        $stock->delete();
+
+        return redirect()->route('all.stock');
     }
 }

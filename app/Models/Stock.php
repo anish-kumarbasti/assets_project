@@ -9,7 +9,7 @@ class Stock extends Model
 {
     use HasFactory;
     protected $guarded=[];
-    
+
     public function brand()
     {
         return $this->belongsTo(Brand::class, 'brand_id');
@@ -29,4 +29,9 @@ class Stock extends Model
     public function brandmodel(){
         return $this->belongsTo(Brandmodel::class, 'brand_model_id');
     }
+    public function getsupplier()
+{
+    return $this->belongsTo(Supplier::class, 'supplier');
+}
+
 }

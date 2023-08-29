@@ -154,7 +154,7 @@
                                     <td>a23</td>
                                     <td>{{$stock->assetmain->name??''}}</td>
                                     <td>{{$stock->brandmodel->name??''}}</td>
-                                    <td>{{$stock->brand->name??''}}</td>
+
                                     <td>{{$stock->serial_number}}</td>
 
                                     <td>{{$stock->configuration}}</td>
