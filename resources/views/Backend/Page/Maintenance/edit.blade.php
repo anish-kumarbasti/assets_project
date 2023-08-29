@@ -30,14 +30,6 @@
 
                             </div>
                             <div class="mb-2">
-                                <label class="form-label">Supplier</label>
-                                <select class="form-select" id="supplier" name="supplier" aria-label="Default select example">
-                                    @foreach ($supplier as $suppliers)
-                                    <option value="{{$suppliers->name}}" {{$maintainance->supplier == $suppliers->id ? 'selected':''}}>{{$suppliers->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mb-2">
                                 <label class="form-label">Asset Type</label>
                                 <select class="form-select" id="type" name="type" aria-label="Default select example">
                                     @foreach ($assettype as $assettypes)
@@ -45,6 +37,15 @@
                                     @endforeach
                                 </select>
                             </div>
+                            <div class="mb-2">
+                                <label class="form-label">Supplier</label>
+                                <select class="form-select" id="supplier" name="supplier" aria-label="Default select example">
+                                    @foreach ($supplier as $suppliers)
+                                    <option value="{{$suppliers->name}}" {{$maintainance->supplier == $suppliers->id ? 'selected':''}}>{{$suppliers->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
                         </div>
                         <div class="col-md-6">
                             <div class="mb-2">
