@@ -95,7 +95,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('asset-name', [AssetNameController::class, 'index']);
     Route::get('asset-type', [AssetTypeController::class, 'index']);
     Route::get('add-permission', [PermissionController::class, 'permission']);
-    Route::get('disposal', [DisposalController::class, 'index']);
+    //Disposal
+    Route::get('disposal', [DisposalController::class, 'index'])->name('disposal');
+    Route::post('disposal-store', [DisposalController::class, 'store'])->name('store-disposal');
+    Route::get('disposal-edit/{id}', [DisposalController::class, 'edit'])->name('disposal-edit');
+    Route::delete('disposal-delete/{id}', [DisposalController::class, 'destroy'])->name('disposal-delete');
+    Route::put('disposal-update/{id}', [DisposalController::class, 'update'])->name('disposal-update');
+
     //Searct Employee id
     Route::get('server_script', [IssuenceController::class, 'index']);
     Route::get('transfer', [TransferController::class, 'index']);
