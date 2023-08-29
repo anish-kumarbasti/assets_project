@@ -35,16 +35,17 @@
                <li><a href="{{ url('brand-model')}}">Brand Model</a></li>
                <li><a href="{{ url('location-index')}}">Locations</a></li>
                <li><a href="{{ url('sublocation-index')}}">Sub-Locations</a></li>
-               <li><a href="{{ url('attributes')}}">Attribute</a></li>
+               <li><a href="{{ url('attributes')}}">Attributes</a></li>
+               <li><a href="{{ url('suppliers')}}">Suppliers</a></li>
              </ul>
            </li>
-           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="layout"></i><span>User</span></a>
+           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="layout"></i><span>Security</span></a>
              <ul class="sidebar-submenu">
                <li><a href="{{url('users')}}">All Users</a></li>
                <li><a href="{{route('users.create')}}">Add User</a></li>
                <!-- <li><a href="{{ url('show')}}">User Details</a></li> -->
                <!-- <li><a href="{{ url('users.user.profile')}}">User Card</a></li> -->
-               <li><a href="{{url('add-role') }}">Add Role</a></li>
+               <li><a href="{{url('roles') }}">Add Role</a></li>
                <li><a href="{{url('view-permissions') }}">All Permission</a></li>
              </ul>
            </li>
@@ -68,6 +69,13 @@
            </li>
 
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="box"></i><span>Setting</span></a>
+             <ul class="sidebar-submenu">
+               <li><a href="#">
+                   User Setting</a>
+               </li>
+               <li><a href="#">
+                   Profile Setting</a></li>
+             </ul>
            </li>
 
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="box"></i><span>Issuence</span></a>
@@ -89,6 +97,13 @@
                <li><a href="{{ url('disposal')}}">Add Disposal</a> </li>
 
              </ul>
+           </li>
+           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="box"></i><span>Reports</span></a>
+             <ul class="sidebar-submenu">
+               <li><a href="{{url('all-reports')}}">All Report</a> </li>
+             </ul>
+           </li>
+           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="{{route('assets-maintenances')}}"><i data-feather="box"></i><span>Maintenance</span></a>
            </li>
          </ul>
        </div>

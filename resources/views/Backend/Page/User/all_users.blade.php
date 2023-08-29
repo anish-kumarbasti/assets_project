@@ -7,8 +7,10 @@
     }
 
     .square-image {
-        width: 100px; /* You can adjust this value to your desired square size */
-        height: 100px; /* Keep the same value as width to maintain a square aspect ratio */
+        width: 100px;
+        /* You can adjust this value to your desired square size */
+        height: 100px;
+        /* Keep the same value as width to maintain a square aspect ratio */
     }
 </style>
 @endsection
@@ -63,14 +65,15 @@
         </div>
     </div>
     <div class="row" id="userCard">
-       @foreach ($users as $user)
+        @foreach ($users as $user)
         <div class="col-lg-4 col-md-6 box-col-33">
             <div class="card custom-card">
                 <!-- ... Card view content ... -->
                 <div class="card-header"><img class="img-fluid img" src="{{ asset($user->cover_photo) }}" style="width: 300px; height: 100px;" alt="Uploaded Image"></div>
                 <div class="card-profile"><img class="rounded-circle square-image" src="{{ asset($user->profile_photo) }}" alt=""></div>
                 <div class="text-center profile-details"><a href="{{ route('users.user-profile', $user->id) }}" data-bs-original-title="" title="">
-                        <h4>{{ $user->first_name }} {{ $user->last_name }}</h4></a>
+                        <h4>{{ $user->first_name }} {{ $user->last_name }}</h4>
+                    </a>
                     <h6>{{ $user->designation->designation }}</h6>
                 </div>
                 <ul class="card-social">
@@ -96,7 +99,7 @@
         </div>
         @endforeach
     </div>
-    </div>
+</div>
 </div>
 @endsection
 
@@ -104,7 +107,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
-         $('#toggleCardView').hide();
+        $('#toggleCardView').hide();
         $('#toggleListView').click(function() {
             $('#userCard').hide();
             $('#userList').show();
@@ -120,4 +123,60 @@
         });
     });
 </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
+<script>
+    document.querySelectorAll('.delete-button').forEach(function(button) {
+        button.addEventListener('click', function() {
+            const assetId = this.getAttribute('data-id');
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            const deleteRoute = '{{ route("users.destroy", ["id" => ":id"]) }}'.replace(':id', assetId);
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(deleteRoute, {
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': csrfToken,
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if ('success' in data && data.success) {
+                                Swal.fire(
+                                    'Deleted!',
+                                    'The user has been deleted.',
+                                    'success'
+                                ).then(() => {
+                                    location.reload();
+                                });
+                            } else {
+                                Swal.fire(
+                                    'Error',
+                                    'Failed to delete the user.',
+                                    'error'
+                                );
+                            }
+                        })
+                        .catch(error => {
+                            Swal.fire(
+                                'Error',
+                                'An error occurred while deleting the user.',
+                                'error'
+                            );
+                        });
+                }
+            });
+        });
+    });
+</script>
+
 @endsection

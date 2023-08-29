@@ -1,281 +1,187 @@
 @extends('Backend.Layouts.panel')
 
 @section('Style-Area')
-
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 @endsection
 
 @section('Content-Area')
+@if (session('success'))
+<div class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
+  <p><b> Well done! </b>{{ session('success') }}</p>
+  <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@endif
 <div class="col-sm-12">
   <div class="card">
     <div class="card-header pb-0">
-      <h4>Employ Details</h4>
+      <h4>Depreciation</h4>
+      <hr>
     </div>
-    <div class="card-body">
-      <form class="needs-validation" novalidate="">
-        <div class="card-item border">
-          <div class="row p-3">
-            <div class="col-md-6 mb-4">
-              <label class="form-label" for="employeeId">Employee's ID</label>
-              <input class="form-control" id="employeeId" type="text" required="" data-bs-original-title=""
-                title="" placeholder="Enter Employee's ID">
+    <div class="card-header pb-0 d-flex justify-content-between">
+      <div>
+        <button class="btn btn-primary" id="copy-button"><i class="far fa-copy"></i> Copy</button>
+        <button class="btn btn-primary" id="csvButton"><i class="fas fa-file-csv"></i> CSV</button>
+        <button class="btn btn-primary" id="pdfButton"><i class="fas fa-file-pdf"></i> PDF</button>
+        <button class="btn btn-primary" onclick="window.print()"><i class="fas fa-print"></i> Print</button>
+      </div>
+      <a class="btn btn-primary text-end" id="openModalButton" data-toggle="modal" data-target="#exampleModal"> + Depreciation</a>
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Depreciation list</h5>
+              <button type="button" class="close rounded" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
-            <div class="col-md-6 mb-4">
-              <div class="mb-3 row">
-             <label class="col-sm-3 col-form-label pt-5 scan-text">Scan Barcode :</label>
-            <div class="col-sm-9 pt-4">
-         <input class="form-control qr" type="file" accept="image/*" capture="environment" id="qrInput">
-         <img id="qrImage" src="{{ asset('Backend/assets/images/IT-Assets/Vector_qr.png')}}" alt="QR Code">
-    </div>
-  </div>
-            </div>
+            <hr>
+            <form action="{{route('store-disposal')}}" method="post">
+              @csrf
+              <div class="modal-body">
+                <div class="mb-2">
+                  <label class="form-label">Category</label>
+                  <select class="form-select" id="category" name="category" aria-label="Default select example">
+                    <option value="">--Select Category--</option>
+                    @foreach ($assettype as $assett)
+                    <option value="{{$assett->name}}">{{$assett->name}}</option>
+                    @endforeach
+                  </select>
+                </div>
+                <div class="mb-2">
+                  <label class="form-label">Asset</label>
+                  <select class="form-select" id="asset" name="asset" aria-label="Default select example">
+                    <option value="">--Select Asset--</option>
+                    @foreach ($asset as $assets)
+                    <option value="{{$assets->name}}">{{$assets->name}}</option>
+                    @endforeach
+                  </select>
+                </div>
+                <div class="mb-2">
+                  <label class="form-label">Period (Month)</label>
+                  <input class="form-control" name="period_months" type="text" id="period_months" inputmode="numeric">
+                </div>
+                <div class="mb-2">
+                  <label class="form-label">Asset Value</label>
+                  <input type="text" class="form-control" name="asset_value" id="assetvalue" inputmode="numeric">
+                </div>
+                <div class="mb-2">
+                  <label class="form-label">Desposal Code</label>
+                  <input type="text" class="form-control" name="desposal_code" id="desposal">
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+              </div>
+            </form>
           </div>
         </div>
-        <div class="card-item border mt-3">
-          <div class="row p-3">
-            <div class="col-md-4 mb-4">
-              <label class="form-label" for="validationCustom01">Name:</label>
-              <input class="form-control" id="validationCustom01" type="text" required="" data-bs-original-title=""
-                title="" placeholder="Abhi" readonly>
-            </div>
-            <div class="col-md-4 mb-4">
-              <label class="form-label" for="validationCustom01">Department:</label>
-              <input class="form-control" id="validationCustom01" type="text" required="" data-bs-original-title=""
-                title="" placeholder="IT Department" readonly>
-            </div>
-            <div class="col-md-4 mb-4">
-              <label class="form-label" for="validationCustom01">Location:</label>
-              <input class="form-control" id="validationCustom01" type="text" required="" data-bs-original-title=""
-                title="" placeholder="Lucknow" readonly>
-            </div>
-          </div>
-        </div>
-      </form>
+      </div>
     </div>
-  </div>
 
-  <div class="card mt-3">
-    <div class="card-body">
-      <div class="row">
-        <div class="col-md-3 mt-2">
-          <label class="form-label pt-3 scan-text" for="validationCustom01">Disposal Code :</label>
+    <div class="card">
+      <div class="card-body">
+        <div class="table-responsive theme-scrollbar">
+          <table class="display" id="basic-1">
+            <thead>
+              <tr class="text-center">
+                <th>Name</th>
+                <th>Cost</th>
+                <th>Period (Month)</th>
+                <th>Category</th>
+                <th>Asset Value</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach ($disposal as $disposals)
+              <tr class="copy-content">
+                <td></td>
+                <td></td>
+                <td>{{$disposals->period_months}}</td>
+                <td>{{$disposals->category}}</td>
+                <td>{{$disposals->asset_value}}</td>
+                <td>
+                  <a href="{{route('disposal-edit',$disposals->id)}}" class="btn btn-primary">Edit</a>
+                  <button class="btn btn-danger delete-button" type="button" data-id="{{$disposals->id}}">Delete</button>
+                </td>
+              </tr>
+              @endforeach
+            </tbody>
+          </table>
         </div>
-        <div class="col-md-3 mt-2">
-           <select class="form-select" aria-label="Default select example" id="transferTypeSelect">
-            <option selected>Clearance Type</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-          </select>
-        </div>
-        <div class="col-md-3 mt-2">
-          <div class="form-check pt-3">
-            <input class="form-check-input" type="radio" name="transferReason" id="itClearanceRadio"
-              value="itClearance" required>
-            <label class="form-check-label scan-text" for="itClearanceRadio">Condition Code :</label>
-          </div>
-        </div>
-        <div class="col-md-3 mt-2">
-          <select class="form-select" aria-label="Default select example" id="transferTypeSelect">
-            <option selected>Clearance Type</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-          </select>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="card mt-3">
-    <div class="card-body">
-      <div class="card-header pb-0">
-  
-      </div>
-      <div class="row py-3">
-        <!-- First Card -->
-        <div class="col-md-3">
-          <h5>1. Laptop<span class="cross-icon"><i class="fa fa-close"></i></span></h5>
-          <div class="card card-box">
-            <div class="card-body">
-              <h5 class="card-title card-text p-2">Dell Inspiron 5510</h5>
-              <p class="card-subtitle mb-2 text-muted">Brand: <span>Dell</span></p>
-              <p class="card-subtitle mb-2 text-muted">Brand: <span>0123456789</span></p>
-              <p class="card-subtitle mb-2 text-muted">Price: <span>62,000/-</span></p>
-            </div>
-          </div>
-        </div>
-        <!-- Second Card -->
-        <div class="col-md-3">
-          <h5>2. Monitor<span class="cross-icon"><i class="fa fa-close"></i></span></h5>
-          <div class="card card-box">
-            <div class="card-body">
-              <h5 class="card-title card-text p-2">Dell Inspiron 5510</h5>
-              <p class="card-subtitle mb-2 text-muted">Brand: <span>Dell</span></p>
-              <p class="card-subtitle mb-2 text-muted">Brand: <span>0123456789</span></p>
-              <p class="card-subtitle mb-2 text-muted">Price: <span>62,000/-</span></p>
-            </div>
-          </div>
-        </div>
-        <!-- Third Card -->
-        <div class="col-md-3">
-          <h5>3. Phone<span class="cross-icon"><i class="fa fa-close"></i></span></h5>
-          <div class="card card-box">
-            <div class="card-body">
-              <h5 class="card-title card-text p-2">Dell Inspiron 5510</h5>
-              <p class="card-subtitle mb-2 text-muted">Brand: <span>Dell</span></p>
-              <p class="card-subtitle mb-2 text-muted">Brand: <span>0123456789</span></p>
-              <p class="card-subtitle mb-2 text-muted">Price: <span>62,000/-</span></p>
-            </div>
-          </div>
-        </div>
-        <!-- Fourth Card -->
-        <div class="col-md-3">
-          <h5>4. Phone<span class="cross-icon"><i class="fa fa-close"></i></span></h5>
-          <div class="card card-box">
-            <div class="card-body">
-              <h5 class="card-title card-text p-2">Dell Inspiron 5510</h5>
-              <p class="card-subtitle mb-2 text-muted">Brand: <span>Dell</span></p>
-              <p class="card-subtitle mb-2 text-muted">Brand: <span>0123456789</span></p>
-              <p class="card-subtitle mb-2 text-muted">Price: <span>62,000/-</span></p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-<div class="card mt-3 mb-3">
-  <div class="card-body">
-    <div class="row">
-      <div class="col-md-3 mt-2 text-center">
-        <label class="form-label scan-text" for="validationCustom01">1.Laptop</label>
-      </div>
-      <div class="col-md-3 mt-2 text-center">
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="transferReason" id="replacementRadio" value="replacement">
-          <label class="form-check-label scan-text" for="replacementRadio">Will Keep With IT</label>
-        </div>
-      </div>
-      <div class="col-md-3 mt-2 text-center">
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="transferReason" id="itClearanceRadio" value="itClearance" required>
-          <label class="form-check-label scan-text" for="itClearanceRadio">Handover To </label>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <select class="form-select" aria-label="Default select example" id="transferTypeSelect">
-          <option selected>Vacation</option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
-        </select>
-      </div>
-    </div>
-    
-    <div class="row">
-      <div class="col-md-3 mt-2 text-center cart-2">
-        <label class="form-label scan-text" for="validationCustom01">2.Monitor</label>
-      </div>
-      <div class="col-md-3 mt-2 text-center cart-2">
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="transferReason" id="replacementRadio" value="replacement">
-          <label class="form-check-label scan-text" for="replacementRadio">Will Keep With IT</label>
-        </div>
-      </div>
-      <div class="col-md-3 mt-2 text-center cart-2">
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="transferReason" id="itClearanceRadio" value="itClearance" required>
-          <label class="form-check-label scan-text" for="itClearanceRadio">Handover To</label>
-        </div>
-      </div>
-      <div class="col-md-3 mt-2 cart-2">
-        <select class="form-select" aria-label="Default select example" id="transferTypeSelect">
-          <option selected>Vacation</option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
-        </select>
-      </div>
-    </div>
- 
-    <div class="row">
-      <div class="col-md-3 mt-2 text-center">
-        <label class="form-label scan-text" for="validationCustom01">3. Phone:</label>
-      </div>
-      <div class="col-md-3 mt-2 text-center">
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="transferReason" id="replacementRadio" value="replacement">
-          <label class="form-check-label scan-text" for="replacementRadio">Will Keep With IT</label>
-        </div>
-      </div>
-      <div class="col-md-3 mt-2 text-center">
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="transferReason" id="itClearanceRadio" value="itClearance" required>
-          <label class="form-check-label scan-text" for="itClearanceRadio">Handover To</label>
-        </div>
-      </div>
-      <div class="col-md-3 mt-2">
-        <select class="form-select" aria-label="Default select example" id="transferTypeSelect">
-          <option selected>Vacation</option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
-        </select>
-      </div>
-    </div>
-  
-    <div class="row">
-      <div class="col-md-3 mt-2 text-center">
-        <label class="form-label scan-text" for="validationCustom01">4.Phone</label>
-      </div>
-      <div class="col-md-3 mt-2 text-center">
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="transferReason" id="replacementRadio" value="replacement">
-          <label class="form-check-label scan-text" for="replacementRadio">Will Keep With IT</label>
-        </div>
-      </div>
-      <div class="col-md-3 mt-2 text-center">
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="transferReason" id="itClearanceRadio" value="itClearance" required>
-          <label class="form-check-label scan-text" for="itClearanceRadio">IT Clearance</label>
-        </div>
-      </div>
-      <div class="col-md-3 mt-2">
-        <select class="form-select" aria-label="Default select example" id="transferTypeSelect">
-          <option selected>Vacation</option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
-        </select>
       </div>
     </div>
   </div>
 </div>
+@endsection
+
+@section('Script-Area')
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+  $('#myModal').on('shown.bs.modal', function() {
+    $('#myInput').trigger('focus')
+  })
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
+
+<script>
+  document.querySelectorAll('.delete-button').forEach(function(button) {
+
+    button.addEventListener('click', function() {
+      const Id = this.getAttribute('data-id');
+      const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          fetch('disposal-delete/' + Id, {
+
+              method: 'delete',
+              headers: {
+                'X-CSRF-TOKEN': csrfToken,
+                'Content-Type': 'application/json'
+              }
+            })
+            .then(response => response.json())
 
 
+            .then(data => {
 
-<div class="card-item border mt-3 card">
-  <div class="row p-3">
-    <div class="col-md-12 mb-4">
-      <label class="form-label" for="validationCustom01">Description</label>
-      <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="" rows="3"></textarea>
-    </div>
-  </div>
-
-  <div class="footer-item mt-3 mb-3 d-flex justify-content-end">
-    <button class="btn btn-primary mt-2" type="submit" data-bs-original-title="" title="">Proceed Request</button>
-  </div>
-</div>
-
-
-
-
-
-    </div>
-  </div>
-
-
- 
-</div>
+              if ('success' in data && data.success) {
+                Swal.fire(
+                  'Deleted!',
+                  'Your file has been deleted.',
+                  'success'
+                ).then(() => {
+                  location.reload();
+                });
+              } else {
+                Swal.fire(
+                  'Error',
+                  'Failed to delete the file.',
+                  'error'
+                );
+              }
+            })
+            .catch(error => {
+              Swal.fire(
+                'Error',
+                'An error occurred while deleting the file.',
+                'error'
+              );
+            });
+        }
+      });
+    });
+  });
+</script>
 @endsection

@@ -21,6 +21,10 @@ use App\Http\Controllers\Transfer\TransferController;
 use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\SubLocationController;
 use App\Http\Controllers\AttributeController;
+use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\MaintenanceController;
+use App\Http\Controllers\ReportController;
+
 
 /*
 
@@ -61,7 +65,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('users', [UserController::class, 'store'])->name('users.store');
     Route::get('users/{id}', [UserController::class, 'edit'])->name('users.edit');
     Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
-    Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+    Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
     Route::get('/get-designations/{departmentId}', [UserController::class, 'getDesignations']);
     Route::get('users.user-profile/{id}', [UserController::class, 'users_profile'])->name('users.user-profile');
     Route::get('users.user.profile', [UserController::class, 'usersprofile']);
@@ -91,7 +95,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('asset-name', [AssetNameController::class, 'index']);
     Route::get('asset-type', [AssetTypeController::class, 'index']);
     Route::get('add-permission', [PermissionController::class, 'permission']);
-    Route::get('disposal', [DisposalController::class, 'index']);
+    //Disposal
+    Route::get('disposal', [DisposalController::class, 'index'])->name('disposal');
+    Route::post('disposal-store', [DisposalController::class, 'store'])->name('store-disposal');
+    Route::get('disposal-edit/{id}', [DisposalController::class, 'edit'])->name('disposal-edit');
+    Route::delete('disposal-delete/{id}', [DisposalController::class, 'destroy'])->name('disposal-delete');
+    Route::put('disposal-update/{id}', [DisposalController::class, 'update'])->name('disposal-update');
+
     //Searct Employee id
     Route::get('server_script', [IssuenceController::class, 'index']);
     Route::get('transfer', [TransferController::class, 'index']);
@@ -161,6 +171,18 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/brands/{brand}', [BrandController::class, 'updateStatus'])->name('brands.updateStatus');
     Route::post('/brands-model/{brand}', [BrandModelController::class, 'updateStatus'])->name('brands.model.updateStatus');
     Route::resource('brand-model', BrandmodelController::class);
+
+    //Reports
+    Route::get('all-reports', [ReportController::class, 'allreport'])->name('all-reports');
+    Route::get('asset-activity-report', [ReportController::class, 'activity_report'])->name('activity-reports');
+    Route::get('assets-report-status', [ReportController::class, 'report_status'])->name('report-status');
+
+    //Maintenances
+    Route::get('asset-maintenances', [MaintenanceController::class, 'maintenances'])->name('assets-maintenances');
+    Route::post('asset-maintenance', [MaintenanceController::class, 'maintenance_save'])->name('maintenance-save');
+    Route::get('maintainans-edit/{id}', [MaintenanceController::class, 'edit'])->name('maintainans-edit');
+    Route::delete('maintainans-delete/{id}', [MaintenanceController::class, 'destroy'])->name('maintainans-delete');
+    Route::put('maintainans-update/{id}', [MaintenanceController::class, 'update'])->name('maintainans-Update');
     //Attribute
     Route::get('attributes', [AttributeController::class, 'home'])->name('attributes-index');
     Route::post('attribute-store', [AttributeController::class, 'store'])->name('attribute-store');
@@ -176,6 +198,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('/departments/{id}', [DepartmentController::class, 'update'])->name('departments.update');
     Route::delete('/departments/{id}', [DepartmentController::class, 'destroy']);
     Route::post('/departments/{department}', [DepartmentController::class, 'updateStatus'])->name('departments.updateStatus');
+
+    Route::get('/suppliers', [SupplierController::class, 'index'])->name('suppliers.index');
+    Route::post('/suppliers', [SupplierController::class, 'store'])->name('suppliers.store');
+    Route::get('/suppliers/create', [SupplierController::class, 'create'])->name('suppliers.create');
+    Route::get('/suppliers/{id}/edit', [SupplierController::class, 'edit'])->name('suppliers.edit');
+    Route::post('/suppliers/{id}', [SupplierController::class, 'update'])->name('suppliers.update');
+    Route::delete('/suppliers/{id}', [SupplierController::class, 'destroy'])->name('suppliers.destroy');
+
 
     Route::group(['middleware' => ['permission.checkDepartment']], function () {
     });
