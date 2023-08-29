@@ -174,6 +174,9 @@ Route::group(['middleware' => 'auth'], function () {
     //Maintenances
     Route::get('asset-maintenances', [MaintenanceController::class, 'maintenances'])->name('assets-maintenances');
     Route::post('asset-maintenance', [MaintenanceController::class, 'maintenance_save'])->name('maintenance-save');
+    Route::get('maintainans-edit/{id}', [MaintenanceController::class, 'edit'])->name('maintainans-edit');
+    Route::delete('maintainans-delete/{id}', [MaintenanceController::class, 'destroy'])->name('maintainans-delete');
+    Route::put('maintainans-update/{id}', [MaintenanceController::class, 'update'])->name('maintainans-Update');
     //Attribute
     Route::get('attributes', [AttributeController::class, 'home'])->name('attributes-index');
     Route::post('attribute-store', [AttributeController::class, 'store'])->name('attribute-store');
