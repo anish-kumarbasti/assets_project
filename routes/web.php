@@ -21,14 +21,10 @@ use App\Http\Controllers\Transfer\TransferController;
 use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\SubLocationController;
 use App\Http\Controllers\AttributeController;
-<<<<<<< Updated upstream
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\ReportController;
 
-=======
-use App\Models\Issuence;
->>>>>>> Stashed changes
 
 /*
 
