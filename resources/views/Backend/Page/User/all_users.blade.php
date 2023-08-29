@@ -48,8 +48,8 @@
                         <td>
                             <img src="{{ asset($user->profile_photo) }}" alt="Profile Photo" style="width: 100px; height: 50px;">
                         </td>
-                        <td>{{$user->department->name}}</td>
-                        <td> {{ $user->designation->designation }} </td>
+                        <td>{{$user->department->name??''}}</td>
+                        <td> {{ $user->designation->designation??'' }} </td>
                         <td>
                             <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary">Edit</a>
                             <button class="btn btn-danger delete-button" type="button" data-id="{{ $user->id }}">Delete</button>
@@ -70,7 +70,7 @@
                 <div class="text-center profile-details"><a href="{{ route('users.user-profile', $user->id) }}" data-bs-original-title="" title="">
                         <h4>{{ $user->first_name }} {{ $user->last_name }}</h4>
                     </a>
-                    <h6>{{ $user->designation->designation }}</h6>
+                    <h6>{{ $user->designation->designation??'' }}</h6>
                 </div>
                 <ul class="card-social">
                     <button class="btn btn-light ican-envo"><i class="fa fa-envelope" aria-hidden="true"></i></button>

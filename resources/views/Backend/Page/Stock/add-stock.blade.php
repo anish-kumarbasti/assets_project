@@ -140,8 +140,7 @@ font-weight: bold;
                             <input class="form-control" type="text" name="generate_number" placeholder="Number">
                             {{-- <img id="" src="{{ asset('Backend/assets/images/IT-Assets/Vector_qr.png')}}" alt="QR Code"> --}}
                         </div>
-                        <div class="col-md-6 select-item-list--single">
-                            <div class="form-group">
+                        <div class="col-md-4 mb-4">
                                 <label for="multiSelect">Select Items:</label>
                                 <select class="form-control js-example-placeholder-multiple" name="attribute" id="multiSelect" multiple>
                                     @foreach ($attribute as $attribute)
@@ -149,7 +148,6 @@ font-weight: bold;
                                     <option value="{{$attribute->id}}">{{$attribute->name}}</option>
                                     @endforeach
                                 </select>
-                            </div>
                         </div>
                         {{-- <div class="col-md-4 mb-4">
                      <label class="form-label" for="validationCustom01">Location</label>
@@ -166,9 +164,13 @@ font-weight: bold;
                             <option value="">--Select Sub Location--</option>
                         </select>
                     </div> --}}
-                    <div class="col-md-6 mb-4">
+                    <div class="col-md-4 mb-4">
                         <label class="form-label" for="validationCustom01">Host Name</label>
                         <input class="form-control" id="validationCustom01" name="host_name" type="text" data-bs-original-title="" title="" placeholder="Enter Host Name">
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <label for="image" class="form-label">Image</label>
+                        <input type="file" name="image" id="image">
                     </div>
                     <div id="dynamicFields" class="col-md-12"></div>
                 </div>
@@ -189,10 +191,21 @@ font-weight: bold;
             </div>
             <div class="card-item border">
                 <div class="row p-3">
-                    <div class="col-md-4">
+                    {{-- <div class="col-md-4">
                         <label class="form-label" for="validationCustom01">Vendor</label>
                         <input class="form-control" id="validationCustom01" name="vendor" type="text" data-bs-original-title="" value="{{ isset($stockedit) ? $stockedit->vendor : '' }}" title="" placeholder="Enter Vendor">
-                    </div>
+                    </div> --}}
+                    <div class="col-md-4 mb-4">
+                        <label class="form-label" for="validationCustom01">Suppliers</label>
+                        <select class="form-select" id="supplier" name="supplier"  aria-label="Default select example">
+                            <option value="">--Select Supplier --</option>
+                            @foreach ($supplier as $supplier)
+                            <option value="{{ $supplier->id }}" {{ isset($stockedit) && $stockedit->supplier_id == $supplier->id ? 'selected' : '' }}>
+                                {{ $supplier->name }}
+                            </option>
+                     @endforeach
+                        </select>
+                </div>
                     <div class="col-md-4 mb-4">
                         <label class="form-label" for="validationCustom01">Price</label>
                         <input class="form-control" id="validationCustom01" value="{{ isset($stockedit) ? $stockedit->price : '' }}" type="text" name="price" data-bs-original-title="" title="" placeholder="Enter Price">

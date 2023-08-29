@@ -154,7 +154,7 @@
                                     <td>a23</td>
                                     <td>{{$stock->assetmain->name??''}}</td>
                                     <td>{{$stock->brandmodel->name??''}}</td>
-                                    <td>{{$stock->$brand->name??''}}</td>
+                                    <td>{{$stock->brand->name??''}}</td>
                                     <td>0123456789</td>
 
                                     <td>Processor: Intel Core i5-1235U

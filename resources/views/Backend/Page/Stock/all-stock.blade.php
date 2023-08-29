@@ -35,14 +35,15 @@ Global, And You May Wish To Present Controls That Search On Specific Columns.</s
                       <th>Brand</th>
                      <th>Brand Model</th>
                      <th>Location</th>
-                     
+
                      <th>Sub Location</th>
-                    
-                     
+
+
                      <th>Configuration</th>
                       <th>Serial Number</th>
-                      <th>Vendor</th>
+                      <th>Supplier</th>
                       <th>Price</th>
+                      <th>Image</th>
                       <th>Status</th>
 
                      <th>Action</th>
@@ -60,12 +61,16 @@ Global, And You May Wish To Present Controls That Search On Specific Columns.</s
                          <td>{{$stock->brand->name??''}}</td>
                            <td>780</td>
                         <td>{{$stock->location->name??''}}</td>
-                        
+
                          <td>50</td>
                            <td>{{$stock->configuration}} </td>
                            <td>{{$stock->serial_number}} </td>
-                           <td>{{$stock->vendor}} </td>
+                           <td>{{$stock->getsupplier->name??''}} </td>
                            <td>{{$stock->price}} </td>
+                           <td>
+                            <img src="{{ asset('images/' . $stock->image) }}" alt="Stock Image">
+                        </td>
+
                            <td class="w-20">
                             <label class="mb-0 switch">
                             <input type="checkbox" data-id="{{$stock->id}}" {{ $stock->status ? 'checked' : '' }}><span class="switch-state"></span>
@@ -73,6 +78,13 @@ Global, And You May Wish To Present Controls That Search On Specific Columns.</s
                         </td>
                            <td>
                            <a class="btn btn-primary" href="{{ url('/edit-stock/' . $stock->id) }}">Edit</a>
+                           <td>
+                            <form action="{{ route('delete.stock', $stock->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this stock item?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </td>
                      </td>
                   </tr>
                 @endforeach
