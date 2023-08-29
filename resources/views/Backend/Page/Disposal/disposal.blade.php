@@ -24,12 +24,12 @@
         <button class="btn btn-primary" id="pdfButton"><i class="fas fa-file-pdf"></i> PDF</button>
         <button class="btn btn-primary" onclick="window.print()"><i class="fas fa-print"></i> Print</button>
       </div>
-      <a class="btn btn-primary text-end" id="openModalButton" data-toggle="modal" data-target="#exampleModal"> + Depreciation</a>
+      <a class="btn btn-primary text-end" id="openModalButton" data-toggle="modal" data-target="#exampleModal"> + Add Depreciation</a>
       <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Depreciation list</h5>
+              <h5 class="modal-title" id="exampleModalLabel"> Add Depreciation</h5>
               <button type="button" class="close rounded" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>

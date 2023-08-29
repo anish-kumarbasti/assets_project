@@ -14,7 +14,7 @@
 <div class="col-sm-12">
     <div class="card">
         <div class="card-header pb-0">
-            <h4>Maintenance list</h4>
+            <h4>Maintenance</h4>
             <hr>
         </div>
         <div class="card-header pb-0 d-flex justify-content-between">
@@ -29,7 +29,7 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Maintenance list</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Add Maintenance</h5>
                             <button type="button" class="close ml-auto float-right" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>

@@ -47,7 +47,7 @@
                                 <input class="form-control" value="{{$disposal->period_months}}" name="period_months" type="text" id="period_months" inputmode="numeric">
                             </div>
                             <div class="mb-2">
-                                <label class="form-label">Asset Value</label>
+                                <label class="form-label">Current Asset Value</label>
                                 <input type="text" class="form-control" value="{{$disposal->asset_value}}" name="asset_value" id="assetvalue" inputmode="numeric">
                             </div>
                         </div>
