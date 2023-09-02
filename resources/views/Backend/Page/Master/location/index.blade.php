@@ -1,15 +1,18 @@
 @extends('Backend.Layouts.panel')
-
-@section('Style-Area')
-@endsection
-
 @section('Content-Area')
 @if(session('success'))
-<div class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
+<div id="success-message" class="alert alert-success inverse alert-dismissible fade show" role="alert">
+    <i class="icon-thumb-up alert-center"></i>
     <p>{{ session('success') }}</b>
         <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
+@endif
+@if(session('failed'))
+<div class="alert alert-danger inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
+    <p>{{ session('failed') }}</b>
+        <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
+
 @endif
 <div class="col-sm-12">
    <div class="card">
@@ -58,8 +61,6 @@
    </div>
 </div>
 @endsection
-
-@section('Script-Area')
 @section('Script-Area')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -117,9 +118,9 @@
                              // You can set headers and other options here
                              })
                              .then(response => response.json())
-                             
+
                              .then(data => {
-                                 
+
                                  if ('success' in data && data.success) {
                                      Swal.fire(
                                          'Deleted!',
@@ -148,6 +149,15 @@
              });
          });
      </script>
-@endsection
+     <script>
+        $(document).ready(function() {
+            // Check if the success message exists and hide it after 5 seconds (adjust the time as needed)
+            if ($('#success-message').length) {
+                setTimeout(function() {
+                    $('#success-message').alert('close');
+                }, 5000); // Hide after 5 seconds
+            }
+        });
+    </script>
 
 @endsection
