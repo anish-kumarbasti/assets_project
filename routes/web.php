@@ -137,6 +137,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('location-status/{locationId}', [LocationController::class, 'locationStatus'])->name('location-status');
     Route::delete('location-destroy/{location}', [LocationController::class, 'destroy'])->name('location-destroy');
     Route::get('location-edit/{id}', [LocationController::class, 'edit'])->name('location-edit');
+    Route::post('/check-location-duplicate', [LocationController::class, 'checkLocationDuplicate'])->name('check-location-duplicate');
     //Sub-Location
     Route::get('sublocation-show', [SubLocationController::class, 'show'])->name('sublocation-show');
     Route::get('sublocation-index', [SubLocationController::class, 'index'])->name('sublocation-index');

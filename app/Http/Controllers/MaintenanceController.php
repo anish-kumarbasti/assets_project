@@ -21,14 +21,22 @@ class MaintenanceController extends Controller
     public function maintenance_save(Request $request)
     {
         $maintain = $request->validate([
-            'asset' => 'required',
+            'assetType' => 'required',
             'supplier' => 'required',
-            'type'    => 'required',
+            'assetName'    => 'required',
             'start_date' => 'required',
             'end_date'    => 'required',
         ]);
+        // dd($request);
 
-        Maintenance::create($maintain);
+        Maintenance::Create([
+            'asset_type_id'=>$request->assetType,
+            'asset_id'=>$request->assetName,
+            'asset_number'=>$request->asset_number,
+            'supplier_id'=>$request->supplier,
+            'start_date'=>$request->start_date,
+            'end_date'=>$request->end_date,
+        ]);
         return redirect()->route('assets-maintenances')->with('success', 'Asset Created Successfully');
     }
     public function edit(Maintenance $maintenance, $id)
