@@ -12,7 +12,6 @@
         .change-card:hover {
             transform: scale(1.1);
             transition: all ease .5s;
-            /* border:1px solid black; */
             cursor: pointer;
         }
 
@@ -22,46 +21,37 @@
 
         .locked {
             pointer-events: none;
-            /* Disable pointer events on locked cards */
             opacity: 0.7;
-            /* Add some visual indication that the card is locked */
+
         }
 
         .card-footer {
             background-color: white;
-            /* Adjust as needed */
             border-top: none;
-            /* Remove default border */
             padding: 1rem;
-            /* Add padding to space the buttons */
+
         }
 
         .card-footer button {
             margin: 0;
-            /* Remove default margin */
         }
 
-        /* Arrange buttons at the bottom with flex */
+
         .d-flex.justify-content-between {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            /* Vertically center the buttons */
         }
 
         .card-head {
             padding: 1rem;
-            /* Add padding to the header */
             border-bottom: 1px solid black;
             margin-bottom: 0;
-            /* Remove margin at the bottom of the header */
         }
 
         .card-body {
             padding-top: 0;
-            /* Remove top padding of the body */
             padding-bottom: 1rem;
-            /* Add bottom padding to the body */
         }
     </style>
     <meta name="csrf-token" content="{{ csrf_token() }}" />
@@ -84,7 +74,7 @@
                                 <label class="form-label" for="employeeId">Employee's ID</label>
                                 <input class="form-control" oninput="showDiv()" id="employeeId" type="search"
                                     name="employeeId" data-bs-original-title="" title=""
-                                    placeholder="Enter Employee's ID" onkeydown="return event.key != 'Enter';" >
+                                    placeholder="Enter Employee's ID" onkeydown="return event.key != 'Enter';"  required>
                             </div>
                             <div class="col-md-6 mb-4">
                                 <div class="mb-3 row">
@@ -186,56 +176,36 @@
                     </div>
                 </div>
             </div>
-            <!-- Modal for Selected Assets Summary -->
-            {{-- <div class="modal fade f1" id="assetSummaryModal" tabindex="-1" aria-labelledby="assetSummaryModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="assetSummaryModalLabel">Selected Assets Summary</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body" id="selected-assets-summary-modal">
-                            <!-- The selected assets will be displayed here -->
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary modal-button-next" data-next="additional-detail-step" id="next-summary-modal">Next</button>
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
-            <!-- Third step form me data render karne ke liye -->
+
             <div class="card" id="thirdStep" style="display: none;">
                 <div class="card-header pb-0">
-                    <h4>Third Step</h4>
+                    <h4>Selected Asset Summary</h4>
                 </div>
                 <div class="card-body">
-                    <!-- Selected asset cards from the second step will be rendered here -->
-                    <div id="selectedAssetCardsitems">
-                        <!-- Selected asset cards will be rendered here -->
-                    </div>
-                    <!-- Add more fields as needed -->
+                    <table class="table table-bordered" id="selectedAssetTable">
+                        <thead>
+                            <tr>
+                                <th>Asset</th>
+                                <th>Brand</th>
+                                <th>Serial Number</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
                 </div>
                 <div class="footer-item p-5">
                     <button class="btn btn-secondary" id="prev-third" data-prev="select-asset-step"
                         type="button">Previous</button>
-                    <!-- Add "Next" button for the third step here -->
                     <button class="btn btn-primary" id="next-third" data-next="additional-detail-step"
                         type="button">Next</button>
                 </div>
             </div>
+
             <div class="card mt-3" id="additional-detail-step" style="display: none;">
                 <div class="card-body">
-                    <div class="card-item border">
-                        <div class="row p-3">
-                            <div class="col-md-12 mb-4">
-                                <textarea class="form-control" name="description" id="exampleFormControlTextarea1" placeholder="IT Assets"
-                                    rows="3"></textarea>
-                            </div>
-                        </div>
-                    </div>
+
                     <div class="card-item border mt-3 pt-2">
                         <div class="row p-3">
                             <div class="col-md-4 mb-4">
@@ -255,10 +225,18 @@
                             </div>
                         </div>
                     </div>
+                    <div class="card-item border">
+                        <div class="row p-3">
+                            <div class="col-md-12 mb-4">
+                                <textarea class="form-control" name="description" id="exampleFormControlTextarea1" placeholder="IT Assets"
+                                    rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
                     <div class="card-footer d-flex justify-content-between">
                         <button class="btn btn-secondary" id="prev-detail" data-prev="thirdStep"
                             type="button">Previous</button>
-                        <button class="btn btn-primary" type="submit">Allocate Assets</button>
+                        <button class="btn btn-primary" id="allocate-assets-btn" type="button">Allocate Assets</button>
                     </div>
                 </div>
             </div>
@@ -311,7 +289,6 @@
             inputs.forEach(input => {
                 data[input.name] = input.value;
             });
-            // Store the data in session storage
             sessionStorage.setItem(step.id, JSON.stringify(data));
         }
     </script>
@@ -319,7 +296,7 @@
         $(document).ready(function() {
             $('#draggableMultiple,#CardChange').hide();
 
-            var selectedCards = {}; // Object to store selected card IDs
+            var selectedCards = {};
 
             function updateSelectedCards(cardId, isSelected) {
                 if (isSelected) {
@@ -329,7 +306,6 @@
                 }
             }
 
-            // Function to render asset cards
             function renderAssetCards(assets) {
                 var assetDetailsContainer = $('#assetdetails');
                 $('#draggableMultiple').show();
@@ -365,7 +341,7 @@
                         url: "/get-asset-all-details/" + assetId,
                         data: {
                             _token: "{{ csrf_token() }}",
-                            _cache: new Date().getTime() // Add a cache-busting parameter
+                            _cache: new Date().getTime()
                         },
                         success: function(response) {
                             renderAssetCards(response);
@@ -379,11 +355,11 @@
                 var cardId = card.data("card-id");
 
                 if (selectedCards[cardId]) {
-                    updateSelectedCards(cardId, false); // Update selectedCards object
+                    updateSelectedCards(cardId, false);
                     card.removeClass("selected");
                     card.find(".deselect-button").remove();
                 } else {
-                    updateSelectedCards(cardId, true); // Update selectedCards object
+                    updateSelectedCards(cardId, true);
                     card.addClass("selected");
                     card.find(".card-body").append('<div class="deselect-button"></div>');
                 }
@@ -393,13 +369,12 @@
                 var card = $(this).closest(".change-card");
                 var cardId = card.data("card-id");
 
-                updateSelectedCards(cardId, false); // Update selectedCards object
+                updateSelectedCards(cardId, false);
                 card.removeClass("selected");
                 $(this).remove();
             });
-            const selectedAssetCards = {}; // Object to store selected asset cards
+            const selectedAssetCards = {};
 
-            // Function to update selected asset cards and session storage
             function updateSelectedAssetCards(cardId, isSelected) {
                 const selectedAssetCards = JSON.parse(sessionStorage.getItem('selectedAssetCards')) || {};
 
@@ -408,38 +383,57 @@
                 } else {
                     delete selectedAssetCards[cardId];
                 }
-                // Update session storage with selected asset cards
                 sessionStorage.setItem('selectedAssetCards', JSON.stringify(selectedAssetCards));
             }
 
-            // Function to render selected asset cards in the modal summary
             function renderSelectedAssetCards() {
-                const summaryContainer = $('#selectedAssetCardsitems');
-                summaryContainer.empty();
-                var selectedCards = JSON.parse(sessionStorage.getItem('selectedAssetCards'));
-                if (selectedCards && selectedCards.selectedAssets) {
-                    var selectedAssetIds = selectedCards.selectedAssets;
-                    $.each(selectedAssetCards, function(cardId, isSelected) {
+                const tableBody = $('#selectedAssetTable tbody');
+                tableBody.empty();
+                const selectedCards = JSON.parse(sessionStorage.getItem('selectedAssetCards'));
+
+                if (selectedCards) {
+                    $.each(selectedCards, function(cardId, isSelected) {
                         if (isSelected) {
-                            const assetCardHtml = $(`.change-card[data-card-id="${cardId}"]`).prop(
-                                'outerHTML');
-                            summaryContainer.append(assetCardHtml);
+                            const assetCard = $(`.change-card[data-card-id="${cardId}"]`);
+                            if (assetCard.length) { // Check if the card still exists
+                                const assetName = assetCard.find('.card-title').text();
+                                const brand = assetCard.find('.card-subtitle:eq(0) span').text();
+                                const serialNumber = assetCard.find('.card-subtitle:eq(1) span').text();
+
+                                const tableRow = `
+                            <tr>
+                                <td>${assetName}</td>
+                                <td>${brand}</td>
+                                <td>${serialNumber}</td>
+                                <td>
+                                    <button class="btn btn-danger btn-sm remove-asset" data-card-id="${cardId}">
+                                        Remove
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+
+                                tableBody.append(tableRow);
+                            }
                         }
                     });
                 }
+
+                $('.remove-asset').click(function() {
+                    const cardIdToRemove = $(this).data('card-id');
+                    updateSelectedAssetCards(cardIdToRemove, false);
+                    renderSelectedAssetCards();
+                });
             }
+
             $('#next-assets').click(function() {
-                // Ensure that selectedAssetCardsData is an array, not an object
                 selectedAssetCardsData = [];
-                // Retrieve selected asset cards from session storage
                 var selectedCards = JSON.parse(sessionStorage.getItem('selectedAssetCards'));
                 console.log(selectedCards);
                 if (selectedCards) {
-                    // Render selected asset cards in the third step form
                     renderSelectedAssetCards();
                 }
             });
-            // Update selected asset cards when a card is clicked
             $(document).on("click", ".change-card", function() {
                 const cardId = $(this).data("card-id");
                 const isSelected = selectedAssetCards[cardId];
@@ -447,8 +441,6 @@
                 $(this).toggleClass("selected", !isSelected);
             });
         });
-
-        // Asset and asset type jquery
 
         document.addEventListener("DOMContentLoaded", function() {
             const form = document.querySelector(".f1");
@@ -462,10 +454,8 @@
                     const nextStepId = button.getAttribute("data-next");
                     const nextStep = form.querySelector(`#${nextStepId}`);
 
-                    // Store current step data in session storage
                     storeStepData(currentStep);
 
-                    // Show the next step
                     currentStep.style.display = "none";
                     nextStep.style.display = "block";
                 });
@@ -475,11 +465,7 @@
                     const currentStep = button.closest(".card");
                     const prevStepId = button.getAttribute("data-prev");
                     const prevStep = form.querySelector(`#${prevStepId}`);
-
-                    // Store current step data in session storage
                     storeStepData(currentStep);
-
-                    // Show the previous step
                     currentStep.style.display = "none";
                     prevStep.style.display = "block";
                 });
@@ -487,6 +473,8 @@
         });
     </script>
     <script>
+        const form = document.querySelector(".f1");
+
         function showDiv() {
             var inputField = document.getElementById('employeeId');
             var div = document.getElementById('myDiv');
@@ -500,10 +488,6 @@
         $(document).ready(function() {
             $("#employeeId").on("input", function() {
                 var employeeId = $(this).val();
-                // jQuery('#name').empty();
-                // jQuery('#depart').empty();
-                // jQuery('#location').empty();
-                // alert(employeeId);
                 $.ajax({
                     url: "/server_script",
                     method: "GET",
@@ -512,7 +496,6 @@
                     },
                     dataType: "json",
                     success: function(data) {
-                        // console.log(data);
                         $("#name").val(data.first_name);
                         if (data.department) {
                             $("#depart").val(data.department.name);
@@ -528,11 +511,13 @@
                 });
             });
         });
+
+        $('#allocate-assets-btn').click(function() {
+            form.submit();
+        });
         form.addEventListener("submit", function(event) {
             event.preventDefault();
-            // Store data from the last step
             storeStepData(steps[steps.length - 1]);
-            // Submit the form
             form.submit();
         });
     </script>
