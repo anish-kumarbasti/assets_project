@@ -64,7 +64,7 @@ font-weight: bold;
 </div>
 @endif
 <div class="col-sm-12">
-    <form class="needs-validation" method="POST" action="{{ isset($stockedit) ? route('update.stock', $stockedit->id) : route('store.stock') }}">
+    <form class="needs-validation" enctype="multipart/form-data" method="POST" action="{{ isset($stockedit) ? route('update.stock', $stockedit->id) : route('store.stock') }}">
         @csrf
         <div class="card">
             <div class="card-header pb-0">
@@ -170,7 +170,7 @@ font-weight: bold;
                     </div>
                     <div class="col-md-4 mb-4">
                         <label for="image" class="form-label">Image</label>
-                        <input type="file" name="image" id="image">
+                        <input type="file" class="form-control" name="image" id="image">
                     </div>
                     <div id="dynamicFields" class="col-md-12"></div>
                 </div>

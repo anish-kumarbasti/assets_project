@@ -24,6 +24,7 @@ use App\Http\Controllers\AttributeController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\SettingController;
 
 
 /*
@@ -208,6 +209,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/suppliers/{id}', [SupplierController::class, 'update'])->name('suppliers.update');
     Route::delete('/suppliers/{id}', [SupplierController::class, 'destroy'])->name('suppliers.destroy');
 
+    Route::get('/application-settings', [SettingController::class, 'index'])->name('settings.application');
+    Route::post('/application-settings', [SettingController::class, 'store'])->name('settings.application.store');
 
     Route::group(['middleware' => ['permission.checkDepartment']], function () {
     });
