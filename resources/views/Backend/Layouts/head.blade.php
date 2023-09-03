@@ -27,6 +27,8 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('Backend/assets/css/vendors/feather-icon.css')}}">
     <link rel="stylesheet" type="text/css" href="{{ asset('Backend/assets/css/vendors/scrollbar.css')}}">
     <link rel="stylesheet" type="text/css" href="{{ asset('Backend/assets/css/vendors/animate.css')}}">
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('Backend/assets/css/vendors/date-picker.css')}}">
     <link rel="stylesheet" type="text/css" href="{{ asset('Backend/assets/css/vendors/date-picker.css')}}">
     <link rel="stylesheet" type="text/css" href="{{ asset('Backend/assets/css/vendors/owlcarousel.css')}}">
     <link rel="stylesheet" type="text/css" href="{{ asset('Backend/assets/css/vendors/prism.css')}}">

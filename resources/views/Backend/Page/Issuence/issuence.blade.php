@@ -84,7 +84,7 @@
                                 <label class="form-label" for="employeeId">Employee's ID</label>
                                 <input class="form-control" oninput="showDiv()" id="employeeId" type="search"
                                     name="employeeId" data-bs-original-title="" title=""
-                                    placeholder="Enter Employee's ID">
+                                    placeholder="Enter Employee's ID" onkeydown="return event.key != 'Enter';" >
                             </div>
                             <div class="col-md-6 mb-4">
                                 <div class="mb-3 row">
@@ -193,7 +193,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="assetSummaryModalLabel">Selected Assets Summary</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" 
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                         </div>
                         <div class="modal-body" id="selected-assets-summary-modal">
@@ -201,7 +201,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" id="next-summary-modal">Next</button>
+                            <button type="button" class="btn btn-primary modal-button-next" data-next="additional-detail-step" id="next-summary-modal">Next</button>
                         </div>
                     </div>
                 </div>

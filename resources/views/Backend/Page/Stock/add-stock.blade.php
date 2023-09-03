@@ -211,12 +211,15 @@ font-weight: bold;
                         <input class="form-control" id="validationCustom01" value="{{ isset($stockedit) ? $stockedit->price : '' }}" type="text" name="price" data-bs-original-title="" title="" placeholder="Enter Price">
                     </div>
                     <div class="col-md-4 mb-4" id="warranty">
-                        <label class="form-label" for="validationCustom01">Warranty</label>
-                        <input class="form-control" id="validationCustom01" name="product_warranty" type="date" data-bs-original-title="" title="" placeholder="Enter Warranty Name">
+                        <label class="form-label" for="warrantyDateInput">Warranty</label>
+                        <div class="input-group">
+                        <input class="datepicker-here form-control digits" id="warrantyDateInput" name="product_warranty" type="text" data-language="en">
+                        </div>
                     </div>
+
                     <div class="col-md-4 mb-4" id="expiryField">
-                        <label class="form-label" for="validationCustom01">Expiry</label>
-                        <input class="form-control" id="validationCustom01" name="expiry" type="date" data-bs-original-title="" title="" placeholder="Enter Expiry Date">
+                        <label class="col-form-label" for="expiryDateInput">Expiry</label>
+                        <input class="datepicker-here form-control" id="expiryDateInput" name="expiry" type="text" data-language="en">
                     </div>
                 </div>
             </div>
@@ -251,7 +254,6 @@ font-weight: bold;
         });
     });
 </script>
-<script src="https://unpkg.com/@zxing/library@latest"></script>
 <script>
     jQuery(document).ready(function() {
         jQuery('#brand').change(function() {
@@ -363,5 +365,4 @@ font-weight: bold;
         });
     });
 </script>
-
 @endsection
