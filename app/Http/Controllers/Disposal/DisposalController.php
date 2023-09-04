@@ -19,15 +19,21 @@ class DisposalController extends Controller
     }
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'category' => 'required',
-            'asset' => 'required',
+        $request->validate([
+            'assetType' => 'required',
+            'assetName' => 'required',
             'period_months' => 'required',
             'asset_value' => 'required',
             'desposal_code' => 'required',
         ]);
-        // dd($data);
-        Disposal::create($data);
+        // dd($request);
+        Disposal::create([
+            'category'=>$request->assetType,
+            'asset'=>$request->assetName ,
+            'period_months'=>$request->period_months,
+            'asset_value'=>$request->asset_value,
+            'desposal_code'=>$request->desposal_code,
+        ]);
         return redirect()->route('disposal')->with('success', 'Add Disposal successfully');
     }
     public function edit(Disposal $disposal, $id)
