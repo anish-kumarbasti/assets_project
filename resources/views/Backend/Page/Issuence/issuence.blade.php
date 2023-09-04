@@ -57,6 +57,12 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 @endsection
 @section('Content-Area')
+@if(session('success'))
+<div class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
+    <p>{{ session('success') }}</b>
+        <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@endif
     <div class="col-sm-12">
         <form class="needs-validation f1" action="{{ route('issuence.store') }}" method="POST" novalidate="">
             @csrf
@@ -321,7 +327,7 @@
                         <div class="card-body">
                             <h5 class="card-title card-text p-2">${asset.product_info}</h5>
                             <p class="card-subtitle mb-2">${allbrand ? 'Brand: <span class="text-muted">' + allbrand.name + '</span>' : 'Liscence Number: <span class="text-muted">' + (asset.liscence_number || 'N/A')}</span></p>
-                            <p class="card-subtitle mb-2">${allbrand ? 'Serial Number: <span class="text-muted">' + (asset.brandmodel.name || 'N/A') + '</span>' : 'Configuration: <span class="text-muted">' + (asset.configuration || 'N/A')}</span></p>
+                            <p class="card-subtitle mb-2">${allbrand ? 'Brand Model : <span class="text-muted">' + (asset.brandmodel.name || 'N/A') + '</span>' : 'Configuration: <span class="text-muted">' + (asset.configuration || 'N/A')}</span></p>
                             <p class="card-subtitle mb-2">Price: <span class="text-muted">${asset.price}</span></p>
                             <input type="hidden" value="${asset.id}" name=cardId[] />
                             ${deselectButton}
@@ -496,6 +502,7 @@
                     },
                     dataType: "json",
                     success: function(data) {
+                        console.log(data);
                         $("#name").val(data.first_name);
                         if (data.department) {
                             $("#depart").val(data.department.name);

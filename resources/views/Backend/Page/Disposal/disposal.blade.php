@@ -39,22 +39,22 @@
               @csrf
               <div class="modal-body">
                 <div class="mb-2">
-                  <label class="form-label">Category</label>
-                  <select class="form-select" id="category" name="category" aria-label="Default select example">
-                    <option value="">--Select Category--</option>
-                    @foreach ($assettype as $assett)
-                    <option value="{{$assett->name}}">{{$assett->name}}</option>
-                    @endforeach
-                  </select>
+                    <label class="form-label">Asset Type</label>
+                    <select class="form-select" id="assettype" name="assetType" aria-label="Default select example">
+                        <option value="">--Select Asset Type--</option>
+                        @foreach ($assettype as $assettypes)
+                        <option value="{{$assettypes->id}}">{{$assettypes->name}}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="mb-2">
-                  <label class="form-label">Asset</label>
-                  <select class="form-select" id="asset" name="asset" aria-label="Default select example">
-                    <option value="">--Select Asset--</option>
-                    @foreach ($asset as $assets)
-                    <option value="{{$assets->name}}">{{$assets->name}}</option>
-                    @endforeach
-                  </select>
+                    <label class="form-label">Asset</label>
+                    <select class="form-select" id="asset" name="assetName" aria-label="Default select example">
+                        <option value="">--Select Asset--</option>
+                        @foreach ($asset as $assets)
+                        <option value="{{$assets->id}}">{{$assets->name}}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="mb-2">
                   <label class="form-label">Period (Month)</label>
@@ -121,6 +121,26 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
+     jQuery(document).ready(function() {
+        jQuery('#assettype').change(function() {
+            let assettypeId = jQuery(this).val();
+            jQuery('#asset').empty();
+
+            if (assettypeId) {
+                jQuery.ajax({
+                    url: '/get-asset-type/' + assettypeId,
+                    type: 'POST',
+                    data: 'assettypeId' + assettypeId + '&_token={{csrf_token()}}',
+                    success: function(data) {
+                        jQuery('#asset').append('<option value="">--Select Asset--</option>');
+                        jQuery.each(data.assets, function(key, value) {
+                            jQuery('#asset').append('<option value="' + value.id + '">' + value.name + '</option>');
+                        });
+                    }
+                });
+            }
+        });
+    });
   $('#myModal').on('shown.bs.modal', function() {
     $('#myInput').trigger('focus')
   })

@@ -58,6 +58,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/users/{user}/assign-roles', [UserController::class, 'assignRoles'])->name('users.assign_roles');
     Route::delete('/roles/{role}', [RolesController::class, 'destroy'])->name('roles.destroy');
     Route::get('view-permissions', [PermissionController::class, 'index'])->name('permissions.index');
+    Route::post('/permission', [PermissionController::class, 'store'])->name('permission.store');
     Route::put('update-permissions', [PermissionController::class, 'update'])->name('permissions.update');
 
     Route::get('users', [UserController::class, 'index'])->name('users.index');

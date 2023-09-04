@@ -24,13 +24,17 @@ class PermissionController extends Controller
 
         $permissions = Permission::pluck('name')->toArray();
         $roles = Role::pluck('name')->toArray();
-
-        return view('Backend.Page.roles.all-permissions', compact('modules', 'permissions', 'roles'));
+        $permission = Permission::all();
+        return view('Backend.Page.roles.all-permissions', compact('modules', 'permission', 'roles'));
     }
-
+    public function store(Request $request){
+        $permission = Permission::create(['name' => $request->input('name')]);
+        return redirect()->route('permissions.index')->with('success', 'Permission created successfully.');
+    }
     public function update(Request $request)
     {
         // Loop through the submitted data and update permissions
+
         foreach ($request->all() as $module => $permissions) {
             foreach ($permissions as $permissionName => $isChecked) {
                 Permission::updateOrCreate(['name' => $module . '.' . $permissionName], ['guard_name' => 'web']);
