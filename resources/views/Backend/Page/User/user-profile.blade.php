@@ -28,13 +28,13 @@
          <div class="row p-3">
             <div class="col-sm-4">
                <div class="card custom-card user-card">
-                  <div class="card-header"></div>
+                  <div class="card-header"><img class="img-fluid img" src="{{ asset($user->cover_photo) }}" style="width: 300px; height: 100px;" alt="Uploaded Image"></div>
                   <div class="card-profile">
-                     <img class="rounded-circle" src="{{ asset('Backend/assets/images/avtar/3.png') }}" alt="">
+                     <img class="rounded-circle" src="{{ asset($user->profile_photo) }}" alt="">
                   </div>
                   <div class="text-center profile-details">
-                        <h4>{{ $user->first_name??'' }}</h4>
-                     <h6>{{$user->designation->name??''}}</h6>
+                     <h4>{{ $user->first_name.' '.$user->last_name??'' }}</h4>
+                     <h6>{{$user->designation->name}}</h6>
                   </div>
                   <ul class="card-social">
                      <button class="btn btn-light ican-envo">

@@ -69,17 +69,18 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
         if ($image = $request->file('profile_photo')) {
             $destinationPath = 'images';
             $imagess = date('YmdHis') . random_int(1, 10000) . "." . $image->getClientOriginalExtension();
             $image->move($destinationPath, $imagess);
-            $path = $destinationPath . '/' . $imagess;
+            $pathprofile = $destinationPath . '/' . $imagess;
         }
         if ($image = $request->file('cover_photo')) {
             $destinationPath = 'images';
             $imagess = date('YmdHis') . random_int(1, 10000) . "." . $image->getClientOriginalExtension();
             $image->move($destinationPath, $imagess);
-            $path = $destinationPath . '/' . $imagess;
+            $pathcover = $destinationPath . '/' . $imagess;
         }
         $request->validate([
             'first_name' => 'required',
@@ -110,8 +111,8 @@ class UserController extends Controller
             'last_name' => $request->last_name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'profile_photo' => $path ?? 'dfsrdg',
-            'cover_photo' => $path ?? 'dfsrdg',
+            'profile_photo' => $pathprofile ?? 'dfsrdg',
+            'cover_photo' => $pathcover ?? 'dfsrdg',
             'department_id' => $request->department_id,
             'designation_id' => $request->designation_id,
             'mobile_number' => $request->mobile_number,

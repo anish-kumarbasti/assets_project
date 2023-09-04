@@ -2,6 +2,8 @@
 
 @section('Style-Area')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+{{-- <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.1.2/css/buttons.dataTables.min.css"> --}}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
 @endsection
 
 @section('Content-Area')
@@ -117,16 +119,52 @@
 @endsection
 
 @section('Script-Area')
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+{{-- <script src="https://cdn.datatables.net/buttons/2.1.2/js/dataTables.buttons.min.js"></script> --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+{{-- <script src="https://cdn.datatables.net/buttons/2.1.2/js/buttons.html5.min.js"></script> --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/vfs_fonts.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+  $(document).ready(function() {
+    $('#basic-1').DataTable({
+      // Your DataTable configuration options here
+      dom: 'Bfrtip',
+      buttons: [
+        'copy',
+        {
+          extend: 'csv',
+          text: 'CSV',
+          className: 'btn btn-sm btn-fill btn-info',
+        },
+        {
+          extend: 'pdf',
+          text: 'PDF',
+          className: 'btn btn-sm btn-fill btn-info',
+          title: 'Depreciation List',
+          orientation: 'landscape',
+          exportOptions: {
+            columns: [0, 1, 2, 3, 4], // Adjust the column indices as needed
+          },
+          customize: function(doc) {
+            doc.styles.tableHeader.alignment = 'left';
+            doc.content[1].table.widths = Array(doc.content[1].table.body[0].length + 1)
+              .join('*').split('');
+          },
+        },
+      ],
+    });
+  });
+</script>
 <script>
   $('#myModal').on('shown.bs.modal', function() {
     $('#myInput').trigger('focus')
   })
 </script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
-
 <script>
   document.querySelectorAll('.delete-button').forEach(function(button) {
 

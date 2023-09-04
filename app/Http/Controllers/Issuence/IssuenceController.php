@@ -14,7 +14,7 @@ class IssuenceController extends Controller
     {
         if ($request->ajax()) {
             // dd($request);
-            $employee =  User::with('department', 'location')->where('employee_id', 'LIKE', '%' . $request->employeeId . '%')->first();
+            $employee =  User::with('department', 'designation')->where('employee_id', 'LIKE', '%' . $request->employeeId . '%')->first();
             return response()->json($employee);
         }
         $assettype=AssetType::all();

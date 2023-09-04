@@ -34,11 +34,6 @@ Global, And You May Wish To Present Controls That Search On Specific Columns.</s
                      <th>Asset</th>
                       <th>Brand</th>
                      <th>Brand Model</th>
-                     <th>Location</th>
-
-                     <th>Sub Location</th>
-
-
                      <th>Configuration</th>
                       <th>Serial Number</th>
                       <th>Supplier</th>
@@ -59,10 +54,7 @@ Global, And You May Wish To Present Controls That Search On Specific Columns.</s
                      {{-- @dd($stock->assetmain); --}}
                        <td>{{$stock->assetmain->name??''}}</td>
                          <td>{{$stock->brand->name??''}}</td>
-                           <td>780</td>
-                        <td>{{$stock->location->name??''}}</td>
-
-                         <td>50</td>
+                           <td>{{$stock->brandmodel->name??''}}</td>
                            <td>{{$stock->configuration}} </td>
                            <td>{{$stock->serial_number}} </td>
                            <td>{{$stock->getsupplier->name??''}} </td>
