@@ -15,8 +15,8 @@
         </div>
         <div class="card-header pb-0">
             <button class="btn btn-primary" id="copy-button"><i class="far fa-copy"></i> Copy</button>
-            <button class="btn btn-primary" id="csvButton"><i class="fas fa-file-csv"></i> Export CSV</button>
-            <button class="btn btn-primary" id="pdfButton"><i class="fas fa-file-pdf"></i> Export PDF</button>
+            <button class="btn btn-primary" id="csvButton"><i class="fas fa-file-csv"></i> CSV</button>
+            <button class="btn btn-primary" id="pdfButton"><i class="fas fa-file-pdf"></i> PDF</button>
             <button class="btn btn-primary" onclick="window.print()"><i class="fas fa-print"></i> Print</button>
         </div>
         <div class="card">
@@ -34,14 +34,16 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach ($report as $reports)
                             <tr class="copy-content">
-                                <td><img src="" alt=""></td>
-                                <td>AST222909</td>
-                                <td>Aman Kumar</td>
-                                <td>Ready to deploy</td>
-                                <td>TP-Link</td>
-                                <td>Noida</td>
+                                <td><img src="" alt="status"></td>
+                                <td>{{$reports->product_number}}</td>
+                                <td>{{$reports->host_name}}</td>
+                                <td>{{$reports->status}}</td>
+                                <td>{{$reports->brand_id}}</td>
+                                <td>{{$reports->location_id}}</td>
                             </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -52,6 +54,7 @@
 @endsection
 
 @section('Script-Area')
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const copyButton = document.getElementById("copy-button");
@@ -79,5 +82,33 @@
         });
     });
 </script>
+
+<script>
+    document.getElementById('csvButton').addEventListener('click', function() {
+        const table = document.getElementById('basic-1');
+        const rows = table.querySelectorAll('tbody tr');
+        const csvData = [];
+
+        // Iterate over table rows and collect data
+        rows.forEach(function(row) {
+            const rowData = [];
+            row.querySelectorAll('td').forEach(function(cell) {
+                rowData.push(cell.innerText);
+            });
+            csvData.push(rowData.join(','));
+        });
+
+        // Create a CSV blob and trigger download
+        const csvContent = 'data:text/csv;charset=utf-8,' + csvData.join('\n');
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement('a');
+        link.setAttribute('href', encodedUri);
+        link.setAttribute('download', 'report_status.csv');
+        document.body.appendChild(link);
+        link.click();
+    });
+</script>
+
+
 
 @endsection

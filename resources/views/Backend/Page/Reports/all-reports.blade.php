@@ -17,15 +17,15 @@
                         <h5>Asset activity report</h5>
                     </a>
                     <hr>
-                    <a href="#">
+                    <a href="{{route('component-activity-reports')}}">
                         <h5>Component activity report</h5>
                     </a>
                     <hr>
-                    <a href="#">
+                    <a href="{{route('maintenance-report')}}">
                         <h5>Maintenance report</h5>
                     </a>
                     <hr>
-                    <a href="#">
+                    <a href="{{route('report-type')}}">
                         <h5>Report by type</h5>
                     </a>
                     <hr>
@@ -35,11 +35,11 @@
                         <h5>Report by status</h5>
                     </a>
                     <hr>
-                    <a href="#">
+                    <a href="{{route('report-supplier')}}">
                         <h5>Report by supplier</h5>
                     </a>
                     <hr>
-                    <a href="#">
+                    <a href="{{route('report-location')}}">
                         <h5>Report by location</h5>
                     </a>
                     <hr>

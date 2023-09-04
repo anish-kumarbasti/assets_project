@@ -46,7 +46,7 @@
                         <tr>
                             <td>{{$software->id}}</td>
                             <td>a23</td>
-                            <td>{{$software->name}}</td>
+                            <td>{{$software->product_info}}</td>
                             <td>xxxx xxxx xxxx</td>
                             <td>
                                 <span class="badge rounded-pill badge-light-success">{{$software->quantity}}</span>

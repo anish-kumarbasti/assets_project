@@ -91,27 +91,21 @@ class AssetController extends Controller
 
     public function nonitasset()
     {
-        $matchingData = Stock::join('assets', 'stocks.asset_type_id', '=', 'assets.asset_type_id')
-            ->where('assets.asset_type_id', 2)
-            ->select('assets.name', 'stocks.specification', 'stocks.quantity', 'stocks.price')
-            // ->groupBy('assets.name', 'stocks.specification', 'stocks.quantity', 'stocks.price')
-            ->get();
+        $id = '2';
+        $matchingData = Stock::where('asset_type_id', $id)->get();
 
         return view('Backend.Page.It-Asset.non-it-stock', compact('matchingData'));
     }
     public function assetscomponent()
     {
-        $assteComponent = Stock::join('assets', 'stocks.asset_type_id', '=', 'assets.asset_type_id')
-            ->select('stocks.*', 'assets.name', 'stocks.specification', 'stocks.quantity', 'stocks.price')
-            ->where('assets.asset_type_id', 3)->get();
+        $id = '3';
+        $assteComponent = Stock::where('asset_type_id', $id)->get();
         return view('Backend.Page.It-Asset.assets-components', compact('assteComponent'));
     }
     public function assetsoftware()
     {
-        $softwareData = Stock::join('assets', 'stocks.asset_type_id', '=', 'assets.asset_type_id')
-            ->select('stocks.*', 'assets.name', 'stocks.quantity', 'stocks.price')
-            ->where('assets.asset_type_id', 4)
-            ->get();
+        $id = '4';
+        $softwareData = Stock::where('asset_type_id', $id)->get();
         return view('Backend.Page.It-Asset.assets-software', compact('softwareData'));
     }
     public function getAssetDetails($assetTypeId)

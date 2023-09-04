@@ -80,7 +80,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/get-slocation/{locationId}', [StockController::class, 'getslocation']);
     Route::post('/get-asset-type/{assettypeId}', [StockController::class, 'getasset']);
     Route::post('/get-asset-all-details/{assetdetail}', [IssuenceController::class, 'getassetdetail']);
-    Route::post('/get-change-position',[IssuenceController::class,'getchangecard']);
+    Route::post('/get-change-position', [IssuenceController::class, 'getchangecard']);
 
     Route::get('edit-stock/{id}', [StockController::class, 'edit']);
     Route::get('all-stock', [StockController::class, 'ShowStock'])->name('all.stock');
@@ -180,6 +180,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('all-reports', [ReportController::class, 'allreport'])->name('all-reports');
     Route::get('asset-activity-report', [ReportController::class, 'activity_report'])->name('activity-reports');
     Route::get('assets-report-status', [ReportController::class, 'report_status'])->name('report-status');
+    Route::get('component-reports', [ReportController::class, 'component_reports'])->name('component-activity-reports');
+    Route::get('maintenance-reports', [ReportController::class, 'maintenance'])->name('maintenance-report');
+    Route::get('reports-types', [ReportController::class, 'report_type'])->name('report-type');
+    Route::get('reports-suppliers', [ReportController::class, 'report_supplier'])->name('report-supplier');
+    Route::get('reports-locations', [ReportController::class, 'report_location'])->name('report-location');
+
+    //PDF and CSV
+    Route::get('/export-data', [ReportController::class, 'exportData'])->name('exports.data');
 
     //Maintenances
     Route::get('asset-maintenances', [MaintenanceController::class, 'maintenances'])->name('assets-maintenances');
@@ -217,5 +225,5 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::get('/issuences', [IssuenceController::class, 'index'])->name('issuences.index');
-    Route::post('/issuence/store',[IssuenceController::class,'store'])->name('issuence.store');
+    Route::post('/issuence/store', [IssuenceController::class, 'store'])->name('issuence.store');
 });
