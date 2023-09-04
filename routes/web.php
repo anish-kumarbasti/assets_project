@@ -24,6 +24,7 @@ use App\Http\Controllers\AttributeController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\SettingController;
 
 
 /*
@@ -137,6 +138,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('location-status/{locationId}', [LocationController::class, 'locationStatus'])->name('location-status');
     Route::delete('location-destroy/{location}', [LocationController::class, 'destroy'])->name('location-destroy');
     Route::get('location-edit/{id}', [LocationController::class, 'edit'])->name('location-edit');
+    Route::post('/check-location-duplicate', [LocationController::class, 'checkLocationDuplicate'])->name('check-location-duplicate');
     //Sub-Location
     Route::get('sublocation-show', [SubLocationController::class, 'show'])->name('sublocation-show');
     Route::get('sublocation-index', [SubLocationController::class, 'index'])->name('sublocation-index');
@@ -208,6 +210,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/suppliers/{id}', [SupplierController::class, 'update'])->name('suppliers.update');
     Route::delete('/suppliers/{id}', [SupplierController::class, 'destroy'])->name('suppliers.destroy');
 
+    Route::get('/application-settings', [SettingController::class, 'index'])->name('settings.application');
+    Route::post('/application-settings', [SettingController::class, 'store'])->name('settings.application.store');
 
     Route::group(['middleware' => ['permission.checkDepartment']], function () {
     });

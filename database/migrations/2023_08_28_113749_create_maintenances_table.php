@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('maintenances', function (Blueprint $table) {
             $table->id();
-            $table->string('asset');
-            $table->string('supplier');
-            $table->string('type');
-            $table->date('start_date');
-            $table->date('end_date');
+            $table->string('asset_type_id');
+            $table->string('asset_id');
+            $table->string('asset_number');
+            $table->string('supplier_id');
+            $table->string('start_date');
+            $table->string('end_date');
             $table->timestamps();
         });
     }
