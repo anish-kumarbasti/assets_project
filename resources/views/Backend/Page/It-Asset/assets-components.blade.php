@@ -65,7 +65,7 @@
                         <tr>
                             <td>{{$component->id}}</td>
                             <td>a23</td>
-                            <td>{{$component->name}}</td>
+                            <td>{{$component->product_info}}</td>
                             <td>{{$component->specification}}</td>
                             <td>20</td>
                             <td>15</td>

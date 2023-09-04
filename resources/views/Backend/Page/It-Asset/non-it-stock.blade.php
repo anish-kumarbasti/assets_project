@@ -63,7 +63,7 @@
                   <tr>
                      <td>{{$nonit->id}}</td>
                      <td>a23</td>
-                     <td>{{$nonit->name }}</td>
+                     <td>{{$nonit->product_info }}</td>
                      <td>{{$nonit->specification}}</td>
                      <td>
                         <span class="badge rounded-pill badge-light-success">{{$nonit->quantity}}</span>

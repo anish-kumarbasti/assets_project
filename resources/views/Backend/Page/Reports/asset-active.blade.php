@@ -15,8 +15,8 @@
         </div>
         <div class="card-header pb-0">
             <button class="btn btn-primary" id="copy-button"><i class="far fa-copy"></i> Copy</button>
-            <button class="btn btn-primary" id="csvButton"><i class="fas fa-file-csv"></i> Export CSV</button>
-            <button class="btn btn-primary" id="pdfButton"><i class="fas fa-file-pdf"></i> Export PDF</button>
+            <button class="btn btn-primary" id="csvButton"><i class="fas fa-file-csv"></i> CSV</button>
+            <button class="btn btn-primary" id="pdfButton"><i class="fas fa-file-pdf"></i> PDF</button>
             <button class="btn btn-primary" onclick="window.print()"><i class="fas fa-print"></i> Print</button>
         </div>
         <div class="card">
@@ -79,5 +79,31 @@
         });
     });
 </script>
+
+
+<script>
+    document.getElementById('csvButton').addEventListener('click', function() {
+        const table = document.getElementById('basic-1');
+        const rows = table.querySelectorAll('tbody tr');
+        const csvData = [];
+
+        rows.forEach(function(row) {
+            const rowData = [];
+            row.querySelectorAll('td').forEach(function(cell) {
+                rowData.push(cell.innerText);
+            });
+            csvData.push(rowData.join(','));
+        });
+
+        const csvContent = 'data:text/csv;charset=utf-8,' + csvData.join('\n');
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement('a');
+        link.setAttribute('href', encodedUri);
+        link.setAttribute('download', 'asset_activity_report.csv');
+        document.body.appendChild(link);
+        link.click();
+    });
+</script>
+
 
 @endsection
