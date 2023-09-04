@@ -59,7 +59,7 @@
                   </tr>
                </thead>
                <tbody>
-                  @foreach ($matchingData as $nonit )
+                  @foreach ($matchingData as $nonit)
                   <tr>
                      <td>{{$nonit->id}}</td>
                      <td>a23</td>

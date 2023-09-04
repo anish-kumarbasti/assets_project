@@ -66,30 +66,26 @@ class StockController extends Controller
 
     public function store(Request $request)
     {
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('images'), $imageName);
-            $data['image'] = $imageName;
-        }
-
-        // dd($request);
         $request->validate([
             'product_info' => 'required',
             'price' => 'required',
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust the file size limit if needed
-
-            // 'vendor' => 'required', // Fixed the typo here ('vedor' to 'vendor')
+            'image' => 'required', 
         ]);
-        // dd($request);
-        $data = Stock::create([
+
+        $filepath='';
+        if ($images = $request->file('image')) {
+        $destinationPath = 'image';
+        $imagess = date('YmdHis') . random_int(1, 10000) . "." . $images->getClientOriginalExtension();
+        $images->move($destinationPath, $imagess);
+        $filepath = $destinationPath . '/' . $imagess;
+        }
+    // dd($request);
+        Stock::create([
             'product_info' => $request->product_info,
             'asset_type_id' => $request->asset_type,
             'asset' => $request->asset,
             'brand_id' => $request->brand ?? '0',
             'brand_model_id' => $request->brand_model ?? '0',
-            // 'location_id' => $request->location,
-            // 'sublocation_id' => $request->sublocation,
             'configuration' => $request->configuration,
             'serial_number' => $request->serial_number,
             'price' => $request->price,
@@ -103,6 +99,7 @@ class StockController extends Controller
             'quantity' => $request->quantity,
             'liscence_number' => $request->liscence_number,
             'supplier' => $request->supplier,
+            'image'=>$filepath,
         ]);
 
         // You might want to redirect the user somewhere after successful creation

@@ -52,6 +52,9 @@
     <script src="{{asset('Backend/assets/js/sweet-alert/sweetalert.min.js')}}"></script>
      <script src="{{ asset('Backend/assets/js/main.js')}}"></script>
      <script src="{{asset('Backend/assets/js/issuence.js')}}"></script>
+     <script src="{{asset('Backend/assets/js/datatable/datatable-extension/pdfmake.min.js')}}"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
     <!-- login js-->
 
 
