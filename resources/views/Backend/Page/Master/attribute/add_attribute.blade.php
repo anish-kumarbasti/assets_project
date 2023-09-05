@@ -22,15 +22,17 @@
                 @csrf
                 <div class="card-item border">
                     <div class="row p-4">
-                        <div class="col-md-12 mb-1 d-flex align-items-center">
+                        <div class="col-md-12 mb-1">
                             <input class="form-control me-2" id="validationCustom01" type="text" name="name" required data-bs-original-title="" title="" placeholder="Enter Model Name">
+                            @error('name')
+                            <span class="text-danger">{{$message}}</span>
+                            @enderror
                         </div>
                     </div>
                 </div>
 
                 <div class="footer-item">
                     <button class="btn btn-primary mt-3" type="submit" data-bs-original-title="" title="">Add</button>
-                    <button class="btn btn-warning mt-3" type="button" data-bs-original-title="" title="">Cancel</button>
                 </div>
             </form>
         </div>

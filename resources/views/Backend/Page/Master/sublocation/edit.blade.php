@@ -30,12 +30,15 @@
                   <div class="col-md-6 mb-4">
                      <label class="form-label" for="validationCustom01">Sub Location</label>
                      <input class="form-control" id="validationCustom01" name="name" type="text" required="" data-bs-original-title="" title="" placeholder="Enter Location" value="{{ $sublocation->name }}">
+                     @error('name')
+                     <span class="text-danger">{{$message}}</span>
+                     @enderror
                   </div>
                </div>
             </div>
             <div class="footer-item">
                <button class="btn btn-primary mt-3" type="submit" data-bs-original-title="" title="">Update</button>
-               <a href="{{ route('sublocation-index') }}" class="btn btn-warning mt-3">Cancel</a>
+               <a href="{{ route('sublocation-index') }}" class="btn btn-warning mt-3">Back</a>
             </div>
          </form>
       </div>

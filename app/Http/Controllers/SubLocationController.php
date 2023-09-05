@@ -10,8 +10,9 @@ class SubLocationController extends Controller
 {
     public function index()
     {
+        $message = 'Sub location Type status updated successfully';
         $sublocations = SubLocationModel::with('locations')->get();
-        return view('Backend.Page.Master.sublocation.index', compact('sublocations'));
+        return view('Backend.Page.Master.sublocation.index', compact('sublocations', 'message'));
     }
 
     public function create()
@@ -23,7 +24,7 @@ class SubLocationController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
+            'name' => 'required|string|max:50',
             'location_id' => 'required',
         ]);
 
@@ -45,7 +46,7 @@ class SubLocationController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'name' => 'required',
+            'name' => 'required|string|max:50',
         ]);
         $sublocation = SubLocationModel::findOrFail($id);
         $sublocation->name = $request->input('name');

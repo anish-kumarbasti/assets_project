@@ -16,8 +16,7 @@ class BrandmodelController extends Controller
         $brands = Brand::all();
         $brandmodel = Brandmodel::all();
         // dd($brands);
-        return view('Backend.Page.Master.brandmodel.create', compact('brands','brandmodel'));
-
+        return view('Backend.Page.Master.brandmodel.create', compact('brands', 'brandmodel'));
     }
 
     /**
@@ -25,7 +24,6 @@ class BrandmodelController extends Controller
      */
     public function create()
     {
-
     }
 
     /**
@@ -33,9 +31,9 @@ class BrandmodelController extends Controller
      */
     public function store(Request $request)
     {
-         // Validate the form data
-         $request->validate([
-            'name' => 'required',
+        // Validate the form data
+        $request->validate([
+            'name' => 'required|min:2|max:50',
             // Add other validation rules if needed
         ]);
 
@@ -50,7 +48,6 @@ class BrandmodelController extends Controller
 
         session()->flash('success', 'Data has been successfully stored.');
         return redirect()->back();
-
     }
 
     /**
@@ -78,20 +75,10 @@ class BrandmodelController extends Controller
      */
     public function update(Request $request, string $id)
     {
-          // Validate the form data
-        //   $brandmodel = Brandmodel::findOrFail($id);
-        //   $brand->name = $request->input('name');
-        //   $brand->brand_id = $request->input('brand_id');
-        //   $brand->update();
-
-        //   $brand->update([
-        //     'brand' => 'required',
-        //     // Add other validation rules if needed
-        // ]);
-
-        // Create the brand using the brand model
-        // dd($request);
-        $brand= Brandmodel::find($id)->update([
+        $request->validate([
+            'name' => 'required|min:2|max:50'
+        ]);
+        $brand = Brandmodel::find($id)->update([
             'name' => $request->brand,
             'brand_id' => $request->brand_id,
             // Add other fields if needed
@@ -107,31 +94,28 @@ class BrandmodelController extends Controller
     {
         $brand = Brandmodel::find($id);
         // dd($brand);
-    if($brand) {
-        $brand->delete();
-     }
-     return response()->json(['success' => true]);
+        if ($brand) {
+            $brand->delete();
+        }
+        return response()->json(['success' => true]);
     }
     public function updateStatus(Request $request, Brandmodel $brand)
-{
+    {
 
-    $request->validate([
-        'status' => 'required|boolean',
-    ]);
-if($brand->status==1){
-    Brandmodel::where('id',$brand->id)->update([
-        'status' => 0
-    ]);
-}else{
-Brandmodel::where('id',$brand->id)->update([
-    'status' => 1
-]);
+        $request->validate([
+            'status' => 'required|boolean',
+        ]);
+        if ($brand->status == 1) {
+            Brandmodel::where('id', $brand->id)->update([
+                'status' => 0
+            ]);
+        } else {
+            Brandmodel::where('id', $brand->id)->update([
+                'status' => 1
+            ]);
+        }
+        // dd($brand);
 
+        return redirect()->route('create-brand')->with('success', 'brand Model status updated successfully.');
+    }
 }
-    // dd($brand);
-
-    return redirect()->route('create-brand')->with('success', 'brand Model status updated successfully.');
-}
-
-}
-

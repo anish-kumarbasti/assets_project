@@ -15,7 +15,6 @@
                     <thead>
                         <tr>
                             <th>SL</th>
-                            <th>ID</th>
                             <th>Name</th>
                             <th>Status</th>
                             <th>Action</th>
@@ -25,7 +24,6 @@
                         @foreach ($brands as $brand)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $brand->id }}</td>
                             <td>{{ $brand->name }}</td>
                             <td class="w-20">
                                 <label class="mb-0 switch">
@@ -33,10 +31,8 @@
                                 </label>
                             </td>
                             <td>
-                                <a class="btn btn-primary"
-                                    href="{{ url('/brands/' . $brand->id . '/edit') }}">Edit</a>
-                                <form class="d-inline" method="POST"
-                                    action="{{ url('brands' . $brand->id) }}">
+                                <a class="btn btn-primary" href="{{ url('/brands/' . $brand->id . '/edit') }}">Edit</a>
+                                <form class="d-inline" method="POST" action="{{ url('brands' . $brand->id) }}">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger">Delete</button>

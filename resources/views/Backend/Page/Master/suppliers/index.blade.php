@@ -1,16 +1,16 @@
 @extends('Backend.Layouts.panel')
 @section('Content-Area')
 @if (session('message'))
-      <div class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
-        <p><b> Well done! </b>{{session('message')}}</p>
-        <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    @endif
+<div class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
+    <p><b> Well done! </b>{{session('message')}}</p>
+    <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@endif
 <div class="col-sm-12">
     <div class="card">
         <div class="card-header pb-0">
-            <h4>
-                Suppliers
+            <h4 class="d-flex justify-content-between align-items-center">
+                <span>Suppliers</span>
                 <a href="{{ route('suppliers.create') }}" class="btn btn-primary float-right">Add Suppliers</a>
             </h4>
         </div>
@@ -24,6 +24,7 @@
                             <th>Email</th>
                             <th>Phone</th>
                             <th>Address</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -38,17 +39,17 @@
 
                             <td class="w-20">
                                 <label class="mb-0 switch">
-                                <input type="checkbox" checked=""><span class="switch-state"></span>
+                                    <input type="checkbox" checked=""><span class="switch-state"></span>
                                 </label>
                             </td>
                             <td>
-            <a href="{{ url('suppliers/'.$supplier->id.'/edit') }}" class="btn btn-primary">Edit</a>
-            <form action="{{ route('suppliers.destroy', $supplier->id) }}" method="POST" style="display: inline-block;">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-danger">Delete</button>
-            </form>
-        </td>
+                                <a href="{{ url('suppliers/'.$supplier->id.'/edit') }}" class="btn btn-primary">Edit</a>
+                                <form action="{{ route('suppliers.destroy', $supplier->id) }}" method="POST" style="display: inline-block;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>

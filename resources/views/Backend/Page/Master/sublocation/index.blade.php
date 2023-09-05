@@ -10,22 +10,21 @@
         <p>{{ session('success') }}</b>
             <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
+    @endif
 </div>
-@endif
 <div class="card">
     <div class="card-header pb-0">
-        <h4>Sub Locations</h4>
+        <h4 class="d-flex justify-content-between align-items-center">
+            <span>Sub Locations</span>
+            <a href="{{ route('sublocation-create') }}" class="btn btn-primary">Sub Location</a>
+        </h4>
     </div>
     <div class="card-body">
-        <div class="mb-3">
-            <a href="{{ route('sublocation-create') }}" class="btn btn-primary">Create Sub Location</a>
-        </div>
         <div class="table-responsive theme-scrollbar">
             <table class="display" id="basic-1">
                 <thead>
                     <tr>
                         <th>SL</th>
-                        <th>ID</th>
                         <th>Location</th>
                         <th>Sub Location</th>
                         <th>Status</th>
@@ -36,7 +35,6 @@
                     @foreach ($sublocations as $sublocation)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $sublocation->id }}</td>
                         <td>{{ $sublocation->locations->name??''}}</td>
                         <td>{{ $sublocation->name }}</td>
                         <td class="w-20">
@@ -47,8 +45,7 @@
                         </td>
                         <td>
                             <a href="{{ route('sublocation-edit', $sublocation->id) }}" class="btn btn-primary" data-bs-original-title="" title="">Edit</a>
-                                <button class="btn btn-danger delete-button" type="button"
-                                            data-id="{{ $sublocation->id }}">Delete</button>
+                            <button class="btn btn-danger delete-button" type="button" data-id="{{ $sublocation->id }}">Delete</button>
                         </td>
                     </tr>
                     @endforeach
@@ -114,12 +111,12 @@
                                 'X-CSRF-TOKEN': csrfToken, // Include the CSRF token in the headers
                                 'Content-Type': 'application/json' // Set the content type
                             }
-                        // You can set headers and other options here
+                            // You can set headers and other options here
                         })
                         .then(response => response.json())
-                        
+
                         .then(data => {
-                            
+
                             if ('success' in data && data.success) {
                                 Swal.fire(
                                     'Deleted!',

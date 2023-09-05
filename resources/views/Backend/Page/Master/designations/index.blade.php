@@ -1,19 +1,21 @@
 @extends('Backend.Layouts.panel')
 @section('Content-Area')
 @if (session('message'))
-      <div class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
-        <p><b> Well done! </b>{{session('message')}}</p>
-        <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    @endif
+<div class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
+    <p><b> Well done! </b>{{session('message')}}</p>
+    <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@endif
 <div class="col-sm-12">
     <div class="card">
         <div class="card-header pb-0">
-            <h4>
-                Designations
-                <a href="{{ route('designations.create') }}" class="btn btn-primary float-right">Add Designation</a>
+            <h4 class="d-flex justify-content-between align-items-center">
+                <span>Designations</span>
+                <a href="{{ route('designations.create') }}" class="btn btn-primary">Add Designation</a>
             </h4>
         </div>
+
+
         <div class="card-body">
             <div class="table-responsive theme-scrollbar">
                 <table class="display" id="basic-1">
@@ -35,13 +37,12 @@
 
                             <td class="w-20">
                                 <label class="mb-0 switch">
-                                <input type="checkbox" checked=""><span class="switch-state"></span>
+                                    <input type="checkbox" checked=""><span class="switch-state"></span>
                                 </label>
                             </td>
                             <td>
                                 <a href="{{ route('designations.edit', $designation->id) }}" class="btn btn-primary">Edit</a>
-                                    <button class="btn btn-danger delete-button" type="button"
-                                            data-id="{{ $designation->id }}">Delete</button>
+                                <button class="btn btn-danger delete-button" type="button" data-id="{{ $designation->id }}">Delete</button>
                             </td>
                         </tr>
                         @endforeach
@@ -79,7 +80,7 @@
                                 'X-CSRF-TOKEN': csrfToken, // Include the CSRF token in the headers
                                 'Content-Type': 'application/json' // Set the content type
                             }
-                        // You can set headers and other options here
+                            // You can set headers and other options here
                         })
                         .then(response => response.json())
 

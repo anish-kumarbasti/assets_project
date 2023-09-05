@@ -1,9 +1,11 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Designation;
 use App\Models\Department;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class DesignationController extends Controller
 {
@@ -23,8 +25,17 @@ class DesignationController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'designation_name' => 'required',
             'department_id' => 'required',
+            'designation_name' => [
+                'required',
+                'string',
+                'max:50',
+                'regex:/^[A-Za-z]+( [A-Za-z]+)*$/',
+                'min:2',
+                Rule::notIn(['']),
+            ],
+        ], [
+            'designation_name.regex' => 'The :attribute may only contain letters and spaces. Numbers and special characters are not allowed.',
         ]);
 
         $designation = new Designation();
@@ -45,8 +56,17 @@ class DesignationController extends Controller
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'designation_name' => 'required',
             'department_id' => 'required',
+            'designation_name' => [
+                'required',
+                'string',
+                'max:50',
+                'regex:/^[A-Za-z]+( [A-Za-z]+)*$/',
+                'min:2',
+                Rule::notIn(['']),
+            ],
+        ], [
+            'designation_name.regex' => 'The :attribute may only contain letters and spaces. Numbers and special characters are not allowed.',
         ]);
 
         $designation = Designation::find($id);

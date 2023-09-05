@@ -28,11 +28,15 @@
                   <div class="col-md-12">
                      <label class="form-label" for="designation_name">Designation Name</label>
                      <input class="form-control" id="designation_name" type="text" name="designation_name" required value="{{ $designation->designation }}" placeholder="Enter Designation Name">
+                     @error('designation_name')
+                     <span class="text-danger">{{$message}}</span>
+                     @enderror
                   </div>
                </div>
             </div>
             <div class="footer-item">
                <button class="btn btn-primary mt-3" type="submit">Update</button>
+               <a href="{{route('designations.index')}}" class="btn btn-warning mt-3">Back</a>
             </div>
          </form>
       </div>

@@ -6,12 +6,13 @@ use App\Models\Asset;
 use App\Models\AssetType;
 use App\Models\Stock;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class AssetController extends Controller
 {
     public function index()
     {
-        $assets = Asset::all();
+        $assets = Asset::with('AssetName')->get();
         // dd($assets);
         return view('Backend.Page.Master.assets.index', compact('assets'));
     }
@@ -25,13 +26,23 @@ class AssetController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'assettype_id' => 'required|exists:asset_types,id', // Make sure assettype_id exists in asset_types table
+            'asset_type_id' => 'required',
+            'name' => [
+                'required',
+                'string',
+                'max:50',
+                'regex:/^[A-Za-z]+( [A-Za-z]+)*$/',
+                'min:2',
+                Rule::notIn(['']),
+            ],
+        ], [
+            'name.regex' => 'The :attribute may only contain letters and spaces. Numbers and special characters are not allowed.',
         ]);
+
 
         $asset = new Asset;
         $asset->name = $request->name;
-        $asset->asset_type_id = $request->assettype_id;
+        $asset->asset_type_id = $request->asset_type_id;
         $asset->status = 1;
         $asset->save();
 
@@ -66,6 +77,19 @@ class AssetController extends Controller
     public function update(Request $request, $id)
     {
 
+        $request->validate([
+            'asset_type_id' => 'required',
+            'name' => [
+                'required',
+                'string',
+                'max:50',
+                'regex:/^[A-Za-z]+( [A-Za-z]+)*$/',
+                'min:2',
+                Rule::notIn(['']),
+            ],
+        ], [
+            'name.regex' => 'The :attribute may only contain letters and spaces. Numbers and special characters are not allowed.',
+        ]);
         $assetType = Asset::findOrFail($id);
         $assetType->name = $request->name;
         $assetType->asset_type_id = $request->asset_type_id;

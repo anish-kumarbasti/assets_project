@@ -14,7 +14,7 @@
                     <div class="row p-3">
                         <div class="col-md-12 mb-4">
                             <label class="form-label" for="assetName">Select Asset Type </label>
-                            <select class="form-select" id="" name="assettype_id" required>
+                            <select class="form-select" id="" name="asset_type_id" required>
                                 <option value="" disabled selected>Select type</option>
                                 @foreach ($assettype as $assettype)
                                 <option value="{{ $assettype->id }}">{{ $assettype->name }}</option>
@@ -26,13 +26,16 @@
                         <div class="col-md-12 mb-4">
                             <label class="form-label" for="assetName">Asset Name </label>
                             <input class="form-control" id="assetName" name="name" type="text" required="" placeholder="Enter Asset Name ">
+                            @error('name')
+                            <span class="text-danger">{{$message}}</span>
+                            @enderror
                         </div>
                     </div>
 
                 </div>
                 <div class="footer-item">
                     <button class="btn btn-primary mt-3" type="submit">ADD</button>
-                    <button class="btn btn-warning mt-3" type="reset">Cancel</button>
+                    <a href="{{route('assets.index')}}" class="btn btn-warning mt-3">Cancel</a>
                 </div>
             </form>
         </div>
