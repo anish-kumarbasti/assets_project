@@ -47,7 +47,14 @@ class StockController extends Controller
     public function getasset($assettypeId)
     {
         $assettypeId = Asset::where('asset_type_id', $assettypeId)->get();
+        // dd($assettypeId);
         return response()->json(['assets' => $assettypeId]);
+    }
+    public function getproduct($producttypeId)
+    {
+        $producttypeId = Stock::where('asset', $producttypeId)->get();
+        // dd($producttypeId);
+        return response()->json(['product' => $producttypeId]);
     }
 
 

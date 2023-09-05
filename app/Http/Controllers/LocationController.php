@@ -21,17 +21,18 @@ class LocationController extends Controller
 
     public function store(Request $request)
     {
-
         $request->validate([
-            'name' => 'required|string',
-
+            'name' => 'required|string|unique:locations', // Unique validation rule
         ]);
 
-        $location=Location::create($request->all());
+        // 'name' field ke saath ek naya Location record create karein
+        Location::create([
+            'name' => $request->input('name'),
+        ]);
 
-        return redirect()->route('location-index')
-                         ->with('success', 'location created successfully');
+        return redirect()->route('location-index')->with('success', 'Location created successfully');
     }
+
 
     public function show(Location $location)
     {

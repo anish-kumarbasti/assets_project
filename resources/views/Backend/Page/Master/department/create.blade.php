@@ -138,9 +138,9 @@
                         // You can set headers and other options here
                         })
                         .then(response => response.json())
-                        
+
                         .then(data => {
-                            
+
                             if ('success' in data && data.success) {
                                 Swal.fire(
                                     'Deleted!',

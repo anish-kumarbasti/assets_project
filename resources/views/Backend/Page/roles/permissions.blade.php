@@ -8,7 +8,11 @@
             <h4>Permissions for Role: {{ $role->name }}</h4>
         </div>
         <div class="card-body">
-            <form class="needs-validation" novalidate="">
+            <form class="needs-validation" method="post" action="{{ route('roles.update_permissions',$role->id) }}" novalidate="">
+                @csrf
+                @isset($permissions)
+                @method('put');
+                @endisset
                 <div class="card-item border">
                     <div class="row p-3">
                         @foreach ($permissions as $permission)
