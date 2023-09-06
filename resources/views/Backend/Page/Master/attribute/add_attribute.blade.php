@@ -22,7 +22,17 @@
                 @csrf
                 <div class="card-item border">
                     <div class="row p-4">
-                        <div class="col-md-12 mb-1">
+                        <div class="col-md-6 mb-1">
+                            <label class="form-label">Asset Type</label>
+                            <select class="form-select" id="asset_type_id" name="asset_type_id" aria-label="Default select example">
+                                <option value="">--Select Asset Type--</option>
+                                @foreach ($assettype as $assettypes)
+                                <option value="{{ $assettypes->id }}">{{ $assettypes->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-1">
+                            <label for="form-label">Attribute Name</label>
                             <input class="form-control me-2" id="validationCustom01" type="text" name="name" required data-bs-original-title="" title="" placeholder="Enter Model Name">
                             @error('name')
                             <span class="text-danger">{{$message}}</span>

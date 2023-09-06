@@ -204,6 +204,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('/attributes/{id}', [AttributeController::class, 'update'])->name('attribute-update');
     Route::delete('/attributes/{id}', [AttributeController::class, 'destroy']);
     Route::post('/attributes/{attributes}', [AttributeController::class, 'updateStatus'])->name('attribute-updateStatus');
+    // Route::post('/getAttributes/{assettypeId}', [AttributeController::class, 'getAttribute'])->name('getAttribute');
 
     Route::get('/departments/create', [DepartmentController::class, 'create'])->name('auth.create-department');
     Route::post('/departments', [DepartmentController::class, 'store']);

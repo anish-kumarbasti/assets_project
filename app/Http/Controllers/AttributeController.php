@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AssetType;
 use App\Models\Attribute;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -12,7 +13,8 @@ class AttributeController extends Controller
     {
         // dd('hi');
         $attributes = Attribute::all();
-        return view('Backend.Page.Master.attribute.add_attribute', compact('attributes'));
+        $assettype = AssetType::all();
+        return view('Backend.Page.Master.attribute.add_attribute', compact('attributes', 'assettype'));
     }
 
     public function create()
@@ -24,7 +26,8 @@ class AttributeController extends Controller
     {
         $validatedData = $request->validate([
             'status' => 'boolean',
-            'name'=>[
+            'asset_type_id' => 'required',
+            'name' => [
                 'required',
                 'string',
                 'max:40',
@@ -44,12 +47,14 @@ class AttributeController extends Controller
     public function edit($id)
     {
         $attribute = Attribute::findOrFail($id);
-        return view('Backend.Page.Master.attribute.edit', compact('attribute'));
+        $assettype = AssetType::all();
+        return view('Backend.Page.Master.attribute.edit', compact('attribute', 'assettype'));
     }
 
     public function update(Request $request, $id)
     {
         $request->validate([
+            'asset_type_id' => 'required',
             'name' => [
                 'required',
                 'string',
@@ -65,6 +70,7 @@ class AttributeController extends Controller
 
         $attribute = Attribute::findOrFail($id);
         $attribute->update([
+            'asset_type_id' => $request->asset_type_id,
             'name' => $request->name,
         ]);
 

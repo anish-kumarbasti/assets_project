@@ -13,6 +13,7 @@ use App\Models\Stock;
 use App\Models\SubLocationModel;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class StockController extends Controller
 {
@@ -31,12 +32,11 @@ class StockController extends Controller
         return view('Backend.Page.Stock.add-stock', compact('asset_type', 'asset', 'brand', 'location', 'brand_model', 'sublocation', 'attribute', 'supplier'));
     }
 
-
-    public function getBrandModels($brandId)
-    {
-        $brandModels = BrandModel::where('brand_id', $brandId)->get();
-        return response()->json(['models' => $brandModels]);
-    }
+    // public function getAttribute($assettypeId)
+    // {
+    //     $attribute = Attribute::where('asset_type_id', $assettypeId)->get();
+    //     return response()->json(['attribute'=>$attribute]);
+    // }
 
     public function getslocation($locationId)
     {
@@ -46,9 +46,16 @@ class StockController extends Controller
 
     public function getasset($assettypeId)
     {
-        $assettypeId = Asset::where('asset_type_id', $assettypeId)->get();
+        // return $assettypeId;
+        $assettype = Asset::where('asset_type_id', $assettypeId)->get();
+        $attribute = Attribute::where('asset_type_id', $assettypeId)->get();
+        //return $attribute;
+
         // dd($assettypeId);
-        return response()->json(['assets' => $assettypeId]);
+        return response()->json([
+            'assets' => $assettype,
+            'attribute' => $attribute
+        ]);
     }
     public function getproduct($producttypeId)
     {
@@ -56,7 +63,11 @@ class StockController extends Controller
         // dd($producttypeId);
         return response()->json(['product' => $producttypeId]);
     }
-
+    public function getBrandModels($brandId)
+    {
+        $brandId = Brandmodel::where('brand_id', $brandId)->get();
+        return response()->json(['models' => $brandId]);
+    }
 
     public function  manage()
     {
@@ -74,19 +85,25 @@ class StockController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'product_info' => 'required',
-            'price' => 'required',
-            'image' => 'required', 
+            'product_info' => [
+                'required',
+                'string',
+                'regex:/^[A-Za-z]+( [A-Za-z]+)*$/',
+                'max:50',
+                Rule::notIn(['']),
+            ],
+        ], [
+            'product_info.regex' => 'The :attribute may only contain letters and spaces. Numbers and special characters are not allowed.',
         ]);
-
-        $filepath='';
+        dd($request);
+        $filepath = '';
         if ($images = $request->file('image')) {
-        $destinationPath = 'image';
-        $imagess = date('YmdHis') . random_int(1, 10000) . "." . $images->getClientOriginalExtension();
-        $images->move($destinationPath, $imagess);
-        $filepath = $destinationPath . '/' . $imagess;
+            $destinationPath = 'image';
+            $imagess = date('YmdHis') . random_int(1, 10000) . "." . $images->getClientOriginalExtension();
+            $images->move($destinationPath, $imagess);
+            $filepath = $destinationPath . '/' . $imagess;
         }
-    // dd($request);
+        // dd($request);
         Stock::create([
             'product_info' => $request->product_info,
             'asset_type_id' => $request->asset_type,
@@ -106,7 +123,7 @@ class StockController extends Controller
             'quantity' => $request->quantity,
             'liscence_number' => $request->liscence_number,
             'supplier' => $request->supplier,
-            'image'=>$filepath,
+            'image' => $filepath,
         ]);
 
         // You might want to redirect the user somewhere after successful creation
@@ -145,14 +162,22 @@ class StockController extends Controller
         $sublocation = SubLocationModel::all();
         $attribute = Attribute::all();
         $supplier = Supplier::all();
-        return view('Backend.Page.Stock.add-stock', compact('stockedit', 'asset', 'asset_type', 'brand', 'brand_model', 'location', 'sublocation','attribute', 'supplier'));
+        return view('Backend.Page.Stock.add-stock', compact('stockedit', 'asset', 'asset_type', 'brand', 'brand_model', 'location', 'sublocation', 'attribute', 'supplier'));
     }
     public function update(Request $request, $id)
     {
         // dd($request);
         $request->validate([
-            'product_info' => 'required',
-            'price' => 'required',
+            'price' => 'required|integer|max:10|',
+            'product_info' => [
+                'required',
+                'string',
+                'regex:/^[A-Za-z]+( [A-Za-z]+)*$/',
+                'max:50',
+                Rule::notIn(['']),
+            ],
+        ], [
+            'product_info.regex' => 'The :attribute may only contain letters and spaces. Numbers and special characters are not allowed.',
             // 'vendor' => 'required', // Fixed the typo here ('vedor' to 'vendor')
         ]);
 

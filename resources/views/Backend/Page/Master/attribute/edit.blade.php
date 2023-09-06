@@ -24,7 +24,17 @@
                 @csrf
                 <div class="card-item border">
                     <div class="row p-4">
-                        <div class="col-md-12 mb-1">
+                        <div class="col-sm-6">
+                            <label class="form-label">Asset Type</label>
+                            <select class="form-select" id="asset_type_id" name="asset_type_id" aria-label="Default select example">
+                                <option value="">--Select Asset Type--</option>
+                                @foreach ($assettype as $assettypes)
+                                <option value="{{ $assettypes->id }}" {{ $attribute->asset_type_id == $assettypes->id ? 'selected' : '' }}>{{ $assettypes->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-sm-6 mb-1">
+                            <label class="form-label">Attribute Name</label>
                             <input class="form-control" id="name" type="text" name="name" value="{{ $attribute->name }}" required>
                             @error('name')
                             <span class="text-danger">{{$message}}</span>
@@ -35,7 +45,7 @@
 
                 <div class="footer-item">
                     <button class="btn btn-primary mt-3" type="submit">Update</button>
-                    <a class="btn btn-warning mt-3" href="{{ url('attribute') }}">Back</a>
+                    <a class="btn btn-warning mt-3" href="{{ url('attributes') }}">Back</a>
                 </div>
             </form>
         </div>
