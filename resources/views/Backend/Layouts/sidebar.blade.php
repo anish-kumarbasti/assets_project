@@ -24,29 +24,33 @@
                {{-- <li><a href="javascript:;">Ecommerce Dashboard</a></li> --}}
              </ul>
            </li>
-
+           @can('view_master')
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="airplay"></i><span>Masters</span></a>
-             <ul class="sidebar-submenu">
-               <li><a href="{{ route('auth.create-department')}}">Department</a></li>
-               <li><a href="{{ url('designations')}}">Designation</a></li>
-               <!-- <li><a href="{{ route('assets-type-index')}}">Asset Type</a></li> -->
-               <li><a href="{{ url('assets')}}">Asset Name</a></li>
-               <li><a href="{{ route('create-brand')}}">Brand</a></li>
-               <li><a href="{{ url('brand-model')}}">Brand Model</a></li>
-               <li><a href="{{ url('location-index')}}">Locations</a></li>
-               <li><a href="{{ url('sublocation-index')}}">Sub-Locations</a></li>
-               <li><a href="{{ url('attributes')}}">Attributes</a></li>
-               <li><a href="{{ url('suppliers')}}">Suppliers</a></li>
-             </ul>
-           </li>
+            <ul class="sidebar-submenu">
+              <li><a href="{{ route('auth.create-department')}}">Department</a></li>
+              <li><a href="{{ url('designations')}}">Designation</a></li>
+              <li><a href="{{ route('assets-type-index')}}">Asset Type</a></li>
+              <li><a href="{{ url('assets')}}">Asset Name</a></li>
+              <li><a href="{{ route('create-brand')}}">Brand</a></li>
+              <li><a href="{{ url('brand-model')}}">Brand Model</a></li>
+              <li><a href="{{ url('location-index')}}">Locations</a></li>
+              <li><a href="{{ url('sublocation-index')}}">Sub-Locations</a></li>
+              <li><a href="{{ url('attributes')}}">Attributes</a></li>
+              <li><a href="{{ url('suppliers')}}">Suppliers</a></li>
+            </ul>
+          </li>
+          @endcan
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="layout"></i><span>User Management</span></a>
              <ul class="sidebar-submenu">
                <li><a href="{{url('users')}}">All Users</a></li>
+               @can('add_user')
                <li><a href="{{route('users.create')}}">Add User</a></li>
+               @endcan
                <!-- <li><a href="{{ url('show')}}">User Details</a></li> -->
                <!-- <li><a href="{{ url('users.user.profile')}}">User Card</a></li> -->
                <li><a href="{{url('roles') }}">Add Role</a></li>
-               <li><a href="{{url('view-permissions') }}">All Permission</a></li>
+               <li><a href="{{url('view-permissions') }}">Add Permission</a></li>
+               <li><a href="{{route('add.permission') }}">All Permission</a></li>
              </ul>
            </li>
 
@@ -56,7 +60,9 @@
                <li><a href="{{ url('manage-stocks')}}">Manage Stocks</a></li>
                <li><a href="{{ url('all-stock')}}">All Stocks</a>
                </li>
+               @can('add_stock')
                <li><a href="{{ url('stock')}}">Stocks</a></li>
+               @endcan
              </ul>
            </li>
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="airplay"></i><span>Assets</span></a>
@@ -89,12 +95,14 @@
 
              </ul>
            </li>
+           @can('add_disposal')
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="trash"></i><span>Depreciation</span></a>
              <ul class="sidebar-submenu">
                <li><a href="{{ url('disposal')}}">Add Depreciation</a> </li>
 
              </ul>
            </li>
+           @endcan
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="book-open"></i><span>Reports</span></a>
              <ul class="sidebar-submenu">
                <li><a href="{{url('all-reports')}}">All Reports</a> </li>

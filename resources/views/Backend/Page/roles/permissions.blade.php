@@ -16,9 +16,9 @@
                 <div class="card-item border">
                     <div class="row p-3">
                         @foreach ($permissions as $permission)
-                        <div class="col-md-4 mb-4">
+                        <div class="col-md-4 mb-4 border">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="permissions[]" value="{{ $permission->name }}" id="permission_{{ $permission->id }}">
+                                <input class="form-check-input" type="checkbox" name="permissions[]" value="{{ $permission->id }}" id="permission_{{ $permission->id }}">
                                 <label class="form-check-label" for="permission_{{ $permission->id }}">{{ $permission->name }}</label>
                             </div>
                         </div>

@@ -149,8 +149,9 @@ class UserController extends Controller
     {
         $department = Department::all();
         $designation = Designation::all();
+        $role=Role::all();
         $user = User::find($id);
-        return view('Backend.Page.User.edit', compact('user', 'department', 'designation'));
+        return view('Backend.Page.User.edit', compact('user', 'department', 'designation','role'));
     }
 
     /**
@@ -170,6 +171,7 @@ class UserController extends Controller
             'designation_id' => 'required',
             'age' => 'required',
             'mobile_number' => 'required',
+            'role'=>'required|integer',
         ]);
         //$user = User::where('id', $id)->first();
         $user = User::findOrFail($id);
@@ -180,6 +182,7 @@ class UserController extends Controller
         $user->department_id = $request->input('department_id');
         $user->designation_id = $request->input('designation_id');
         $user->mobile_number = $request->input('mobile_number');
+        $user->role_id = $request->input('role');
 
         if ($request->hasFile('profile_photo')) {
             $profilePhotoPath = $request->file('profile_photo')->store('profile_photos');
