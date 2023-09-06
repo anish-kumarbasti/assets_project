@@ -33,7 +33,7 @@
                 </div>
                 <div class="footer-item">
                     <button class="btn btn-primary mt-3" type="submit" data-bs-original-title="" title="">ADD</button>
-                    <a href="{{ route('sublocation-index') }}" class="btn btn-warning mt-3">Cancel</a>
+                    <a href="{{ route('sublocation-index') }}" class="btn btn-warning mt-3">Back</a>
                 </div>
             </form>
         </div>

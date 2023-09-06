@@ -16,18 +16,16 @@
                <div class="row p-3">
                   <div class="col-md-12 mb-4">
                      <label class="form-label" for="validationCustom01">Location</label>
-                     <input class="form-control" id="validationCustom01" name="name" type="text" required=""
-                        data-bs-original-title="" title="" placeholder="Enter Location" value="{{ old('name') }}">
+                     <input class="form-control" id="validationCustom01" name="name" type="text" required="" data-bs-original-title="" title="" placeholder="Enter Location" value="{{ old('name') }}">
                      @error('name')
-                        <div class="text-danger">{{ $message }}</div>
+                     <div class="text-danger">{{ $message }}</div>
                      @enderror
                   </div>
                </div>
             </div>
             <div class="footer-item">
-               <button class="btn btn-primary mt-3" type="submit" data-bs-original-title=""
-                  title="">ADD</button>
-               <a href="{{ route('location-index') }}" class="btn btn-warning mt-3">Cancel</a>
+               <button class="btn btn-primary mt-3" type="submit" data-bs-original-title="" title="">ADD</button>
+               <a href="{{ route('location-index') }}" class="btn btn-warning mt-3">Back</a>
             </div>
          </form>
       </div>

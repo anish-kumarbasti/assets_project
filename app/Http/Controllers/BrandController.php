@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Brand;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class BrandController extends Controller
 {
@@ -14,16 +15,20 @@ class BrandController extends Controller
         return view('Backend.Page.Master.brands.create', ['brands' => $brands]);
     }
 
-    // Store the newly created brand
     public function store(Request $request)
     {
-        // Validate the form data
-        $request->validate([
-            'name' => 'required|string|max:255',
-            // Add other validation rules if needed
+        $validated = $request->validate([
+            'name' => [
+                'required',
+                'string',
+                'max:50',
+                'regex:/^[A-Za-z]+( [A-Za-z]+)*$/',
+                'min:2',
+                Rule::notIn(['']),
+            ],
+        ], [
+            'name.regex' => 'The :attribute may only contain letters and spaces. Numbers and special characters are not allowed.',
         ]);
-
-        // Create the brand using the brand model
         Brand::create([
             'name' => $request->name,
             // Add other fields if needed
@@ -52,9 +57,17 @@ class BrandController extends Controller
     public function update(Request $request, $id)
     {
         // Validate the form data
-        $request->validate([
-            'name' => 'required|string|max:255',
-            // Add other validation rules if needed
+        $validated = $request->validate([
+            'name' => [
+                'required',
+                'string',
+                'max:50',
+                'regex:/^[A-Za-z]+( [A-Za-z]+)*$/',
+                'min:2',
+                Rule::notIn(['']),
+            ],
+        ], [
+            'name.regex' => 'The :attribute may only contain letters and spaces. Numbers and special characters are not allowed.',
         ]);
 
         // Find the brand and update its data
@@ -65,7 +78,7 @@ class BrandController extends Controller
         ]);
 
         // Redirect back to the list of brands
-        return redirect('/brands/create')->with('success','Data Updated Successfully!');
+        return redirect('/brands/create')->with('success', 'Data Updated Successfully!');
     }
 
     // Delete the brand
@@ -73,32 +86,31 @@ class BrandController extends Controller
     {
         // Find the brand and delete it
         $brand = Brand::find($id);
-        if ($brand){
+        if ($brand) {
             $brand->delete();
         }
         // dd($brand);
         // $asset->delete();
-    
+
         return response()->json(['success' => true]);
     }
     public function updateStatus(Request $request, brand $brand)
-{
+    {
 
-    $request->validate([
-        'status' => 'required|boolean',
-    ]);
-if($brand->status==1){
-    Brand::where('id',$brand->id)->update([
-        'status' => 0
-    ]);
-}else{
-Brand::where('id',$brand->id)->update([
-    'status' => 1
-]);
+        $request->validate([
+            'status' => 'required|boolean',
+        ]);
+        if ($brand->status == 1) {
+            Brand::where('id', $brand->id)->update([
+                'status' => 0
+            ]);
+        } else {
+            Brand::where('id', $brand->id)->update([
+                'status' => 1
+            ]);
+        }
+        // dd($brand);
 
-}
-    // dd($brand);
-
-    return redirect()->route('create-brand')->with('success', 'brand status updated successfully.');
-}
+        return redirect()->route('create-brand')->with('success', 'brand status updated successfully.');
+    }
 }

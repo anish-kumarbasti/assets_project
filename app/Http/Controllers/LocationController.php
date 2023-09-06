@@ -22,15 +22,14 @@ class LocationController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|unique:locations', // Unique validation rule
+            'name' => 'required|string|max:50|unique:locations',
+
         ]);
 
-        // 'name' field ke saath ek naya Location record create karein
-        Location::create([
-            'name' => $request->input('name'),
-        ]);
+        $location = Location::create($request->all());
 
-        return redirect()->route('location-index')->with('success', 'Location created successfully');
+        return redirect()->route('location-index')
+            ->with('success', 'location created successfully');
     }
 
 
@@ -39,7 +38,7 @@ class LocationController extends Controller
         return view('Backend.Page.Master.location.show', compact('location'));
     }
 
-    public function edit(Location $location,$id)
+    public function edit(Location $location, $id)
     {
         $location = Location::findOrFail($id);
         return view('Backend.Page.Master.location.edit', compact('location'));
@@ -48,28 +47,27 @@ class LocationController extends Controller
     public function update(Request $request, Location $location)
     {
         $request->validate([
-            'name' => 'required|string',
+            'name' => 'required|string|max:50',
         ]);
 
         $location->update($request->all());
 
         return redirect()->route('location-index')
-                         ->with('success', 'location  updated successfully');
+            ->with('success', 'location  updated successfully');
     }
     public function locationStatus(Request $request, $locationId)
     {
 
         $location = Location::findOrFail($locationId);
 
-        if($location->status==true){
-            Location::where('id',$locationId)->update([
+        if ($location->status == true) {
+            Location::where('id', $locationId)->update([
                 'status' => 0
             ]);
-        }else{
-            Location::where('id',$locationId)->update([
-            'status' => 1
-        ]);
-
+        } else {
+            Location::where('id', $locationId)->update([
+                'status' => 1
+            ]);
         }
 
         return response()->json(['message' => 'location Type status updated successfully']);

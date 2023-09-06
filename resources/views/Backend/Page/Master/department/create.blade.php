@@ -5,11 +5,11 @@
 
 @section('Content-Area')
 @if (session('message'))
-      <div class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
-        <p><b> Well done! </b>{{session('message')}}</p>
-        <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    @endif
+<div class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
+    <p><b> Well done! </b>{{session('message')}}</p>
+    <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@endif
 <div class="col-sm-12">
     <div class="card">
         <div class="card-header pb-0">
@@ -22,14 +22,15 @@
                     <div class="row p-3">
                         <div class="col-md-12 mb-4">
                             <label class="form-label" for="validationCustom01">Add Department</label>
-                            <input class="form-control" id="validationCustom01" type="text" name="name" required=""
-                                data-bs-original-title="" title="" placeholder="Enter Department Name">
+                            <input class="form-control" id="validationCustom01" type="text" value="{{old('name')}}" name="name" required="" data-bs-original-title="" title="" placeholder="Enter Department Name">
+                            @error('name')
+                            <span class="text-danger">{{$message}}</span>
+                            @enderror
                         </div>
                     </div>
                 </div>
                 <div class="footer-item">
                     <button class="btn btn-primary mt-3" type="submit" data-bs-original-title="" title="">ADD</button>
-                    <button class="btn btn-warning mt-3" type="button" data-bs-original-title="" title="">Cancel</button>
                 </div>
             </form>
         </div>
@@ -54,24 +55,21 @@
                     </thead>
                     <tbody>
                         @foreach ($departments as $department)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $department->id }}</td>
-                                <td>{{ $department->name }}</td>
-                                <td class="w-20">
-                                    <label class="mb-0 switch">
-                                        <input type="checkbox" data-id="{{ $department->id }}"
-                                            {{ $department->status ? 'checked' : '' }}>
-                                        <span class="switch-state"></span>
-                                    </label>
-                                </td>
-                                <td>
-                                    <a class="btn btn-primary"
-                                        href="{{ url('/departments/' . $department->id . '/edit') }}">Edit</a>
-                                        <button class="btn btn-danger delete-button" type="button"
-                                            data-id="{{ $department->id }}">Delete</button>
-                                </td>
-                            </tr>
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $department->id }}</td>
+                            <td>{{ $department->name }}</td>
+                            <td class="w-20">
+                                <label class="mb-0 switch">
+                                    <input type="checkbox" data-id="{{ $department->id }}" {{ $department->status ? 'checked' : '' }}>
+                                    <span class="switch-state"></span>
+                                </label>
+                            </td>
+                            <td>
+                                <a class="btn btn-primary" href="{{ url('/departments/' . $department->id . '/edit') }}">Edit</a>
+                                <button class="btn btn-danger delete-button" type="button" data-id="{{ $department->id }}">Delete</button>
+                            </td>
+                        </tr>
                         @endforeach
                     </tbody>
                 </table>
@@ -96,7 +94,9 @@
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
-                body: JSON.stringify({ status: status }) // Send the correct status value
+                body: JSON.stringify({
+                    status: status
+                }) // Send the correct status value
             }).then(function(response) {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -135,7 +135,7 @@
                                 'X-CSRF-TOKEN': csrfToken, // Include the CSRF token in the headers
                                 'Content-Type': 'application/json' // Set the content type
                             }
-                        // You can set headers and other options here
+                            // You can set headers and other options here
                         })
                         .then(response => response.json())
 

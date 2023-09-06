@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Attribute;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class AttributeController extends Controller
 {
@@ -22,8 +23,17 @@ class AttributeController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required',
-            'status' => 'boolean'
+            'status' => 'boolean',
+            'name'=>[
+                'required',
+                'string',
+                'max:40',
+                'regex:/^[A-Za-z]+( [A-Za-z]+)*$/',
+                'min:2',
+                Rule::notIn(['']),
+            ],
+        ], [
+            'name.regex' => 'The :attribute may only contain letters and spaces. Numbers and special characters are not allowed.',
         ]);
 
         Attribute::create($validatedData);
@@ -40,13 +50,22 @@ class AttributeController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required',
+            'name' => [
+                'required',
+                'string',
+                'max:50',
+                'regex:/^[A-Za-z]+( [A-Za-z]+)*$/',
+                'min:2',
+                Rule::notIn(['']),
+            ],
+        ], [
+            'name.regex' => 'The :attribute may only contain letters and spaces. Numbers and special characters are not allowed.',
         ]);
         // dd($id);
 
         $attribute = Attribute::findOrFail($id);
         $attribute->update([
-            'name'=>$request->name,
+            'name' => $request->name,
         ]);
 
         return redirect()->route('attributes-index')->with('success', 'Attribute updated successfully.');
@@ -58,19 +77,20 @@ class AttributeController extends Controller
         $attribute->delete();
         return response()->json(['success' => true]);
     }
-    public function updateStatus(Request $request, Attribute $attribute){
+    public function updateStatus(Request $request, Attribute $attribute)
+    {
         dd($attribute);
         $request->validate([
             'status' => 'required|boolean',
         ]);
-    if($attribute->status==1){
-        Attribute::where('id',$attribute->id)->update([
-            'status' => 0
-        ]);
-    }else{
-    Attribute::where('id',$attribute->id)->update([
-        'status' => 1
-    ]);
+        if ($attribute->status == 1) {
+            Attribute::where('id', $attribute->id)->update([
+                'status' => 0
+            ]);
+        } else {
+            Attribute::where('id', $attribute->id)->update([
+                'status' => 1
+            ]);
+        }
     }
-}
 }

@@ -22,18 +22,17 @@
                     <div class="row p-3">
                         <div class="col-md-12 mb-4">
                             <label class="form-label" for="validationCustom01">Add Brand</label>
-                            <input class="form-control" id="validationCustom01" type="text" name="name" required="" data-bs-original-title="" title="" placeholder="Enter Brand Name">
+                            <input class="form-control" id="validationCustom01" type="text" value="{{old('name')}}" name="name" required="" data-bs-original-title="" title="" placeholder="Enter Brand Name">
                             @error('name')
-                            <div class="alert alert-danger" role="alert">
+                            <span class="text-danger">
                                 {{ $message }}
-                            </div>
+                            </span>
                             @enderror
                         </div>
                     </div>
                 </div>
                 <div class="footer-item">
                     <button class="btn btn-primary mt-3" type="submit" data-bs-original-title="" title="">Add</button>
-                    <button class="btn btn-warning mt-3" type="button" data-bs-original-title="" title="">Cancel</button>
                 </div>
             </form>
         </div>
@@ -50,7 +49,6 @@
                     <thead>
                         <tr>
                             <th>SL</th>
-                            <th>ID</th>
                             <th>Name</th>
                             <th>Status</th>
                             <th>Action</th>
@@ -60,7 +58,6 @@
                         @foreach ($brands as $brand)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $brand->id }}</td>
                             <td>{{ $brand->name }}</td>
                             <td class="w-20">
                                 <label class="mb-0 switch">
