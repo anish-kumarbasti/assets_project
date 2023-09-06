@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('category');
             $table->string('asset');
+            $table->string('product_id');
             $table->integer('period_months');
             $table->decimal('asset_value', 10, 2);
             $table->string('desposal_code');

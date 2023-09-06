@@ -21,9 +21,8 @@ class LocationController extends Controller
 
     public function store(Request $request)
     {
-
         $request->validate([
-            'name' => 'required|string|max:50',
+            'name' => 'required|string|max:50|unique:locations',
 
         ]);
 
@@ -32,6 +31,7 @@ class LocationController extends Controller
         return redirect()->route('location-index')
             ->with('success', 'location created successfully');
     }
+
 
     public function show(Location $location)
     {

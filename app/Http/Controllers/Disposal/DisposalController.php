@@ -20,16 +20,18 @@ class DisposalController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'assetType' => 'required',
-            'assetName' => 'required',
-            'period_months' => 'required',
-            'asset_value' => 'required',
-            'desposal_code' => 'required',
+            'assetType' => 'required', // Example: Valid values are Type1, Type2, Type3
+            'assetName' => 'required', // Example: It should be a string
+            'period_months' => 'required|integer|min:1', // Example: It should be a positive integer
+            'product_name' => 'required', // Example: It should exist in the 'products' table
+            'asset_value' => 'required|numeric|min:0.01', // Example: It should be a positive numeric value with at least 2 decimal places
+            'desposal_code' => 'required|alpha_num', // Example: It should be alphanumeric
         ]);
         // dd($request);
         Disposal::create([
             'category'=>$request->assetType,
             'asset'=>$request->assetName ,
+            'product_id'=>$request->product_name,
             'period_months'=>$request->period_months,
             'asset_value'=>$request->asset_value,
             'desposal_code'=>$request->desposal_code,
@@ -45,20 +47,22 @@ class DisposalController extends Controller
     }
     public function update(Request $request, $id)
     {
-        $validatedData = $request->validate([
-            'category' => 'required',
-            'asset' => 'required',
-            'period_months' => 'required',
-            'asset_value' => 'required',
-            'desposal_code' => 'required',
+        $request->validate([
+            'assetType' => 'required', // Example: Valid values are Type1, Type2, Type3
+            'assetName' => 'required', // Example: It should be a string
+            'period_months' => 'required|integer|min:1', // Example: It should be a positive integer
+            'product_name' => 'required', // Example: It should exist in the 'products' table
+            'asset_value' => 'required|numeric|min:0.01', // Example: It should be a positive numeric value with at least 2 decimal places
+            'desposal_code' => 'required|alpha_num', // Example: It should be alphanumeric
         ]);
 
         $update = Disposal::find($id);
-        $update->category = $validatedData['category'];
-        $update->asset = $validatedData['asset'];
-        $update->period_months = $validatedData['period_months'];
-        $update->asset_value = $validatedData['asset_value'];
-        $update->desposal_code = $validatedData['desposal_code'];
+        $update->category = $request->assetType;
+        $update->asset = $request->assetName;
+        $update->period_months = $request->period_months;
+        $update->product_id = $request->product_name;
+        $update->asset_value = $request->asset_value;
+        $update->desposal_code = $request->desposal_code;
 
         if ($update->save()) {
             return redirect()->route('disposal')->with('success', 'Updated Successfully');

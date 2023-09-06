@@ -38,8 +38,6 @@ class AssetController extends Controller
         ], [
             'name.regex' => 'The :attribute may only contain letters and spaces. Numbers and special characters are not allowed.',
         ]);
-
-
         $asset = new Asset;
         $asset->name = $request->name;
         $asset->asset_type_id = $request->asset_type_id;
@@ -49,6 +47,7 @@ class AssetController extends Controller
         session()->flash('success', 'Data has been successfully stored.');
         return redirect()->route('assets.index');
     }
+
     public function assetStatus(Request $request, $assetId)
 
     {

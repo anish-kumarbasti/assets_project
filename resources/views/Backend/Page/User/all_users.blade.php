@@ -14,6 +14,13 @@
 @endsection
 
 @section('Content-Area')
+@if (session('success'))
+        <div class="alert alert-success inverse alert-dismissible show" role="alert"><i
+                class="icon-thumb-up alert-center"></i>
+            <p><b> Well done! </b>{{ session('success') }}</p>
+            <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
 <div class="col-sm-12">
     <div class="row">
         <div class="col-md-12 mb-3">

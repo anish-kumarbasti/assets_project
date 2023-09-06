@@ -20,16 +20,18 @@ class MaintenanceController extends Controller
     }
     public function maintenance_save(Request $request)
     {
-        $maintain = $request->validate([
-            'assetType' => 'required',
-            'supplier' => 'required',
-            'assetName'    => 'required',
-            'start_date' => 'required',
-            'end_date'    => 'required',
+        $request->validate([
+            'assetType' => 'required', // Example: Valid values are Type1, Type2, Type3
+            'supplier' => 'required', // Example: It should be a string
+            'assetName' => 'required', // Example: It should be a string
+            'start_date' => 'required|date', // Example: It should be a valid date
+            'end_date' => 'required|date|after:start_date', // Example: It should be a valid date and after start_date
+            'asset_number'=>'required',
+            'product_name' => 'required', // Example: It should be a string
         ]);
         // dd($request);
-
         Maintenance::Create([
+            'product_id'=>$request->product_name,
             'asset_type_id'=>$request->assetType,
             'asset_id'=>$request->assetName,
             'asset_number'=>$request->asset_number,
@@ -50,20 +52,28 @@ class MaintenanceController extends Controller
     }
     public function update(Request $request, $id)
     {
-        $validatedData = $request->validate([
-            'asset' => 'required',
-            'supplier' => 'required',
-            'type' => 'required',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date',
+        $request->validate([
+            'asset_number'=>'required',
+            'start_date' => 'required|date', // Example: It should be a valid date
+            'end_date' => 'required|date|after:start_date', // Example: It should be a valid date and
         ]);
 
         $update = Maintenance::find($id);
-        $update->asset = $validatedData['asset'];
-        $update->supplier = $validatedData['supplier'];
-        $update->type = $validatedData['type'];
-        $update->start_date = $validatedData['start_date'];
-        $update->end_date = $validatedData['end_date'];
+
+        // Check if request has assetType, if not, use the existing value
+        $update->asset_type_id = isset($request->assetType) ? $request->assetType : $update->asset_type_id;
+
+        // Check if request has supplier, if not, use the existing value
+        $update->supplier_id = isset($request->supplier) ? $request->supplier : $update->supplier_id;
+
+        // Check if request has assetName, if not, use the existing value
+        $update->asset_id = isset($request->asset) ? $request->asset : $update->asset_id;
+        $update->asset_number = $request->asset_number;
+        $update->start_date = $request->start_date;
+        $update->end_date = $request->end_date;
+
+        // Check if request has product_name, if not, use the existing value
+        $update->product_id = isset($request->product_name) ? $request->product_name : $update->product_id;
 
         if ($update->save()) {
             return redirect()->route('assets-maintenances')->with('success', 'Updated Successfully');
@@ -71,6 +81,8 @@ class MaintenanceController extends Controller
             return redirect()->back()->with('error', 'Update Failed');
         }
     }
+
+
 
     public function destroy($id)
     {

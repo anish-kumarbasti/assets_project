@@ -7,7 +7,7 @@
     <div class="col-sm-12">
         <div class="card">
             <div class="card-header pb-0">
-                User Info
+                <h4>User Info</h4>
             </div>
             <div class="card-body">
                 <form action="{{ route('users.store') }}" method="post" enctype="multipart/form-data">
@@ -19,7 +19,7 @@
                                 <input class="form-control" id="firstName" name="first_name" type="text"
                                     placeholder="First Name">
                                 @error('first_name')
-                                    <div class="alert alert-danger">{{ $message }}</div>
+                                    <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="col-md-6">
@@ -27,7 +27,7 @@
                                 <input class="form-control" id="lastName" name="last_name" type="text"
                                     placeholder="Last Name">
                                 @error('last_name')
-                                    <div class="alert alert-danger">{{ $message }}</div>
+                                    <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="col-md-6">
@@ -35,20 +35,23 @@
                                 <input class="form-control" id="email" name="email" type="email"
                                     placeholder="Email">
                                 @error('email')
-                                    <div class="alert alert-danger">{{ $message }}</div>
+                                    <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="mobileNumber">Mobile Number</label>
-                                <input class="form-control" id="mobileNumber" name="mobile_number" type="tel"
+                                <input class="form-control" id="mobileNumber" name="mobile_number" type="number"
                                     placeholder="Mobile Number">
+                                    @error('mobile_number')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="Age">Age</label>
-                                <input class="form-control" id="Age" name="age" type="age"
+                                <input class="form-control" id="Age" name="age" type="number"
                                     placeholder="Enter Age">
                                 @error('age')
-                                    <div class="alert alert-danger">{{ $message }}</div>
+                                    <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="col-md-6">
@@ -60,11 +63,17 @@
                                     <option value="2">Female</option>
                                     <option value="3">Others</option>
                                 </select>
+                                @error('gender')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="password">Password</label>
                                 <input class="form-control" id="password" name="password" type="password"
                                     placeholder="Password">
+                                    @error('password')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="confirmPassword">Confirm Password</label>
@@ -88,7 +97,7 @@
                                 <input type="text" class="form-control" name="employee_id" id="exampleInputFile"
                                     aria-describedby="fileHelp" placeholder="Enter Employee ID">
                                 @error('employee_id')
-                                    <div class="alert alert-danger">{{ $message }}</div>
+                                    <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="col-md-6">
@@ -100,6 +109,9 @@
                                         <option value="{{ $department->id }}">{{ $department->name }}</option>
                                     @endforeach
                                 </select>
+                                @error('department_id')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="designation">Designation</label>
@@ -111,16 +123,22 @@
                         @endforeach --}}
                                     <!-- Add designations dynamically -->
                                 </select>
+                                @error('designation_id')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="department">Role</label>
                                 <select name="role" id="role" class="form-select"
                                     aria-label="Default select example">
                                     <option selected>--Select Role--</option>
-                                    <option value="">Admin</option>
-                                    <option value="">IT Management</option>
-                                    <option value="">Sub Admin</option>
+                                    @foreach ($role as $role)
+                                    <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                    @endforeach
                                 </select>
+                                @error('role')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                             </div>
                             <div class="footer-item mt-3 mb-3 float-end">
                                 <button class="btn btn-primary mt-3" type="submit" data-bs-original-title=""

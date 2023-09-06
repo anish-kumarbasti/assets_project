@@ -12,9 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->bigInteger('mobile_number');
-            $table->bigInteger('age');
-            $table->string('gender');
+            $table->string('role_id')->nullable()->comment('This is Id come from Role table');
         });
     }
 
