@@ -36,13 +36,21 @@ class RolesController extends Controller
 
     public function permissions(Role $role)
     {
+        // dd($role);
         $permissions = Permission::all();
         return view('Backend.Page.roles.permissions', compact('role', 'permissions'));
     }
 
     public function updatePermissions(Request $request, Role $role)
     {
-        $role->syncPermissions($request->input('permissions'));
+        // dd($role->syncPermissions($request->input('permissions')));
+        $permissions=$request->permissions;
+
+        foreach($permissions as $permission){
+            $role->givePermissionTo($permission);
+        }
+
+      
         return redirect()->route('roles.index')->with('success', 'Permissions updated successfully.');
     }
     public function destroy(Role $role)

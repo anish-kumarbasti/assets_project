@@ -23,7 +23,7 @@ class AssetTypeController extends Controller
     {
 
         $request->validate([
-            'name' => 'required|string',
+            'name' => 'required|string|unique:asset_types',
 
         ]);
 

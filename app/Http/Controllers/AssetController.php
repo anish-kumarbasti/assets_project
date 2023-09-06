@@ -25,10 +25,11 @@ class AssetController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'assettype_id' => 'required|exists:asset_types,id', // Make sure assettype_id exists in asset_types table
+            'name' => 'required|unique:assets', // Check for uniqueness in the "assets" table
+            'assettype_id' => 'required|exists:asset_types,id',
         ]);
 
+        // If the validation passes, it means the asset is unique, so you can create it
         $asset = new Asset;
         $asset->name = $request->name;
         $asset->asset_type_id = $request->assettype_id;
@@ -38,6 +39,7 @@ class AssetController extends Controller
         session()->flash('success', 'Data has been successfully stored.');
         return redirect()->route('assets.index');
     }
+
     public function assetStatus(Request $request, $assetId)
 
     {

@@ -53,8 +53,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/roles', [RolesController::class, 'store'])->name('roles.store');
     Route::get('/roles/{role}/edit', [RolesController::class, 'edit'])->name('roles.edit');
     Route::put('/roles/{role}', [RolesController::class, 'update'])->name('roles.update');
-    Route::get('/roles/{role}/permissions', [RolesController::class, 'permissions'])->name('roles.permissions');
     Route::put('/roles/{role}/permissions', [RolesController::class, 'updatePermissions'])->name('roles.update_permissions');
+    Route::get('/roles/{role}/permissions', [RolesController::class, 'permissions'])->name('roles.permissions');
     Route::get('/users/{user}/assign-roles', [UserController::class, 'assignRoles'])->name('users.assign_roles');
     Route::delete('/roles/{role}', [RolesController::class, 'destroy'])->name('roles.destroy');
     Route::get('view-permissions', [PermissionController::class, 'index'])->name('permissions.index');
@@ -80,6 +80,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/get-brand-models/{brandId}', [StockController::class, 'getBrandModels']);
     Route::post('/get-slocation/{locationId}', [StockController::class, 'getslocation']);
     Route::post('/get-asset-type/{assettypeId}', [StockController::class, 'getasset']);
+    Route::post('/get-product-type/{producttypeId}', [StockController::class, 'getproduct']);
     Route::post('/get-asset-all-details/{assetdetail}', [IssuenceController::class, 'getassetdetail']);
     Route::post('/get-change-position', [IssuenceController::class, 'getchangecard']);
 

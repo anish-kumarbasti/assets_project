@@ -58,7 +58,8 @@ class UserController extends Controller
     public function create()
     {
         $departments = Department::all();
-        return view('Backend.Page.User.add-user', compact('departments'));
+        $role=Role::all();
+        return view('Backend.Page.User.add-user', compact('departments','role'));
     }
 
     /**
@@ -82,15 +83,19 @@ class UserController extends Controller
             $image->move($destinationPath, $imagess);
             $pathcover = $destinationPath . '/' . $imagess;
         }
+        // dd($request);
         $request->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required',
-            'age' => 'required',
-            'password' => 'required',
-            'department_id' => 'required',
-            'designation_id' => 'required',
-
+            'first_name' => 'required|string|max:15',
+            'last_name' => 'required|string|max:15',
+            'email' => 'required|email|unique:users,email',
+            'age' => 'required|numeric',
+            'gender'=>'required',
+            'role'=>'required|integer',
+            'password' => 'required|string',
+            'department_id' => 'required|integer',
+            'designation_id' => 'required|integer',
+            'mobile_number'=>'required|numeric|digits_between:10,12',
+            'employee_id' => ['required', 'unique:users,employee_id', 'regex:/^[a-zA-Z0-9]+$/'],
         ]);
         // dd($request);
         // $profile_photo = null;
@@ -103,10 +108,10 @@ class UserController extends Controller
         // if ($request->hasFile('cover_photo')) {
         //     $cover_photo = $request->file('cover_photo')->storePublicly('cover_photos', 'public');
         // }
-        $randomno = mt_rand('100000', '999999');
+        // $randomno = mt_rand('100000', '999999');
 
         $user = User::create([
-            'employee_id' => $randomno,
+            'employee_id' => $request->employee_id,
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
@@ -116,6 +121,7 @@ class UserController extends Controller
             'department_id' => $request->department_id,
             'designation_id' => $request->designation_id,
             'mobile_number' => $request->mobile_number,
+            'role_id'=>$request->role,
             'age' => $request->age,
             'gender' => $request->gender,
 

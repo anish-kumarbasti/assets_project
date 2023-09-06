@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('asset_type_id');
             $table->string('asset_id');
+            $table->string('product_id');
             $table->string('asset_number');
             $table->string('supplier_id');
             $table->string('start_date');
