@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PermissionManage;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
@@ -17,7 +18,7 @@ class PermissionController extends Controller
         $request->validate([
             'name'=>'required|string|max:20',
         ]);
-        $permission = Permission::create(['name' => $request->input('name')]);
+         Permission::create(['name' => $request->input('name')]);
         return redirect()->route('permissions.index')->with('success', 'Permission created successfully.');
     }
     public function update(Request $request,Permission $permission,$id)
@@ -39,22 +40,12 @@ class PermissionController extends Controller
         return view('Backend.Page.Role-Permission.edit_permission', compact('permission'));
     }
     public function permission(){
-        $modules = [
-            'Permissions',
-            'Role',
-            'Master',
-            'Stock',
-            'Assets',
-            'User',
-            'Issuance',
-            'Department',
-            'Designation',
-            'Setting',
-        ];
         $permissions = Permission::pluck('name')->toArray();
         $roles = Role::pluck('name')->toArray();
         $chooserole = Role::all();
-        // dd($roles);
-        return view('Backend.Page.Role-Permission.permission', compact('modules', 'roles','permissions','chooserole'));
+        $permissionmanages = Permission::all();
+        $permissionsByModule = $permissionmanages->groupBy('module');
+        //  dd($permissionsByModule);
+        return view('Backend.Page.Role-Permission.permission', compact('roles','permissions','chooserole','permissionmanages','permissionsByModule'));
     }
 }

@@ -22,7 +22,7 @@
 <div class="col-sm-12">
     <div class="card">
         <div class="card-header pb-0">
-            Admin Permissions
+            <h4>Admin Permissions</h4>
             <button class="btn btn-outline-primary permission-btn float-end" type="button" data-original-title="btn btn-outline-danger-2x" title="" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 <i class="fa fa-plus"></i> Add permission
             </button>
