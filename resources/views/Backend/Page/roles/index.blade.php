@@ -47,7 +47,6 @@
                     <thead>
                         <tr class="text-center">
                             <th>SL</th>
-                            <th>ID</th>
                             <th>Name</th>
                             <th>Status</th>
                             <th>Action</th>
@@ -57,11 +56,10 @@
                         @foreach ($roles as $role)
                         <tr class="text-center">
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $role->id }}</td>
                             <td>{{ $role->name }}</td>
                             <td class="w-20">
                                 <label class="mb-0 switch">
-                                    <input type="checkbox" checked=""><span class="switch-state"></span>
+                                <input type="checkbox" checked=""><span class="switch-state"></span>
                                 </label>
                             </td>
                             <td>

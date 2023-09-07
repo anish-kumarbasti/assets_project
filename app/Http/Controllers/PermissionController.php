@@ -10,9 +10,39 @@ class PermissionController extends Controller
 {
     public function index()
     {
+        $permission = Permission::all();
+        return view('Backend.Page.roles.all-permissions', compact( 'permission'));
+    }
+    public function store(Request $request){
+        $request->validate([
+            'name'=>'required|string|max:20',
+        ]);
+        $permission = Permission::create(['name' => $request->input('name')]);
+        return redirect()->route('permissions.index')->with('success', 'Permission created successfully.');
+    }
+    public function update(Request $request,Permission $permission,$id)
+    {
+        // dd($id);
+        $permission->find($id)->update(['name' => $request->input('name')]);
+        return redirect()->route('permissions.index')->with('success', 'Permission updated successfully.');
+        // Loop through the submitted data and update permissions
+        // foreach ($request->all() as $module => $permissions) {
+        //     foreach ($permissions as $permissionName => $isChecked) {
+        //         Permission::updateOrCreate(['name' => $module . '.' . $permissionName], ['guard_name' => 'web']);
+        //     }
+        // }
+
+        return redirect()->route('admin.permissions.index')->with('success', 'Permissions updated successfully.');
+    }
+    public function edit(Permission $permission)
+    {
+        return view('Backend.Page.Role-Permission.edit_permission', compact('permission'));
+    }
+    public function permission(){
         $modules = [
             'Permissions',
             'Role',
+            'Master',
             'Stock',
             'Assets',
             'User',
@@ -21,26 +51,10 @@ class PermissionController extends Controller
             'Designation',
             'Setting',
         ];
-
         $permissions = Permission::pluck('name')->toArray();
         $roles = Role::pluck('name')->toArray();
-        $permission = Permission::all();
-        return view('Backend.Page.roles.all-permissions', compact('modules', 'permission', 'roles'));
-    }
-    public function store(Request $request){
-        $permission = Permission::create(['name' => $request->input('name')]);
-        return redirect()->route('permissions.index')->with('success', 'Permission created successfully.');
-    }
-    public function update(Request $request)
-    {
-        // Loop through the submitted data and update permissions
-
-        foreach ($request->all() as $module => $permissions) {
-            foreach ($permissions as $permissionName => $isChecked) {
-                Permission::updateOrCreate(['name' => $module . '.' . $permissionName], ['guard_name' => 'web']);
-            }
-        }
-
-        return redirect()->route('admin.permissions.index')->with('success', 'Permissions updated successfully.');
+        $chooserole = Role::all();
+        // dd($roles);
+        return view('Backend.Page.Role-Permission.permission', compact('modules', 'roles','permissions','chooserole'));
     }
 }
