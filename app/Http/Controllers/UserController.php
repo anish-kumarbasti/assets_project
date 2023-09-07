@@ -58,8 +58,8 @@ class UserController extends Controller
     public function create()
     {
         $departments = Department::all();
-        $role=Role::all();
-        return view('Backend.Page.User.add-user', compact('departments','role'));
+        $role = Role::all();
+        return view('Backend.Page.User.add-user', compact('departments', 'role'));
     }
 
     /**
@@ -89,12 +89,12 @@ class UserController extends Controller
             'last_name' => 'required|string|max:15',
             'email' => 'required|email|unique:users,email',
             'age' => 'required|numeric',
-            'gender'=>'required',
-            'role'=>'required|integer',
+            'gender' => 'required',
+            'role' => 'required|integer',
             'password' => 'required|string',
             'department_id' => 'required|integer',
             'designation_id' => 'required|integer',
-            'mobile_number'=>'required|numeric|digits_between:10,12',
+            'mobile_number' => 'required|numeric|digits_between:10,12',
             'employee_id' => ['required', 'unique:users,employee_id', 'regex:/^[a-zA-Z0-9]+$/'],
         ]);
         // dd($request);
@@ -121,7 +121,7 @@ class UserController extends Controller
             'department_id' => $request->department_id,
             'designation_id' => $request->designation_id,
             'mobile_number' => $request->mobile_number,
-            'role_id'=>$request->role,
+            'role_id' => $request->role,
             'age' => $request->age,
             'gender' => $request->gender,
 
@@ -164,14 +164,15 @@ class UserController extends Controller
     public function update($id, Request $request)
     {
         $request->validate([
-            'first_name' => 'required|max:25',
-            'last_name' => 'required',
+            'first_name' => 'required|max:15|min:2',
+            'last_name' => 'required|max:15|min:2',
             'email' => 'required|email|unique:users,email,' . $id,
-            'department_id' => 'required',
-            'designation_id' => 'required',
-            'age' => 'required',
-            'mobile_number' => 'required',
+            'department_id' => 'required|integer',
+            'designation_id' => 'required|integer',
+            'age' => 'required|integer|max:3',
+            'mobile_number' => 'required|integer|digits_between:10,12',
             'role'=>'required|integer',
+
         ]);
         //$user = User::where('id', $id)->first();
         $user = User::findOrFail($id);

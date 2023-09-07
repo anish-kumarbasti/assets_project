@@ -141,13 +141,11 @@ font-weight: bold;
                             {{-- <img id="" src="{{ asset('Backend/assets/images/IT-Assets/Vector_qr.png')}}" alt="QR Code"> --}}
                         </div>
                         <div class="col-md-4 mb-4">
-                                <label for="multiSelect">Select Items:</label>
-                                <select class="form-control js-example-placeholder-multiple" name="attribute" id="multiSelect" multiple>
-                                    @foreach ($attribute as $attribute)
-                                    <!-- dd($attribute); -->
-                                    <option value="{{$attribute->id}}">{{$attribute->name}}</option>
-                                    @endforeach
-                                </select>
+                            <label for="multiSelect">Select Attribute:</label>
+                            <select class="form-control js-example-placeholder-multiple" name="attribute" id="attribute" multiple>
+                                <!-- dd($attribute); -->
+                                <option value="">--Select Attribute--</option>
+                            </select>
                         </div>
                         {{-- <div class="col-md-4 mb-4">
                      <label class="form-label" for="validationCustom01">Location</label>
@@ -179,13 +177,13 @@ font-weight: bold;
                 <div class="row p-3" id="configuration">
                     <div class="col-md-12 mb-4">
                         <label class="form-label" for="validationCustom01"> Configuration</label>
-                        <textarea class="form-control" name="configuration" value="{{ isset($stockedit) ? $stockedit->configuration : '' }}" id="exampleFormControlTextarea1" placeholder="" rows="3"></textarea>
+                        <textarea class="form-control" name="configuration" value="{{ isset($stockedit) ? $stockedit->configuration : '' }}" id="exampleFormControlTextarea1" placeholder="configuration" rows="3"></textarea>
                     </div>
                 </div>
                 <div class="row p-3">
                     <div class="col-md-12 mb-4" id="specificationField">
                         <label class="form-label" for="validationCustom01">Specification</label>
-                        <textarea class="form-control" name="specification" id="exampleFormControlTextarea1" placeholder="" rows="3"></textarea>
+                        <textarea class="form-control" name="specification" id="exampleFormControlTextarea1" placeholder="Specification" rows="3"></textarea>
                     </div>
                 </div>
             </div>
@@ -194,46 +192,47 @@ font-weight: bold;
                     {{-- <div class="col-md-4">
                         <label class="form-label" for="validationCustom01">Vendor</label>
                         <input class="form-control" id="validationCustom01" name="vendor" type="text" data-bs-original-title="" value="{{ isset($stockedit) ? $stockedit->vendor : '' }}" title="" placeholder="Enter Vendor">
-                    </div> --}}
-                    <div class="col-md-4 mb-4">
-                        <label class="form-label" for="validationCustom01">Suppliers</label>
-                        <select class="form-select" id="supplier" name="supplier"  aria-label="Default select example">
-                            <option value="">--Select Supplier --</option>
-                            @foreach ($supplier as $supplier)
-                            <option value="{{ $supplier->id }}" {{ isset($stockedit) && $stockedit->supplier_id == $supplier->id ? 'selected' : '' }}>
-                                {{ $supplier->name }}
-                            </option>
-                     @endforeach
-                        </select>
+                </div> --}}
+                <div class="col-md-4 mb-4">
+                    <label class="form-label" for="validationCustom01">Suppliers</label>
+                    <select class="form-select" id="supplier" name="supplier" aria-label="Default select example">
+                        <option value="">--Select Supplier --</option>
+                        @foreach ($supplier as $supplier)
+                        <option value="{{ $supplier->id }}" {{ isset($stockedit) && $stockedit->supplier_id == $supplier->id ? 'selected' : '' }}>
+                            {{ $supplier->name }}
+                        </option>
+                        @endforeach
+                    </select>
                 </div>
-                    <div class="col-md-4 mb-4">
-                        <label class="form-label" for="validationCustom01">Price</label>
-                        <input class="form-control" id="validationCustom01" value="{{ isset($stockedit) ? $stockedit->price : '' }}" type="text" name="price" data-bs-original-title="" title="" placeholder="Enter Price">
-                    </div>
-                    <div class="col-md-4 mb-4" id="warranty">
-                        <label class="form-label" for="warrantyDateInput">Warranty</label>
-                        <div class="input-group">
+                <div class="col-md-4 mb-4">
+                    <label class="form-label" for="validationCustom01">Price</label>
+                    <input class="form-control" id="validationCustom01" value="{{ isset($stockedit) ? $stockedit->price : '' }}" type="text" name="price" data-bs-original-title="" title="" placeholder="Enter Price">
+                </div>
+                <div class="col-md-4 mb-4" id="warranty">
+                    <label class="form-label" for="warrantyDateInput">Warranty</label>
+                    <div class="input-group">
                         <input class="datepicker-here form-control digits" id="warrantyDateInput" name="product_warranty" type="text" data-language="en">
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 mb-4" id="expiryField">
-                        <label class="col-form-label" for="expiryDateInput">Expiry</label>
-                        <input class="datepicker-here form-control" id="expiryDateInput" name="expiry" type="text" data-language="en">
                     </div>
                 </div>
-            </div>
-            <div class="footer-item">
-                <button class="btn btn-primary mt-3" type="submit">{{ isset($stockedit) ? 'UPDATE' : 'ADD' }}</button>
-                <a href="{{url('all-stock')}}" class="btn btn-warning mt-3" type="button" data-bs-original-title="" title="">Cancel</a>
+
+                <div class="col-md-4 mb-4" id="expiryField">
+                    <label class="col-form-label" for="expiryDateInput">Expiry</label>
+                    <input class="datepicker-here form-control" id="expiryDateInput" name="expiry" type="text" data-language="en">
+                </div>
             </div>
         </div>
+        <div class="footer-item">
+            <button class="btn btn-primary mt-3" type="submit">{{ isset($stockedit) ? 'UPDATE' : 'ADD' }}</button>
+            <a href="{{url('all-stock')}}" class="btn btn-warning mt-3" type="button" data-bs-original-title="" title="">Cancel</a>
+        </div>
+</div>
 </div>
 </form>
 </div>
 @endsection
 @section('Script-Area')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
     $(document).ready(function() {
         $('#multiSelect').on('change', function() {
@@ -316,6 +315,10 @@ font-weight: bold;
                         jQuery('#asset').append('<option value="">--Select Asset--</option>');
                         jQuery.each(data.assets, function(key, value) {
                             jQuery('#asset').append('<option value="' + value.id + '">' + value.name + '</option>');
+                        });
+                        jQuery('#attribute').append('<option value="">--Select Attribute--</option>');
+                        jQuery.each(data.attribute, function(key, value) {
+                            jQuery('#attribute').append('<option value="' + value.id + '">' + value.name + '</option>');
                         });
                     }
                 });
