@@ -43,9 +43,15 @@
                                 <option value="1" {{$user->gender==1 ? 'checked':''}}>Male</option>
                                 <option value="2" {{$user->gender == 2 ? 'checked':''}}>Female</option>
                                 <option value="3" {{$user->gender == 3 ? 'checked':''}}>Others</option>
-
-
-
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="gender">Role</label>
+                            <select class="form-select" id="role" name="role" aria-label="Default select example">
+                                <option>Select Role</option>
+                                @foreach ($role as $role)
+                                <option value="{{$role->id}}" {{ $user->role_id == $role->id ? 'selected' : '' }}>{{$role->name}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="col-md-6">
@@ -56,10 +62,6 @@
                             <label class="form-label" for="coverPhoto">Cover Photo</label>
                             <input class="form-control" id="coverPhoto" name="cover_photo" type="file">
                         </div>
-                    </div>
-                </div>
-                <div class="card-item border ">
-                    <div class="row p-3">
                         <div class="col-md-6">
                             <label class="form-label" for="department">Department</label>
                             <select class="form-select" id="department" name="department_id" aria-label="Default select example">

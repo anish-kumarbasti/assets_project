@@ -52,6 +52,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/roles/create', [RolesController::class, 'create'])->name('roles.create');
     Route::post('/roles', [RolesController::class, 'store'])->name('roles.store');
     Route::get('/roles/{role}/edit', [RolesController::class, 'edit'])->name('roles.edit');
+    Route::get('/permission/{permission}/edit', [PermissionController::class, 'edit'])->name('permission.edit');
     Route::put('/roles/{role}', [RolesController::class, 'update'])->name('roles.update');
     Route::put('/roles/{role}/permissions', [RolesController::class, 'updatePermissions'])->name('roles.update_permissions');
     Route::get('/roles/{role}/permissions', [RolesController::class, 'permissions'])->name('roles.permissions');
@@ -59,15 +60,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('/roles/{role}', [RolesController::class, 'destroy'])->name('roles.destroy');
     Route::get('view-permissions', [PermissionController::class, 'index'])->name('permissions.index');
     Route::post('/permission', [PermissionController::class, 'store'])->name('permission.store');
-    Route::put('update-permissions', [PermissionController::class, 'update'])->name('permissions.update');
+    Route::put('update-permissions/{id}', [PermissionController::class, 'update'])->name('permissions.update');
+    Route::get('getPermissionsForRole/{id}',[RolesController::class,'fetchrole']);
 
-    Route::get('users', [UserController::class, 'index'])->name('users.index');
+    Route::get('users', [UserController::class, 'index'])->name('users.index')->middleware('permission:manage_user');
     Route::get('show', [UserController::class, 'showUsers'])->name('users.show');
-    Route::get('users/create', [UserController::class, 'create'])->name('users.create');
+    Route::get('users/create', [UserController::class, 'create'])->name('users.create')->middleware('permission:add_user');
     Route::post('users', [UserController::class, 'store'])->name('users.store');
     Route::get('users/{id}', [UserController::class, 'edit'])->name('users.edit');
     Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
-    Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+    Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy')->middleware('permission:delete_user');
     Route::get('/get-designations/{departmentId}', [UserController::class, 'getDesignations']);
     Route::get('users.user-profile/{id}', [UserController::class, 'users_profile'])->name('users.user-profile');
     Route::get('users.user.profile', [UserController::class, 'usersprofile']);
@@ -75,7 +77,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('/users/{user}/assign-roles', [UserController::class, 'updateRoles'])->name('users.update_roles');
 
     Route::get('home', [HomeController::class, 'index'])->name('home');
-    Route::get('stock', [StockController::class, 'index']);
+    Route::get('stock', [StockController::class, 'index'])->middleware('permission:add_stock');
 
     Route::post('/get-brand-models/{brandId}', [StockController::class, 'getBrandModels']);
     Route::post('/get-slocation/{locationId}', [StockController::class, 'getslocation']);
@@ -99,9 +101,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('department', [DepartmentController::class, 'index']);
     Route::get('asset-name', [AssetNameController::class, 'index']);
     Route::get('asset-type', [AssetTypeController::class, 'index']);
-    Route::get('add-permission', [PermissionController::class, 'permission']);
+    Route::get('add-permission', [PermissionController::class, 'permission'])->name('add.permission');
     //Disposal
-    Route::get('disposal', [DisposalController::class, 'index'])->name('disposal');
+    Route::get('disposal', [DisposalController::class, 'index'])->name('disposal')->middleware('permission:add_disposal');
     Route::post('disposal-store', [DisposalController::class, 'store'])->name('store-disposal');
     Route::get('disposal-edit/{id}', [DisposalController::class, 'edit'])->name('disposal-edit');
     Route::delete('disposal-delete/{id}', [DisposalController::class, 'destroy'])->name('disposal-delete');
@@ -122,14 +124,14 @@ Route::group(['middleware' => 'auth'], function () {
 
     //asset type
     Route::get('assets-type-show', [AssetTypeController::class, 'show'])->name('assets-type-show');
-    Route::get('assets-type-index', [AssetTypeController::class, 'index'])->name('assets-type-index');
-    Route::get('assets-type-create', [AssetTypeController::class, 'create'])->name('assets-type-create');
+    Route::get('assets-type-index', [AssetTypeController::class, 'index'])->name('assets-type-index')->middleware('permission:manage_asset');
+    Route::get('assets-type-create', [AssetTypeController::class, 'create'])->name('assets-type-create')->middleware('permission:create_asset');
     Route::post('assets-type-store', [AssetTypeController::class, 'store'])->name('assets-type-store');
     Route::put('assets-type-update/{asset}', [AssetTypeController::class, 'update'])->name('assets-type-update');
     Route::put('assets-type-status/{assetId}', [AssetTypeController::class, 'assetTypeStatus'])->name('assets-type-status');
     Route::put('assets-status/{assetId}', [AssetController::class, 'assetStatus'])->name('assets-status');
-    Route::delete('assets-type-destroy/{asset}', [AssetTypeController::class, 'destroy'])->name('assets-type-destroy');
-    Route::get('assets-type-edit/{id}', [AssetTypeController::class, 'edit'])->name('assets-type-edit');
+    Route::delete('assets-type-destroy/{asset}', [AssetTypeController::class, 'destroy'])->name('assets-type-destroy')->middleware('permission:delete_asset');
+    Route::get('assets-type-edit/{id}', [AssetTypeController::class, 'edit'])->name('assets-type-edit')->middleware('permission:edit_asset');
     // Route::resource('assets', AssetTypeController::class);
     //locations
     Route::get('location-show', [LocationController::class, 'show'])->name('location-show');
