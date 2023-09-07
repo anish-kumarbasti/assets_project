@@ -12,7 +12,7 @@
         <div class="card-body">
             <form class="needs-validation" novalidate="" method="POST" action="{{ route('sublocation-store') }}">
                 @csrf
-                <div class="card-item border">
+                <div class="card-item">
                     <div class="row p-3">
                         <div class="col-md-6 mb-4">
                             <label class="form-label" for="validationCustom01">Location</label>

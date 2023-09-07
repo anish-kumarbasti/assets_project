@@ -15,7 +15,7 @@
          <form action="{{ route('sublocation-update', $sublocation->id) }}" method="post" class="needs-validation" novalidate="">
             @csrf
             @method('PUT')
-            <div class="card-item border">
+            <div class="card-item">
                <div class="row p-3">
                   <div class="col-md-6 mb-4">
                      <label class="form-label" for="validationCustom01">Location</label>

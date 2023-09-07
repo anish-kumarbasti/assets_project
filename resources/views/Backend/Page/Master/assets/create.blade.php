@@ -10,9 +10,9 @@
         <div class="card-body">
             <form class="needs-validation" method="POST" action="{{ route('assets.store') }}">
                 @csrf
-                <div class="card-item border">
+                <div class="card-item">
                     <div class="row p-3">
-                        <div class="col-md-12 mb-4">
+                        <div class="col-md-6 mb-4">
                             <label class="form-label" for="assetName">Select Asset Type </label>
                             <select class="form-select" id="" name="asset_type_id" required>
                                 <option value="" disabled selected>Select type</option>
@@ -21,9 +21,7 @@
                                 @endforeach
                             </select>
                         </div>
-                    </div>
-                    <div class="row p-3">
-                        <div class="col-md-12 mb-4">
+                        <div class="col-md-6 mb-4">
                             <label class="form-label" for="assetName">Asset Name </label>
                             <input class="form-control" id="assetName" name="name" type="text" required="" placeholder="Enter Asset Name ">
                             @error('name')
@@ -31,7 +29,6 @@
                             @enderror
                         </div>
                     </div>
-
                 </div>
                 <div class="footer-item">
                     <button class="btn btn-primary mt-3" type="submit">ADD</button>

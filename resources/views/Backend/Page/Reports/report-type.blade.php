@@ -14,11 +14,13 @@
             </h4>
             <hr>
         </div>
-        <div class="card-header pb-0">
-            <button class="btn btn-primary" id="copy-button"><i class="far fa-copy"></i> Copy</button>
-            <button class="btn btn-primary" id="csvButton"><i class="fas fa-file-csv"></i> CSV</button>
-            <button class="btn btn-primary" id="pdfButton"><i class="fas fa-file-pdf"></i> PDF</button>
-            <button class="btn btn-primary" onclick="window.print()"><i class="fas fa-print"></i> Print</button>
+        <div class="card-header pb-0 d-flex justify-content-between">
+            <div class="btn btn-group">
+                <button class="btn btn-primary" id="copy-button"><i class="far fa-copy"></i> Copy</button>
+                <button class="btn btn-secondary" id="csvButton"><i class="fas fa-file-csv"></i> CSV</button>
+                <button class="btn btn-success" id="pdfButton"><i class="fas fa-file-pdf"></i> PDF</button>
+                <button class="btn btn-info" onclick="window.print()"><i class="fas fa-print"></i> Print</button>
+            </div>
         </div>
         <div class="card">
             <div class="card-body">

@@ -19,7 +19,7 @@
         <div class="card-header pb-0">
             <h4 class="d-flex justify-content-between align-items-center">
                 <span>Location</span>
-                <a href="{{ route('location-create') }}" class="btn btn-primary">Create Location</a>
+                <a href="{{ route('location-create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Create Location</a>
             </h4>
         </div>
 
@@ -46,8 +46,8 @@
                                 </label>
                             </td>
                             <td>
-                                <a href="{{ route('location-edit', $location->id) }}" class="btn btn-primary" data-bs-original-title="" title="">Edit</a>
-                                <button class="btn btn-danger delete-button" type="button" data-id="{{ $location->id }}">Delete</button>
+                                <a href="{{ route('location-edit', $location->id) }}" class="btn btn-primary" data-bs-original-title="" title=""><i class="fa fa-pencil"></i> Edit</a>
+                                <button class="btn btn-danger delete-button" type="button" data-id="{{ $location->id }}"><i class="fa fa-trash-o"></i> Delete</button>
                             </td>
                         </tr>
                         @endforeach
@@ -60,6 +60,14 @@
 @endsection
 @section('Script-Area')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        var alertfun = $('#success-message');
+        setTimeout(function() {
+            alertfun.alert('close');
+        }, 3000);
+    });
+</script>
 <script>
     $(document).ready(function() {
 

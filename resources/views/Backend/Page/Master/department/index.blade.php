@@ -7,7 +7,7 @@
 <div class="col-sm-12">
     <div class="card">
         <div class="card-header pb-0">
-            <h4>List Departments</h4>
+            <h4>List Department</h4>
         </div>
         <div class="card-body">
             <div class="table-responsive theme-scrollbar">
@@ -15,7 +15,6 @@
                     <thead>
                         <tr>
                             <th>SL</th>
-                            <th>ID</th>
                             <th>Name</th>
                             <th>Status</th>
                             <th>Action</th>
@@ -24,7 +23,6 @@
                     <tbody>
                         @foreach ($departments as $department)
                         <tr>
-                            <td>{{ $loop->iteration }}</td>
                             <td>{{ $department->id }}</td>
                             <td>{{ $department->name }}</td>
                             <td class="w-20">
@@ -33,14 +31,14 @@
                                 </label>
                             </td>
                             <td>
-                                <a class="btn btn-primary"
-                                    href="{{ url('/departments/' . $department->id . '/edit') }}">Edit</a>
-                                <form class="d-inline" method="POST"
-                                    action="{{ url('/departments/' . $department->id) }}">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">Delete</button>
-                                </form>
+                                <div class="btn-group">
+                                    <a class="btn btn-primary" href="{{ url('/departments/' . $department->id . '/edit') }}"><i class="fa fa-pencil"></i>Edit</a>&nbsp;&nbsp;
+                                    <form class="d-inline" method="POST" action="{{ url('/departments/' . $department->id) }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger"><i class="fa fa-trash-o"></i> Deletes</button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                         @endforeach

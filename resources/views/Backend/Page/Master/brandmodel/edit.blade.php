@@ -22,9 +22,9 @@
                 @method('PATCH')
                 @endisset
                 @csrf
-                <div class="card-item border">
+                <div class="card-item">
                     <div class="row p-3">
-                        <div class="col-md-12 mb-1">
+                        <div class="col-md-6 mb-1">
                             <label class="form-label" for="validationCustom01">Select Brand</label>
                             <select class="form-select" id="brand_id" name="brand_id" required>
                                 <option value="" disabled>Select a Brand</option>
@@ -33,16 +33,11 @@
                                 @endforeach
                             </select>
                         </div>
-                    </div>
-
-                    <div class="row p-3">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <label class="form-label" for="designation_name">Brand Model</label>
                             <input class="form-control" @error('name') is-invalid @enderror id="name" type="text" name="brand" value="{{ $brandmodel->name }}" required>
                         </div>
                     </div>
-
-
                     <div class="footer-item">
                         <button class="btn btn-primary mt-3" type="submit">Update</button>
                         <a class="btn btn-warning mt-3" href="{{ url('brand-model') }}">Back</a>

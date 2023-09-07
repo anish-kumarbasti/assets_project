@@ -5,7 +5,7 @@
 
 @section('Content-Area')
 @if(session('success'))
-<div class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
+<div id="alrt-message" class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
     <p>{{ session('success') }}</b>
         <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
@@ -13,12 +13,12 @@
 <div class="col-sm-12">
     <div class="card">
         <div class="card-header pb-0">
-            <h4>Add Brand</h4>
+            <h4>Brand</h4>
         </div>
         <div class="card-body">
             <form class="needs-validation" novalidate method="POST" action="{{ url('/brands') }}">
                 @csrf
-                <div class="card-item border">
+                <div class="card-item">
                     <div class="row p-3">
                         <div class="col-md-12 mb-4">
                             <label class="form-label" for="validationCustom01">Add Brand</label>
@@ -66,8 +66,8 @@
                                 </label>
                             </td>
                             <td>
-                                <a class="btn btn-primary" href="{{ url('/brands/' . $brand->id . '/edit') }}">Edit</a>
-                                <button class="btn btn-danger delete-button" type="button" data-id="{{ $brand->id }}">Delete</button>
+                                <a class="btn btn-primary" href="{{ url('/brands/' . $brand->id . '/edit') }}"><i class="fa fa-pencil"></i> Edit</a>
+                                <button class="btn btn-danger delete-button" type="button" data-id="{{ $brand->id }}"><i class="fa fa-trash-o"></i> Delete</button>
                             </td>
                         </tr>
                         @endforeach
@@ -81,6 +81,14 @@
 
 @section('Script-Area')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        var alertfunction = $('#alrt-message');
+        setTimeout(function() {
+            alertfunction.alert('close');
+        }, 3000);
+    });
+</script>
 <script>
     // Add an event listener to the checkboxes for updating the brand status
     document.querySelectorAll('input[type="checkbox"]').forEach(function(checkbox) {

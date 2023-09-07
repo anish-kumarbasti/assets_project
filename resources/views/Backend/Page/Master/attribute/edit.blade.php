@@ -13,7 +13,7 @@
 <div class="col-sm-12">
     <div class="card">
         <div class="card-header pb-0">
-            <h4>Edit BrandModel</h4>
+            <h4>Edit Attribute</h4>
         </div>
         <div class="card-body">
             {{-- @dd($brandmodel); --}}
@@ -22,7 +22,7 @@
                 @method('PUT')
                 @endisset
                 @csrf
-                <div class="card-item border">
+                <div class="card-item">
                     <div class="row p-4">
                         <div class="col-sm-6">
                             <label class="form-label">Asset Type</label>

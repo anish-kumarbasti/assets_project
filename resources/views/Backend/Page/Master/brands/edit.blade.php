@@ -14,7 +14,7 @@
                 @csrf
                 @method('PUT')
 
-                <div class="card-item border">
+                <div class="card-item">
                     <div class="row p-3">
                         <div class="col-md-12 mb-4">
                             <label class="form-label" for="name">Brand Name</label>
