@@ -225,7 +225,9 @@ Route::group(['middleware' => 'auth'], function () {
 
 
     Route::get('/application-settings', [SettingController::class, 'index'])->name('settings.application');
-    Route::post('/application-settings', [SettingController::class, 'storeOrUpdate'])->name('settings.application.storeOrUpdate');
+    Route::post('/application-settings', [SettingController::class, 'createOrUpdate'])->name('settings.application.storeOrUpdate');
+
+
 
     Route::group(['middleware' => ['permission.checkDepartment']], function () {
     });
