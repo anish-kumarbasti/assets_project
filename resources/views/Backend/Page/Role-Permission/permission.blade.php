@@ -22,6 +22,7 @@
                 <button class="btn btn-primary float-end" type="button">Submt</button>
             </div>
         </div>
+        {{-- @dd($permissionsByModule->firstWhere('name')); --}}
         <div class="card" id="permissionsCard" style="display: none;">
             <div class="card-header pb-0">
                 <h4>Admin Permissions</h4>
@@ -29,7 +30,7 @@
             <div class="card-body">
                 <form action="" method="POST" id="permissionsForm">
                     @csrf
-                    @method('PUT')
+                    @method('put')
                     <div class="table-responsive theme-scrollbar">
                         <table class="display" id="basic-1">
                             <thead>
@@ -42,23 +43,59 @@
                                 @foreach ($permissionsByModule as $module => $modulePermissions)
                                     <tr>
                                         <td>{{ $module }}</td>
-                                            <td>
-                                                <div class="row">
-                                                    @foreach(['manage', 'create', 'edit', 'delete'] as $permissionType)
-                                                    <div class="col-md-3">
-                                                        <div style="display: flex; align-items: center;">
-                                                            <span class="mt-2" style="order: 1;">{{ ucfirst($permissionType) }}</span>
-                                                            <label class="mb-0 switch" style="order: 2; margin-left: 5px;">
-                                                                <input type="checkbox" name="permissions[]"
-                                                                value="{{ $modulePermissions->where('name', $module . '.' . $permissionType)->first()->id }}"
-                                                                       {{ in_array($module . '.' . $permissionType, $permissions) ? 'checked' : '' }}>
-                                                                <span class="switch-state"></span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-md-12 d-flex">
+                                                    @foreach ($permissionTypes as $permissionT)
+                                                        @switch($permissionT)
+                                                            @case('manage')
+                                                                <div class="col-sm-3" style="display: flex; align-items: center;">
+                                                                    <span class="mt-2"
+                                                                        style="order: 1;">{{ ucfirst($permissionT) }}</span>
+                                                                    <label class="mb-0 switch" style="order: 2; margin-left: 5px;">
+                                                                        <input type="checkbox" name="permissions[]"
+                                                                            value="{{ $modulePermissions[0]->id }}">
+                                                                        <span class="switch-state"></span>
+                                                                    </label>
+                                                                </div>
+                                                            @break
+                                                            @case('create')
+                                                                <div class="col-sm-3" style="display: flex; align-items: center;">
+                                                                    <span class="mt-2"
+                                                                        style="order: 1;">{{ ucfirst($permissionT) }}</span>
+                                                                    <label class="mb-0 switch" style="order: 2; margin-left: 5px;">
+                                                                        <input type="checkbox" name="permissions[]"
+                                                                            value="{{ $modulePermissions[1]->id }}">
+                                                                        <span class="switch-state"></span>
+                                                                    </label>
+                                                                </div>
+                                                            @break
+                                                            @case('edit')
+                                                                <div class="col-sm-3" style="display: flex; align-items: center;">
+                                                                    <span class="mt-2"
+                                                                        style="order: 1;">{{ ucfirst($permissionT) }}</span>
+                                                                    <label class="mb-0 switch" style="order: 2; margin-left: 5px;">
+                                                                        <input type="checkbox" name="permissions[]"
+                                                                            value="{{ $modulePermissions[2]->id }}">
+                                                                        <span class="switch-state"></span>
+                                                                    </label>
+                                                                </div>
+                                                            @break
+                                                            @default
+                                                                <div class="col-sm-3" style="display: flex; align-items: center;">
+                                                                    <span class="mt-2"
+                                                                        style="order: 1;">{{ ucfirst($permissionT) }}</span>
+                                                                    <label class="mb-0 switch" style="order: 2; margin-left: 5px;">
+                                                                        <input type="checkbox" name="permissions[]"
+                                                                            value="{{ $modulePermissions[3]->id }}">
+                                                                        <span class="switch-state"></span>
+                                                                    </label>
+                                                                </div>
+                                                        @endswitch
                                                     @endforeach
                                                 </div>
-                                            </td>
+                                            </div>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -81,7 +118,7 @@
             // Add an event listener to the select box
             selectRole.addEventListener('change', () => {
                 const selectedRoleId = selectRole.value;
-                const roleUrl = `/roles/${selectedRoleId}/permissions`;
+                const roleUrl = `/roles/${selectedRoleId}/admin/permissions`;
 
                 // Set the form action to the role-specific URL
                 form.setAttribute('action', roleUrl);
@@ -95,7 +132,7 @@
                         // For example, if data.permissions is an array of permission names, you can do something like this:
                         data.permissions.forEach(permission => {
                             console.log(
-                            permission); // Log the permission to the console for debugging
+                                permission); // Log the permission to the console for debugging
                             const checkbox = document.querySelector(
                                 `input[name="${permission}"]`);
                             if (checkbox) {

@@ -45,7 +45,8 @@ class PermissionController extends Controller
         $chooserole = Role::all();
         $permissionmanages = Permission::all();
         $permissionsByModule = $permissionmanages->groupBy('module');
+        $permissionTypes = ['manage', 'create', 'edit', 'delete'];
         //  dd($permissionsByModule);
-        return view('Backend.Page.Role-Permission.permission', compact('roles','permissions','chooserole','permissionmanages','permissionsByModule'));
+        return view('Backend.Page.Role-Permission.permission', compact('roles','permissions','chooserole','permissionmanages','permissionsByModule','permissionTypes'));
     }
 }
