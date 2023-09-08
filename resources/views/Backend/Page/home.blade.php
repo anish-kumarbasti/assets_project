@@ -15,7 +15,7 @@
    color:#5C61F2;
   font-size: 30px;
    font-weight:700;
-   
+
 
    border-bottom:1px solid #5555551A;
  }
@@ -24,7 +24,7 @@
   color: black;
 }
  .widget-joins .d-flex .flex-grow-1 {
-    text-align: left !important; 
+    text-align: left !important;
 }
 .has-search .form-control {
     padding-left: 2.375rem;
@@ -50,7 +50,7 @@
 }
 .rounded-circle{
  position: relative;
-    left: -43px; 
+    left: -43px;
 }
 .ican-item-1{
  background: #4FAAD51A;
@@ -80,13 +80,24 @@
 </style>
 @endsection
 @section('Content-Area')
+@if (Session::has('success'))
+    <div class="alert alert-success">
+        {{ Session::get('success') }}
+    </div>
+@endif
+
+@if (Session::has('error'))
+    <div class="alert alert-danger">
+        {{ Session::get('error') }}
+    </div>
+@endif
 <div class="container-fluid dashboard-2">
-  <div class="row"> 
+  <div class="row">
    <div class="col-sm-6 col-lg-3">
                 <div class="card o-hidden">
                   <div class="card-header pb-0">
-                    <div class="d-flex"> 
-                      <div class="flex-grow-1"> 
+                    <div class="d-flex">
+                      <div class="flex-grow-1">
                         <p class="square-after f-w-600 header-text-primary">Earnings<i class="fa fa-circle"> </i></p>
                         <h4>6659</h4>
                       </div>
@@ -112,8 +123,8 @@
               <div class="col-sm-6 col-lg-3">
                 <div class="card o-hidden product-widget">
                   <div class="card-header pb-0">
-                    <div class="d-flex"> 
-                      <div class="flex-grow-1"> 
+                    <div class="d-flex">
+                      <div class="flex-grow-1">
                         <p class="square-after f-w-600 header-text-success">Products<i class="fa fa-circle"> </i></p>
                         <h4>9856</h4>
                       </div>
@@ -140,8 +151,8 @@
               <div class="col-sm-6 col-lg-3">
                 <div class="card o-hidden message-widget">
                   <div class="card-header pb-0">
-                    <div class="d-flex"> 
-                      <div class="flex-grow-1"> 
+                    <div class="d-flex">
+                      <div class="flex-grow-1">
                         <p class="square-after f-w-600 header-text-secondary">Messages<i class="fa fa-circle"> </i></p>
                         <h4>893</h4>
                       </div>
@@ -165,8 +176,8 @@
               <div class="col-sm-6 col-lg-3">
                 <div class="card o-hidden user-widget">
                   <div class="card-header pb-0">
-                    <div class="d-flex"> 
-                      <div class="flex-grow-1"> 
+                    <div class="d-flex">
+                      <div class="flex-grow-1">
                         <p class="square-after f-w-600 header-text-info">New User<i class="fa fa-circle"> </i></p>
                         <h4>45631</h4>
                       </div>
@@ -188,7 +199,7 @@
                   </div>
                 </div>
               </div>
-  </div>  
+  </div>
 </div>
 
 
@@ -252,9 +263,9 @@
     </h5>
     <h6 class="card-subtitle mb-2 text-muted">Laptops : <span class="number-item"> 2 </span></h6>
     <h6 class="card-subtitle mb-2 text-muted">Bags : <span class="number-item"> 2 </span> <span><i class="icon-arrow-right icofontt font-primary ican-item-1"></i> </span></h6>
-  
-    
-    
+
+
+
   </div>
 </div>
     </div>
@@ -276,9 +287,9 @@
     </h5>
     <h6 class="card-subtitle mb-2 text-muted">Laptops : <span class="number-item"> 2 </span></h6>
     <h6 class="card-subtitle mb-2 text-muted">Bags : <span class="number-item"> 2 </span> <span><i class="icon-arrow-right icofontt font-primary ican-item-1"></i> </span></h6>
-  
-    
-    
+
+
+
   </div>
 </div>
      </div>
@@ -300,9 +311,9 @@
     </h5>
     <h6 class="card-subtitle mb-2 text-muted">Laptops : <span class="number-item"> 2 </span></h6>
     <h6 class="card-subtitle mb-2 text-muted">Bags : <span class="number-item"> 2 </span> <span><i class="icon-arrow-right icofontt font-primary ican-item-1"></i> </span></h6>
-  
-    
-    
+
+
+
   </div>
 </div>
       </div>
@@ -326,9 +337,9 @@
     </h5>
     <h6 class="card-subtitle mb-2 text-muted">Laptops : <span class="number-item"> 2 </span></h6>
     <h6 class="card-subtitle mb-2 text-muted">Bags : <span class="number-item"> 2 </span> <span><i class="icon-arrow-right icofontt font-primary ican-item-1"></i> </span></h6>
-  
-    
-    
+
+
+
   </div>
 </div>
     </div>
@@ -350,9 +361,9 @@
     </h5>
     <h6 class="card-subtitle mb-2 text-muted">Laptops : <span class="number-item"> 2 </span></h6>
     <h6 class="card-subtitle mb-2 text-muted">Bags : <span class="number-item"> 2 </span> <span><i class="icon-arrow-right icofontt font-primary ican-item-1"></i> </span></h6>
-  
-    
-    
+
+
+
   </div>
 </div>
      </div>
@@ -374,9 +385,9 @@
     </h5>
     <h6 class="card-subtitle mb-2 text-muted">Laptops : <span class="number-item"> 2 </span></h6>
     <h6 class="card-subtitle mb-2 text-muted">Bags : <span class="number-item"> 2 </span> <span><i class="icon-arrow-right icofontt font-primary ican-item-1"></i> </span></h6>
-  
-    
-    
+
+
+
   </div>
 </div>
       </div>
@@ -387,17 +398,17 @@
   </div>
 
 
-  
+
 
 
 
 <div class="row">
    <div class="widget-joins widget-arrow card">
-                 
+
                  <div class="card-header pb-0">
                     <h4>Assets getting out of stocks</h4>
                   </div>
-            
+
                   <div class="card-body">
                     <div class="row gy-4">
                       <div class="col-sm-3">
@@ -418,7 +429,7 @@
                         <div class="card">
                         <div class="widget-card">
                           <div class="d-flex align-self-center">
-                         
+
                             <div class="flex-grow-1">
                               <h6 class="heading-item">Laptop Bag 14 inch </h6>
                             <h5><span class="counter">Assigned :</span><span class="font-primary ms-1">20</span></h5>
@@ -433,7 +444,7 @@
                        <div class="card">
                         <div class="widget-card">
                           <div class="d-flex align-self-center">
-                        
+
                             <div class="flex-grow-1">
                               <h6 class="heading-item">Laptop Bag 14 inch </h6>
                               <h5><span class="counter">Assigned :</span><span class="font-primary ms-1">20</span></h5>
@@ -447,7 +458,7 @@
                        <div class="card border-right">
                         <div class="widget-card">
                           <div class="d-flex align-self-start">
-                          
+
                             <div class="flex-grow-1">
                               <h6 class="heading-item">Laptop Bag 14 inch </h6>
                               <h5><span class="counter">Assigned :</span><span class="font-primary ms-1">20</span></h5>

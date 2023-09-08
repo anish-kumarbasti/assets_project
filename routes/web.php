@@ -25,6 +25,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\ChangePasswordController;
 
 
 /*
@@ -55,6 +56,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/permission/{permission}/edit', [PermissionController::class, 'edit'])->name('permission.edit');
     Route::put('/roles/{role}', [RolesController::class, 'update'])->name('roles.update');
     Route::put('/roles/{role}/permissions', [RolesController::class, 'updatePermissions'])->name('roles.update_permissions');
+    Route::put('/roles/{role}/admin/permissions', [RolesController::class, 'updateAdminPermissions'])->name('roles.update_admin_permissions');
     Route::get('/roles/{role}/permissions', [RolesController::class, 'permissions'])->name('roles.permissions');
     Route::get('/users/{user}/assign-roles', [UserController::class, 'assignRoles'])->name('users.assign_roles');
     Route::delete('roles/{id}', [RolesController::class, 'destroy'])->name('roles.destroy');
@@ -241,8 +243,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('/suppliers/{id}', [SupplierController::class, 'destroy'])->name('suppliers.destroy');
 
 
-    Route::get('/application-settings', [SettingController::class, 'index'])->name('settings.application');
-    Route::post('/application-settings', [SettingController::class, 'storeOrUpdate'])->name('settings.application.storeOrUpdate');
+    Route::get('/application-setting', [SettingController::class, 'index'])->name('settings.application');
+    Route::post('/application-settings', [SettingController::class, 'createOrUpdate'])->name('settings.application.storeOrUpdate');
+
+    Route::get('/change-password', [ChangePasswordController::class, 'changePassword'])->name('password.change');
+    Route::post('/update-password', [ChangePasswordController::class, 'updatePassword'])->name('update_password');
+    Route::post('update-profile-photo', [ChangePasswordController::class, 'updateProfilePhoto'])->name('pfofile.photo.update');
 
     Route::group(['middleware' => ['permission.checkDepartment']], function () {
     });

@@ -8,35 +8,32 @@ use Illuminate\Http\Request;
 class SettingController extends Controller
 {
     public function index(){
-        $setting=BusinessSetting::all();
-        return view('Backend.Page.Seting.Application.create',compact('setting'));  
+        $businessSetting=BusinessSetting::first();
+        return view('Backend.Page.Seting.Application.create',compact('businessSetting'));
     }
-    
-    public function storeOrUpdate(Request $request)
+    public function createOrUpdate(Request $request)
+{
+    $businessSetting = BusinessSetting::UpdateOrCreate([
+        'id'=>$request->id,
+    ],[
+        'name'=>$request->name,
+        'email'=>$request->email,
+        'address'=>$request->address
+    ]);
     {
-        // Validate the incoming request data
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email',
-            'address' => 'required|string',
-            'logo' => 'required', // Optional logo upload
-        ]);
 
-        // Update or create a record based on 'id'
-        $businessSetting = BusinessSetting::updateOrCreate(
-            ['id' => $request->id], // Identify record by 'id'
-            [
-                'name' => $request->name,
-                'email' => $request->email,
-                'address' => $request->address,
-                'logo' => $request->hasFile('logo') ? $request->file('logo')->store('company_logos', 'public') : null,
-            ]
-        );
+        if ($request->hasFile('logo')) {
+            $businessSetting->logo = $request->file('logo')->store('company_logos', 'public');
+        } else {
 
-        // Redirect to the 'settings.application' route
+            $businessSetting->logo = null;
+        }
+
         return redirect()->route('settings.application')->with('success', 'Settings saved successfully!');
     }
-    
+
+    return redirect()->route('settings.application.storeOrUpdate', compact('businessSetting'));
+}
 
 
 }
