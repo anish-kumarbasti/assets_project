@@ -55,7 +55,7 @@ class RolesController extends Controller
     {
         $permissions=$request->permissions;
         $user=Auth::user();
-        // dd($permissions->id);
+        dd($request);
         foreach($permissions as $permission){
             DB::table('model_has_permissions')->insert([
                 'permission_id' => $permission,

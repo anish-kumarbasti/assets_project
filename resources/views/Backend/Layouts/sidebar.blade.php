@@ -24,7 +24,7 @@
                {{-- <li><a href="javascript:;">Ecommerce Dashboard</a></li> --}}
              </ul>
            </li>
-           @can('view_master')
+           @can('manage_master')
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="airplay"></i><span>Masters</span></a>
             <ul class="sidebar-submenu">
               <li><a href="{{ route('auth.create-department')}}">Department</a></li>
