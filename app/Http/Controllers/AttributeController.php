@@ -31,12 +31,8 @@ class AttributeController extends Controller
                 'required',
                 'string',
                 'max:40',
-                'regex:/^[A-Za-z]+( [A-Za-z]+)*$/',
                 'min:2',
-                Rule::notIn(['']),
             ],
-        ], [
-            'name.regex' => 'The :attribute may only contain letters and spaces. Numbers and special characters are not allowed.',
         ]);
 
         Attribute::create($validatedData);
@@ -59,12 +55,8 @@ class AttributeController extends Controller
                 'required',
                 'string',
                 'max:50',
-                'regex:/^[A-Za-z]+( [A-Za-z]+)*$/',
                 'min:2',
-                Rule::notIn(['']),
             ],
-        ], [
-            'name.regex' => 'The :attribute may only contain letters and spaces. Numbers and special characters are not allowed.',
         ]);
         // dd($id);
 

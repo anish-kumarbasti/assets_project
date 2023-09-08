@@ -6,7 +6,7 @@
 @section('Content-Area')
 
 @if (session('success'))
-<div class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
+<div id="alert-message" class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
     <p><b> Well done! </b>{{ session('success') }}</p>
     <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
@@ -15,12 +15,12 @@
 <div class="col-sm-12">
     <div class="card">
         <div class="card-header pb-0">
-            <h4>Add Attribute </h4>
+            <h4>Attribute </h4>
         </div>
         <div class="card-body">
             <form class="needs-validation" action="{{ route('attribute-store') }}" method="post">
                 @csrf
-                <div class="card-item border">
+                <div class="card-item">
                     <div class="row p-4">
                         <div class="col-md-6 mb-1">
                             <label class="form-label">Asset Type</label>
@@ -33,7 +33,7 @@
                         </div>
                         <div class="col-md-6 mb-1">
                             <label for="form-label">Attribute Name</label>
-                            <input class="form-control me-2" id="validationCustom01" type="text" name="name" required data-bs-original-title="" title="" placeholder="Enter Model Name">
+                            <input class="form-control me-2" id="validationCustom01" type="text" name="name" required data-bs-original-title="" title="" placeholder="Enter Attribute Name">
                             @error('name')
                             <span class="text-danger">{{$message}}</span>
                             @enderror
@@ -82,8 +82,8 @@
                             </td>
                             {{-- @dd($brandmodel->id); --}}
                             <td>
-                                <a class="btn btn-primary" href="{{ url('attributes/' . $attribute->id . '/edit' ) }}">Edit</a>
-                                <button class="btn btn-danger delete-button" type="button" data-id="{{ $attribute->id }}">Delete</button>
+                                <a class="btn btn-primary" href="{{ url('attributes/' . $attribute->id . '/edit' ) }}"><i class="fa fa-pencil"></i> Edit</a>
+                                <button class="btn btn-danger delete-button" type="button" data-id="{{ $attribute->id }}"><i class="fa fa-trash-o"></i> Delete</button>
 
                             </td>
                         </tr>
@@ -97,6 +97,17 @@
 @endsection
 
 @section('Script-Area')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
+<script>
+    $(document).ready(function() {
+        var alertfunction = $('#alert-message');
+        setTimeout(function() {
+            alertfunction.alert('close');
+        }, 3000);
+    });
+</script>
+
 <script>
     // Add an event listener to the checkboxes for updating the brand status
     document.querySelectorAll('input[type="checkbox"]').forEach(function(checkbox) {
@@ -128,9 +139,6 @@
         });
     });
 </script>
-<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
-
 <script>
     document.querySelectorAll('.delete-button').forEach(function(button) {
         button.addEventListener('click', function() {

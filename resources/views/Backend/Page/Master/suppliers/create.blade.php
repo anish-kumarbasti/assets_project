@@ -4,7 +4,7 @@
 <div class="col-sm-12">
     <div class="card">
         <div class="card-header pb-0">
-            <h4>Add Suppliers</h4>
+            <h4>Add Supplier</h4>
         </div>
         <div class="card-body">
             <form class="needs-validation" action="{{ route('suppliers.store') }}" method="POST">

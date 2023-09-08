@@ -5,7 +5,7 @@
 
 @section('Content-Area')
 @if (session('message'))
-<div class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
+<div id="alerts" class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
     <p><b> Well done! </b>{{session('message')}}</p>
     <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
@@ -13,12 +13,12 @@
 <div class="col-sm-12">
     <div class="card">
         <div class="card-header pb-0">
-            <h4>Add Department</h4>
+            <h4>Department</h4>
         </div>
         <div class="card-body">
             <form class="needs-validation" novalidate method="POST" action="{{ url('/departments') }}">
                 @csrf
-                <div class="card-item border">
+                <div class="card-item">
                     <div class="row p-3">
                         <div class="col-md-12 mb-4">
                             <label class="form-label" for="validationCustom01">Add Department</label>
@@ -39,7 +39,7 @@
 <div class="col-sm-12">
     <div class="card">
         <div class="card-header pb-0">
-            <h4>List Departments</h4>
+            <h4>List Department</h4>
         </div>
         <div class="card-body">
             <div class="table-responsive theme-scrollbar">
@@ -47,7 +47,6 @@
                     <thead>
                         <tr>
                             <th>SL</th>
-                            <th>ID</th>
                             <th>Name</th>
                             <th>Status</th>
                             <th>Action</th>
@@ -56,7 +55,6 @@
                     <tbody>
                         @foreach ($departments as $department)
                         <tr>
-                            <td>{{ $loop->iteration }}</td>
                             <td>{{ $department->id }}</td>
                             <td>{{ $department->name }}</td>
                             <td class="w-20">
@@ -66,8 +64,10 @@
                                 </label>
                             </td>
                             <td>
-                                <a class="btn btn-primary" href="{{ url('/departments/' . $department->id . '/edit') }}">Edit</a>
-                                <button class="btn btn-danger delete-button" type="button" data-id="{{ $department->id }}">Delete</button>
+                                <div class="btn-group">
+                                    <a class="btn btn-primary" href="{{ url('/departments/' . $department->id . '/edit') }}"><i class="fa fa-pencil"></i> Edit</a>&nbsp;&nbsp;
+                                    <button class="btn btn-danger delete-button" type="button" data-id="{{ $department->id }}"><i class="fa fa-trash-o"></i> Delete</button>
+                                </div>
                             </td>
                         </tr>
                         @endforeach
@@ -80,6 +80,15 @@
 @endsection
 
 @section('Script-Area')
+<script>
+    $(document).ready(function() {
+        var alertfun = $('#alert');
+        setTimeout(function() {
+            alertfun.alert('close');
+        }, 3000);
+    });
+</script>
+
 <script>
     // Add an event listener to the checkboxes for updating the department status
     document.querySelectorAll('input[type="checkbox"]').forEach(function(checkbox) {

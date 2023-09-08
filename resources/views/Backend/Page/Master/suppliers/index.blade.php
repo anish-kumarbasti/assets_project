@@ -1,7 +1,7 @@
 @extends('Backend.Layouts.panel')
 @section('Content-Area')
 @if (session('message'))
-<div class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
+<div id="alert-message" class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
     <p><b> Well done! </b>{{session('message')}}</p>
     <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
@@ -11,7 +11,7 @@
         <div class="card-header pb-0">
             <h4 class="d-flex justify-content-between align-items-center">
                 <span>Suppliers</span>
-                <a href="{{ route('suppliers.create') }}" class="btn btn-primary float-right">Add Suppliers</a>
+                <a href="{{ route('suppliers.create') }}" class="btn btn-primary float-right"><i class="fa fa-plus"></i> Add Suppliers</a>
             </h4>
         </div>
         <div class="card-body">
@@ -43,11 +43,11 @@
                                 </label>
                             </td>
                             <td>
-                                <a href="{{ url('suppliers/'.$supplier->id.'/edit') }}" class="btn btn-primary">Edit</a>
+                                <a href="{{ url('suppliers/'.$supplier->id.'/edit') }}" class="btn btn-primary"><i class="fa fa-pencil"></i> Edit</a>
                                 <form action="{{ route('suppliers.destroy', $supplier->id) }}" method="POST" style="display: inline-block;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                    <button type="submit" class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete</button>
                                 </form>
                             </td>
                         </tr>
@@ -58,5 +58,18 @@
         </div>
     </div>
 </div>
+
+@endsection
+
+@section('Script-Area')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        var alertmessage = $('#alert-message');
+        setTimeout(function() {
+            alertmessage.alert('close');
+        });
+    });
+</script>
 
 @endsection

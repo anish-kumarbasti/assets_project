@@ -2,7 +2,7 @@
 
 @section('Content-Area')
 @if (session('success'))
-<div class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
+<div id="message-success" class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
     <p><b> Well done! </b>{{ session('success') }}</p>
     <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
@@ -13,7 +13,7 @@
         <div class="card-header pb-0">
             <h4 class="d-flex justify-content-between align-items-center">
                 <span>Asset</span>
-                <a href="{{ route('assets.create') }}" class="btn btn-primary float-right">Add Asset</a>
+                <a href="{{ route('assets.create') }}" class="btn btn-primary float-right"><i class="fa fa-plus"></i> Add Asset</a>
             </h4>
         </div>
         <div class="card-body">
@@ -40,9 +40,9 @@
                                 </label>
                             </td>
                             <td>
-                                <a href="{{ route('assets.edit', $asset->id) }}" class="btn btn-primary">Edit</a>
+                                <a href="{{ route('assets.edit', $asset->id) }}" class="btn btn-primary"><i class="fa fa-pencil"></i> Edit</a>
 
-                                <button class="btn btn-danger delete-button" type="button" data-id="{{ $asset->id }}">Delete</button>
+                                <button class="btn btn-danger delete-button" type="button" data-id="{{ $asset->id }}"><i class="fa fa-trash-o"></i> Delete</button>
 
                             </td>
                         </tr>
@@ -57,6 +57,14 @@
 @endsection
 @section('Script-Area')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        var alertfun = $('#message-success');
+        setTimeout(function() {
+            alertfun.alert('close');
+        }, 3000);
+    });
+</script>
 <script>
     $(document).ready(function() {
 

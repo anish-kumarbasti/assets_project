@@ -56,6 +56,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/permission/{permission}/edit', [PermissionController::class, 'edit'])->name('permission.edit');
     Route::put('/roles/{role}', [RolesController::class, 'update'])->name('roles.update');
     Route::put('/roles/{role}/permissions', [RolesController::class, 'updatePermissions'])->name('roles.update_permissions');
+    Route::put('/roles/{role}/admin/permissions', [RolesController::class, 'updateAdminPermissions'])->name('roles.update_admin_permissions');
     Route::get('/roles/{role}/permissions', [RolesController::class, 'permissions'])->name('roles.permissions');
     Route::get('/users/{user}/assign-roles', [UserController::class, 'assignRoles'])->name('users.assign_roles');
     Route::delete('/roles/{role}', [RolesController::class, 'destroy'])->name('roles.destroy');

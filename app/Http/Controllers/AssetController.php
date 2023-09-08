@@ -30,6 +30,7 @@ class AssetController extends Controller
             'name' => [
                 'required',
                 'string',
+                'unique',
                 'max:50',
                 'regex:/^[A-Za-z]+( [A-Za-z]+)*$/',
                 'min:2',
