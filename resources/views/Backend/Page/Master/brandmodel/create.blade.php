@@ -6,7 +6,7 @@
 @section('Content-Area')
 
 @if (session('success'))
-<div class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
+<div id="alert-success" class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
     <p><b> Well done! </b>{{ session('success') }}</p>
     <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
@@ -20,9 +20,9 @@
         <div class="card-body">
             <form class="needs-validation" action="{{ route('brand-model.store') }}" method="post">
                 @csrf
-                <div class="card-item border">
+                <div class="card-item">
                     <div class="row p-3">
-                        <div class="col-md-12 mb-1">
+                        <div class="col-md-6 mb-1">
                             <label class="form-label" for="validationCustom01">Select Brand</label>
                             <select class="form-select" id="brand_id" name="brand_id" required>
                                 <option value="" disabled selected>Select a Brand</option>
@@ -31,9 +31,7 @@
                                 @endforeach
                             </select>
                         </div>
-                    </div>
-                    <div class="row p-3">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <label class="form-label" for="designation_name">Brand Model</label>
                             <input class="form-control me-2" id="validationCustom01" type="text" name="name" required="" data-bs-original-title="" title="" placeholder="Enter Model Name">
                             @error('name')
@@ -41,9 +39,8 @@
                             @enderror
                         </div>
                     </div>
-
                     <div class="footer-item">
-                        <button class="btn btn-primary mt-3" type="submit" data-bs-original-title="" title="">Add</button>
+                        <button class="btn btn-primary mt-3" type="submit" data-bs-original-title="" title=""> Add</button>
                     </div>
                 </div>
             </form>
@@ -88,8 +85,8 @@
                             </td>
                             {{-- @dd($brandmodel->id); --}}
                             <td>
-                                <a class="btn btn-primary" href="{{ url('brand-model/' . $brandmodel->id . '/edit' ) }}">Edit</a>
-                                <button class="btn btn-danger delete-button" type="button" data-id="{{ $brandmodel->id }}">Delete</button>
+                                <a class="btn btn-primary" href="{{ url('brand-model/' . $brandmodel->id . '/edit' ) }}"><i class="fa fa-pencil"></i> Edit</a>
+                                <button class="btn btn-danger delete-button" type="button" data-id="{{ $brandmodel->id }}"><i class="fa fa-trash-o"></i> Delete</button>
 
                             </td>
                         </tr>
@@ -136,6 +133,14 @@
     });
 </script>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous">
+</script>
+<script>
+    $(document).ready(function() {
+        var alertfun = $('#alert-success');
+        setTimeout(function() {
+            alertfun.alert('close');
+        }, 3000);
+    });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
 
