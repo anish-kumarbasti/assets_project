@@ -5,7 +5,7 @@
 
 @section('Content-Area')
 @if (session('success'))
-<div class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
+<div id="alert-success" class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
     <p><b> Well done! </b>{{ session('success') }}</p>
     <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
@@ -14,7 +14,7 @@
 @if ($errors->any())
 <ul class="alert alert-danger inverse alert-dismissible">
     @foreach ($errors->all() as $error)
-        <li>{{ $error }}</li>
+    <li>{{ $error }}</li>
     <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
     @endforeach
 </ul>
@@ -56,44 +56,115 @@
             </div>
         </div>
         <div class="card-body">
-                <div class="table-responsive theme-scrollbar">
-                    <table class="display" id="basic-1">
-                        <thead>
-                            <tr class="text-center">
-                                <th>SL</th>
-                                <th>Name</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($permission as $role)
-                            <tr class="text-center">
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $role->name }}</td>
-                                <td class="w-20">
-                                    <label class="mb-0 switch">
-                                        <input type="checkbox" checked=""><span class="switch-state"></span>
-                                    </label>
-                                </td>
-                                <td>
-                                    {{-- <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-primary" data-bs-original-title="" title="">Edit</a>
-                                    <form action="{{ route('roles.destroy', $role->id) }}" method="POST" class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger" data-bs-original-title="" title="">Delete</button>
-                                    </form> --}}
-                                    <div class="btn-group">
-                                        <a href="{{ route('permission.edit', $role->id) }}" class="btn btn-primary"><i class="fa fa-pencil"></i> Edit</a>&nbsp;&nbsp;
-                                        <button class="btn btn-danger delete-button"  data-id="{{ $role->id }}" type="button"><i class="fa fa-trash-o"></i> Delete</button>
-                                        </div>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+            <div class="table-responsive theme-scrollbar">
+                <table class="display" id="basic-1">
+                    <thead>
+                        <tr class="text-center">
+                            <th>SL</th>
+                            <th>Name</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($permission as $role)
+                        <tr class="text-center">
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $role->name }}</td>
+                            <td class="w-20">
+                                <label class="mb-0 switch">
+                                    <input type="checkbox" checked=""><span class="switch-state"></span>
+                                </label>
+                            </td>
+                            <td>
+                                {{-- <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-primary" data-bs-original-title="" title="">Edit</a>
+                                <form action="{{ route('roles.destroy', $role->id) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger" data-bs-original-title="" title="">Delete</button>
+                                </form> --}}
+                                <div class="btn-group">
+                                    <a href="{{ route('permission.edit', $role->id) }}" class="btn btn-primary"><i class="fa fa-pencil"></i> Edit</a>&nbsp;&nbsp;
+                                    <button class="btn btn-danger delete-button" data-id="{{ $role->id }}" type="button"><i class="fa fa-trash-o"></i> Delete</button>
+                                </div>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
+@endsection
+
+@section('Script-Area')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
+<script>
+    document.querySelectorAll('.delete-button').forEach(function(button) {
+
+        button.addEventListener('click', function() {
+            const Id = this.getAttribute('data-id');
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    fetch('permissions/' + Id, {
+
+                            method: 'delete',
+                            headers: {
+                                'X-CSRF-TOKEN': csrfToken,
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                        .then(response => response.json())
+
+
+                        .then(data => {
+
+                            if ('success' in data && data.success) {
+                                Swal.fire(
+                                    'Deleted!',
+                                    'Your file has been deleted.',
+                                    'success'
+                                ).then(() => {
+                                    location.reload();
+                                });
+                            } else {
+                                Swal.fire(
+                                    'Error',
+                                    'Failed to delete the file.',
+                                    'error'
+                                );
+                            }
+                        })
+                        .catch(error => {
+                            Swal.fire(
+                                'Error',
+                                'An error occurred while deleting the file.',
+                                'error'
+                            );
+                        });
+                }
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        var $data = $('#alert-success');
+        setTimeout(function() {
+            $data.alert('close');
+        }, 3000);
+    });
+</script>
 @endsection

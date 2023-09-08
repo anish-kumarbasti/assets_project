@@ -11,16 +11,25 @@ class PermissionController extends Controller
     public function index()
     {
         $permission = Permission::all();
-        return view('Backend.Page.roles.all-permissions', compact( 'permission'));
+        return view('Backend.Page.roles.all-permissions', compact('permission'));
     }
-    public function store(Request $request){
+    public function destroy($id)
+    {
+        $permission = Permission::find($id);
+        if ($permission) {
+            $permission->delete();
+        }
+        return response()->json(['success' => true]);
+    }
+    public function store(Request $request)
+    {
         $request->validate([
-            'name'=>'required|string|max:20',
+            'name' => 'required|string|max:20',
         ]);
         $permission = Permission::create(['name' => $request->input('name')]);
         return redirect()->route('permissions.index')->with('success', 'Permission created successfully.');
     }
-    public function update(Request $request,Permission $permission,$id)
+    public function update(Request $request, Permission $permission, $id)
     {
         // dd($id);
         $permission->find($id)->update(['name' => $request->input('name')]);
@@ -38,7 +47,8 @@ class PermissionController extends Controller
     {
         return view('Backend.Page.Role-Permission.edit_permission', compact('permission'));
     }
-    public function permission(){
+    public function permission()
+    {
         $modules = [
             'Permissions',
             'Role',
@@ -55,6 +65,6 @@ class PermissionController extends Controller
         $roles = Role::pluck('name')->toArray();
         $chooserole = Role::all();
         // dd($roles);
-        return view('Backend.Page.Role-Permission.permission', compact('modules', 'roles','permissions','chooserole'));
+        return view('Backend.Page.Role-Permission.permission', compact('modules', 'roles', 'permissions', 'chooserole'));
     }
 }

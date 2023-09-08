@@ -57,11 +57,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('/roles/{role}/permissions', [RolesController::class, 'updatePermissions'])->name('roles.update_permissions');
     Route::get('/roles/{role}/permissions', [RolesController::class, 'permissions'])->name('roles.permissions');
     Route::get('/users/{user}/assign-roles', [UserController::class, 'assignRoles'])->name('users.assign_roles');
-    Route::delete('/roles/{role}', [RolesController::class, 'destroy'])->name('roles.destroy');
+    Route::delete('roles/{id}', [RolesController::class, 'destroy'])->name('roles.destroy');
     Route::get('view-permissions', [PermissionController::class, 'index'])->name('permissions.index');
     Route::post('/permission', [PermissionController::class, 'store'])->name('permission.store');
     Route::put('update-permissions/{id}', [PermissionController::class, 'update'])->name('permissions.update');
-    Route::get('getPermissionsForRole/{id}',[RolesController::class,'fetchrole']);
+    Route::get('getPermissionsForRole/{id}', [RolesController::class, 'fetchrole']);
+
+    Route::delete('permissions/{id}', [PermissionController::class, 'destroy']);
 
     Route::get('users', [UserController::class, 'index'])->name('users.index')->middleware('permission:manage_user');
     Route::get('show', [UserController::class, 'showUsers'])->name('users.show');
@@ -191,7 +193,22 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('reports-locations', [ReportController::class, 'report_location'])->name('report-location');
 
     //PDF and CSV
+    Route::get('/getPDF', [ReportController::class, 'generatePDF']);
+    Route::get('/component', [ReportController::class, 'pdfcomponent']);
+    Route::get('/maintenance', [ReportController::class, 'pdfmaintenance']);
+    Route::get('/locations', [ReportController::class, 'pdflocation']);
+    Route::get('/supplier', [ReportController::class, 'pdfsupplier']);
+    Route::get('/type', [ReportController::class, 'pdftype']);
+    Route::get('/status', [ReportController::class, 'pdfstatus']);
     Route::get('/export-data', [ReportController::class, 'exportData'])->name('exports.data');
+    //Print
+    Route::get('/getPrint', [ReportController::class, 'getPrint']);
+    Route::get('/getComponent', [ReportController::class, 'getComponent']);
+    Route::get('/getMaintenance', [ReportController::class, 'getMaintenance']);
+    Route::get('/getSupplier', [ReportController::class, 'getSupplier']);
+    Route::get('/getLocation', [ReportController::class, 'getLocation']);
+    Route::get('/getType', [ReportController::class, 'getType']);
+    Route::get('/getStatus', [ReportController::class, 'getStatus']);
 
     //Maintenances
     Route::get('asset-maintenances', [MaintenanceController::class, 'maintenances'])->name('assets-maintenances');
