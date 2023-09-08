@@ -25,6 +25,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\ChangePasswordController;
 
 
 /*
@@ -224,10 +225,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('/suppliers/{id}', [SupplierController::class, 'destroy'])->name('suppliers.destroy');
 
 
-    Route::get('/application-settings', [SettingController::class, 'index'])->name('settings.application');
+    Route::get('/application-setting', [SettingController::class, 'index'])->name('settings.application');
     Route::post('/application-settings', [SettingController::class, 'createOrUpdate'])->name('settings.application.storeOrUpdate');
 
-
+    Route::get('/change-password', [ChangePasswordController::class, 'changePassword'])->name('password.change');
+    Route::post('/update-password', [ChangePasswordController::class, 'updatePassword'])->name('update_password');
+    Route::post('update-profile-photo', [ChangePasswordController::class, 'updateProfilePhoto'])->name('pfofile.photo.update');
 
     Route::group(['middleware' => ['permission.checkDepartment']], function () {
     });

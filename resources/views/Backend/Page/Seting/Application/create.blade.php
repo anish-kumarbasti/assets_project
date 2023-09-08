@@ -8,12 +8,11 @@
                 <div class="card-header">
                     <h4>{{ $businessSetting ? 'Update' : 'Add' }} Application Settings</h4>
                 </div>
+                {{-- @dd($businessSetting->id); --}}
                 <div class="card-body">
-                    <form method="POST" action="{{ $businessSetting ? route('settings.application.storeOrUpdate', $businessSetting->id) : route('settings.application.store') }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ $businessSetting ? route('settings.application.storeOrUpdate') : route('settings.application.store') }}" enctype="multipart/form-data">
                         @csrf
-                        @if ($businessSetting)
-                            @method('PATCH')
-                        @endif
+                        <input type="hidden" name="id" value="{{ $businessSetting->id }}">
                         <div class="form-group">
                             <label for="name">Company Name</label>
                             <input type="text" class="form-control" id="name" name="name" placeholder="Enter company name" value="{{ $businessSetting->name ?? '' }}">
@@ -32,7 +31,7 @@
                             <small class="form-text text-muted">Upload a company logo (if needed).</small>
                         </div>
                         <button type="submit" class="btn btn-primary">{{ $businessSetting ? 'Update' : 'Add' }}</button>
-                        <a href="{{ route('settings.application.storeOrUpdate') }}" class="btn btn-secondary">Cancel</a>
+                        <a href="" class="btn btn-secondary">Cancel</a>
                     </form>
                 </div>
             </div>
