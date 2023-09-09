@@ -44,6 +44,10 @@
                                         <label class="form-label" for="roleName">Add Permission</label>
                                         <input class="form-control" id="roleName" name="name" type="text" required="" placeholder="Permission Name">
                                     </div>
+                                    <div class="col-md-12 mb-4">
+                                        <label class="form-label" for="roleModule">Add Permission Module</label>
+                                        <input class="form-control" id="roleModule" name="module" type="text" required="" placeholder="Permission Module Name">
+                                    </div>
                                 </div>
                             </div>
                             <div class="modal-footer">

@@ -34,7 +34,7 @@
                   </div>
                   <div class="text-center profile-details">
                      <h4>{{ $user->first_name.' '.$user->last_name??'' }}</h4>
-                     <h6>{{$user->designation->name}}</h6>
+                     <h6>{{$user->designation->name??''}}</h6>
                   </div>
                   <ul class="card-social">
                      <button class="btn btn-light ican-envo">
