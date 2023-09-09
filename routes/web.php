@@ -213,6 +213,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/getStatus', [ReportController::class, 'getStatus']);
 
     //Maintenances
+    Route::get('maintenance', [MaintenanceController::class, 'index']);
     Route::get('asset-maintenances', [MaintenanceController::class, 'maintenances'])->name('assets-maintenances');
     Route::post('asset-maintenance', [MaintenanceController::class, 'maintenance_save'])->name('maintenance-save');
     Route::get('maintainans-edit/{id}', [MaintenanceController::class, 'edit'])->name('maintainans-edit');

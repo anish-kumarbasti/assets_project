@@ -25,6 +25,7 @@
              </ul>
            </li>
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="airplay"></i><span>Masters</span></a>
+
             <ul class="sidebar-submenu">
               <li><a href="{{ route('auth.create-department')}}">Department</a></li>
               <li><a href="{{ url('designations')}}">Designation</a></li>
@@ -38,6 +39,7 @@
               <li><a href="{{ url('suppliers')}}">Suppliers</a></li>
             </ul>
           </li>
+
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="layout"></i><span>User Management</span></a>
              <ul class="sidebar-submenu">
                <li><a href="{{url('users')}}">All Users</a></li>
@@ -72,7 +74,7 @@
 
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="settings" class="fa fa-spin"></i><span>System Settings</span></a>
              <ul class="sidebar-submenu">
-              <li><a href="{{ route('password.change') }}">User Settings</a></li>
+               <li><a href="{{ route('password.change') }}">User Settings</a></li>
                <li><a href="{{route('settings.application')}}">Application Settings</a></li>
              </ul>
            </li>
@@ -104,7 +106,11 @@
                <li><a href="{{url('all-reports')}}">All Reports</a> </li>
              </ul>
            </li>
-           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="{{route('assets-maintenances')}}"><i data-feather="plus-square"></i><span>Maintenance</span></a>
+           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="plus-square"></i><span>Maintenance</span></a>
+             <ul class="sidebar-submenu">
+               <li><a href="{{route('assets-maintenances')}}">Add Issue</a></li>
+               <li><a href="#">Receive Issue</a></li>
+             </ul>
            </li>
          </ul>
        </div>
