@@ -76,7 +76,7 @@
 
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="settings" class="fa fa-spin"></i><span>System Settings</span></a>
              <ul class="sidebar-submenu">
-              <li><a href="{{ route('password.change') }}">User Settings</a></li>
+              <li><a href="{{ route('settings.user') }}">User Settings</a></li>
                <li><a href="{{route('settings.application')}}">Application Settings</a></li>
              </ul>
            </li>

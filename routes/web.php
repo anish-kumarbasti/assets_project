@@ -246,9 +246,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/application-setting', [SettingController::class, 'index'])->name('settings.application');
     Route::post('/application-settings', [SettingController::class, 'createOrUpdate'])->name('settings.application.storeOrUpdate');
 
-    Route::get('/change-password', [ChangePasswordController::class, 'changePassword'])->name('password.change');
-    Route::post('/update-password', [ChangePasswordController::class, 'updatePassword'])->name('update_password');
-    Route::post('update-profile-photo', [ChangePasswordController::class, 'updateProfilePhoto'])->name('pfofile.photo.update');
+    Route::get('/user-setting', [ChangePasswordController::class, 'index'])->name('settings.user');
+    Route::post('/update-password', [ChangePasswordController::class, 'changePassword'])->name('update_password');
+    Route::post('update-profile-photo', [ChangePasswordController::class, 'updateProfilePhoto'])->name('profile.photo.update');
 
     Route::group(['middleware' => ['permission.checkDepartment']], function () {
     });
