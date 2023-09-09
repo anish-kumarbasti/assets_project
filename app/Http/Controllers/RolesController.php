@@ -60,10 +60,10 @@ class RolesController extends Controller
     public function updatePermissions(Request $request, Role $role)
     {
 
-        $permissions=$request->permissions;
-        $user=Auth::user();
+        $permissions = $request->permissions;
+        $user = Auth::user();
         // dd($request);
-        foreach($permissions as $permission){
+        foreach ($permissions as $permission) {
             DB::table('model_has_permissions')->insert([
                 'permission_id' => $permission,
                 'model_type' => get_class($user), // Assuming User model
@@ -76,15 +76,15 @@ class RolesController extends Controller
         return redirect()->route('roles.index')->with('success', 'Permissions updated successfully.');
     }
 
- 
+
 
     public function updateAdminPermissions(Request $request, Role $role)
     {
         $permissions = $request->permissions;
         $user = Auth::user();
-        dd($permissions);
+        // dd($permissions);
         // Get the user ID associated with the role
-        $userWithRole =  User::where('role_id',$role->id)->first();
+        $userWithRole =  User::where('role_id', $role->id)->first();
         if ($userWithRole) {
             // Loop through permissions and associate them with the user
             foreach ($permissions as $permission) {
@@ -93,11 +93,11 @@ class RolesController extends Controller
                     'model_type' => get_class($userWithRole), // Assuming User model
                     'model_id' => $userWithRole->id, // Use the user ID associated with the role
                 ]);
-    
+
                 // Assign the permission to the role
                 $role->givePermissionTo($permission);
             }
-    
+
             return back()->with('success', 'Permissions updated successfully.');
         } else {
             // Handle the case where the user with the role ID is not found
@@ -105,7 +105,7 @@ class RolesController extends Controller
         }
     }
 
-   public function destroy($id){
+    public function destroy($id)
     {
         $role = Role::find($id);
         if ($role) {
@@ -113,4 +113,5 @@ class RolesController extends Controller
         }
         return response()->json(['success' => true]);
     }
+}
 }

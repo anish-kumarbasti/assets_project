@@ -26,8 +26,9 @@ class PermissionController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:20',
+            'module' => 'required|string|max:20'
         ]);
-         Permission::create(['name' => $request->input('name')]);
+         Permission::create(['name' => $request->input('name'),'module'=>$request->input('module')]);
         return redirect()->route('permissions.index')->with('success', 'Permission created successfully.');
     }
     public function update(Request $request, Permission $permission, $id)
@@ -55,7 +56,7 @@ class PermissionController extends Controller
         $chooserole = Role::all();
         $permissionmanages = Permission::all();
         $permissionsByModule = $permissionmanages->groupBy('module');
-        $permissionTypes = ['manage', 'create', 'edit', 'delete'];
+        $permissionTypes = ['view', 'manage', 'create', 'edit', 'delete'];
         //  dd($permissionsByModule);
         return view('Backend.Page.Role-Permission.permission', compact('roles','permissions','chooserole','permissionmanages','permissionsByModule','permissionTypes'));
 

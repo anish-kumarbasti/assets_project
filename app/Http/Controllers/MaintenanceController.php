@@ -5,11 +5,20 @@ namespace App\Http\Controllers;
 use App\Models\Asset;
 use App\Models\AssetType;
 use App\Models\Maintenance;
+use App\Models\Stock;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 
 class MaintenanceController extends Controller
 {
+    public function index(Request $request)
+    {
+        if ($request->ajax()) {
+
+            $product =  Stock::where('product_number', 'LIKE', '%' . $request->product_number . '%')->first();
+            return response()->json($product);
+        }
+    }
     public function maintenances()
     {
         $asset = Asset::all();
@@ -21,23 +30,21 @@ class MaintenanceController extends Controller
     public function maintenance_save(Request $request)
     {
         $request->validate([
-            'assetType' => 'required', // Example: Valid values are Type1, Type2, Type3
-            'supplier' => 'required', // Example: It should be a string
-            'assetName' => 'required', // Example: It should be a string
-            'start_date' => 'required|date', // Example: It should be a valid date
-            'end_date' => 'required|date|after:start_date', // Example: It should be a valid date and after start_date
-            'asset_number'=>'required',
-            'product_name' => 'required', // Example: It should be a string
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after:start_date',
+            'product_id' => 'required',
+            'asset' => 'required',
+            'supplier' => 'required|max:30',
+            'asset_price' => 'required'
         ]);
         // dd($request);
         Maintenance::Create([
-            'product_id'=>$request->product_name,
-            'asset_type_id'=>$request->assetType,
-            'asset_id'=>$request->assetName,
-            'asset_number'=>$request->asset_number,
-            'supplier_id'=>$request->supplier,
-            'start_date'=>$request->start_date,
-            'end_date'=>$request->end_date,
+            'product_id' => $request->product_id,
+            'asset' => $request->asset,
+            'asset_price' => $request->asset_price,
+            'supplier' => $request->supplier,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date
         ]);
         return redirect()->route('assets-maintenances')->with('success', 'Asset Created Successfully');
     }
@@ -53,7 +60,7 @@ class MaintenanceController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'asset_number'=>'required',
+            'asset_number' => 'required',
             'start_date' => 'required|date', // Example: It should be a valid date
             'end_date' => 'required|date|after:start_date', // Example: It should be a valid date and
         ]);

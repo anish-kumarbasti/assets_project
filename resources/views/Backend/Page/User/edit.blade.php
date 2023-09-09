@@ -65,6 +65,7 @@
                         <div class="col-md-6">
                             <label class="form-label" for="department">Department</label>
                             <select class="form-select" id="department" name="department_id" aria-label="Default select example">
+                                <option value="">Select Department</option>
                                 @foreach ($department as $depart )
                                 <option value="{{$depart->id}}" {{ $user->department_id == $depart->id ? 'selected' : '' }}>{{$depart->name}}</option>
                                 @endforeach
@@ -73,9 +74,7 @@
                         <div class="col-md-6">
                             <label class="form-label" for="designation">Designation</label>
                             <select class="form-select" id="designation" name="designation_id" aria-label="Default select example">
-                                @foreach ($designation as $designations)
-                                <option value="{{$designations->id}}" {{$user->designation_id == $designations->id ? 'selected':''}}>{{$designations->designation}} </option>
-                                @endforeach
+                                <option value="">Select Designation</option>
                                 <!-- Add designations dynamically -->
                             </select>
                         </div>
