@@ -82,7 +82,7 @@ class RolesController extends Controller
     {
         $permissions = $request->permissions;
         $user = Auth::user();
-        dd($permissions);
+        // dd($permissions);
         // Get the user ID associated with the role
         $userWithRole =  User::where('role_id', $role->id)->first();
         if ($userWithRole) {
@@ -113,4 +113,5 @@ class RolesController extends Controller
         }
         return response()->json(['success' => true]);
     }
+}
 }

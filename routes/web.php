@@ -67,13 +67,13 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::delete('permissions/{id}', [PermissionController::class, 'destroy']);
 
-    Route::get('users', [UserController::class, 'index'])->name('users.index')->middleware('permission:manage_user');
+    Route::get('users', [UserController::class, 'index'])->name('users.index');
     Route::get('show', [UserController::class, 'showUsers'])->name('users.show');
-    Route::get('users/create', [UserController::class, 'create'])->name('users.create')->middleware('permission:add_user');
+    Route::get('users/create', [UserController::class, 'create'])->name('users.create');
     Route::post('users', [UserController::class, 'store'])->name('users.store');
     Route::get('users/{id}', [UserController::class, 'edit'])->name('users.edit');
     Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
-    Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy')->middleware('permission:delete_user');
+    Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
     Route::get('/get-designations/{departmentId}', [UserController::class, 'getDesignations']);
     Route::get('users.user-profile/{id}', [UserController::class, 'users_profile'])->name('users.user-profile');
     Route::get('users.user.profile', [UserController::class, 'usersprofile']);
@@ -107,7 +107,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('asset-type', [AssetTypeController::class, 'index']);
     Route::get('add-permission', [PermissionController::class, 'permission'])->name('add.permission');
     //Disposal
-    Route::get('disposal', [DisposalController::class, 'index'])->name('disposal')->middleware('permission:add_disposal');
+    Route::get('disposal', [DisposalController::class, 'index'])->name('disposal');
     Route::post('disposal-store', [DisposalController::class, 'store'])->name('store-disposal');
     Route::get('disposal-edit/{id}', [DisposalController::class, 'edit'])->name('disposal-edit');
     Route::delete('disposal-delete/{id}', [DisposalController::class, 'destroy'])->name('disposal-delete');
@@ -128,14 +128,14 @@ Route::group(['middleware' => 'auth'], function () {
 
     //asset type
     Route::get('assets-type-show', [AssetTypeController::class, 'show'])->name('assets-type-show');
-    Route::get('assets-type-index', [AssetTypeController::class, 'index'])->name('assets-type-index')->middleware('permission:manage_asset');
-    Route::get('assets-type-create', [AssetTypeController::class, 'create'])->name('assets-type-create')->middleware('permission:create_asset');
+    Route::get('assets-type-index', [AssetTypeController::class, 'index'])->name('assets-type-index');
+    Route::get('assets-type-create', [AssetTypeController::class, 'create'])->name('assets-type-create');
     Route::post('assets-type-store', [AssetTypeController::class, 'store'])->name('assets-type-store');
     Route::put('assets-type-update/{asset}', [AssetTypeController::class, 'update'])->name('assets-type-update');
     Route::put('assets-type-status/{assetId}', [AssetTypeController::class, 'assetTypeStatus'])->name('assets-type-status');
     Route::put('assets-status/{assetId}', [AssetController::class, 'assetStatus'])->name('assets-status');
-    Route::delete('assets-type-destroy/{asset}', [AssetTypeController::class, 'destroy'])->name('assets-type-destroy')->middleware('permission:delete_asset');
-    Route::get('assets-type-edit/{id}', [AssetTypeController::class, 'edit'])->name('assets-type-edit')->middleware('permission:edit_asset');
+    Route::delete('assets-type-destroy/{asset}', [AssetTypeController::class, 'destroy'])->name('assets-type-destroy');
+    Route::get('assets-type-edit/{id}', [AssetTypeController::class, 'edit'])->name('assets-type-edit');
     // Route::resource('assets', AssetTypeController::class);
     //locations
     Route::get('location-show', [LocationController::class, 'show'])->name('location-show');
