@@ -26,7 +26,7 @@ use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ChangePasswordController;
-
+use App\Http\Controllers\ChartDashboardController;
 
 /*
 
@@ -80,7 +80,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::put('/users/{user}/assign-roles', [UserController::class, 'updateRoles'])->name('users.update_roles');
 
-    Route::get('home', [HomeController::class, 'index'])->name('home');
+    Route::get('home', [ChartDashboardController::class, 'index'])->name('home');
     Route::get('stock', [StockController::class, 'index'])->middleware('permission:add_stock');
 
     Route::post('/get-brand-models/{brandId}', [StockController::class, 'getBrandModels']);
