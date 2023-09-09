@@ -5,38 +5,44 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class ChangePasswordController extends Controller
 {
-    public function changePassword(){
-        $user=User::all();
-        return view('Backend.Page.Seting.User.create',compact('user'));
-    }
-
-    public function updateProfilePhoto(Request $request)
+    public function index()
     {
         $user = Auth::user();
+        return view('Backend.Page.Setting.User.create', compact('user'));
+    }
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $user = Auth::user();
+
+        // Check if the provided current password matches the user's current password
+        if (Hash::check($request->current_password, $user->password)) {
+            // Update the user's password with the new hashed password
+            $user->update([
+                'password' => Hash::make($request->new_password),
+            ]);
+
+            // Redirect the user with a success message
+            return redirect()->route('home')->with('status', 'Password changed successfully.');
+        }
+
+        // If the provided current password doesn't match, redirect back with an error message
+        return redirect()->back()->withErrors(['current_password' => 'The provided current password does not match your password.']);
+    }
+    public function updateProfilePhoto(Request $request)
+    {
         $request->validate([
             'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust validation rules as needed
         ]);
 
-        if ($request->hasFile('photo')) {
-            // Delete the old profile photo, if it exists
-            if ($user->profile_photo) {
-                // Assuming 'profile_photos' is the disk where profile photos are stored
-                // You may need to change the disk name to match your configuration
-                User::disk('profile_photos')->delete($user->profile_photo);
-            }
-
-            // Store the new profile photo
-            $profilePhotoPath = $request->file('photo')->store('profile_photos', 'public');
-
-            // Update the user's profile_photo attribute with the new path
-            $user->update([
-                'profile_photo' => $profilePhotoPath,
-            ]);
-        }
-
-        return redirect()->route('password.change')->with('success', 'Profile photo updated successfully.');
+        $user = Auth::user();
     }
 }

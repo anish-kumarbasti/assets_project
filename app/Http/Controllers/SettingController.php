@@ -9,7 +9,7 @@ class SettingController extends Controller
 {
     public function index(){
         $businessSetting=BusinessSetting::first();
-        return view('Backend.Page.Seting.Application.create',compact('businessSetting'));
+        return view('Backend.Page.Setting.Application.create',compact('businessSetting'));
     }
     public function createOrUpdate(Request $request)
 {
