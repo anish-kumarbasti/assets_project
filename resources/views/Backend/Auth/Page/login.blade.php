@@ -25,6 +25,12 @@
 </style>
 @endsection
   @section('Cantent-Area')
+  @if (session('error'))
+        <div class="alert alert-danger" role="alert">
+            <p>{{ session('error') }}</p>
+            <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
  <div class="container-fluid p-0">
       <div class="row m-0">
         <div class="col-12 p-0">
