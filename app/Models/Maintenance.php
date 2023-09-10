@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Stock;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Maintenance extends Model
 {
@@ -23,6 +24,6 @@ class Maintenance extends Model
     }
     public function product()
     {
-        return $this->belongsTo(stock::class, 'product_id');
+        return $this->belongsTo(Stock::class, 'product_id');
     }
 }
