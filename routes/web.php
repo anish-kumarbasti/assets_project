@@ -27,6 +27,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\ChartDashboardController;
+use App\Http\Controllers\StatusController;
 
 /*
 
@@ -172,7 +173,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('assets/{id}/edit', [AssetController::class, 'edit'])->name('assets.edit');
     Route::put('assets/{id}', [AssetController::class, 'update'])->name('assets.update');
     Route::delete('assets/{id}', [AssetController::class, 'destroy'])->name('assets.destroy');
-    // routes/web.php
+    // routes/web.php.
+    //Status
+    Route::get('add-status', [StatusController::class, 'status'])->name('change-status');
+    Route::post('save-status', [StatusController::class, 'save'])->name('status-save');
+    Route::get('status-edit/{id}', [StatusController::class, 'edit'])->name('status-edit');
+    Route::put('update-status/{id}', [StatusController::class, 'update'])->name('update-status');
+    Route::delete('status-delete/{id}', [StatusController::class, 'destroy'])->name('status-delete');
     //Brand
     Route::get('/brands/create', [BrandController::class, 'create'])->name('create-brand');
     Route::post('/brands', [BrandController::class, 'store']);
