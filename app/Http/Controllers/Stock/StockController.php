@@ -85,17 +85,9 @@ class StockController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'product_info' => [
-                'required',
-                'string',
-                'regex:/^[A-Za-z]+( [A-Za-z]+)*$/',
-                'max:50',
-                Rule::notIn(['']),
-            ],
-        ], [
-            'product_info.regex' => 'The :attribute may only contain letters and spaces. Numbers and special characters are not allowed.',
-        ]);
-        dd($request);
+            'price' => 'required|integer',
+            'product_info' => 'required', ]);
+        // dd($request);
         $filepath = '';
         if ($images = $request->file('image')) {
             $destinationPath = 'image';
@@ -168,17 +160,8 @@ class StockController extends Controller
     {
         // dd($request);
         $request->validate([
-            'price' => 'required|integer|max:10|',
-            'product_info' => [
-                'required',
-                'string',
-                'regex:/^[A-Za-z]+( [A-Za-z]+)*$/',
-                'max:50',
-                Rule::notIn(['']),
-            ],
-        ], [
-            'product_info.regex' => 'The :attribute may only contain letters and spaces. Numbers and special characters are not allowed.',
-            // 'vendor' => 'required', // Fixed the typo here ('vedor' to 'vendor')
+            'price' => 'required|integer|max:10',
+            'product_info' => 'required|string|max:50',
         ]);
 
         $data = Stock::find($id)->update([

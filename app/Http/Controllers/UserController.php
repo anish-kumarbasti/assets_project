@@ -163,13 +163,14 @@ class UserController extends Controller
      */
     public function update($id, Request $request)
     {
+        // dd($id);
         $request->validate([
             'first_name' => 'required|max:15|min:2',
             'last_name' => 'required|max:15|min:2',
-            'email' => 'required|email|unique:users,email,' . $id,
+            // 'email' => 'required|email|unique:users,email,' . $id,
             'department_id' => 'required|integer',
             'designation_id' => 'required|integer',
-            'age' => 'required|integer|max:3',
+            'age' => 'required',
             'mobile_number' => 'required|integer|digits_between:10,12',
             'role'=>'required|integer',
 
@@ -185,14 +186,18 @@ class UserController extends Controller
         $user->mobile_number = $request->input('mobile_number');
         $user->role_id = $request->input('role');
 
-        if ($request->hasFile('profile_photo')) {
-            $profilePhotoPath = $request->file('profile_photo')->store('profile_photos');
-            $user->profile_photo = $profilePhotoPath;
+        if ($image = $request->file('profile_photo')) {
+            $destinationPath = 'images';
+            $imagess = date('YmdHis') . random_int(1, 10000) . "." . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $imagess);
+            $pathprofile = $destinationPath . '/' . $imagess;
         }
 
-        if ($request->hasFile('cover_photo')) {
-            $coverPhotoPath = $request->file('cover_photo')->store('cover_photos');
-            $user->cover_photo = $coverPhotoPath;
+        if ($image = $request->file('cover_photo')) {
+            $destinationPath = 'images';
+            $imagess = date('YmdHis') . random_int(1, 10000) . "." . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $imagess);
+            $pathcover = $destinationPath . '/' . $imagess;
         }
         $user->update();
         return redirect()->route('users.index')->with('success', 'User updated successfully!');

@@ -62,7 +62,7 @@
                                                                         <label class="mb-0 switch"
                                                                             style="order: 2; margin-left: 5px;">
                                                                             <input type="checkbox" name="permissions[]"
-                                                                                value="{{ $modulePermissions[0]->id }}">
+                                                                                value="{{ $modulePermissions[0]->id }}" data-permission-name="{{ $modulePermissions[0]->name }}">
                                                                             <span class="switch-state"></span>
                                                                         </label>
                                                                     </div>
@@ -76,7 +76,7 @@
                                                                         <label class="mb-0 switch"
                                                                             style="order: 2; margin-left: 5px;">
                                                                             <input type="checkbox" name="permissions[]"
-                                                                                value="{{ $modulePermissions[1]->id ?? '' }}">
+                                                                                value="{{ $modulePermissions[1]->id ?? '' }}" data-permission-name="{{ $modulePermissions[1]->name }}">
                                                                             <span class="switch-state"></span>
                                                                         </label>
                                                                     </div>
@@ -90,7 +90,7 @@
                                                                         <label class="mb-0 switch"
                                                                             style="order: 2; margin-left: 5px;">
                                                                             <input type="checkbox" name="permissions[]"
-                                                                                value="{{ $modulePermissions[2]->id ?? '' }}">
+                                                                                value="{{ $modulePermissions[2]->id ?? '' }}" data-permission-name="{{ $modulePermissions[2]->name }}">
                                                                             <span class="switch-state"></span>
                                                                         </label>
                                                                     </div>
@@ -104,7 +104,7 @@
                                                                         <label class="mb-0 switch"
                                                                             style="order: 2; margin-left: 5px;">
                                                                             <input type="checkbox" name="permissions[]"
-                                                                                value="{{ $modulePermissions[3]->id ?? '' }}">
+                                                                                value="{{ $modulePermissions[3]->id ?? '' }}" data-permission-name="{{ $modulePermissions[3]->name }}">
                                                                             <span class="switch-state"></span>
                                                                         </label>
                                                                     </div>
@@ -118,7 +118,7 @@
                                                                         <label class="mb-0 switch"
                                                                             style="order: 2; margin-left: 5px;">
                                                                             <input type="checkbox" name="permissions[]"
-                                                                                value="{{ $modulePermissions[4]->id ?? '' }}">
+                                                                                value="{{ $modulePermissions[4]->id ?? '' }}" data-permission-name="{{ $modulePermissions[4]->name }}">
                                                                             <span class="switch-state"></span>
                                                                         </label>
                                                                     </div>
@@ -156,32 +156,25 @@
                 // Set the form action to the role-specific URL
                 form.setAttribute('action', roleUrl);
 
-                // Send an AJAX request to get the permissions for the selected role
+                // Fetch the permissions associated with the selected role
                 fetch(`/getPermissionsForRole/${selectedRoleId}`)
                     .then(response => response.json())
                     .then(data => {
                         // Debug: Log the received data
                         console.log('Received data:', data);
+                        
+                        const permissionIds = data.permissions;
 
-                        // Update the permission checkboxes based on the data received
-                        // Assuming data.permissions is an array of permission names
-                        data.permissions.forEach(permission => {
-                            // Debug: Log the permission being processed
-                            console.log('Processing permission:', permission);
-
-                            // Find the corresponding checkbox by name attribute
-                            const checkboxes = document.querySelectorAll(
-                                'input[name="permissions[]"]');
-                                for (const checkbox of checkboxes) {
-                                    if (checkbox.value == permission) {
-                                    console.log('Processing checkbox:');
-                                    // Check the checkbox
-                                    checkbox.checked = true;
-                                    // Debug: Log that the checkbox was checked
-                                    console.log('Checkbox checked:', checkbox);
-                                    break; // Exit the loop after finding the checkbox
-                                }
-                            }
+                        // Update the permission checkboxes based on the permission names
+                        const checkboxes = document.querySelectorAll('input[name="permissions[]"]');
+                        checkboxes.forEach(checkbox => {
+                            const permissionId = parseInt(checkbox.value);
+                            const shouldShowToggle = permissionIds.includes(permissionId);
+                            checkbox.checked = shouldShowToggle;
+                            // const toggleButton = checkbox.nextElementSibling; // Assuming the toggle button is the next element
+                            // if (toggleButton) {
+                            //     toggleButton.style.display = shouldShowToggle ? 'block' : 'none';
+                            // }
                         });
                     })
                     .catch(error => {
@@ -194,3 +187,5 @@
         });
     </script>
 @endsection
+
+

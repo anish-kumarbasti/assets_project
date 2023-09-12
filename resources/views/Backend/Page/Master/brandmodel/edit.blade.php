@@ -35,7 +35,7 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form-label" for="designation_name">Brand Model</label>
-                            <input class="form-control" @error('name') is-invalid @enderror id="name" type="text" name="brand" value="{{ $brandmodel->name }}" required>
+                            <input class="form-control" id="name" type="text" name="brand" value="{{ $brandmodel->name }}" required>
                         </div>
                     </div>
                     <div class="footer-item">

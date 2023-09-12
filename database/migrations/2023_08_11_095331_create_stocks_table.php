@@ -16,13 +16,13 @@ return new class extends Migration
             $table->string('product_info');
             $table->unsignedBigInteger('asset_type_id');
             $table->unsignedBigInteger('asset');
-            $table->unsignedBigInteger('brand_id');
+            $table->unsignedBigInteger('brand_id')->default(0);
             $table->unsignedBigInteger('brand_model_id')->default(0);
-            $table->unsignedBigInteger('location_id');
+            $table->unsignedBigInteger('location_id')->nullable();
             $table->unsignedBigInteger('sublocation_id')->default(0);
-            $table->text('configuration');
-            $table->string('serial_number');
-            $table->string('vendor');
+            $table->text('configuration')->nullable();
+            $table->string('serial_number')->nullable();
+            $table->string('vendor')->nullable();
             $table->string('price');
             $table->boolean('status')->default(0);
             $table->timestamps();
