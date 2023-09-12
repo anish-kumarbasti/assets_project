@@ -16,7 +16,7 @@ class StatusController extends Controller
     public function save(Request $request)
     {
         $status = $request->validate([
-            'status' => 'required|numeric',
+            // 'status' => 'required|numeric|in:0,1,2,3',
             'name' => [
                 'required',
                 'string',
@@ -42,7 +42,7 @@ class StatusController extends Controller
     {
         $request->validate(
             [
-                'status' => 'numeric',
+                // 'status' => 'numeric|required|in:0,1,2,3',
                 'name' => [
                     'required',
                     'string',
@@ -57,7 +57,7 @@ class StatusController extends Controller
         );
         $status = Status::find($id);
         $status->name = $request->name;
-        $status->status = $request->status;
+        // $status->status = $request->status;
         $status->update();
         return redirect()->route('change-status')->with('success', 'Status Updated Successfully');
     }
