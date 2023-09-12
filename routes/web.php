@@ -81,7 +81,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('/users/{user}/assign-roles', [UserController::class, 'updateRoles'])->name('users.update_roles');
 
     Route::get('home', [ChartDashboardController::class, 'index'])->name('home');
-    Route::get('stock', [StockController::class, 'index'])->middleware('permission:add_stock');
+    Route::get('stock', [StockController::class, 'index']);
 
     Route::post('/get-brand-models/{brandId}', [StockController::class, 'getBrandModels']);
     Route::post('/get-slocation/{locationId}', [StockController::class, 'getslocation']);
@@ -256,4 +256,6 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/issuences', [IssuenceController::class, 'index'])->name('issuences.index');
     Route::post('/issuence/store', [IssuenceController::class, 'store'])->name('issuence.store');
+    Route::get('/fetch-Card-info', [IssuenceController::class, 'CardInfo'])->name('fetch-Card-info');
+
 });

@@ -58,9 +58,7 @@
                <li><a href="{{ url('manage-stocks')}}">Manage Stocks</a></li>
                <li><a href="{{ url('all-stock')}}">All Stocks</a>
                </li>
-               @can('add_stock')
                <li><a href="{{ url('stock')}}">Stocks</a></li>
-               @endcan
              </ul>
            </li>
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="airplay"></i><span>Assets</span></a>
