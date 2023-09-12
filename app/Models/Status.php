@@ -8,5 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Status extends Model
 {
     use HasFactory;
-    protected $guarded = [];
+    protected $table = 'statuses';
+    protected $fillable = [
+        'name',
+        'status'
+    ];
 }
