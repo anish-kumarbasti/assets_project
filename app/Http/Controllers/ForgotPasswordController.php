@@ -20,10 +20,10 @@ class ForgotPasswordController extends Controller
     }
 
     public function forgetPasswordPost(Request $request)
-    {
-       $request->validate([
-        'email' =>"required|email|exits:users",
-       ]);
+{
+    $request->validate([
+        'email' => "required|email|exists:users", // Corrected 'exists' spelling
+    ]);
 
         $token = Str::random(64);
 
@@ -45,7 +45,7 @@ class ForgotPasswordController extends Controller
     }
     public function resetPasswordPost(Request $request){
         $request->validate([
-            'email' =>"required|email|exits:users",
+            'email' => "required|email|exists:users", // Corrected 'exists' spelling
             'password' => "required|string|min:6|confirmed",
             'password_confirmation' => "required"
         ]);
@@ -57,12 +57,13 @@ class ForgotPasswordController extends Controller
         ])->first();
 
         if(!$updatePassword){
-            return redirect()->to(route('reset.password'))->with("error", "Invalid");
+            return redirect()->route('reset.password', ['token' => $request->token])->with("success", "Password reset Success");
         }
         User::where("email", $request->email)->update(["password" => Hash::make($request->password)]);
 
         DB::table("password_reset_tokens")->where(["email" => $request->email])->delete();
 
-        return redirect()->route("Login")->with("success", "Password reset Success");
+        return redirect()->route('/')->with("success", "Password reset Success");
     }
+
 }

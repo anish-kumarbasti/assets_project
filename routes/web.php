@@ -260,6 +260,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/update-password', [ChangePasswordController::class, 'changePassword'])->name('update_password');
     Route::post('update-profile-photo', [ChangePasswordController::class, 'updateProfilePhoto'])->name('profile.photo.update');
 
+    Route::get('/profile-photo', [ChangePasswordController::class, 'profilePhoto'])->name('profile_photo');
+    Route::put('/update-profile-photo', [ChangePasswordController::class, 'updateProfilePhoto'])->name('update_profile_photo');
+    Route::get('/cover-photo', [ChangePasswordController::class, 'coverPhoto'])->name('cover_photo');
+    Route::put('/update-cover-photo', [ChangePasswordController::class, 'updateCoverPhoto'])->name('update_cover_photo');
+
+
     Route::get('/forget-password', [ForgotPasswordController::class, 'forgetPassword'])->name('forget.password');
     Route::post('/forget-password', [ForgotPasswordController::class, 'forgetPasswordPost'])->name('forget.password.post');
     Route::get('/reset-password/{token}', [ForgotPasswordController::class, 'resetPassword'])->name('reset.password');
