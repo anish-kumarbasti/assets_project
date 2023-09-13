@@ -27,6 +27,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\ChartDashboardController;
+use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\StatusController;
 
 /*
@@ -258,6 +259,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/user-setting', [ChangePasswordController::class, 'index'])->name('settings.user');
     Route::post('/update-password', [ChangePasswordController::class, 'changePassword'])->name('update_password');
     Route::post('update-profile-photo', [ChangePasswordController::class, 'updateProfilePhoto'])->name('profile.photo.update');
+
+    Route::get('/forget-password', [ForgotPasswordController::class, 'forgetPassword'])->name('forget.password');
+    Route::post('/forget-password', [ForgotPasswordController::class, 'forgetPasswordPost'])->name('forget.password.post');
+    Route::get('/reset-password/{token}', [ForgotPasswordController::class, 'resetPassword'])->name('reset.password');
+    Route::post('/reset-password', [ForgotPasswordController::class, 'resetPasswordPost'])->name('reset.password.post');
 
     Route::group(['middleware' => ['permission.checkDepartment']], function () {
     });
