@@ -122,7 +122,7 @@
                                 <td>{{ $maintenance->asset ?? 'N/A' }}</td>
                                 <td>{{ $maintenance->product_id ?? 'N/A' }}</td>
                                 <td>{{ $maintenance->asset_price ?? 'N/A' }}</td>
-                                <td><span class="{{$maintenance->statuss->status}}">{{$maintenance->statuss->name ?? 'N/A'}}</span></td>
+                                <td><span class="{{$maintenance->statuss->status ?? 'N/A'}}">{{$maintenance->statuss->name ?? 'N/A'}}</span></td>
                                 <td>{{ $maintenance->start_date }}</td>
                                 <td>{{ $maintenance->end_date }}</td>
                                 <td>
