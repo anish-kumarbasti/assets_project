@@ -11,7 +11,7 @@ class StatusController extends Controller
     public function status()
     {
         $data = Status::all();
-        return view('Backend.Page.Master.Status.index', compact('data'));
+        return view('Backend.Page.Master.status.index', compact('data'));
     }
     public function save(Request $request)
     {
