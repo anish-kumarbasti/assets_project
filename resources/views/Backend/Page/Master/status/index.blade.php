@@ -43,13 +43,13 @@
                                     <strong class="text-danger">{{$message}}</strong>
                                     @enderror
                                 </div>
-                                <div class="mb-2">
+                                <!-- <div class="mb-2">
                                     <label class="form-label">Status</label>
                                     <input class="form-control digits" value="{{old('status')}}" name="status" type="text" id="status">
                                     @error('status')
                                     <strong class="text-danger">{{$message}}</strong>
                                     @enderror
-                                </div>
+                                </div> -->
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -69,7 +69,6 @@
                             <tr class="text-center">
                                 <th>S.No</th>
                                 <th>Name</th>
-                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -78,7 +77,6 @@
                             <tr class="text-center">
                                 <td>{{$datas->id}}</td>
                                 <td>{{$datas->name}}</td>
-                                <td>{{$datas->status}}</td>
                                 <td>
                                     <a href="{{route('status-edit', $datas->id)}}" class="btn btn-primary"><i class="fa fa-pencil"></i> Edit</a>&nbsp;&nbsp;
                                     <button class="btn btn-danger delete-button" data-id="{{ $datas->id }}" type="button"><i class="fa fa-trash-o"></i> Delete</button>

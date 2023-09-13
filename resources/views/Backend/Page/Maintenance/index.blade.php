@@ -53,6 +53,7 @@
                                 </div>
                                 <div id="myDiv" style="display: none;">
                                     <div class="mb-2">
+                                        <input type="hidden" value="1" name="status">
                                         <label class="form-label" for="validationCustom01">Product:</label>
                                         <input class="form-control" id="product_info" name="asset" type="text" data-bs-original-title="" title="" placeholder="" readonly>
                                     </div>
@@ -98,9 +99,9 @@
                                 <th>S.No</th>
                                 <th>Asset Type</th>
                                 <th>Asset Name</th>
-                                <th>Product Name</th>
-                                <th>Asset Number</th>
+                                <th>Product Number</th>
                                 <th>Supplier</th>
+                                <th>Status</th>
                                 <th>Start Date</th>
                                 <th>End Date</th>
                                 <th>Action</th>
@@ -109,12 +110,26 @@
                         <tbody>
                             @foreach ($maintain as $maintainans)
                             <tr class="copy-content">
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $maintainans->assetType->name ?? 'N/A' }}</td>
-                                <td>{{ $maintainans->assetName->name ?? 'N/A' }}</td>
-                                <td>{{ $maintainans->product->product_info ?? 'N/A' }}</td>
-                                <td>{{ $maintainans->asset_number }}</td>
-                                <td>{{ $maintainans->supplierName->name ?? 'N/A' }}</td>
+                                <td>{{ $maintainans->id }}</td>
+                                <td>{{ $maintainans->type ?? 'N/A' }}</td>
+                                <td>{{ $maintainans->asset ?? 'N/A' }}</td>
+                                <td>{{ $maintainans->product_id ?? 'N/A' }}</td>
+                                <td>{{ $maintainans->asset_price ?? 'N/A' }}</td>
+                                @if($maintainans->status==1)
+                                <td> Pending</td>
+                                @elseif($maintainans->status=='2')
+                                <td>Working</td>
+                                @elseif($maintainans->status=='3')
+                                <td>Active</td>
+                                @elseif($maintainans->status=='4')
+                                <td>Ready to deliver</td>
+                                @elseif($maintainans->status=='5')
+                                <td>Sortlisted
+                                </td>
+                                @else
+                                <td>N/A</td>
+                                @endif
+                                <!-- <td>{{$maintainans->status ?? 'N/A'}}</td> -->
                                 <td>{{ $maintainans->start_date }}</td>
                                 <td>{{ $maintainans->end_date }}</td>
                                 <td>

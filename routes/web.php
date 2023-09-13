@@ -202,6 +202,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('reports-locations', [ReportController::class, 'report_location'])->name('report-location');
 
     //PDF and CSV
+    Route::get('/download-maintenance', [MaintenanceController::class, 'download'])->name('download-maintenance');
     Route::get('/getPDF', [ReportController::class, 'generatePDF']);
     Route::get('/component', [ReportController::class, 'pdfcomponent']);
     Route::get('/maintenance', [ReportController::class, 'pdfmaintenance']);
