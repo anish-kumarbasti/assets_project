@@ -82,7 +82,7 @@
 @section('Script-Area')
 <script>
     $(document).ready(function() {
-        var alertfun = $('#alert');
+        var alertfun = $('#alerts');
         setTimeout(function() {
             alertfun.alert('close');
         }, 3000);

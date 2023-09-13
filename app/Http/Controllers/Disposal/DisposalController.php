@@ -6,10 +6,26 @@ use App\Http\Controllers\Controller;
 use App\Models\Asset;
 use App\Models\AssetType;
 use App\Models\Disposal;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class DisposalController extends Controller
 {
+    public function disposal_pdf()
+    {
+        $assettype = AssetType::all();
+        $asset = Asset::all();
+        $disposal = Disposal::all();
+        $maintains = Pdf::loadView('Backend.Page.Disposal.pdf.disposalreport', compact('disposal'));
+        return $maintains->download('Disposal.pdf');
+    }
+    public function load_disposal()
+    {
+        $assettype = AssetType::all();
+        $asset = Asset::all();
+        $disposal = Disposal::all();
+        return view('Backend.Page.Disposal.pdf.disposalreport', compact('assettype', 'asset', 'disposal'));
+    }
     public function index()
     {
         $assettype = AssetType::all();
@@ -29,12 +45,12 @@ class DisposalController extends Controller
         ]);
         // dd($request);
         Disposal::create([
-            'category'=>$request->assetType,
-            'asset'=>$request->assetName ,
-            'product_id'=>$request->product_name,
-            'period_months'=>$request->period_months,
-            'asset_value'=>$request->asset_value,
-            'desposal_code'=>$request->desposal_code,
+            'category' => $request->assetType,
+            'asset' => $request->assetName,
+            'product_id' => $request->product_name,
+            'period_months' => $request->period_months,
+            'asset_value' => $request->asset_value,
+            'desposal_code' => $request->desposal_code,
         ]);
         return redirect()->route('disposal')->with('success', 'Add Disposal successfully');
     }

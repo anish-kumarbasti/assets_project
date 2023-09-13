@@ -1,7 +1,6 @@
 @extends('Backend.Layouts.panel')
 
 @section('Style-Area')
-
 @endsection
 
 @section('Content-Area')
@@ -29,8 +28,8 @@
                 <div class="btn-group">
                     <button class="btn btn-primary" id="copy-button"><i class="fa fa-clipboard"></i> Copy</button>
                     <button class="btn btn-secondary" id="csvButton"><i class="fa fa-file-excel-o"></i> CSV</button>
-                    <button class="btn btn-success" id="pdfButton"><i class="fa fa-file-pdf-o"></i> PDF</button>
-                    <button class="btn btn-info" onclick="window.print()"><i class="fa fa-print"></i> Print</button>
+                    <a href="{{url('maintenance-repo')}}" class="btn btn-success" id="pdfButton"><i class="fa fa-file-pdf-o"></i> PDF</a>
+                    <a href="{{route('maintenance-reports')}}" target="_blank" class="btn btn-info"><i class="fa fa-print"></i> Print</a>
                 </div>
             </div>
             <a class="btn btn-primary text-end m-b-30" id="openModalButton" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i>
@@ -53,7 +52,6 @@
                                 </div>
                                 <div id="myDiv" style="display: none;">
                                     <div class="mb-2">
-                                        <input type="hidden" value="1" name="status">
                                         <label class="form-label" for="validationCustom01">Product:</label>
                                         <input class="form-control" id="product_info" name="asset" type="text" data-bs-original-title="" title="" placeholder="" readonly>
                                     </div>
@@ -68,6 +66,15 @@
                                         <option value="">--Select Supplier--</option>
                                         @foreach ($supplier as $suppliers)
                                         <option value="{{ $suppliers->id }}">{{ $suppliers->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="mb-2">
+                                    <label class="form-label">Status</label>
+                                    <select class="form-select" id="status" name="status" aria-label="Default select example">
+                                        <option value="">--Select Status--</option>
+                                        @foreach ($status as $status)
+                                        <option value="{{ $status->id }}">{{ $status->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -108,34 +115,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($maintain as $maintainans)
+                            @foreach ($maintain as $maintenance)
                             <tr class="copy-content">
-                                <td>{{ $maintainans->id }}</td>
-                                <td>{{ $maintainans->type ?? 'N/A' }}</td>
-                                <td>{{ $maintainans->asset ?? 'N/A' }}</td>
-                                <td>{{ $maintainans->product_id ?? 'N/A' }}</td>
-                                <td>{{ $maintainans->asset_price ?? 'N/A' }}</td>
-                                @if($maintainans->status==1)
-                                <td> Pending</td>
-                                @elseif($maintainans->status=='2')
-                                <td>Working</td>
-                                @elseif($maintainans->status=='3')
-                                <td>Active</td>
-                                @elseif($maintainans->status=='4')
-                                <td>Ready to deliver</td>
-                                @elseif($maintainans->status=='5')
-                                <td>Sortlisted
-                                </td>
-                                @else
-                                <td>N/A</td>
-                                @endif
-                                <!-- <td>{{$maintainans->status ?? 'N/A'}}</td> -->
-                                <td>{{ $maintainans->start_date }}</td>
-                                <td>{{ $maintainans->end_date }}</td>
+                                <td>{{ $maintenance->id }}</td>
+                                <td>{{ $maintenance->type ?? 'N/A' }}</td>
+                                <td>{{ $maintenance->asset ?? 'N/A' }}</td>
+                                <td>{{ $maintenance->product_id ?? 'N/A' }}</td>
+                                <td>{{ $maintenance->asset_price ?? 'N/A' }}</td>
+                                <td><span class="{{$maintenance->statuss->status}}">{{$maintenance->statuss->name ?? 'N/A'}}</span></td>
+                                <td>{{ $maintenance->start_date }}</td>
+                                <td>{{ $maintenance->end_date }}</td>
                                 <td>
                                     <div class="btn-group">
-                                        <a href="{{ route('maintainans-edit', $maintainans->id) }}" class="btn-sm btn-primary"><i class="fa fa-pencil"></i> Edit</a>&nbsp;&nbsp;
-                                        <button class="btn-sm btn-danger delete-button" data-id="{{ $maintainans->id }}" type="button"><i class="fa fa-trash-o"></i> Delete</button>
+                                        <a href="{{ route('maintenance-edit', $maintenance->id) }}" class="btn btn-primary"><i class="fa fa-pencil"></i> Edit</a>&nbsp;&nbsp;
+                                        <button class="btn btn-danger delete-button" data-id="{{ $maintenance->id }}" type="button"><i class="fa fa-trash-o"></i> Delete</button>
                                     </div>
                                 </td>
                             </tr>
