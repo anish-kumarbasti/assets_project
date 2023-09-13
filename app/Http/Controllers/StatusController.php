@@ -16,7 +16,7 @@ class StatusController extends Controller
     public function save(Request $request)
     {
         $status = $request->validate([
-            // 'status' => 'required|numeric|in:0,1,2,3',
+            'status' => 'required',
             'name' => [
                 'required',
                 'string',

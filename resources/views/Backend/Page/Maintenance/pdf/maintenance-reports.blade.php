@@ -48,28 +48,18 @@
             </tr>
         </thead>
         <tbody>
+            @foreach ($maintain as $maintain)
             <tr>
                 <td>{{$maintain->id }}</td>
                 <td>{{$maintain->type ?? 'N/A' }}</td>
                 <td>{{$maintain->asset ?? 'N/A' }}</td>
                 <td>{{$maintain->product_id ?? 'N/A' }}</td>
                 <td>{{$maintain->asset_price ?? 'N/A' }}</td>
-                @if($maintain->status==1)
-                <td><span class="mj_btn btn btn-danger">Pending </span></td>
-                @elseif($maintain->status=='2')
-                <td><span class="mj_btn btn btn-warning">Working </span></td>
-                @elseif($maintain->status=='3')
-                <td><span class="mj_btn btn btn-primary">Active</span></td>
-                @elseif($maintain->status=='4')
-                <td><span class="mj_btn btn btn-info">Sortlisted</span></td>
-                @elseif($maintain->status=='5')
-                <td><span class="mj_btn btn btn-success">deliver</span></td>
-                @else
-                <td>N/A</td>
-                @endif
+                <td>{{$maintain->statuss->name ?? 'N/A'}}</td>
                 <td>{{$maintain->start_date}}</td>
                 <td>{{$maintain->end_date}}</td>
             </tr>
+            @endforeach
         </tbody>
     </table>
     <script>
