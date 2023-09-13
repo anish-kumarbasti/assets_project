@@ -85,6 +85,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('home', [ChartDashboardController::class, 'index'])->name('home');
     Route::get('stock', [StockController::class, 'index']);
 
+    Route::get('markasread/{id}',[IssuenceController::class,'markasread'])->name('markasread');
+
     Route::post('/get-brand-models/{brandId}', [StockController::class, 'getBrandModels']);
     Route::post('/get-slocation/{locationId}', [StockController::class, 'getslocation']);
     Route::post('/get-asset-type/{assettypeId}', [StockController::class, 'getasset']);
@@ -168,12 +170,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('designations/{id}', [DesignationController::class, 'destroy'])->name('designations.destroy');
     //assets
     Route::post('get-asset-details/{assetTypeId}', [AssetController::class, 'getassetdetails']);
-    Route::get('assets', [AssetController::class, 'index'])->name('assets.index');
-    Route::get('assets/create', [AssetController::class, 'create'])->name('assets.create');
+    Route::get('assets', [AssetController::class, 'index'])->name('assets.index')->middleware('permission:manage_asset');
+    Route::get('assets/create', [AssetController::class, 'create'])->name('assets.create')->middleware('permission:create_asset');
     Route::post('assets', [AssetController::class, 'store'])->name('assets.store');
-    Route::get('assets/{id}/edit', [AssetController::class, 'edit'])->name('assets.edit');
+    Route::get('assets/{id}/edit', [AssetController::class, 'edit'])->name('assets.edit')->middleware('permission:edit_asset');
     Route::put('assets/{id}', [AssetController::class, 'update'])->name('assets.update');
-    Route::delete('assets/{id}', [AssetController::class, 'destroy'])->name('assets.destroy');
+    Route::delete('assets/{id}', [AssetController::class, 'destroy'])->name('assets.destroy')->middleware('permission:delete_asset');
     // routes/web.php.
     //Status
     Route::get('add-status', [StatusController::class, 'status'])->name('change-status');
@@ -242,7 +244,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/departments', [DepartmentController::class, 'index']);
     Route::get('/departments/{id}/edit', [DepartmentController::class, 'edit']);
     Route::put('/departments/{id}', [DepartmentController::class, 'update'])->name('departments.update');
-    Route::delete('/departments/{id}', [DepartmentController::class, 'destroy']);
+    Route::delete('/departments/{id}', [DepartmentController::class, 'destroy'])->middleware('permission:delete_department');
     Route::post('/departments/{department}', [DepartmentController::class, 'updateStatus'])->name('departments.updateStatus');
 
     Route::get('/suppliers', [SupplierController::class, 'index'])->name('suppliers.index');

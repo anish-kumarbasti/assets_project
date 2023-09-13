@@ -233,7 +233,6 @@
         var selectedCards = {};
         $(document).ready(function() {
             $('#assetSelect').hide();
-
             // Listen for changes in the serialNumber input
             $("#serialNumber").on("input", function() {
                 var serialNumber = $(this).val();
@@ -395,7 +394,6 @@
                 $(this).toggleClass("selected", !isSelected);
             });
         });
-
         document.addEventListener("DOMContentLoaded", function() {
             const form = document.querySelector(".f1");
             const steps = form.querySelectorAll(".card");

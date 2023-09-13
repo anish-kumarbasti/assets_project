@@ -10,6 +10,7 @@
     <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 @endif
+@can('create_department')
 <div class="col-sm-12">
     <div class="card">
         <div class="card-header pb-0">
@@ -36,6 +37,8 @@
         </div>
     </div>
 </div>
+@endcan
+@can('manage_department')
 <div class="col-sm-12">
     <div class="card">
         <div class="card-header pb-0">
@@ -77,6 +80,7 @@
         </div>
     </div>
 </div>
+@endcan
 @endsection
 
 @section('Script-Area')

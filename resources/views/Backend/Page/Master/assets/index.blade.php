@@ -13,7 +13,9 @@
         <div class="card-header pb-0">
             <h4 class="d-flex justify-content-between align-items-center">
                 <span>Asset</span>
+                @can('create_asset')
                 <a href="{{ route('assets.create') }}" class="btn btn-primary float-right"><i class="fa fa-plus"></i> Add Asset</a>
+                @endcan
             </h4>
         </div>
         <div class="card-body">
@@ -40,9 +42,12 @@
                                 </label>
                             </td>
                             <td>
-                                <a href="{{ route('assets.edit', $asset->id) }}" class="btn btn-primary"><i class="fa fa-pencil"></i> Edit</a>
-
+                               @can('edit_asset')    
+                               <a href="{{ route('assets.edit', $asset->id) }}" class="btn btn-primary"><i class="fa fa-pencil"></i> Edit</a>
+                               @endcan 
+                                @can('delete_asset')
                                 <button class="btn btn-danger delete-button" type="button" data-id="{{ $asset->id }}"><i class="fa fa-trash-o"></i> Delete</button>
+                                @endcan
 
                             </td>
                         </tr>

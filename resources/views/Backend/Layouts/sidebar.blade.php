@@ -27,10 +27,16 @@
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="airplay"></i><span>Masters</span></a>
 
              <ul class="sidebar-submenu">
-               <li><a href="{{ route('auth.create-department')}}">Department</a></li>
-               <li><a href="{{ url('designations')}}">Designation</a></li>
-               <li><a href="{{ route('assets-type-index')}}">Asset Type</a></li>
+              @can('View_Department')
+              <li><a href="{{ route('auth.create-department')}}">Department</a></li>
+              @endcan
+              @can('view_designation')
+              <li><a href="{{ url('designations')}}">Designation</a></li>
+              @endcan
+              <li><a href="{{ route('assets-type-index')}}">Asset Type</a></li>
+               @can('view_asset')
                <li><a href="{{ url('assets')}}">Asset Name</a></li>
+               @endcan
                <li><a href="{{ route('create-brand')}}">Brand</a></li>
                <li><a href="{{ url('brand-model')}}">Brand Model</a></li>
                <li><a href="{{ url('location-index')}}">Locations</a></li>
