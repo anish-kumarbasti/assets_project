@@ -42,7 +42,7 @@
                                 <label class="form-label" for="mobileNumber">Mobile Number</label>
                                 <input class="form-control" id="mobileNumber" name="mobile_number" type="number"
                                     placeholder="Mobile Number">
-                                    @error('mobile_number')
+                                @error('mobile_number')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -64,14 +64,14 @@
                                     <option value="3">Others</option>
                                 </select>
                                 @error('gender')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="password">Password</label>
                                 <input class="form-control" id="password" name="password" type="password"
                                     placeholder="Password">
-                                    @error('password')
+                                @error('password')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -110,8 +110,8 @@
                                     @endforeach
                                 </select>
                                 @error('department_id')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="designation">Designation</label>
@@ -124,8 +124,8 @@
                                     <!-- Add designations dynamically -->
                                 </select>
                                 @error('designation_id')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="department">Role</label>
@@ -133,12 +133,12 @@
                                     aria-label="Default select example">
                                     <option selected>--Select Role--</option>
                                     @foreach ($role as $role)
-                                    <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                        <option value="{{ $role->id }}">{{ $role->name }}</option>
                                     @endforeach
                                 </select>
                                 @error('role')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="footer-item mt-3 mb-3 float-end">
                                 <button class="btn btn-primary mt-3" type="submit" data-bs-original-title=""

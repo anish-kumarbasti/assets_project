@@ -45,7 +45,6 @@
 
         .card-head {
             padding: 1rem;
-            border-bottom: 1px solid black;
             margin-bottom: 0;
         }
 
@@ -57,12 +56,13 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 @endsection
 @section('Content-Area')
-@if(session('success'))
-<div class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
-    <p>{{ session('success') }}</b>
-        <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-@endif
+    @if (session('success'))
+        <div class="alert alert-success inverse alert-dismissible fade show" role="alert"><i
+                class="icon-thumb-up alert-center"></i>
+            <p>{{ session('success') }}</b>
+                <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
     <div class="col-sm-12">
         <form class="needs-validation f1" action="{{ route('issuence.store') }}" method="POST" novalidate="">
             @csrf
@@ -80,7 +80,7 @@
                                 <label class="form-label" for="employeeId">Employee's ID</label>
                                 <input class="form-control" oninput="showDiv()" id="employeeId" type="search"
                                     name="employeeId" data-bs-original-title="" title=""
-                                    placeholder="Enter Employee's ID" onkeydown="return event.key != 'Enter';"  required>
+                                    placeholder="Enter Employee's ID" onkeydown="return event.key != 'Enter';" required>
                             </div>
                             <div class="col-md-6 mb-4">
                                 <div class="mb-3 row">
@@ -122,63 +122,29 @@
                 </div>
             </div>
             <div class="card" id="select-asset-step" style="display: none;">
-                <div class="card-head">
-                    <div class="row d-flex p-3">
-                        <div class="col-sm-6 p-3">
-                            <h4>Asset Details</h4>
-                        </div>
-                        <div class="col-sm-6 p-3 text-end">
-                            <button class="btn btn-outline-primary role-btn" type="button"
-                                data-original-title="btn btn-outline-danger-2x" id="addasset">
-                                <i class="fa fa-plus"></i> Add Asset
-                            </button>
+                <div class="card-header"><h4>Select Product</h4></div>
+                <div class="card-body pb-0">
+                    <div class="card-item border card" style="transform: translateY(-2.5rem);">
+                        <div class="row p-3">
+                            <div class="col-md-12 mb-4">
+                                <label class="form-label" for="serialNumber">Serial Number:</label>
+                                <input class="form-control" id="serialNumber" name="serialNumber" type="text"
+                                    data-bs-original-title="" title="" placeholder="Enter Serial Number">
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="card-body pb-0" id="assetSelect">
-                    <div class="card-item border">
-                        <div class="row p-3">
-                            <div class="col-md-4">
-                                <label class="form-label" for="assetTypeSelect">Asset Type</label>
-                                <select name="asset_type" class="form-select" aria-label="Default select example"
-                                    id="assettype">
-                                    <option selected>Select Asset Type</option>
-                                    @foreach ($assettype as $assettype)
-                                        <option value="{{ $assettype->id }}">{{ $assettype->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label" for="assetSelect">Asset</label>
-                                <select class="form-select" name="asset" aria-label="Default select example"
-                                    id="asset">
-                                    <option selected>Select Asset</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4 mb-4">
-                                <div class="mb-3 row">
-                                    <label class="col-sm-6 col-form-label pt-5 scan-text">Scan Barcode :</label>
-                                    <div class="col-sm-6 pt-4">
-                                        <input class="form-control qr" type="file" accept="image/*"
-                                            capture="environment" id="qrInput">
-                                        <img id="qrImage"
-                                            src="{{ asset('Backend/assets/images/IT-Assets/Vector_qr.png') }}"
-                                            alt="QR Code">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-item border mt-4 ui-sortable" id="draggableMultiple">
+                    <div class="card-item" id="assetSelect">
+                        <div class="card-item ui-sortable" id="draggableMultiple">
                             <div class="row p-3" id="assetdetails">
 
                             </div>
                         </div>
-                    </div>
-                    <div class="card-footer d-flex justify-content-between">
-                        <button class="btn btn-secondary" id="prev-asset" data-prev="employee-step"
+                        <div class="card-footer d-flex justify-content-between">
+                            <button class="btn btn-secondary" id="prev-asset" data-prev="employee-step"
                             type="button">Previous</button>
-                        <button class="btn btn-primary" id="next-assets" data-next="thirdStep"
+                            <button class="btn btn-primary" id="next-assets" data-next="thirdStep"
                             type="button">Next</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -253,41 +219,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('#assetSelect').hide();
-            $('#addasset').on("click", function() {
-                $('#assetSelect').show();
-            });
-        });
-        jQuery(document).ready(function() {
-            jQuery('#assettype').change(function() {
-                let assettypeId = jQuery(this).val();
-                // alert(assettypeId);
-                jQuery('#asset').empty();
-
-                if (assettypeId) {
-                    jQuery.ajax({
-                        url: '/get-asset-type/' + assettypeId,
-                        type: 'POST',
-                        data: 'assettypeId' + assettypeId + '&_token={{ csrf_token() }}',
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
-                        },
-                        success: function(data) {
-                            jQuery('#asset').append('<option value="">Select Asset</option>');
-                            jQuery.each(data.assets, function(key, value) {
-                                jQuery('#asset').append('<option value="' + value.id +
-                                    '">' + value.name + '</option>');
-                            });
-                            jQuery('#asset').trigger('change');
-                        }
-
-                    });
-
-                }
-            });
-        });
-
         function storeStepData(step) {
             const inputs = step.querySelectorAll("input, select, textarea");
             const data = {};
@@ -299,10 +230,72 @@
         }
     </script>
     <script>
+        var selectedCards = {};
+        $(document).ready(function() {
+            $('#assetSelect').hide();
+
+            // Listen for changes in the serialNumber input
+            $("#serialNumber").on("input", function() {
+                var serialNumber = $(this).val();
+                if (serialNumber) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/get-asset-all-details/" +
+                            serialNumber, // Make sure this URL is correct
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                            _cache: new Date().getTime(),
+                            serialNumber: serialNumber,
+                        },
+                        success: function(response) {
+                            // console.log(response);
+                            renderAssetCards(response);
+                        }
+                    });
+                } else {
+                    // Clear the asset details if the input is empty
+                    $('#assetdetails').empty();
+                }
+            });
+
+            function renderAssetCards(asset) {
+                $('#assetSelect').show();
+                $('#draggableMultiple').show();
+                var assetDetailsContainer = $('#assetdetails');
+                assetDetailsContainer.show();
+
+                if (asset) {
+                    // console.log(asset);
+                    var allbrand = asset.brand;
+                    var isSelected = selectedCards[asset.id];
+                    var deselectButton = isSelected ? '<div class="deselect-button"></div>' : '';
+                    var assetCard = `
+                            <div class="col-md-3">
+                                <div class="card change-card ${isSelected ? 'selected' : ''}" data-card-id="${asset.id}">
+                                    <div class="card-body">
+                                        <h5 class="card-title card-text p-2">${asset.product_info}</h5>
+                                        <p class="card-subtitle mb-2">Type: <span class="text-muted">${asset.asset_type.name}</span></p>
+                                        <p class="card-subtitle mb-2">${allbrand ? 'Brand: <span class="text-muted">' + allbrand.name + '</span>' : 'License Number: <span class="text-muted">' + (asset.license_number || 'N/A')}</span></p>
+                                        <p class="card-subtitle mb-2">${allbrand ? 'Brand Model: <span class="text-muted">' + (asset.brandmodel.name || 'N/A') + '</span>' : 'Configuration: <span class="text-muted">' + (asset.configuration || 'N/A')}</span></p>
+                                        <p class="card-subtitle mb-2">Brand Model: <span class="text-muted">${asset.supplier}</p>
+                                        <p class="card-subtitle mb-2">Price: <span class="text-muted">${asset.price}</span></p>
+                                        <input type="hidden" value="${asset.id}" name="cardId[]">
+                                        ${deselectButton}
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    assetDetailsContainer.html(assetCard);
+                } else {
+                    // Clear the asset details if no assets are found
+                    assetDetailsContainer.empty();
+                }
+            }
+
+        });
         $(document).ready(function() {
             $('#draggableMultiple,#CardChange').hide();
 
-            var selectedCards = {};
 
             function updateSelectedCards(cardId, isSelected) {
                 if (isSelected) {
@@ -311,51 +304,6 @@
                     delete selectedCards[cardId];
                 }
             }
-
-            function renderAssetCards(assets) {
-                var assetDetailsContainer = $('#assetdetails');
-                $('#draggableMultiple').show();
-                assetDetailsContainer.empty();
-
-                $.each(assets, function(index, asset) {
-                    var allbrand = asset.brand;
-                    var isSelected = selectedCards[asset.id];
-                    var deselectButton = isSelected ? '<div class="deselect-button"></div>' : '';
-                    var assetCard = `
-                <div class="col-md-3">
-                    <div class="card change-card ${isSelected ? 'selected' : ''}" data-card-id="${asset.id}">
-                        <div class="card-body">
-                            <h5 class="card-title card-text p-2">${asset.product_info}</h5>
-                            <p class="card-subtitle mb-2">${allbrand ? 'Brand: <span class="text-muted">' + allbrand.name + '</span>' : 'Liscence Number: <span class="text-muted">' + (asset.liscence_number || 'N/A')}</span></p>
-                            <p class="card-subtitle mb-2">${allbrand ? 'Brand Model : <span class="text-muted">' + (asset.brandmodel.name || 'N/A') + '</span>' : 'Configuration: <span class="text-muted">' + (asset.configuration || 'N/A')}</span></p>
-                            <p class="card-subtitle mb-2">Price: <span class="text-muted">${asset.price}</span></p>
-                            <input type="hidden" value="${asset.id}" name=cardId[] />
-                            ${deselectButton}
-                        </div>
-                    </div>
-                </div>
-            `;
-                    assetDetailsContainer.append(assetCard);
-                });
-            }
-
-            $('#asset').change(function() {
-                var assetId = $(this).val();
-                if (assetId) {
-                    $.ajax({
-                        type: "POST",
-                        url: "/get-asset-all-details/" + assetId,
-                        data: {
-                            _token: "{{ csrf_token() }}",
-                            _cache: new Date().getTime()
-                        },
-                        success: function(response) {
-                            renderAssetCards(response);
-                        }
-                    });
-                }
-            });
-
             $(document).on("click", ".change-card", function() {
                 var card = $(this);
                 var cardId = card.data("card-id");

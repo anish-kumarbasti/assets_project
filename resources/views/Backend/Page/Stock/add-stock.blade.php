@@ -47,8 +47,6 @@
         color: #5bc0de;
         font-weight: bold;
     }
-</style>
-
 .add-field {
 cursor: pointer;
 color: #5bc0de;
@@ -122,6 +120,9 @@ font-weight: bold;
                         <div class="col-md-4">
                             <label class="form-label" for="validationCustom01">Product Info</label>
                             <input class="form-control" value="{{isset($stockedit)?$stockedit->product_info:''}}" id="validationCustom01" type="text" name="product_info" data-bs-original-title="" title="" placeholder="Enter Product Info">
+                            @error('product_info')
+                                    <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="col-md-4 mb-4" id="serialnumber">
                             <label class="form-label" for="validationCustom01">Serial number</label>
@@ -207,6 +208,9 @@ font-weight: bold;
                 <div class="col-md-4 mb-4">
                     <label class="form-label" for="validationCustom01">Price</label>
                     <input class="form-control" id="validationCustom01" value="{{ isset($stockedit) ? $stockedit->price : '' }}" type="text" name="price" data-bs-original-title="" title="" placeholder="Enter Price">
+                    @error('price')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="col-md-4 mb-4" id="warranty">
                     <label class="form-label" for="warrantyDateInput">Warranty</label>
@@ -235,10 +239,11 @@ font-weight: bold;
 
 <script>
     $(document).ready(function() {
-        $('#multiSelect').on('change', function() {
+        $('#attribute').on('change', function() {
+            // alert('hi');
             $('#dynamicFields').empty();
 
-            $('#multiSelect option:selected').each(function() {
+            $('#attribute option:selected').each(function() {
                 var optionValue = $(this).val();
                 var optionText = $(this).text();
 
@@ -310,7 +315,7 @@ font-weight: bold;
                 jQuery.ajax({
                     url: '/get-asset-type/' + assettypeId,
                     type: 'POST',
-                    data: 'assettypeId' + assettypeId + '&_token={{csrf_token()}}',
+                    data: 'assettypeId' + assettypeId + '&_token={{csrf_token()}}',_cache: new Date().getTime(),
                     success: function(data) {
                         jQuery('#asset').append('<option value="">--Select Asset--</option>');
                         jQuery.each(data.assets, function(key, value) {
@@ -351,9 +356,10 @@ font-weight: bold;
                         $('#quantityField, #specificationField, #showbrand,#warranty').show();
                         $('#serialnumber, #configuration').hide();
                     } else if (data.assetType === 'Non IT Asset') {
+                        // alert('hi');
                         // Show quantity and specification fields
                         $('#quantityField, #specificationField, #showbrand, #warranty').show();
-                        $('#serialnumber, #configuration,').hide();
+                        $('#serialnumber, #configuration').hide();
                     } else if (data.assetType === 'Software') {
                         // Show license number and expiry fields
                         $('#licenseNumberField, #expiryField, #configuration').show();

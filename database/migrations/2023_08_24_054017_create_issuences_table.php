@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('issuences', function (Blueprint $table) {
             $table->id();
             $table->string('employee_id');
-            $table->string('asset_type_id');
-            $table->string('asset_id');
+            $table->string('asset_type_id')->nullable();
+            $table->string('asset_id')->nullable();
             $table->string('product_id');
             $table->text('description');
             $table->timestamp('issuing_time_date');

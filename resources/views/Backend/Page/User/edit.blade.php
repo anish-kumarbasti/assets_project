@@ -20,22 +20,37 @@
                         <div class="col-md-6">
                             <label class="form-label" for="firstName">First Name</label>
                             <input class="form-control" id="firstName" value="{{$user->first_name}}" name="first_name" type="text" required="" placeholder="First Name">
+                            @error('first_name')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                         </div>
                         <div class="col-md-6">
                             <label class="form-label" for="lastName">Last Name</label>
                             <input class="form-control" id="lastName" value="{{$user->last_name}}" name="last_name" type="text" required="" placeholder="Last Name">
+                            @error('last_name')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                         </div>
                         <div class="col-md-6">
                             <label class="form-label" for="email">Email</label>
                             <input class="form-control" id="email" value="{{$user->email}}" name="email" type="email" required="" placeholder="Email">
+                            @error('email')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                         </div>
                         <div class="col-md-6">
                             <label class="form-label" for="mobileNumber">Mobile Number</label>
                             <input class="form-control" id="mobileNumber" value="{{$user->mobile_number}}" name="mobile_number" type="tel" required="" placeholder="Mobile Number">
+                            @error('mobile_number')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                         </div>
                         <div class="col-md-6">
                             <label class="form-label" for="Age">Age</label>
                             <input class="form-control" id="Age" value="{{$user->age}}" name="age" type="tel" required="" placeholder="Enter Age">
+                            @error('age')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                         </div>
                         <div class="col-md-6">
                             <label class="form-label" for="gender">Gender</label>
@@ -44,6 +59,9 @@
                                 <option value="2" {{$user->gender == 2 ? 'checked':''}}>Female</option>
                                 <option value="3" {{$user->gender == 3 ? 'checked':''}}>Others</option>
                             </select>
+                            @error('gender')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                         </div>
                         <div class="col-md-6">
                             <label class="form-label" for="gender">Role</label>
@@ -70,6 +88,9 @@
                                 <option value="{{$depart->id}}" {{ $user->department_id == $depart->id ? 'selected' : '' }}>{{$depart->name}}</option>
                                 @endforeach
                             </select>
+                            @error('department_id')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                         </div>
                         <div class="col-md-6">
                             <label class="form-label" for="designation">Designation</label>
@@ -77,6 +98,9 @@
                                 <option value="">Select Designation</option>
                                 <!-- Add designations dynamically -->
                             </select>
+                            @error('designation_id')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                         </div>
                     </div>
                     <div class="footer-item mt-3 mb-3">
