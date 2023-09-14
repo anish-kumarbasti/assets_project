@@ -8,10 +8,22 @@ use App\Models\Maintenance;
 use App\Models\Status;
 use App\Models\Stock;
 use App\Models\Supplier;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class MaintenanceController extends Controller
 {
+    public function maintenance_rep()
+    {
+        $maintain = Maintenance::all();
+        $maintains = Pdf::loadView('Backend.Page.Maintenance.pdf.maintenance-reports', compact('maintain'));
+        return $maintains->download('maintenance-reports.pdf');
+    }
+    public function maintenance_reports()
+    {
+        $maintain = Maintenance::all();
+        return view('Backend.Page.Maintenance.pdf.maintenance-reports', compact('maintain'));
+    }
     public function download()
     {
         $maintain = Maintenance::latest()->first();
@@ -30,8 +42,9 @@ class MaintenanceController extends Controller
         // $asset = Asset::all();
         $supplier = Supplier::all();
         // $assettype = AssetType::all();
-        $maintain = Maintenance::all();
-        return view('Backend.Page.Maintenance.index', compact('maintain', 'supplier'));
+        $maintain = Maintenance::with('statuss')->get();
+        $status = Status::all();
+        return view('Backend.Page.Maintenance.index', compact('maintain', 'supplier', 'status'));
     }
     public function maintenance_save(Request $request)
     {

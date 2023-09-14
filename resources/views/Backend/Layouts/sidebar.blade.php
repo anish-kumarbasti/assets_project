@@ -115,8 +115,8 @@
            </li>
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="plus-square"></i><span>Maintenance</span></a>
              <ul class="sidebar-submenu">
-               <li><a href="{{route('assets-maintenances')}}">Add Issue</a></li>
-               <li><a href="{{route('download-maintenance')}}">Receive Issue</a></li>
+               <li><a href="{{route('assets-maintenances')}}">Add Maintenance</a></li>
+               <li><a href="{{route('download-maintenance')}}" target="_blank">Receive Maintenance</a></li>
              </ul>
            </li>
          </ul>

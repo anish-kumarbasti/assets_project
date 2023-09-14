@@ -199,13 +199,17 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('asset-activity-report', [ReportController::class, 'activity_report'])->name('activity-reports');
     Route::get('assets-report-status', [ReportController::class, 'report_status'])->name('report-status');
     Route::get('component-reports', [ReportController::class, 'component_reports'])->name('component-activity-reports');
-    Route::get('maintenance-reports', [ReportController::class, 'maintenance'])->name('maintenance-report');
+    Route::get('maintenance-report', [ReportController::class, 'maintenance'])->name('maintenance-report');
     Route::get('reports-types', [ReportController::class, 'report_type'])->name('report-type');
     Route::get('reports-suppliers', [ReportController::class, 'report_supplier'])->name('report-supplier');
     Route::get('reports-locations', [ReportController::class, 'report_location'])->name('report-location');
 
     //PDF and CSV
+    Route::get('/load-disposal-pdf', [DisposalController::class, 'disposal_pdf'])->name('load-disposal-pdf');
+    Route::get('/load-disposal', [DisposalController::class, 'load_disposal'])->name('load-disposal-report');
     Route::get('/download-maintenance', [MaintenanceController::class, 'download'])->name('download-maintenance');
+    Route::get('/maintenance-reports', [MaintenanceController::class, 'maintenance_reports'])->name('maintenance-reports');
+    Route::get('/maintenance-repo', [MaintenanceController::class, 'maintenance_rep'])->name('maintenance-repo');
     Route::get('/getPDF', [ReportController::class, 'generatePDF']);
     Route::get('/component', [ReportController::class, 'pdfcomponent']);
     Route::get('/maintenance', [ReportController::class, 'pdfmaintenance']);
@@ -227,7 +231,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('maintenance', [MaintenanceController::class, 'index']);
     Route::get('asset-maintenances', [MaintenanceController::class, 'maintenances'])->name('assets-maintenances');
     Route::post('asset-maintenance', [MaintenanceController::class, 'maintenance_save'])->name('maintenance-save');
-    Route::get('maintainans-edit/{id}', [MaintenanceController::class, 'edit'])->name('maintainans-edit');
+    Route::get('maintainans-edit/{id}', [MaintenanceController::class, 'edit'])->name('maintenance-edit');
     Route::delete('maintainans-delete/{id}', [MaintenanceController::class, 'destroy'])->name('maintainans-delete');
     Route::put('maintainans-update/{id}', [MaintenanceController::class, 'update'])->name('maintainans-Update');
     //Attribute
@@ -273,5 +277,4 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/issuences', [IssuenceController::class, 'index'])->name('issuences.index');
     Route::post('/issuence/store', [IssuenceController::class, 'store'])->name('issuence.store');
     Route::get('/fetch-Card-info', [IssuenceController::class, 'CardInfo'])->name('fetch-Card-info');
-
 });
