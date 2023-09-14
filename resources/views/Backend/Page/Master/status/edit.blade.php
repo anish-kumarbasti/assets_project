@@ -16,13 +16,13 @@
                             <label class="form-label" for="name">Status Name</label>
                             <input type="text" class="form-control" id="name" name="name" value="{{$status->name}}" placeholder="Status Name">
                         </div>
-                        <!-- <div class="col-md-12 mb-2">
-                            <label class="form-label" for="status">Status</label>
+                        <div class="col-md-12 mb-2">
+                            <label class="form-label" for="status">Status Color</label>
                             <input class="form-control" id="status" type="text" name="status" value="{{$status->status}}" placeholder="Status">
                             @error('status')
                             <span class="text-danger">{{$message}}</span>
                             @enderror
-                        </div> -->
+                        </div>
                     </div>
                 </div>
                 <div class="footer-item">

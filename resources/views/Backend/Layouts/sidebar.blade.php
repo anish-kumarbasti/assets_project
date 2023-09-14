@@ -21,7 +21,7 @@
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="home"></i><span class="lan-3">Dashboard</span></a>
              <ul class="sidebar-submenu">
                <li><a href="{{ url('home')}}">Admin Dashboard</a></li>
-               {{-- <li><a href="javascript:;">Ecommerce Dashboard</a></li> --}}
+               <li><a href="{{ url('user_dashboard')}}">User Dashboard</a></li>
              </ul>
            </li>
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="airplay"></i><span>Masters</span></a>
@@ -109,8 +109,8 @@
            </li>
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="plus-square"></i><span>Maintenance</span></a>
              <ul class="sidebar-submenu">
-               <li><a href="{{route('assets-maintenances')}}">Add Issue</a></li>
-               <li><a href="{{route('download-maintenance')}}">Receive Issue</a></li>
+               <li><a href="{{route('assets-maintenances')}}">Add Maintenance</a></li>
+               <li><a href="{{route('download-maintenance')}}" target="_blank">Receive Maintenance</a></li>
              </ul>
            </li>
          </ul>

@@ -43,13 +43,19 @@
                                     <strong class="text-danger">{{$message}}</strong>
                                     @enderror
                                 </div>
-                                <!-- <div class="mb-2">
-                                    <label class="form-label">Status</label>
-                                    <input class="form-control digits" value="{{old('status')}}" name="status" type="text" id="status">
-                                    @error('status')
-                                    <strong class="text-danger">{{$message}}</strong>
-                                    @enderror
-                                </div> -->
+                                <div class="mb-2">
+                                    <label class="form-label">Status Color</label>
+                                    <select name="status" id="status" class="form-select" aria-label="Default select example">
+                                        <option value="">--Select Color--</option>
+                                        <option value="btn btn-primary">btn btn-primary</option>
+                                        <option value="btn btn-secondary">btn btn-secondary</option>
+                                        <option value="btn btn-success">btn btn-success</option>
+                                        <option value="btn btn-danger">btn btn-danger</option>
+                                        <option value="btn btn-warning">btn btn-warning</option>
+                                        <option value="btn btn-info">btn btn-info</option>
+                                        <option value="btn btn-dark">btn btn-dark</option>
+                                    </select>
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -76,10 +82,12 @@
                             @foreach ($data as $datas)
                             <tr class="text-center">
                                 <td>{{$datas->id}}</td>
-                                <td>{{$datas->name}}</td>
+                                <td><span class="{{$datas->status}}">{{$datas->name}}</span></td>
                                 <td>
-                                    <a href="{{route('status-edit', $datas->id)}}" class="btn btn-primary"><i class="fa fa-pencil"></i> Edit</a>&nbsp;&nbsp;
-                                    <button class="btn btn-danger delete-button" data-id="{{ $datas->id }}" type="button"><i class="fa fa-trash-o"></i> Delete</button>
+                                    <div class="btn-group">
+                                        <a href="{{route('status-edit', $datas->id)}}" class="btn btn-primary"><i class="fa fa-pencil"></i> Edit</a>&nbsp;&nbsp;
+                                        <button class="btn btn-danger delete-button" data-id="{{ $datas->id }}" type="button"><i class="fa fa-trash-o"></i> Delete</button>
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach
