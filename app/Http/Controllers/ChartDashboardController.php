@@ -73,5 +73,8 @@ class ChartDashboardController extends Controller
     return view('Backend.Page.home', compact('labels', 'series', 'labels1', 'series1','outOfStockCount','monthlyCountsByAssetType','assetbycategory'));
 }
 
+public function userDashboard(Request $request){
+    return view('Backend.Page.user_dashboard');
 
+}
 }
