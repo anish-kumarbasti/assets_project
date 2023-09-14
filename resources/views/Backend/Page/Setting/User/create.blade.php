@@ -58,8 +58,9 @@
                     </div>
                     <!-- Profile Photo Tab -->
                     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                        <form method="POST" action="" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('update_profile_photo') }}" enctype="multipart/form-data">
                             @csrf
+                            @method('put')
                             <div class="mb-3">
                                 <label for="photo" class="form-label">Profile Photo:</label>
                                 <input type="file" id="photo" name="photo" value="{{ $user->profile_photo }}" class="form-control" accept="image/*">
@@ -69,11 +70,12 @@
                     </div>
                     <!-- Cover Photo Tab -->
                     <div class="tab-pane fade" id="cover" role="tabpanel" aria-labelledby="cover-tab">
-                        <form method="POST" action="" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('update_cover_photo') }}" enctype="multipart/form-data">
                             @csrf
+                            @method('put')
                             <div class="mb-3">
                                 <label for="cover_photo" class="form-label">Cover Photo:</label>
-                                <input type="file" id="cover_photo" name="cover_photo"  value="" class="form-control" accept="image/*">
+                                <input type="file" id="cover_photo" name="cover_photo"  value="{{ $user->cover_photo }}" class="form-control" accept="image/*">
                             </div>
                             <button type="submit" class="btn btn-primary">Update Cover Photo</button>
                         </form>

@@ -38,11 +38,40 @@ class ChangePasswordController extends Controller
         return redirect()->back()->withErrors(['current_password' => 'The provided current password does not match your password.']);
     }
     public function updateProfilePhoto(Request $request)
-    {
-        $request->validate([
-            'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust validation rules as needed
-        ]);
+{
+    $request->validate([
+        'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust validation rules as needed
+    ]);
 
-        $user = Auth::user();
+    $user = Auth::user();
+
+    if ($request->hasFile('photo')) {
+        // Store and update the user's profile photo
+        $photoPath = $request->file('photo')->store('profile_photos', 'public');
+        $user->profile_photo = $photoPath;
+        $user->save();
     }
+
+    // Redirect back to the profile photo update page with a success message
+    return redirect()->route('home')->with('status', 'Profile photo updated successfully.');
+}
+public function updateCoverPhoto(Request $request)
+{
+    $request->validate([
+        'cover_photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust validation rules as needed
+    ]);
+
+    $user = Auth::user();
+
+    if ($request->hasFile('cover_photo')) {
+        // Store and update the user's cover photo
+        $coverPhotoPath = $request->file('cover_photo')->store('cover_photos', 'public');
+        $user->cover_photo = $coverPhotoPath;
+        $user->save();
+    }
+
+    // Redirect back to the cover photo update page with a success message
+    return redirect()->route('home')->with('status', 'Cover photo updated successfully.');
+}
+
 }

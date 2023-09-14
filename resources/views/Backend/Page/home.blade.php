@@ -84,6 +84,12 @@
     <div class="alert alert-success">
         {{ Session::get('success') }}
     </div>
+    <script>
+        // Refresh the page after 5 seconds (5000 milliseconds)
+        setTimeout(function () {
+            location.reload();
+        }, 3000); // 5000 milliseconds = 5 seconds
+    </script>
 @endif
 
 @if (Session::has('error'))
@@ -91,6 +97,7 @@
         {{ Session::get('error') }}
     </div>
 @endif
+
 <div class="container-fluid dashboard-2">
   <div class="row">
 

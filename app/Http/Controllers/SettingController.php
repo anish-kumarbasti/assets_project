@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BusinessSetting;
 use Illuminate\Http\Request;
+use PharIo\Manifest\Email;
 
 class SettingController extends Controller
 {
@@ -12,28 +13,23 @@ class SettingController extends Controller
         return view('Backend.Page.Setting.Application.create',compact('businessSetting'));
     }
     public function createOrUpdate(Request $request)
-{
-    $businessSetting = BusinessSetting::UpdateOrCreate([
-        'id'=>$request->id,
-    ],[
-        'name'=>$request->name,
-        'email'=>$request->email,
-        'address'=>$request->address
-    ]);
     {
+        $data = [
+            'company_name' => $request->input('name'),
+            'company_email' => $request->input('email'),
+            'company_address' => $request->input('address'),
+            'logo_path' => $request->hasFile('logo') ? $request->file('logo')->store('company_logos', 'public') : null,
+        ];
+        $titleValuePairs = [];
 
-        if ($request->hasFile('logo')) {
-            $businessSetting->logo = $request->file('logo')->store('company_logos', 'public');
-        } else {
-
-            $businessSetting->logo = null;
+        foreach ($data as $title => $value) {
+            $titleValuePairs[] = ['title' => $title, 'value' => $value];
         }
+
+        BusinessSetting::upsert($titleValuePairs, ['title'], ['value']);
 
         return redirect()->route('settings.application')->with('success', 'Settings saved successfully!');
     }
-
-    return redirect()->route('settings.application.storeOrUpdate', compact('businessSetting'));
-}
 
 
 }

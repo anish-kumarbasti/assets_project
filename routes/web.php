@@ -28,6 +28,7 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\ChartDashboardController;
 use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\SendEmailController;
 use App\Http\Controllers\master\TransferReasonController;
 use App\Http\Controllers\StatusController;
 
@@ -275,11 +276,19 @@ Route::group(['middleware' => 'auth'], function () {
 
 
     Route::get('/application-setting', [SettingController::class, 'index'])->name('settings.application');
-    Route::post('/application-settings', [SettingController::class, 'createOrUpdate'])->name('settings.application.storeOrUpdate');
+    Route::put('/application-settings', [SettingController::class, 'createOrUpdate'])->name('settings.application.storeOrUpdate');
 
     Route::get('/user-setting', [ChangePasswordController::class, 'index'])->name('settings.user');
     Route::post('/update-password', [ChangePasswordController::class, 'changePassword'])->name('update_password');
     Route::post('update-profile-photo', [ChangePasswordController::class, 'updateProfilePhoto'])->name('profile.photo.update');
+
+    Route::get('/send-email', [SendEmailController::class, 'index']);
+
+    Route::get('/profile-photo', [ChangePasswordController::class, 'profilePhoto'])->name('profile_photo');
+    Route::put('/update-profile-photo', [ChangePasswordController::class, 'updateProfilePhoto'])->name('update_profile_photo');
+    Route::get('/cover-photo', [ChangePasswordController::class, 'coverPhoto'])->name('cover_photo');
+    Route::put('/update-cover-photo', [ChangePasswordController::class, 'updateCoverPhoto'])->name('update_cover_photo');
+
 
     Route::get('/forget-password', [ForgotPasswordController::class, 'forgetPassword'])->name('forget.password');
     Route::post('/forget-password', [ForgotPasswordController::class, 'forgetPasswordPost'])->name('forget.password.post');

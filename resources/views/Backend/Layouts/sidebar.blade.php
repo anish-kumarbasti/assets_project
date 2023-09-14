@@ -78,12 +78,11 @@
              </ul>
            </li>
 
-           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="settings" class="fa fa-spin"></i><span>System Settings</span></a>
+           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="settings" class="fa fa-spin"></i><span>Bussiness Settings</span></a>
              <ul class="sidebar-submenu">
 
-               <li><a href="{{ route('settings.user') }}">User Settings</a></li>
-
-               <li><a href="{{route('settings.application')}}">Application Settings</a></li>
+               <li><a href="{{route('settings.application')}}">General Settings</a></li>
+               <li><a href="{{ url('/send-email') }}">Mail Configuration</a></li>
              </ul>
            </li>
 
