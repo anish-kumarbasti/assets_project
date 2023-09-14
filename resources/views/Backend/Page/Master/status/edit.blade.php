@@ -18,7 +18,16 @@
                         </div>
                         <div class="col-md-12 mb-2">
                             <label class="form-label" for="status">Status Color</label>
-                            <input class="form-control" id="status" type="text" name="status" value="{{$status->status}}" placeholder="Status">
+                            <select name="status" id="status" class="form-select" aria-label="Default select example">
+                                <option value="">{{$status->status}}</option>
+                                <option value="btn btn-primary">btn btn-primary</option>
+                                <option value="btn btn-secondary">btn btn-secondary</option>
+                                <option value="btn btn-success">btn btn-success</option>
+                                <option value="btn btn-danger">btn btn-danger</option>
+                                <option value="btn btn-warning">btn btn-warning</option>
+                                <option value="btn btn-info">btn btn-info</option>
+                                <option value="btn btn-dark">btn btn-dark</option>
+                            </select>
                             @error('status')
                             <span class="text-danger">{{$message}}</span>
                             @enderror

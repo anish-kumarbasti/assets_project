@@ -1,4 +1,14 @@
 @extends('Backend.Layouts.panel')
+@section('Style-Area')
+<style>
+    .custom-btn {
+        font-size: 11px;
+        padding: 5px 10px;
+        line-height: 1.5;
+        pointer-events: none;
+    }
+</style>
+@endsection
 @section('Content-Area')
 @if (session('success'))
 <div id="btn" class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
@@ -21,52 +31,48 @@
                 <a class="btn btn-primary text-end m-b-30" id="openModalButton" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i>
                     Add Status</a>
             </h4>
-            <hr>
         </div>
-        <div>
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content date-picker">
-                        <div class="modal-header border-bottom">
-                            <h4 class="modal-title text-primary" id="exampleModalLabel">Add Status</h4>
-                            <button type="button" class="close ml-auto rounded float-right" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <form action="{{ route('status-save') }}" method="post">
-                            @csrf
-                            <div class="modal-body">
-                                <div class="mb-2">
-                                    <label class="form-label">Status Name</label>
-                                    <input class="form-control" value="{{old('name')}}" oninput="showDiv()" id="name" type="text" data-bs-original-title="" title="" name="name" placeholder="Status Name" required>
-                                    @error('name')
-                                    <strong class="text-danger">{{$message}}</strong>
-                                    @enderror
-                                </div>
-                                <div class="mb-2">
-                                    <label class="form-label">Status Color</label>
-                                    <select name="status" id="status" class="form-select" aria-label="Default select example">
-                                        <option value="">--Select Color--</option>
-                                        <option value="btn btn-primary">btn btn-primary</option>
-                                        <option value="btn btn-secondary">btn btn-secondary</option>
-                                        <option value="btn btn-success">btn btn-success</option>
-                                        <option value="btn btn-danger">btn btn-danger</option>
-                                        <option value="btn btn-warning">btn btn-warning</option>
-                                        <option value="btn btn-info">btn btn-info</option>
-                                        <option value="btn btn-dark">btn btn-dark</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Save</button>
-                            </div>
-                        </form>
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content date-picker">
+                    <div class="modal-header border-bottom">
+                        <h4 class="modal-title text-primary" id="exampleModalLabel">Add Status</h4>
+                        <button type="button" class="close ml-auto rounded float-right" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
+                    <form action="{{ route('status-save') }}" method="post">
+                        @csrf
+                        <div class="modal-body">
+                            <div class="mb-2">
+                                <label class="form-label">Status Name</label>
+                                <input class="form-control" value="{{old('name')}}" oninput="showDiv()" id="name" type="text" data-bs-original-title="" title="" name="name" placeholder="Status Name" required>
+                                @error('name')
+                                <strong class="text-danger">{{$message}}</strong>
+                                @enderror
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Status Color</label>
+                                <select name="status" id="status" class="form-select" aria-label="Default select example">
+                                    <option value="">--Select Color--</option>
+                                    <option value="btn btn-primary">btn btn-primary</option>
+                                    <option value="btn btn-secondary">btn btn-secondary</option>
+                                    <option value="btn btn-success">btn btn-success</option>
+                                    <option value="btn btn-danger">btn btn-danger</option>
+                                    <option value="btn btn-warning">btn btn-warning</option>
+                                    <option value="btn btn-info">btn btn-info</option>
+                                    <option value="btn btn-dark">btn btn-dark</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-
         <div class="card">
             <div class="card-body">
                 <div class="table-responsive theme-scrollbar">
@@ -82,7 +88,7 @@
                             @foreach ($data as $datas)
                             <tr class="text-center">
                                 <td>{{$datas->id}}</td>
-                                <td><span class="{{$datas->status}}">{{$datas->name}}</span></td>
+                                <td><span class=" custom-btn {{$datas->status}}">{{$datas->name}}</span></td>
                                 <td>
                                     <div class="btn-group">
                                         <a href="{{route('status-edit', $datas->id)}}" class="btn btn-primary"><i class="fa fa-pencil"></i> Edit</a>&nbsp;&nbsp;

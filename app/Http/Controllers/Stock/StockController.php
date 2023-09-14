@@ -9,6 +9,7 @@ use App\Models\Attribute;
 use App\Models\Brand;
 use App\Models\Brandmodel;
 use App\Models\Location;
+use App\Models\Status;
 use App\Models\Stock;
 use App\Models\SubLocationModel;
 use App\Models\Supplier;
@@ -28,8 +29,8 @@ class StockController extends Controller
         $sublocation = SubLocationModel::all();
         $attribute = Attribute::all();
         $supplier = Supplier::all();
-        // dd($asset_type);
-        return view('Backend.Page.Stock.add-stock', compact('asset_type', 'asset', 'brand', 'location', 'brand_model', 'sublocation', 'attribute', 'supplier'));
+        $status = Status::all();
+        return view('Backend.Page.Stock.add-stock', compact('asset_type', 'asset', 'brand', 'location', 'brand_model', 'sublocation', 'attribute', 'supplier', 'status'));
     }
 
     // public function getAttribute($assettypeId)
@@ -84,9 +85,9 @@ class StockController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'price' => 'required|integer',
-            'product_info' => 'required', ]);
+        // $request->validate([
+        //     'price' => 'required|integer',
+        //     'product_info' => 'required', ]);
         // dd($request);
         $filepath = '';
         if ($images = $request->file('image')) {
@@ -97,6 +98,7 @@ class StockController extends Controller
         }
         // dd($request);
         Stock::create([
+            'status_available' => $request->status,
             'product_info' => $request->product_info,
             'asset_type_id' => $request->asset_type,
             'asset' => $request->asset,
@@ -123,7 +125,7 @@ class StockController extends Controller
     }
     public function ShowStock()
     {
-        $stock = Stock::all();
+        $stock = Stock::with('statuses')->get();
         return view('Backend.Page.Stock.all-stock', compact('stock'));
     }
     public function ChangeStockStatus(Request $request, $stockId)

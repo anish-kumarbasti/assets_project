@@ -76,8 +76,9 @@ class BrandmodelController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'name' => 'required|min:2|max:50'
+            'brand_id' => 'required|integer'
         ]);
+        // dd($id);
         $brand = Brandmodel::find($id)->update([
             'name' => $request->brand,
             'brand_id' => $request->brand_id,

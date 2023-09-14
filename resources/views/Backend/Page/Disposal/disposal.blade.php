@@ -1,6 +1,14 @@
 @extends('Backend.Layouts.panel')
 
 @section('Style-Area')
+<style>
+    .custom-btn {
+        font-size: 11px;
+        padding: 5px 10px;
+        line-height: 1.5;
+        pointer-events: none;
+    }
+</style>
 @endsection
 
 @section('Content-Area')
@@ -72,12 +80,21 @@
                                     <input class="form-control" name="period_months" type="text" id="period_months" inputmode="numeric">
                                 </div>
                                 <div class="mb-2">
+                                    <label class="form-label">Desposal Code</label>
+                                    <input type="text" class="form-control" name="desposal_code" id="desposal">
+                                </div>
+                                <div class="mb-2">
                                     <label class="form-label">Asset Value</label>
                                     <input type="text" class="form-control" name="asset_value" id="assetvalue" inputmode="numeric">
                                 </div>
                                 <div class="mb-2">
-                                    <label class="form-label">Desposal Code</label>
-                                    <input type="text" class="form-control" name="desposal_code" id="desposal">
+                                    <label for="form-label">Status</label>
+                                    <select class="form-select" id="status" name="status" aria-label="Default select example">
+                                        <option value="">--Select Status--</option>
+                                        @foreach ($status as $status)
+                                        <option value="{{ $status->id }}">{{ $status->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -103,6 +120,7 @@
                                 <th>Period (Month)</th>
                                 <th>Asset Value</th>
                                 <th>Disposal Code</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -116,10 +134,11 @@
                                 <td>{{ $disposals->period_months }}</td>
                                 <td>{{ $disposals->asset_value }}</td>
                                 <td>{{ $disposals->desposal_code }}</td>
+                                <td> <span class=" custom-btn {{$disposals->statuses->status}}">{{$disposals->statuses->name}}</span></td>
                                 <td>
                                     <div class="btn-group">
-                                        <a href="{{ route('disposal-edit', $disposals->id) }}" class="btn-sm btn-primary"><i class="fa fa-pencil"></i> Edit</a>&nbsp;&nbsp;
-                                        <button class="btn-sm btn-danger delete-button" data-id="{{ $disposals->id }}" type="button"><i class="fa fa-trash-o"></i> Delete</button>
+                                        <a href="{{ route('disposal-edit', $disposals->id) }}" class=" btn btn-primary"><i class="fa fa-pencil"></i> Edit</a>&nbsp;
+                                        <button class=" btn btn-danger delete-button" data-id="{{ $disposals->id }}" type="button"><i class="fa fa-trash-o"></i> Delete</button>
                                     </div>
                                 </td>
                             </tr>

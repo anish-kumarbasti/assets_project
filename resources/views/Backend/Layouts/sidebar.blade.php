@@ -27,17 +27,24 @@
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="airplay"></i><span>Masters</span></a>
 
              <ul class="sidebar-submenu">
-               <li><a href="{{ route('auth.create-department')}}">Department</a></li>
-               <li><a href="{{ url('designations')}}">Designation</a></li>
-               <li><a href="{{ route('assets-type-index')}}">Asset Type</a></li>
+              @can('View_Department')
+              <li><a href="{{ route('auth.create-department')}}">Department</a></li>
+              @endcan
+              @can('view_designation')
+              <li><a href="{{ url('designations')}}">Designation</a></li>
+              @endcan
+              <li><a href="{{ route('assets-type-index')}}">Asset Type</a></li>
+               @can('view_asset')
                <li><a href="{{ url('assets')}}">Asset Name</a></li>
-               <li><a href="{{ route('create-brand')}}">Brand</a></li>
-               <li><a href="{{ url('brand-model')}}">Brand Model</a></li>
+               @endcan
+               <li><a href="{{ route('create-brand')}}">Brands</a></li>
+               <li><a href="{{ url('brand-model')}}">Brand Models</a></li>
                <li><a href="{{ url('location-index')}}">Locations</a></li>
                <li><a href="{{ url('sublocation-index')}}">Sub-Locations</a></li>
                <li><a href="{{ url('attributes')}}">Attributes</a></li>
                <li><a href="{{ url('suppliers')}}">Suppliers</a></li>
-               <li><a href="{{url('add-status')}}">Status</a></li>
+               <li><a href="{{url('add-status')}}">Asset Status</a></li>
+               <li><a href="{{route('transfer-reasons.index')}}">Transfer Reasons</a></li>
              </ul>
            </li>
 
@@ -93,14 +100,12 @@
 
              </ul>
            </li>
-           @can('add_disposal')
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="trash"></i><span>Depreciation</span></a>
              <ul class="sidebar-submenu">
                <li><a href="{{ url('disposal')}}">Add Depreciation</a> </li>
 
              </ul>
            </li>
-           @endcan
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="book-open"></i><span>Reports</span></a>
              <ul class="sidebar-submenu">
                <li><a href="{{url('all-reports')}}">All Reports</a> </li>
@@ -109,7 +114,7 @@
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="plus-square"></i><span>Maintenance</span></a>
              <ul class="sidebar-submenu">
                <li><a href="{{route('assets-maintenances')}}">Add Maintenance</a></li>
-               <li><a href="{{route('download-maintenance')}}" target="_blank">Receive Maintenance</a></li>
+               <li><a href="{{route('receive-maintenance')}}">Receive Maintenance</a></li>
              </ul>
            </li>
          </ul>

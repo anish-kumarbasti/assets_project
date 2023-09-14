@@ -11,11 +11,13 @@
         <div class="card-header pb-0">
             <h4 class="d-flex justify-content-between align-items-center">
                 <span>Designations</span>
+                @can('create_designation')
                 <a href="{{ route('designations.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add Designation</a>
+                @endcan
             </h4>
         </div>
 
-
+        @can('manage_designation')
         <div class="card-body">
             <div class="table-responsive theme-scrollbar">
                 <table class="display" id="basic-1">
@@ -34,15 +36,19 @@
                             <td>{{ $designation->id }}</td>
                             <td>{{ $designation->department->name }}</td>
                             <td>{{ $designation->designation }}</td>
-
+                            
                             <td class="w-20">
                                 <label class="mb-0 switch">
                                     <input type="checkbox" checked=""><span class="switch-state"></span>
                                 </label>
                             </td>
                             <td>
+                                @can('edit_designation')
                                 <a href="{{ route('designations.edit', $designation->id) }}" class="btn btn-primary"><i class="fa fa-pencil"></i> Edit</a>
+                                @endcan
+                                @can('delete_designation')    
                                 <button class="btn btn-danger delete-button" type="button" data-id="{{ $designation->id }}"><i class="fa fa-trash-o"></i> Delete</button>
+                                @endcan
                             </td>
                         </tr>
                         @endforeach
@@ -50,12 +56,14 @@
                 </table>
             </div>
         </div>
+        @endcan
     </div>
 </div>
 
 @endsection
 @section('Script-Area')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script>
     $(document).ready(function() {
         var alertmessage = $('#alert-message');

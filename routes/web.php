@@ -29,6 +29,7 @@ use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\ChartDashboardController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\SendEmailController;
+use App\Http\Controllers\master\TransferReasonController;
 use App\Http\Controllers\StatusController;
 
 /*
@@ -88,6 +89,16 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('stock', [StockController::class, 'index']);
 
+    Route::get('markasread/{id}',[IssuenceController::class,'markasread'])->name('markasread');
+    // Transfer Reason 
+    Route::get('transfer-reasons', [TransferReasonController::class, 'index'])->name('transfer-reasons.index');
+    Route::get('transfer-reasons/create', [TransferReasonController::class, 'create'])->name('transfer-reasons.create');
+    Route::post('transfer-reasons', [TransferReasonController::class, 'store'])->name('transfer-reasons.store');
+    Route::get('transfer-reasons/{transferReason}', [TransferReasonController::class, 'edit'])->name('transfer-reasons.edit');
+    Route::put('transfer-reasons/{transferReason}', [TransferReasonController::class, 'update'])->name('transfer-reasons.update');
+    Route::delete('transfer-reasons/{transferReason}', [TransferReasonController::class, 'destroy'])->name('transfer-reasons.destroy');
+    Route::post('/reason-status/{reason}', [TransferReasonController::class, 'updateStatus'])->name('transfer.updateStatus');
+    //Stock
     Route::post('/get-brand-models/{brandId}', [StockController::class, 'getBrandModels']);
     Route::post('/get-slocation/{locationId}', [StockController::class, 'getslocation']);
     Route::post('/get-asset-type/{assettypeId}', [StockController::class, 'getasset']);
@@ -120,7 +131,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     //Searct Employee id
     Route::get('server_script', [IssuenceController::class, 'index']);
+    Route::get('server_asset_script', [TransferController::class, 'index']);
     Route::get('transfer', [TransferController::class, 'index']);
+    Route::get('/get-issuance-data', 'IssuanceController@getIssuanceData');
     Route::get('add-user', [UserController::class, 'user']);
     Route::get('user-details', [UserController::class, 'userCard']);
     //Assets
@@ -171,12 +184,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('designations/{id}', [DesignationController::class, 'destroy'])->name('designations.destroy');
     //assets
     Route::post('get-asset-details/{assetTypeId}', [AssetController::class, 'getassetdetails']);
-    Route::get('assets', [AssetController::class, 'index'])->name('assets.index');
-    Route::get('assets/create', [AssetController::class, 'create'])->name('assets.create');
+    Route::get('assets', [AssetController::class, 'index'])->name('assets.index')->middleware('permission:manage_asset');
+    Route::get('assets/create', [AssetController::class, 'create'])->name('assets.create')->middleware('permission:create_asset');
     Route::post('assets', [AssetController::class, 'store'])->name('assets.store');
-    Route::get('assets/{id}/edit', [AssetController::class, 'edit'])->name('assets.edit');
+    Route::get('assets/{id}/edit', [AssetController::class, 'edit'])->name('assets.edit')->middleware('permission:edit_asset');
     Route::put('assets/{id}', [AssetController::class, 'update'])->name('assets.update');
-    Route::delete('assets/{id}', [AssetController::class, 'destroy'])->name('assets.destroy');
+    Route::delete('assets/{id}', [AssetController::class, 'destroy'])->name('assets.destroy')->middleware('permission:delete_asset');
     // routes/web.php.
     //Status
     Route::get('add-status', [StatusController::class, 'status'])->name('change-status');
@@ -208,7 +221,6 @@ Route::group(['middleware' => 'auth'], function () {
     //PDF and CSV
     Route::get('/load-disposal-pdf', [DisposalController::class, 'disposal_pdf'])->name('load-disposal-pdf');
     Route::get('/load-disposal', [DisposalController::class, 'load_disposal'])->name('load-disposal-report');
-    Route::get('/download-maintenance', [MaintenanceController::class, 'download'])->name('download-maintenance');
     Route::get('/maintenance-reports', [MaintenanceController::class, 'maintenance_reports'])->name('maintenance-reports');
     Route::get('/maintenance-repo', [MaintenanceController::class, 'maintenance_rep'])->name('maintenance-repo');
     Route::get('/getPDF', [ReportController::class, 'generatePDF']);
@@ -235,6 +247,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('maintainans-edit/{id}', [MaintenanceController::class, 'edit'])->name('maintenance-edit');
     Route::delete('maintainans-delete/{id}', [MaintenanceController::class, 'destroy'])->name('maintainans-delete');
     Route::put('maintainans-update/{id}', [MaintenanceController::class, 'update'])->name('maintainans-Update');
+    //Receive Maintenance
+    Route::get('receive-maintenance', [MaintenanceController::class, 'receive'])->name('receive-maintenance');
+    Route::get('maintenance-print/{id}', [MaintenanceController::class, 'download'])->name('maintenance-print');
     //Attribute
     Route::get('attributes', [AttributeController::class, 'home'])->name('attributes-index');
     Route::post('attribute-store', [AttributeController::class, 'store'])->name('attribute-store');
@@ -249,7 +264,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/departments', [DepartmentController::class, 'index']);
     Route::get('/departments/{id}/edit', [DepartmentController::class, 'edit']);
     Route::put('/departments/{id}', [DepartmentController::class, 'update'])->name('departments.update');
-    Route::delete('/departments/{id}', [DepartmentController::class, 'destroy']);
+    Route::delete('/departments/{id}', [DepartmentController::class, 'destroy'])->middleware('permission:delete_department');
     Route::post('/departments/{department}', [DepartmentController::class, 'updateStatus'])->name('departments.updateStatus');
 
     Route::get('/suppliers', [SupplierController::class, 'index'])->name('suppliers.index');
