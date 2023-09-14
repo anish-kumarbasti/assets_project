@@ -6,13 +6,14 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    <h4>{{ $businessSetting ? 'Update' : 'Add' }} Application Settings</h4>
+                    <h4>{{ $businessSetting ? 'Update' : 'Add' }} General Settings</h4>
                 </div>
                 {{-- @dd($businessSetting->id); --}}
                 <div class="card-body">
-                    <form method="POST" action="{{ $businessSetting ? route('settings.application.storeOrUpdate') : route('settings.application.store') }}" enctype="multipart/form-data">
+                    <form action="{{ route('settings.application.storeOrUpdate') }}" enctype="multipart/form-data" method="POST">
                         @csrf
-                        <input type="hidden" name="id" value="{{ $businessSetting->id }}">
+                        @method('put');
+                        <input type="hidden" name="id" value="{{ $businessSetting ? $businessSetting->id : '' }}">
                         <div class="form-group">
                             <label for="name">Company Name</label>
                             <input type="text" class="form-control" id="name" name="name" placeholder="Enter company name" value="{{ $businessSetting->name ?? '' }}">

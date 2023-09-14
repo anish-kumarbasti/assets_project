@@ -13,10 +13,8 @@ return new class extends Migration
     {
         Schema::create('business_settings', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->text('address');
-            $table->string('logo')->nullable();
+            $table->string('title');
+            $table->string('value');
             $table->timestamps();
         });
     }
