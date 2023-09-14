@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('assets', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('assettype_id');
+            $table->string('asset_type_id');
             $table->string('status');
             $table->timestamps();
         });

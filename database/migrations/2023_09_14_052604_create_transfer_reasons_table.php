@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('statuses', function (Blueprint $table) {
+        Schema::create('transfer_reasons', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('status')->nullable();
+            $table->string('reason');
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('statuses');
+        Schema::dropIfExists('transfer_reasons');
     }
 };

@@ -7,8 +7,10 @@ use App\Models\AssetType;
 use App\Models\Issuence;
 use App\Models\Stock;
 use App\Models\User;
+use App\Notifications\IssuenceNotification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon as SupportCarbon;
 
 class IssuenceController extends Controller
 {
@@ -53,7 +55,7 @@ class IssuenceController extends Controller
         ]);
         // dd($request);
         $dateTime = Carbon::createFromFormat('Y-m-d H:i', $request->date . ' ' . $request->time);
-        Issuence::create([
+        $issuence = Issuence::create([
             'employee_id' => $request->employeeId,
             'asset_type_id' => $request->asset_type,
             'asset_id' => $request->asset,
@@ -62,7 +64,16 @@ class IssuenceController extends Controller
             'issuing_time_date' => $dateTime,
             'due_date' => $request->due_date,
         ]);
+        $user = User::where('employee_id',$request->employeeId)->first();
+        $user->notify(new IssuenceNotification($user));
         return back()->with('success', 'Asset Issued!');
+    }
+
+    public function markasread($id){
+        if($id){
+            auth()->user()->unreadNotifications->where('id',$id)->markAsRead();
+        }
+        return back();
     }
 
 }
