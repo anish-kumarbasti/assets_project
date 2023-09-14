@@ -1,6 +1,14 @@
 @extends('Backend.Layouts.panel')
 
 @section('Style-Area')
+<style>
+    .custom-btn {
+        font-size: 11px;
+        padding: 5px 10px;
+        line-height: 1.5;
+        pointer-events: none;
+    }
+</style>
 @endsection
 
 @section('Content-Area')
@@ -122,7 +130,7 @@
                                 <td>{{ $maintenance->asset ?? 'N/A' }}</td>
                                 <td>{{ $maintenance->product_id ?? 'N/A' }}</td>
                                 <td>{{ $maintenance->asset_price ?? 'N/A' }}</td>
-                                <td><span class="{{$maintenance->statuss->status ?? 'N/A'}}">{{$maintenance->statuss->name ?? 'N/A'}}</span></td>
+                                <td><span class=" custom-btn {{$maintenance->statuss->status ?? 'N/A'}}">{{$maintenance->statuss->name ?? 'N/A'}}</span></td>
                                 <td>{{ $maintenance->start_date }}</td>
                                 <td>{{ $maintenance->end_date }}</td>
                                 <td>

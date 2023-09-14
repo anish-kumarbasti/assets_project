@@ -47,11 +47,12 @@
         color: #5bc0de;
         font-weight: bold;
     }
-.add-field {
-cursor: pointer;
-color: #5bc0de;
-font-weight: bold;
-}
+
+    .add-field {
+        cursor: pointer;
+        color: #5bc0de;
+        font-weight: bold;
+    }
 </style>
 @endsection
 @section('Content-Area')
@@ -121,7 +122,7 @@ font-weight: bold;
                             <label class="form-label" for="validationCustom01">Product Info</label>
                             <input class="form-control" value="{{isset($stockedit)?$stockedit->product_info:''}}" id="validationCustom01" type="text" name="product_info" data-bs-original-title="" title="" placeholder="Enter Product Info">
                             @error('product_info')
-                                    <div class="text-danger">{{ $message }}</div>
+                            <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="col-md-4 mb-4" id="serialnumber">
@@ -209,7 +210,7 @@ font-weight: bold;
                     <label class="form-label" for="validationCustom01">Price</label>
                     <input class="form-control" id="validationCustom01" value="{{ isset($stockedit) ? $stockedit->price : '' }}" type="text" name="price" data-bs-original-title="" title="" placeholder="Enter Price">
                     @error('price')
-                        <div class="text-danger">{{ $message }}</div>
+                    <div class="text-danger">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="col-md-4 mb-4" id="warranty">
@@ -222,6 +223,15 @@ font-weight: bold;
                 <div class="col-md-4 mb-4" id="expiryField">
                     <label class="col-form-label" for="expiryDateInput">Expiry</label>
                     <input class="datepicker-here form-control" id="expiryDateInput" name="expiry" type="text" data-language="en">
+                </div>
+                <div class="col-md-4 mb-4">
+                    <label class="col-form-label" for="expiryDateInput">Status</label>
+                    <select class="form-select" id="status" name="status" aria-label="Default select example">
+                        <option value="">--Select Status--</option>
+                        @foreach ($status as $status)
+                        <option value="{{ $status->id }}">{{ $status->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
         </div>
@@ -315,7 +325,8 @@ font-weight: bold;
                 jQuery.ajax({
                     url: '/get-asset-type/' + assettypeId,
                     type: 'POST',
-                    data: 'assettypeId' + assettypeId + '&_token={{csrf_token()}}',_cache: new Date().getTime(),
+                    data: 'assettypeId' + assettypeId + '&_token={{csrf_token()}}',
+                    _cache: new Date().getTime(),
                     success: function(data) {
                         jQuery('#asset').append('<option value="">--Select Asset--</option>');
                         jQuery.each(data.assets, function(key, value) {
