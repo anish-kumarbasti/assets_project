@@ -83,6 +83,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('/users/{user}/assign-roles', [UserController::class, 'updateRoles'])->name('users.update_roles');
 
     Route::get('home', [ChartDashboardController::class, 'index'])->name('home');
+    Route::get('user_dashboard', [ChartDashboardController::class, 'userDashboard'])->name('user-dashboard');
+
     Route::get('stock', [StockController::class, 'index']);
 
     Route::post('/get-brand-models/{brandId}', [StockController::class, 'getBrandModels']);
