@@ -55,6 +55,11 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 @endsection
 @section('Content-Area')
+    @isset($jsonData)
+        @php
+            $data = json_decode($jsonData);
+        @endphp
+    @endisset
     <div class="col-sm-12">
         <form class="needs-validation" novalidate="">
             <div class="card" id="employee-step">
@@ -87,131 +92,120 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-item border mt-3 card" id="myDiv" style="display: none;">
-                        <div class="row p-3">
-                            <div class="col-md-4 mb-4">
-                                <label class="form-label" for="validationCustom01">Name:</label>
-                                <input class="form-control" id="name" type="text" data-bs-original-title=""
-                                    title="" placeholder="Abhi" readonly>
+                    <div id="myDiv" style="display: none;">
+                        <div class="card-item border mt-3 card">
+                            <div class="row p-3">
+                                @if (isset($data->employee))
+                                    <div class="col-md-4 mb-4">
+                                        <label class="form-label" for="validationCustom01">Name:</label>
+                                        <input class="form-control" id="name" value="{{ $data->employee->first_name }}"
+                                            type="text" data-bs-original-title="" title="" placeholder="Abhi"
+                                            readonly>
+                                    </div>
+                                    <div class="col-md-4 mb-4">
+                                        <label class="form-label" for="validationCustom01">Department:</label>
+                                        <input class="form-control" id="depart"
+                                            value="{{ $data->employee->department->name }}" type="text"
+                                            data-bs-original-title="" title="" placeholder="IT Department" readonly>
+                                    </div>
+                                    <div class="col-md-4 mb-4">
+                                        <label class="form-label" for="validationCustom01">Designation:</label>
+                                        <input class="form-control" id="location"
+                                            value="{{ $data->employee->designation->name }}" type="text"
+                                            data-bs-original-title="" title="" placeholder="HR" readonly>
+                                    </div>
+                                @else
+                                    <p>No employee found for the given criteria.</p>
+                                @endif
                             </div>
-                            <div class="col-md-4 mb-4">
-                                <label class="form-label" for="validationCustom01">Department:</label>
-                                <input class="form-control" id="depart" type="text" data-bs-original-title=""
-                                    title="" placeholder="IT Department" readonly>
+                        </div>
+                        <div class="card-item mt-3">
+                            <div class="row py-3" id="assetdetail">
+                                @if (isset($data->products) && count($data->products) > 0)
+                                    <h2>Products</h2>
+                                    <ul>
+                                        @foreach ($data->products as $product)
+                                            <div class="col-md-3">
+                                                <div class="card change-card" data-card-id="{{ $product->id }}">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title card-text p-2">{{ $product->product_info }}
+                                                        </h5>
+                                                        <p class="card-subtitle mb-2">Type: <span
+                                                                class="text-muted">{{ $product->asset_type->name }}</span>
+                                                        </p>
+                                                        <p class="card-subtitle mb-2">
+                                                            Brand: <span
+                                                                class="text-muted">{{ $product->brand->name ?? 'N/A' }}</span>
+                                                            License Number: <span
+                                                                class="text-muted">{{ $product->liscense_number ?? 'N/A' }}</span>
+                                                        </p>
+                                                        <p class="card-subtitle mb-2">
+                                                            Brand Model: <span
+                                                                class="text-muted">{{ $product->brandmodel->name ?? 'N/A' }}</span>
+                                                            Configuration: <span
+                                                                class="text-muted">{{ $product->configuration ?? 'N/A' }}</span>
+                                                        </p>
+                                                        <p class="card-subtitle mb-2">Supplier: <span
+                                                                class="text-muted">{{ $product->supplier->name }}</span>
+                                                        </p>
+                                                        <p class="card-subtitle mb-2">Price: <span
+                                                                class="text-muted">{{ $product->price }}</span></p>
+                                                        <input type="hidden" value="{{ $product->id }}" name="cardId[]">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </ul>
+                                @else
+                                    <p>No products found for the employee.</p>
+                                @endif
                             </div>
-                            <div class="col-md-4 mb-4">
-                                <label class="form-label" for="validationCustom01">Designation:</label>
-                                <input class="form-control" id="location" type="text" data-bs-original-title=""
-                                    title="" placeholder="HR" readonly>
+                            <div class="card-footer d-flex justify-content-between">
+                                <button class="btn btn-secondary prev-step" id="prev-asset" type="button">Previous</button>
+                                <button class="btn btn-primary next-step" id="next-assets" data-step="thirdStep"
+                                    type="button">Next</button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="footer-item p-5">
-                    <button class="btn btn-primary float-end" id="next-employee" data-next="select-asset-step"
-                        type="button">Next</button>
-                </div>
-            </div>
-            <div class="card mt-3" id="select-asset-step">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-3 mt-2">
-                            <label class="form-label" for="validationCustom01">Transfer Reason:</label>
-                        </div>
-                        <div class="col-md-3 mt-2">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="transferReason" id="replacementRadio"
-                                    value="replacement">
-                                <label class="form-check-label" for="replacementRadio">Replacement</label>
+                <div class="card mt-3" id="thirdStep" style="display: none;">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3 mt-2">
+                                <label class="form-label" for="validationCustom01">Transfer Reason:</label>
                             </div>
-                        </div>
-                        <div class="col-md-3 mt-2">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="transferReason" id="itClearanceRadio"
-                                    value="itClearance" required>
-                                <label class="form-check-label" for="itClearanceRadio">IT Clearance</label>
+                            <div class="col-md-3 mt-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="transferReason"
+                                        id="replacementRadio" value="replacement">
+                                    <label class="form-check-label" for="replacementRadio">Replacement</label>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-3 mt-2">
-                            <select class="form-select" aria-label="Default select example" id="transferTypeSelect">
-                                <option selected>Vacation</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
+                            <div class="col-md-3 mt-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="transferReason"
+                                        id="itClearanceRadio" value="itClearance" required>
+                                    <label class="form-check-label" for="itClearanceRadio">IT Clearance</label>
+                                </div>
+                            </div>
+                            <div class="col-md-3 mt-2">
+                                <select class="form-select" aria-label="Default select example" id="transferTypeSelect">
+                                    <option selected>Vacation</option>
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
-                  </div>
                     <div class="card-footer d-flex justify-content-between">
-                     <button class="btn btn-secondary" id="prev-asset" data-prev="employee-step"
-                     type="button">Previous</button>
-                     <button class="btn btn-primary" id="next-assets" data-next="thirdStep"
-                     type="button">Next</button>
-                 </div>
-            </div>
-            <div class="card mt-3" id="thirdStep" style="display: none;">
-                <div class="card-body">
-                    <div class="card-header pb-0">
-                    </div>
-                    <div class="row py-3">
-                        <!-- First Card -->
-                        <div class="col-md-3">
-                            <h5>1. Laptop<span class="cross-icon"><i class="fa fa-close"></i></span></h5>
-                            <div class="card card-box">
-                                <div class="card-body">
-                                    <h5 class="card-title card-text p-2">Dell Inspiron 5510</h5>
-                                    <p class="card-subtitle mb-2 text-muted">Brand: <span>Dell</span></p>
-                                    <p class="card-subtitle mb-2 text-muted">Brand: <span>0123456789</span></p>
-                                    <p class="card-subtitle mb-2 text-muted">Price: <span>62,000/-</span></p>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Second Card -->
-                        <div class="col-md-3">
-                            <h5>2. Monitor<span class="cross-icon"><i class="fa fa-close"></i></span></h5>
-                            <div class="card card-box">
-                                <div class="card-body">
-                                    <h5 class="card-title card-text p-2">Dell Inspiron 5510</h5>
-                                    <p class="card-subtitle mb-2 text-muted">Brand: <span>Dell</span></p>
-                                    <p class="card-subtitle mb-2 text-muted">Brand: <span>0123456789</span></p>
-                                    <p class="card-subtitle mb-2 text-muted">Price: <span>62,000/-</span></p>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Third Card -->
-                        <div class="col-md-3">
-                            <h5>3. Phone<span class="cross-icon"><i class="fa fa-close"></i></span></h5>
-                            <div class="card card-box">
-                                <div class="card-body">
-                                    <h5 class="card-title card-text p-2">Dell Inspiron 5510</h5>
-                                    <p class="card-subtitle mb-2 text-muted">Brand: <span>Dell</span></p>
-                                    <p class="card-subtitle mb-2 text-muted">Brand: <span>0123456789</span></p>
-                                    <p class="card-subtitle mb-2 text-muted">Price: <span>62,000/-</span></p>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Fourth Card -->
-                        <div class="col-md-3">
-                            <h5>4. Phone<span class="cross-icon"><i class="fa fa-close"></i></span></h5>
-                            <div class="card card-box">
-                                <div class="card-body">
-                                    <h5 class="card-title card-text p-2">Dell Inspiron 5510</h5>
-                                    <p class="card-subtitle mb-2 text-muted">Brand: <span>Dell</span></p>
-                                    <p class="card-subtitle mb-2 text-muted">Brand: <span>0123456789</span></p>
-                                    <p class="card-subtitle mb-2 text-muted">Price: <span>62,000/-</span></p>
-                                </div>
-                            </div>
-                        </div>
+                        <button class="btn btn-secondary prev-step" id="prev-asset" data-step="employee-step"
+                            type="button">Previous</button>
+                        <button class="btn btn-primary next-step" id="next-assets" data-step="fourthStep"
+                            type="button">Next</button>
                     </div>
                 </div>
-                <div class="card-footer d-flex justify-content-between">
-                  <button class="btn btn-secondary" id="prev-asset" data-prev="select-asset-step"
-                  type="button">Previous</button>
-                  <button class="btn btn-primary" id="next-assets" data-next="fourthStep"
-                  type="button">Next</button>
-              </div>
-            </div>
-            {{-- <div class="card mt-3 mb-3">
+                {{-- <div class="card mt-3 mb-3">
       <div class="card-body">
          <div class="row">
             <div class="col-md-3 mt-2 text-center">
@@ -315,21 +309,22 @@
          </div>
       </div>
    </div> --}}
-            <div class="card-item border mt-3 card" id="fourthStep" style="display: none;">
-                <div class="row p-3">
-                    <div class="col-md-12 mb-4">
-                        <label class="form-label" for="validationCustom01">Description</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="" rows="3"></textarea>
+                <div class="card-item border mt-3 card" id="fourthStep" style="display: none;">
+                    <div class="row p-3">
+                        <div class="col-md-12 mb-4">
+                            <label class="form-label" for="validationCustom01">Description</label>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="footer-item mt-3 mb-3 d-flex justify-content-end">
+                        <button class="btn btn-secondary prev-step" id="prev-asset" data-step="thirdStep"
+                            type="button">Previous</button>
+                        <button class="btn btn-primary mt-2" type="submit" data-bs-original-title=""
+                            title="">Proceed
+                            Request</button>
                     </div>
                 </div>
-                <div class="footer-item mt-3 mb-3 d-flex justify-content-end">
-                   <button class="btn btn-secondary" id="prev-asset" data-prev="thirdStep"
-                   type="button">Previous</button>
-                    <button class="btn btn-primary mt-2" type="submit" data-bs-original-title="" title="">Proceed
-                        Request</button>
-                </div>
             </div>
-    </div>
     </div>
     </div>
 @endsection
@@ -337,33 +332,20 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const form = document.querySelector(".f1");
-            const steps = form.querySelectorAll(".card");
-            const nextButtons = form.querySelectorAll("[data-next]");
-            const prevButtons = form.querySelectorAll("[data-prev]");
+        $(document).ready(function() {
+            const steps = ["employee-step", "select-asset-step", "thirdStep", "fourthStep"];
+            let currentStep = 0;
 
-            nextButtons.forEach(button => {
-                button.addEventListener("click", function() {
-                    const currentStep = button.closest(".card");
-                    const nextStepId = button.getAttribute("data-next");
-                    const nextStep = form.querySelector(`#${nextStepId}`);
-
-                    storeStepData(currentStep);
-
-                    currentStep.style.display = "none";
-                    nextStep.style.display = "block";
-                });
+            $(".next-step").click(function() {
+                $("#" + steps[currentStep]).hide();
+                currentStep++;
+                $("#" + steps[currentStep]).show();
             });
-            prevButtons.forEach(button => {
-                button.addEventListener("click", function() {
-                    const currentStep = button.closest(".card");
-                    const prevStepId = button.getAttribute("data-prev");
-                    const prevStep = form.querySelector(`#${prevStepId}`);
-                    storeStepData(currentStep);
-                    currentStep.style.display = "none";
-                    prevStep.style.display = "block";
-                });
+
+            $(".prev-step").click(function() {
+                $("#" + steps[currentStep]).hide();
+                currentStep--;
+                $("#" + steps[currentStep]).show();
             });
         });
         const form = document.querySelector(".f1");
@@ -378,30 +360,18 @@
                 div.style.display = 'none';
             }
         }
+        var selectedCards = {};
         $(document).ready(function() {
             $("#employeeId").on("input", function() {
                 var employeeId = $(this).val();
+                //  alert(employeeId);
                 $.ajax({
-                    url: "/server_script",
+                    url: "/server_asset_script",
                     method: "GET",
                     data: {
-                        employeeId: employeeId
+                        employeeId: employeeId,
                     },
                     dataType: "json",
-                    success: function(data) {
-                        console.log(data);
-                        $("#name").val(data.first_name);
-                        if (data.department) {
-                            $("#depart").val(data.department.name);
-                        } else {
-                            $('#depart').val("");
-                        }
-                        if (data.designation) {
-                            $("#location").val(data.designation.designation);
-                        } else {
-                            $("#location").val("");
-                        }
-                    }
                 });
             });
         });

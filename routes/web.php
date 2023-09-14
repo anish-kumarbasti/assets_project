@@ -28,6 +28,7 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\ChartDashboardController;
 use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\master\TransferReasonController;
 use App\Http\Controllers\StatusController;
 
 /*
@@ -88,7 +89,15 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('stock', [StockController::class, 'index']);
 
     Route::get('markasread/{id}',[IssuenceController::class,'markasread'])->name('markasread');
-
+    // Transfer Reason 
+    Route::get('transfer-reasons', [TransferReasonController::class, 'index'])->name('transfer-reasons.index');
+    Route::get('transfer-reasons/create', [TransferReasonController::class, 'create'])->name('transfer-reasons.create');
+    Route::post('transfer-reasons', [TransferReasonController::class, 'store'])->name('transfer-reasons.store');
+    Route::get('transfer-reasons/{transferReason}', [TransferReasonController::class, 'edit'])->name('transfer-reasons.edit');
+    Route::put('transfer-reasons/{transferReason}', [TransferReasonController::class, 'update'])->name('transfer-reasons.update');
+    Route::delete('transfer-reasons/{transferReason}', [TransferReasonController::class, 'destroy'])->name('transfer-reasons.destroy');
+    Route::post('/reason-status/{reason}', [TransferReasonController::class, 'updateStatus'])->name('transfer.updateStatus');
+    //Stock
     Route::post('/get-brand-models/{brandId}', [StockController::class, 'getBrandModels']);
     Route::post('/get-slocation/{locationId}', [StockController::class, 'getslocation']);
     Route::post('/get-asset-type/{assettypeId}', [StockController::class, 'getasset']);
@@ -121,7 +130,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     //Searct Employee id
     Route::get('server_script', [IssuenceController::class, 'index']);
+    Route::get('server_asset_script', [TransferController::class, 'index']);
     Route::get('transfer', [TransferController::class, 'index']);
+    Route::get('/get-issuance-data', 'IssuanceController@getIssuanceData');
     Route::get('add-user', [UserController::class, 'user']);
     Route::get('user-details', [UserController::class, 'userCard']);
     //Assets

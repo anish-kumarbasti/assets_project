@@ -37,13 +37,14 @@
                @can('view_asset')
                <li><a href="{{ url('assets')}}">Asset Name</a></li>
                @endcan
-               <li><a href="{{ route('create-brand')}}">Brand</a></li>
-               <li><a href="{{ url('brand-model')}}">Brand Model</a></li>
+               <li><a href="{{ route('create-brand')}}">Brands</a></li>
+               <li><a href="{{ url('brand-model')}}">Brand Models</a></li>
                <li><a href="{{ url('location-index')}}">Locations</a></li>
                <li><a href="{{ url('sublocation-index')}}">Sub-Locations</a></li>
                <li><a href="{{ url('attributes')}}">Attributes</a></li>
                <li><a href="{{ url('suppliers')}}">Suppliers</a></li>
-               <li><a href="{{url('add-status')}}">Status</a></li>
+               <li><a href="{{url('add-status')}}">Asset Status</a></li>
+               <li><a href="{{route('transfer-reasons.index')}}">Transfer Reasons</a></li>
              </ul>
            </li>
 
@@ -100,14 +101,12 @@
 
              </ul>
            </li>
-           @can('add_disposal')
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="trash"></i><span>Depreciation</span></a>
              <ul class="sidebar-submenu">
                <li><a href="{{ url('disposal')}}">Add Depreciation</a> </li>
 
              </ul>
            </li>
-           @endcan
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="book-open"></i><span>Reports</span></a>
              <ul class="sidebar-submenu">
                <li><a href="{{url('all-reports')}}">All Reports</a> </li>
