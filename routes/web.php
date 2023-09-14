@@ -207,7 +207,6 @@ Route::group(['middleware' => 'auth'], function () {
     //PDF and CSV
     Route::get('/load-disposal-pdf', [DisposalController::class, 'disposal_pdf'])->name('load-disposal-pdf');
     Route::get('/load-disposal', [DisposalController::class, 'load_disposal'])->name('load-disposal-report');
-    Route::get('/download-maintenance', [MaintenanceController::class, 'download'])->name('download-maintenance');
     Route::get('/maintenance-reports', [MaintenanceController::class, 'maintenance_reports'])->name('maintenance-reports');
     Route::get('/maintenance-repo', [MaintenanceController::class, 'maintenance_rep'])->name('maintenance-repo');
     Route::get('/getPDF', [ReportController::class, 'generatePDF']);
@@ -234,6 +233,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('maintainans-edit/{id}', [MaintenanceController::class, 'edit'])->name('maintenance-edit');
     Route::delete('maintainans-delete/{id}', [MaintenanceController::class, 'destroy'])->name('maintainans-delete');
     Route::put('maintainans-update/{id}', [MaintenanceController::class, 'update'])->name('maintainans-Update');
+    //Receive Maintenance
+    Route::get('receive-maintenance', [MaintenanceController::class, 'receive'])->name('receive-maintenance');
+    Route::get('maintenance-print/{id}', [MaintenanceController::class, 'download'])->name('maintenance-print');
     //Attribute
     Route::get('attributes', [AttributeController::class, 'home'])->name('attributes-index');
     Route::post('attribute-store', [AttributeController::class, 'store'])->name('attribute-store');

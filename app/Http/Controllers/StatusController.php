@@ -57,7 +57,7 @@ class StatusController extends Controller
         );
         $status = Status::find($id);
         $status->name = $request->name;
-        // $status->status = $request->status;
+        $status->status = $request->status;
         $status->update();
         return redirect()->route('change-status')->with('success', 'Status Updated Successfully');
     }

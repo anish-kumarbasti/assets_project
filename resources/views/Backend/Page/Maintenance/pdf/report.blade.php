@@ -33,7 +33,7 @@
 </head>
 
 <body>
-    <h1 id="text">Maintenance</h1>
+    <h1 id="text"> Receive Maintenance</h1>
     <table>
         <thead>
             <tr>
@@ -54,19 +54,7 @@
                 <td>{{$maintain->asset ?? 'N/A' }}</td>
                 <td>{{$maintain->product_id ?? 'N/A' }}</td>
                 <td>{{$maintain->asset_price ?? 'N/A' }}</td>
-                @if($maintain->status==1)
-                <td><span class="mj_btn btn btn-danger">Pending </span></td>
-                @elseif($maintain->status=='2')
-                <td><span class="mj_btn btn btn-warning">Working </span></td>
-                @elseif($maintain->status=='3')
-                <td><span class="mj_btn btn btn-primary">Active</span></td>
-                @elseif($maintain->status=='4')
-                <td><span class="mj_btn btn btn-info">Sortlisted</span></td>
-                @elseif($maintain->status=='5')
-                <td><span class="mj_btn btn btn-success">deliver</span></td>
-                @else
-                <td>N/A</td>
-                @endif
+                <td>{{$maintain->statuss->name}}</td>
                 <td>{{$maintain->start_date}}</td>
                 <td>{{$maintain->end_date}}</td>
             </tr>

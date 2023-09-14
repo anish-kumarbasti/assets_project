@@ -13,6 +13,12 @@ use Illuminate\Http\Request;
 
 class MaintenanceController extends Controller
 {
+    public function receive()
+    {
+        $maintain = Maintenance::with('statuss')->get();
+        $status = Status::all();
+        return view('Backend.Page.Maintenance.Receive.index', compact('maintain', 'status'));
+    }
     public function maintenance_rep()
     {
         $maintain = Maintenance::all();
@@ -24,9 +30,9 @@ class MaintenanceController extends Controller
         $maintain = Maintenance::all();
         return view('Backend.Page.Maintenance.pdf.maintenance-reports', compact('maintain'));
     }
-    public function download()
+    public function download($id)
     {
-        $maintain = Maintenance::latest()->first();
+        $maintain = Maintenance::with('statuss')->find($id);
         return view('Backend.Page.Maintenance.pdf.report', compact('maintain'));
     }
     public function index(Request $request)

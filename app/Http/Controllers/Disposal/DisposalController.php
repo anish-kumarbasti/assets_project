@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Asset;
 use App\Models\AssetType;
 use App\Models\Disposal;
+use App\Models\Status;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
@@ -30,27 +31,30 @@ class DisposalController extends Controller
     {
         $assettype = AssetType::all();
         $asset = Asset::all();
-        $disposal = Disposal::all();
-        return view('Backend.Page.Disposal.disposal', compact('assettype', 'asset', 'disposal'));
+        $disposal = Disposal::with('statuses')->get();
+        $status = Status::all();
+        return view('Backend.Page.Disposal.disposal', compact('assettype', 'asset', 'disposal', 'status'));
     }
     public function store(Request $request)
     {
         $request->validate([
-            'assetType' => 'required', // Example: Valid values are Type1, Type2, Type3
-            'assetName' => 'required', // Example: It should be a string
-            'period_months' => 'required|integer|min:1', // Example: It should be a positive integer
-            'product_name' => 'required', // Example: It should exist in the 'products' table
-            'asset_value' => 'required|numeric|min:0.01', // Example: It should be a positive numeric value with at least 2 decimal places
-            'desposal_code' => 'required|alpha_num', // Example: It should be alphanumeric
+            'assetType' => 'required',
+            'assetName' => 'required',
+            'period_months' => 'required|integer|min:1',
+            'product_name' => 'required',
+            'asset_value' => 'required|numeric|min:0.01',
+            'desposal_code' => 'required|alpha_num',
+            'status' => 'required',
         ]);
         // dd($request);
         Disposal::create([
             'category' => $request->assetType,
             'asset' => $request->assetName,
-            'product_id' => $request->product_name,
+            'product_info' => $request->product_name,
             'period_months' => $request->period_months,
             'asset_value' => $request->asset_value,
             'desposal_code' => $request->desposal_code,
+            'status' => $request->status,
         ]);
         return redirect()->route('disposal')->with('success', 'Add Disposal successfully');
     }

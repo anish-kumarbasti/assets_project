@@ -9,7 +9,7 @@ class Disposal extends Model
 {
     use HasFactory;
     protected $table = 'disposels';
-    protected $fillable = ['category', 'asset', 'period_months', 'asset_value', 'desposal_code','product_id'];
+    protected $fillable = ['category', 'asset', 'period_months', 'asset_value', 'desposal_code', 'product_info', 'status'];
     public function TypeName()
     {
         return $this->belongsTo(AssetType::class, 'category');
@@ -21,5 +21,9 @@ class Disposal extends Model
     public function product()
     {
         return $this->belongsTo(Stock::class, 'product_id', 'id');
+    }
+    public function statuses()
+    {
+        return $this->belongsTo(Status::class, 'status');
     }
 }

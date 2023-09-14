@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Stock extends Model
 {
     use HasFactory;
-    protected $guarded=[];
+    protected $guarded = [];
 
     public function brand()
     {
@@ -26,12 +26,16 @@ class Stock extends Model
     {
         return $this->belongsTo(AssetType::class, 'asset_type_id');
     }
-    public function brandmodel(){
+    public function brandmodel()
+    {
         return $this->belongsTo(Brandmodel::class, 'brand_model_id');
     }
     public function getsupplier()
-{
-    return $this->belongsTo(Supplier::class, 'supplier');
-}
-
+    {
+        return $this->belongsTo(Supplier::class, 'supplier');
+    }
+    public function statuses()
+    {
+        return $this->belongsTo(Status::class, 'status_available');
+    }
 }

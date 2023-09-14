@@ -30,7 +30,7 @@
                </div>
             </div>
             <div class="footer-item d-flex justify-content-end mt-3">
-               <button class="btn btn-primary" type="submit">Add</button>
+               <button class="btn btn-primary" type="submit">Add</button>&nbsp;
                <a href="{{ route('designations.index') }}" class="btn btn-warning">Back</a>
             </div>
          </form>
