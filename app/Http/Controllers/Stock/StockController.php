@@ -156,13 +156,14 @@ class StockController extends Controller
         $sublocation = SubLocationModel::all();
         $attribute = Attribute::all();
         $supplier = Supplier::all();
-        return view('Backend.Page.Stock.add-stock', compact('stockedit', 'asset', 'asset_type', 'brand', 'brand_model', 'location', 'sublocation', 'attribute', 'supplier'));
+        $status = Status::all();
+        return view('Backend.Page.Stock.add-stock', compact('stockedit', 'asset', 'asset_type', 'brand', 'brand_model', 'location', 'sublocation', 'attribute', 'supplier', 'status'));
     }
     public function update(Request $request, $id)
     {
         // dd($request);
         $request->validate([
-            'price' => 'required|integer|max:10',
+            'price' => 'required|integer|min:1',
             'product_info' => 'required|string|max:50',
         ]);
 

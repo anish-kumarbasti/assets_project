@@ -40,14 +40,14 @@ class DepartmentController extends Controller
         ]);
 
         // Redirect back to the list of departments
-        return redirect('/departments/create')->with('message', 'Department Added Successfully!');
+        return redirect('departments')->with('message', 'Department Added Successfully!');
     }
 
     // Show the list of departments
     public function index()
     {
         $departments = Department::all();
-        return view('Backend.Page.Master.departments.index', ['departments' => $departments]);
+        return view('Backend.Page.Master.department.index', ['departments' => $departments]);
     }
 
     // Show the "Edit Department" form

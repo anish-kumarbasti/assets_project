@@ -27,7 +27,7 @@ class LoginController extends Controller
         if (Auth::attempt($request->only('email', 'password'))) {
             // Set a success message in the session
             Session::flash('success', 'Login Successfully');
-            return redirect()->route('home');
+            return redirect()->route('home')->with('success', 'Login Successfully');
         }
         // If login fails, show an error message
         Session::flash('error', 'Login Failed. Please try again.');
@@ -42,5 +42,4 @@ class LoginController extends Controller
         $request->session()->regenerateToken();
         return redirect()->route('/');
     }
-
 }

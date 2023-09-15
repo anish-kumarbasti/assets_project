@@ -54,9 +54,9 @@
                 <td>{{ $disposals->TypeName->name??'N/A' }}</td>
                 <td>{{ $disposals->assetName->name??'N/A' }}</td>
                 <td>{{ $disposals->product->product_info??'N/A' }}</td>
-                <td>{{ $disposals->period_months }}</td>
-                <td>{{ $disposals->asset_value }}</td>
-                <td>{{ $disposals->desposal_code }}</td>
+                <td>{{ $disposals->period_months ??''}}</td>
+                <td>{{ $disposals->asset_value??'' }}</td>
+                <td>{{ $disposals->desposal_code??'' }}</td>
             </tr>
             @endforeach
         </tbody>

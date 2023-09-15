@@ -23,7 +23,7 @@
             <table class="display" id="basic-1">
                <thead>
                   <tr>
-                     <th>SL</th>
+                     <th>ID</th>
                      <th>Name</th>
                      <th>Status</th>
                      <th>Action</th>

@@ -54,9 +54,9 @@
                 <td>{{$maintain->asset ?? 'N/A' }}</td>
                 <td>{{$maintain->product_id ?? 'N/A' }}</td>
                 <td>{{$maintain->asset_price ?? 'N/A' }}</td>
-                <td>{{$maintain->statuss->name}}</td>
-                <td>{{$maintain->start_date}}</td>
-                <td>{{$maintain->end_date}}</td>
+                <td>{{$maintain->statuss->name??'N/A'}}</td>
+                <td>{{$maintain->start_date??'N/A'}}</td>
+                <td>{{$maintain->end_date??'N/A'}}</td>
             </tr>
         </tbody>
     </table>

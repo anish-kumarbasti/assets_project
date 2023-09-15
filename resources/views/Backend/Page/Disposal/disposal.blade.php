@@ -131,10 +131,10 @@
                                 <td>{{ $disposals->TypeName->name??'N/A' }}</td>
                                 <td>{{ $disposals->assetName->name??'N/A' }}</td>
                                 <td>{{ $disposals->product->product_info??'N/A' }}</td>
-                                <td>{{ $disposals->period_months }}</td>
-                                <td>{{ $disposals->asset_value }}</td>
-                                <td>{{ $disposals->desposal_code }}</td>
-                                <td> <span class=" custom-btn {{$disposals->statuses->status}}">{{$disposals->statuses->name}}</span></td>
+                                <td>{{ $disposals->period_months??'N/A'}}</td>
+                                <td>{{ $disposals->asset_value??'N/A'}}</td>
+                                <td>{{ $disposals->desposal_code??'N/A'}}</td>
+                                <td> <span class=" custom-btn {{$disposals->statuses->status??'N/A'}}">{{$disposals->statuses->name??'N/A'}}</span></td>
                                 <td>
                                     <div class="btn-group">
                                         <a href="{{ route('disposal-edit', $disposals->id) }}" class=" btn btn-primary"><i class="fa fa-pencil"></i> Edit</a>&nbsp;

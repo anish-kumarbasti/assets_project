@@ -34,9 +34,9 @@
                         @foreach($designations as $designation)
                         <tr>
                             <td>{{ $designation->id }}</td>
-                            <td>{{ $designation->department->name }}</td>
-                            <td>{{ $designation->designation }}</td>
-                            
+                            <td>{{ $designation->department->name??'N/A'}}</td>
+                            <td>{{ $designation->designation??'N/A' }}</td>
+
                             <td class="w-20">
                                 <label class="mb-0 switch">
                                     <input type="checkbox" checked=""><span class="switch-state"></span>
@@ -46,7 +46,7 @@
                                 @can('edit_designation')
                                 <a href="{{ route('designations.edit', $designation->id) }}" class="btn btn-primary"><i class="fa fa-pencil"></i> Edit</a>
                                 @endcan
-                                @can('delete_designation')    
+                                @can('delete_designation')
                                 <button class="btn btn-danger delete-button" type="button" data-id="{{ $designation->id }}"><i class="fa fa-trash-o"></i> Delete</button>
                                 @endcan
                             </td>

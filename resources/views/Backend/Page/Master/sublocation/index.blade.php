@@ -58,14 +58,13 @@
 @endsection
 
 @section('Script-Area')
-@section('Script-Area')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
         var alertmessage = $('#alert-success');
         setTimeout(function() {
             alertmessage.alert('close');
-        });
+        }, 3000);
     });
 </script>
 <script>
@@ -153,6 +152,4 @@
         });
     });
 </script>
-@endsection
-
 @endsection
