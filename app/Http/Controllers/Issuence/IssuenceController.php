@@ -65,7 +65,10 @@ class IssuenceController extends Controller
             'due_date' => $request->due_date,
         ]);
         $user = User::where('employee_id',$request->employeeId)->first();
-        $user->notify(new IssuenceNotification($user));
+        $managerUser=User::where('role_id',3)
+                           ->where('department_id',$user->department_id)->first();
+        $notified=[$user,$managerUser];
+        $user->notify(new IssuenceNotification($notified));
         return back()->with('success', 'Asset Issued!');
     }
 
