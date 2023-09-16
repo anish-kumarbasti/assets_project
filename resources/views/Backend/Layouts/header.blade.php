@@ -37,17 +37,10 @@
                   <li>
                     <div class="align-items-center">
                       @foreach (auth()->user()->notifications as $notification)
-                      @if ($notification->read_at == 'NULL')   
-                      {{-- @dd($notification); --}}
                       <div class="flex-shrink-0"><i data-feather="shopping-cart"></i></div>
                       <div class="flex-grow-1">
                         <p><b>{{$notification->data['name']??''}}</b>&nbsp;&nbsp;<a href="{{route('markasread',$notification->id)}}">New Notification!</a><span class="pull-right">3 hr</span></p>
                       </div>
-                      @else
-                      <div class="flex-grow-1">
-                        <p>You have not any Notification's.</p>
-                      </div>
-                      @endif
                       @endforeach
                     </div>
                   </li>

@@ -7,20 +7,18 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class IssuenceNotification extends Notification
+class TransferNotification extends Notification
 {
     use Queueable;
     public $user;
-    public $role_detail;
 
     /**
      * Create a new notification instance.
      */
     public function __construct($user)
     {
-            $this->user = $user[0];
-            $this->role_detail = $user[1];
-       
+        dd($user);
+        $this->user = $user;
     }
 
     /**
