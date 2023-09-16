@@ -204,6 +204,6 @@ class StockController extends Controller
         $stock = Stock::findOrFail($id);
         $stock->delete();
 
-        return redirect()->route('all.stock');
+        return response()->json(['success' => true]);
     }
 }
