@@ -85,10 +85,11 @@
            @endcan
            @can('view_stock')
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="home"></i><span>Stocks</span></a>
+
             <ul class="sidebar-submenu">
               <li><a href="{{ url('manage-stocks')}}">Manage Stocks</a></li>
               @can('manage_stock')<li><a href="{{ url('all-stock')}}">All Stocks</a></li>@endcan
-              @can('create_stock')<li><a href="{{ url('stock')}}">Stocks</a></li>@endcan
+              @can('create_stock')<li><a href="{{ url('stock')}}">Add Stocks</a></li>@endcan
             </ul>
           </li>
           @endcan
@@ -103,6 +104,7 @@
           </li>
           @endcan
            @can('view_general_setting')  
+
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="settings" class="fa fa-spin"></i><span>Bussiness Settings</span></a>
              <ul class="sidebar-submenu">
                <li><a href="{{route('settings.application')}}">General Settings</a></li>
