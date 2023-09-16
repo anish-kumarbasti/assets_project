@@ -80,10 +80,11 @@
 </style>
 @endsection
 @section('Content-Area')
-@if (Session::has('success'))
-    <div class="alert alert-success">
-        {{ Session::get('success') }}
-    </div>
+@if (session('success'))
+<div id="login" class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
+  <p><b> Well done! </b>{{session('success')}}</p>
+  <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
 @endif
 
 @if (Session::has('error'))
@@ -366,5 +367,15 @@
 
 @endsection
 
-
+@section('Script-Area')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    var alerts = $('#login');
+    setTimeout(function() {
+      alerts.alert('close');
+    }, 3000);
+  });
+</script>
+@endsection
 

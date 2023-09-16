@@ -81,16 +81,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/get-designations/{departmentId}', [UserController::class, 'getDesignations']);
     Route::get('users.user-profile/{id}', [UserController::class, 'users_profile'])->name('users.user-profile');
     Route::get('users.user.profile', [UserController::class, 'usersprofile']);
-
     Route::put('/users/{user}/assign-roles', [UserController::class, 'updateRoles'])->name('users.update_roles');
-
     Route::get('home', [ChartDashboardController::class, 'index'])->name('home');
     Route::get('user_dashboard', [ChartDashboardController::class, 'userDashboard'])->name('user-dashboard');
-
     Route::get('stock', [StockController::class, 'index']);
-
     Route::get('markasread/{id}', [IssuenceController::class, 'markasread'])->name('markasread');
-    // Transfer Reason
+    Route::get('accept-asset/{id}', [IssuenceController::class, 'AssetAccept'])->name('accept-asset');
+    // Transfer Reason 
     Route::get('transfer-reasons', [TransferReasonController::class, 'index'])->name('transfer-reasons.index');
     Route::get('transfer-reasons/create', [TransferReasonController::class, 'create'])->name('transfer-reasons.create');
     Route::post('transfer-reasons', [TransferReasonController::class, 'store'])->name('transfer-reasons.store');
@@ -105,12 +102,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/get-product-type/{producttypeId}', [StockController::class, 'getproduct']);
     Route::post('/get-asset-all-details/{assetdetail}', [IssuenceController::class, 'getassetdetail']);
     Route::post('/get-change-position', [IssuenceController::class, 'getchangecard']);
-
     Route::get('edit-stock/{id}', [StockController::class, 'edit']);
     Route::get('all-stock', [StockController::class, 'ShowStock'])->name('all.stock');
     Route::post('store-stock', [StockController::class, 'store'])->name('store.stock');
     Route::delete('/delete-stock/{id}', [StockController::class, 'destroy'])->name('delete.stock');
-
     Route::post('update-stock/{id}', [StockController::class, 'update'])->name('update.stock');
     Route::put('stock-status/{stockId}', [StockController::class, 'changestockstatus'])->name('change-stock-status');
     Route::get('manage-stocks', [StockController::class, 'manage']);
