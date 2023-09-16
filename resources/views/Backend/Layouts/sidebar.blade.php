@@ -90,6 +90,8 @@
              <ul class="sidebar-submenu">
 
                <li><a href="{{ url('issuences')}}"> Add Issuence </a></li>
+               <li><a href="{{ url('issuences/all') }}"> All Issuence </a></li>
+
 
 
              </ul>

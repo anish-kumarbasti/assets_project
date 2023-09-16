@@ -11,6 +11,7 @@ use App\Notifications\IssuenceNotification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon as SupportCarbon;
+use Illuminate\Support\Facades\DB;
 
 class IssuenceController extends Controller
 {
@@ -78,5 +79,14 @@ class IssuenceController extends Controller
         }
         return back();
     }
+    public function showAll()
+    {
+        $issuences = DB::table('issuences')
+            ->select('issuences.*', 'stocks.*')
+            ->join('stocks', 'issuences.product_id', 'like', DB::raw('CONCAT("%", stocks.id, "%")'))
+            ->get();
+        return view('Backend.Page.Issuence.all-issuence', compact('issuences'));
+    }
+
 
 }

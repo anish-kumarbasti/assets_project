@@ -90,7 +90,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('stock', [StockController::class, 'index']);
 
     Route::get('markasread/{id}', [IssuenceController::class, 'markasread'])->name('markasread');
-    // Transfer Reason 
+    // Transfer Reason
     Route::get('transfer-reasons', [TransferReasonController::class, 'index'])->name('transfer-reasons.index');
     Route::get('transfer-reasons/create', [TransferReasonController::class, 'create'])->name('transfer-reasons.create');
     Route::post('transfer-reasons', [TransferReasonController::class, 'store'])->name('transfer-reasons.store');
@@ -302,5 +302,6 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/issuences', [IssuenceController::class, 'index'])->name('issuences.index');
     Route::post('/issuence/store', [IssuenceController::class, 'store'])->name('issuence.store');
+    Route::get('/issuences/all', [IssuenceController::class, 'showAll'])->name('issuances.all');
     Route::get('/fetch-Card-info', [IssuenceController::class, 'CardInfo'])->name('fetch-Card-info');
 });
