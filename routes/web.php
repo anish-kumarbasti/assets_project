@@ -283,7 +283,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/update-password', [ChangePasswordController::class, 'changePassword'])->name('update_password');
     Route::post('update-profile-photo', [ChangePasswordController::class, 'updateProfilePhoto'])->name('profile.photo.update');
 
-    Route::get('/send-email', [SendEmailController::class, 'index']);
+    Route::get('/send-email', [SendEmailController::class, 'index'])->name('emails.send');
+    Route::put('/update-email', [SendEmailController::class, 'update'])->name('emails.update');
 
     Route::get('/profile-photo', [ChangePasswordController::class, 'profilePhoto'])->name('profile_photo');
     Route::put('/update-profile-photo', [ChangePasswordController::class, 'updateProfilePhoto'])->name('update_profile_photo');
