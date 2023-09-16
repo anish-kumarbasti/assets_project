@@ -185,7 +185,7 @@
             <div class="d-flex justify-content-between">
               <div class="flex-grow-1">
                 <p class="square-after f-w-600 header-text-primary">Asset Requests<i class="fa fa-circle"> </i></p>
-                <h4>12 meet</h4>
+
               </div>
               <div class="setting-list">
                 <ul class="list-unstyled setting-option">
@@ -294,7 +294,7 @@
                   </td>
                   <td>21 September </td>
                   <td class="text-end">
-                    <button class="btn btn-secondary" type="button" onclick="document.location='user-cards.html'">Done<i class="fa fa-check-circle"></i></button>
+                    <button class="btn btn-secondary" type="button" onclick="document.location='user-cards.html'">Transfered<i class="fa fa-check-circle"></i></button>
                   </td>
                 </tr>
                 <tr>
