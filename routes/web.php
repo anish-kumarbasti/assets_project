@@ -29,7 +29,7 @@ use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\ChartDashboardController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\SendEmailController;
-use App\Http\Controllers\master\TransferReasonController;
+use App\Http\Controllers\Master\TransferReasonController;
 use App\Http\Controllers\StatusController;
 
 /*
@@ -87,7 +87,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('stock', [StockController::class, 'index']);
     Route::get('markasread/{id}', [IssuenceController::class, 'markasread'])->name('markasread');
     Route::get('accept-asset/{id}', [IssuenceController::class, 'AssetAccept'])->name('accept-asset');
-    // Transfer Reason 
+    // Transfer Reason
     Route::get('transfer-reasons', [TransferReasonController::class, 'index'])->name('transfer-reasons.index');
     Route::get('transfer-reasons/create', [TransferReasonController::class, 'create'])->name('transfer-reasons.create');
     Route::post('transfer-reasons', [TransferReasonController::class, 'store'])->name('transfer-reasons.store');
