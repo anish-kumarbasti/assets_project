@@ -16,7 +16,7 @@
             <form class="needs-validation" method="POST" action="{{ route('assets.update', $asset->id) }}">
                 @csrf
                 @method('PUT')
-                <div class="card-item border">
+                <div class="card-item">
                     <div class="row p-3">
                         <div class="col-md-12 mb-1">
                             <label class="form-label" for="assetType">Select Asset Type </label>
@@ -40,7 +40,7 @@
                 </div>
         </div>
         <div class="footer-item d-flex justify-content-end mt-3">
-            <button class="btn btn-primary" type="submit">Update</button>
+            <button class="btn btn-primary" type="submit">Update</button>&nbsp;
             <a href="{{ route('assets.index') }}" class="btn btn-warning ml-2">Cancel</a>
         </div>
 

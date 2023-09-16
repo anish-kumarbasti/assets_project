@@ -89,7 +89,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('stock', [StockController::class, 'index']);
 
-    Route::get('markasread/{id}',[IssuenceController::class,'markasread'])->name('markasread');
+    Route::get('markasread/{id}', [IssuenceController::class, 'markasread'])->name('markasread');
     // Transfer Reason 
     Route::get('transfer-reasons', [TransferReasonController::class, 'index'])->name('transfer-reasons.index');
     Route::get('transfer-reasons/create', [TransferReasonController::class, 'create'])->name('transfer-reasons.create');
@@ -262,7 +262,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/departments/create', [DepartmentController::class, 'create'])->name('auth.create-department');
     Route::post('/departments', [DepartmentController::class, 'store']);
-    Route::get('/departments', [DepartmentController::class, 'index']);
+    Route::get('/departments', [DepartmentController::class, 'index'])->name('departments-index');
     Route::get('/departments/{id}/edit', [DepartmentController::class, 'edit']);
     Route::put('/departments/{id}', [DepartmentController::class, 'update'])->name('departments.update');
     Route::delete('/departments/{id}', [DepartmentController::class, 'destroy'])->middleware('permission:delete_department');

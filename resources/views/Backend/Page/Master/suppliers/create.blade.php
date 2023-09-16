@@ -43,7 +43,7 @@
 
         </div>
         <div class="footer-item d-flex justify-content-end mt-3">
-            <button class="btn btn-primary mt-3" type="submit">Add</button>
+            <button class="btn btn-primary mt-3" type="submit">Add</button>&nbsp;
             <a href="{{route('suppliers.index')}}" class="btn btn-warning mt-3">Back</a>
         </div>
         </form>

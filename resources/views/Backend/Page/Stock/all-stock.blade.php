@@ -13,7 +13,7 @@
 
 @section('Content-Area')
 @if (session('success'))
-<div class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
+<div id="stocks" class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
    <p><b> Well done! </b>{{session('success')}}</p>
    <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
@@ -59,7 +59,7 @@
                         <td>{{$stock->configuration}} </td>
                         <td>{{$stock->serial_number}} </td>
                         <td>{{$stock->getsupplier->name??''}} </td>
-                        <td>{{$stock->price}} </td>
+                        <td>{{$stock->price??''}} </td>
                         <td>
                            <img src="{{ asset('images/' . $stock->image) }}" alt="Stock Image">
                         </td>
@@ -69,7 +69,7 @@
                               <input type="checkbox" data-id="{{$stock->id}}" {{ $stock->status ? 'checked' : '' }}><span class="switch-state"></span>
                            </label>
                         </td>
-                        <td> <span class=" custom-btn {{$stock->statuses->status}}">{{$stock->statuses->name}}</span></td>
+                        <td> <span class=" custom-btn {{$stock->statuses->status ??''}}">{{$stock->statuses->name??''}}</span></td>
                         <td>
                            <a class="btn btn-primary" href="{{ url('/edit-stock/' . $stock->id) }}">Edit</a>
                         <td>
@@ -93,6 +93,14 @@
 
 @section('Script-Area')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+   $(document).ready(function() {
+      var stocks = $('#stocks');
+      setTimeout(function() {
+         stocks.alert('close');
+      }, 3000);
+   });
+</script>
 <script>
    $(document).ready(function() {
 

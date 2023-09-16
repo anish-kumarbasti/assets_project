@@ -57,7 +57,7 @@
 @endsection
 @section('Content-Area')
 @if (session('success'))
-<div class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
+<div id="alert-delete" class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
     <p><b> Well done! </b>{{ session('success') }}</p>
     <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
@@ -216,13 +216,13 @@
                 <div class="col-md-4 mb-4" id="warranty">
                     <label class="form-label" for="warrantyDateInput">Warranty</label>
                     <div class="input-group">
-                        <input class="datepicker-here form-control digits" id="warrantyDateInput" name="product_warranty" type="text" data-language="en">
+                        <input class="datepicker-here form-control digits" id="warrantyDateInput" name="product_warranty" type="date" data-language="en">
                     </div>
                 </div>
 
                 <div class="col-md-4 mb-4" id="expiryField">
                     <label class="col-form-label" for="expiryDateInput">Expiry</label>
-                    <input class="datepicker-here form-control" id="expiryDateInput" name="expiry" type="text" data-language="en">
+                    <input class="datepicker-here form-control" id="expiryDateInput" name="expiry" type="date" data-language="en">
                 </div>
                 <div class="col-md-4 mb-4">
                     <label class="col-form-label" for="expiryDateInput">Status</label>
@@ -246,7 +246,14 @@
 @endsection
 @section('Script-Area')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+<script>
+    $(document).ready(function() {
+        var alert = ('#alert-delete');
+        setTimeout(function() {
+            alert.alert('close');
+        }, 3000);
+    });
+</script>
 <script>
     $(document).ready(function() {
         $('#attribute').on('change', function() {

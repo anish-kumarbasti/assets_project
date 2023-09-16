@@ -7,20 +7,27 @@
     }
 
     .square-image {
-        width: 100px; /* You can adjust this value to your desired square size */
-        height: 100px; /* Keep the same value as width to maintain a square aspect ratio */
+        width: 100px;
+        /* You can adjust this value to your desired square size */
+        height: 100px;
+        /* Keep the same value as width to maintain a square aspect ratio */
+    }
+
+    .custom-btn {
+        font-size: 12px;
+        padding: 5px 10px;
+        line-height: 1.5;
     }
 </style>
 @endsection
 
 @section('Content-Area')
 @if (session('success'))
-        <div class="alert alert-success inverse alert-dismissible show" role="alert"><i
-                class="icon-thumb-up alert-center"></i>
-            <p><b> Well done! </b>{{ session('success') }}</p>
-            <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
+<div id="pop" class="alert alert-success inverse alert-dismissible show" role="alert"><i class="icon-thumb-up alert-center"></i>
+    <p><b> Well done! </b>{{ session('success') }}</p>
+    <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@endif
 <div class="col-sm-12">
     <div class="row">
         <div class="col-md-12 mb-3">
@@ -57,8 +64,10 @@
                         <td>{{$user->department->name??''}}</td>
                         <td> {{ $user->designation->designation??'' }} </td>
                         <td>
-                            <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary">Edit</a>
-                            <button class="btn btn-danger delete-button" type="button" data-id="{{ $user->id }}">Delete</button>
+                            <div class="d-flex justify-content-between align-item-center">
+                                <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary custom-btn"><i class="fa fa-pencil"> Edit</i></a>
+                                <button class="btn btn-danger custom-btn delete-button" type="button" data-id="{{ $user->id }}"><i class="fa fa-trash-o"> Delete</i></button>
+                            </div>
                         </td>
                     </tr>
                     @endforeach
@@ -110,6 +119,14 @@
 
 @section('Script-Area')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        var alerts = $('#pop');
+        setTimeout(function() {
+            alerts.alert('close');
+        }, 3000);
+    });
+</script>
 <script>
     $(document).ready(function() {
         $('#toggleCardView').hide();

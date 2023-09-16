@@ -75,12 +75,12 @@ class SupplierController extends Controller
         $supplier->address = $validatedData['address'];
         $supplier->save();
 
-        return redirect()->route('suppliers.index');
+        return redirect()->route('suppliers.index')->with('message', 'Supplier Update Successfully');
     }
     public function destroy($id)
     {
         $supplier = Supplier::find($id);
         $supplier->delete();
-        return redirect()->route('suppliers.index');
+        return response()->json(['success' => true]);
     }
 }
