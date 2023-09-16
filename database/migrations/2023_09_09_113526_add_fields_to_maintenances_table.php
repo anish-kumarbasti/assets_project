@@ -12,9 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('maintenances', function (Blueprint $table) {
-           $table->string('product_id');
-           $table->string('asset_price');
-           $table->string('status');
+            $table->string('asset_price');
+            $table->string('status');
         });
     }
 

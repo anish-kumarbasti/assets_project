@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Maintenance extends Model
 {
     use HasFactory;
-    protected $fillable = ['product_id', 'asset', 'supplier', 'asset_price', 'start_date', 'end_date', 'status'];
+    protected $fillable = ['product_id', 'asset_number', 'supplier_id', 'asset_price', 'start_date', 'end_date', 'status'];
     public function assetType()
     {
         return $this->belongsTo(AssetType::class, 'asset_type_id');
@@ -29,5 +29,9 @@ class Maintenance extends Model
     public function statuss()
     {
         return $this->belongsTo(Status::class, 'status');
+    }
+    public function suppliers()
+    {
+        return $this->belongsTo(Supplier::class, 'supplier_id');
     }
 }

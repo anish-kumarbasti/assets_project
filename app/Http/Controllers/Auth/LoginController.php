@@ -27,7 +27,11 @@ class LoginController extends Controller
         if (Auth::attempt($request->only('email', 'password'))) {
             // Set a success message in the session
             Session::flash('success', 'Login Successfully');
+            if(Auth::user()->role_id == 2){
+                return redirect()->route('user-dashboard')->with('success', 'Login Successfully');
+            }else{
             return redirect()->route('home')->with('success', 'Login Successfully');
+            }
         }
         // If login fails, show an error message
         Session::flash('error', 'Login Failed. Please try again.');

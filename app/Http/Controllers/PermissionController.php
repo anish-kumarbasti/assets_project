@@ -25,7 +25,7 @@ class PermissionController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:20',
+            'name' => 'required|string|max:30',
             'module' => 'required|string|max:20'
         ]);
          Permission::create(['name' => $request->input('name'),'module'=>$request->input('module')]);

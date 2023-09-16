@@ -39,7 +39,7 @@
                       @foreach (auth()->user()->notifications as $notification)
                       <div class="flex-shrink-0"><i data-feather="shopping-cart"></i></div>
                       <div class="flex-grow-1">
-                        <p><b>{{$notification->data['name']??''}}</b>&nbsp;&nbsp;<a href="{{route('markasread',$notification->id)}}">New Notification!</a><span class="pull-right">3 hr</span></p>
+                        <p><b>{{$notification->data['name']??''}}</b>&nbsp;&nbsp;<a href="{{route('markasread',$notification->id)}}">New Notification!</a><span class="pull-right">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span></p>
                       </div>
                       @endforeach
                     </div>

@@ -19,7 +19,6 @@
                         <div class="col-md-12 mb-2">
                             <label class="form-label" for="status">Status Color</label>
                             <select name="status" id="status" class="form-select" aria-label="Default select example">
-                                <option value="">{{$status->status}}</option>
                                 <option value="btn btn-primary">btn btn-primary</option>
                                 <option value="btn btn-secondary">btn btn-secondary</option>
                                 <option value="btn btn-success">btn btn-success</option>

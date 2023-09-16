@@ -5,12 +5,16 @@ namespace App\Http\Controllers\Issuence;
 use App\Http\Controllers\Controller;
 use App\Models\AssetType;
 use App\Models\Issuence;
+use App\Models\Status;
 use App\Models\Stock;
 use App\Models\User;
 use App\Notifications\IssuenceNotification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon as SupportCarbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 class IssuenceController extends Controller
 {
@@ -67,8 +71,8 @@ class IssuenceController extends Controller
         $user = User::where('employee_id',$request->employeeId)->first();
         $managerUser=User::where('role_id',3)
                            ->where('department_id',$user->department_id)->first();
-        $notified=[$user,$managerUser];
-        $user->notify(new IssuenceNotification($notified));
+        $user->notify(new IssuenceNotification($user));
+        $managerUser->notify(new IssuenceNotification($managerUser));
         return back()->with('success', 'Asset Issued!');
     }
 
@@ -76,7 +80,25 @@ class IssuenceController extends Controller
         if($id){
             auth()->user()->unreadNotifications->where('id',$id)->markAsRead();
         }
-        return back();
+        $user = Auth::user()->employee_id;
+            $issuedata = Issuence::orderBy('issuing_time_date','desc')->where('employee_id',$user)->first();
+            $productIds = json_decode($issuedata->product_id);
+            $products = Stock::whereIn('id', $productIds)->with('brand','brandmodel','asset_type','getsupplier')->get();
+            return view('Backend.Page.Issuence.accept',compact('products','issuedata'));
     }
+    public function AssetAccept($id){
+        $status = Status::where('name','Accepted by User')->orWhere('name','Rejected')->first();
+        Stock::updateOrCreate(['id'=>$id],['status_available'=>$status->id]);
+        return redirect()->route('user-dashboard')->with('success','Asset Alloted!');
+    }
+    public function showAll()
+    {
+        $issuences = DB::table('issuences')
+            ->select('issuences.*', 'stocks.*')
+            ->join('stocks', 'issuences.product_id', 'like', DB::raw('CONCAT("%", stocks.id, "%")'))
+            ->get();
+        return view('Backend.Page.Issuence.all-issuence', compact('issuences'));
+    }
+
 
 }
