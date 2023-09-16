@@ -141,9 +141,9 @@
                                 <td>{{ $maintenance->end_date }}</td>
                                 <td>
                                     <div class="btn-group">
-                                        <a href="{{ route('maintenance-edit', $maintenance->id) }}" class="btn btn-primary"><i class="fa fa-pencil "></i> Edit</a>&nbsp;
-                                        <button class="btn btn-danger delete-button" data-id="{{ $maintenance->id }}" type="button"><i class="fa fa-trash-o "></i> Delete</button>&nbsp;
-                                        <a href="{{ route('maintenance-print', $maintenance->id) }}" class="btn btn-primary" target="_blank"><i class="fa fa-print"></i> Print </a>
+                                        <a href="{{ route('maintenance-edit', $maintenance->id) }}" class="btn btn-primary">Edit</a>&nbsp;
+                                        <button class="btn btn-danger delete-button" data-id="{{ $maintenance->id }}" type="button">Delete</button>&nbsp;
+                                        <a href="{{ route('maintenance-print', $maintenance->id) }}" class="btn btn-primary" target="_blank">Print </a>
                                     </div>
                                 </td>
                             </tr>
