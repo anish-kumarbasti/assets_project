@@ -72,8 +72,8 @@
                         <td> <span class=" custom-btn {{$stock->statuses->status ??''}}">{{$stock->statuses->name??''}}</span></td>
                         <td>
                            <div class="button-group d-flex justify-content-between align-items-center">
-                              <a class="btn btn-primary" href="{{ url('/edit-stock/' . $stock->id) }}"><i class="fa fa-pencil"></i> Edit</a>&nbsp;
-                              <button class="btn btn-danger delete-button" data-id="{{ $stock->id }}" type="button"><i class="fa fa-trash-o"></i> Delete</button>
+                              <a class="btn btn-primary" href="{{ url('/edit-stock/' . $stock->id) }}">Edit</a>&nbsp;
+                              <button class="btn btn-danger delete-button" data-id="{{ $stock->id }}" type="button">Delete</button>
                            </div>
                         </td>
                      </tr>
