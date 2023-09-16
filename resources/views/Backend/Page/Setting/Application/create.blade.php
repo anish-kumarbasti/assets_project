@@ -8,11 +8,10 @@
                 <div class="card-header">
                     <h4>{{ $businessSetting ? 'Update' : 'Add' }} General Settings</h4>
                 </div>
-                {{-- @dd($businessSetting->id); --}}
                 <div class="card-body">
                     <form action="{{ route('settings.application.storeOrUpdate') }}" enctype="multipart/form-data" method="POST">
                         @csrf
-                        @method('put');
+                        @method('put')
                         <input type="hidden" name="id" value="{{ $businessSetting ? $businessSetting->id : '' }}">
                         <div class="form-group">
                             <label for="name">Company Name</label>
@@ -28,7 +27,7 @@
                         </div>
                         <div class="form-group">
                             <label for="logo">Logo</label>
-                            <input type="file" class="form-control-file" id="logo" name="logo">
+                            <input type="file" class="form-control" id="logo" name="logo">
                             <small class="form-text text-muted">Upload a company logo (if needed).</small>
                         </div>
                         <button type="submit" class="btn btn-primary">{{ $businessSetting ? 'Update' : 'Add' }}</button>

@@ -25,19 +25,10 @@ class AssetController extends Controller
     }
     public function store(Request $request)
     {
+        // dd($request);
         $request->validate([
             'asset_type_id' => 'required',
-            'name' => [
-                'required',
-                'string',
-                'unique',
-                'max:50',
-                'regex:/^[A-Za-z]+( [A-Za-z]+)*$/',
-                'min:2',
-                Rule::notIn(['']),
-            ],
-        ], [
-            'name.regex' => 'The :attribute may only contain letters and spaces. Numbers and special characters are not allowed.',
+            'name' =>'required|string|max:50|regex:/^[A-Za-z]+( [A-Za-z]+)*$/|min:2',
         ]);
         $asset = new Asset;
         $asset->name = $request->name;

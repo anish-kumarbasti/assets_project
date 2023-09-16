@@ -14,6 +14,7 @@ class ChartDashboardController extends Controller
     $assetbycategory = AssetType::all();
     $assetbytype = Asset::all();
     $outOfStockCount = Stock::where('quantity', '<=', 1)->count();
+    
     $assetCounts = [];
     $assetbyTypeCounts = []; // Use a different variable name for counts
 

@@ -27,13 +27,8 @@ class TransferController extends Controller
         $result = [];
         if ($employee && $issue) {
             $result['employee'] = $employee;
-
-            // Decode the JSON product_id field from Issuence model
             $productIds = json_decode($issue->product_id);
-
-            // Retrieve the products from the Stock model where any ID matches the product_ids
             $products = Stock::whereIn('id', $productIds)->with('brand','brandmodel','asset_type','getsupplier')->get();
-
             $result['products'] = $products;
         } else {
             $result['employee'] = null;
@@ -64,7 +59,9 @@ class TransferController extends Controller
             'description'=>$request->description,
         ]);
         $user = User::where('employee_id',$request->employeeId)->first();
-        $user->notify(new TransferNotification($user));
+        $managerUser=User::where('role_id',3)
+                           ->where('department_id',$user->department_id)->first();
+        $managerUser->notify(new TransferNotification($managerUser));
         return back()->with('success', 'Asset Transfered successfully.');
     }
 }
