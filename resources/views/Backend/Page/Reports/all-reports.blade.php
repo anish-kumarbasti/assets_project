@@ -26,7 +26,7 @@
                     </a>
                     <hr>
                     <a href="{{route('report-type')}}">
-                        <h5>Report by type</h5>
+                        <h5>Report by Asset type</h5>
                     </a>
                     <hr>
                 </div>

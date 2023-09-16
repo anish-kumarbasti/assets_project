@@ -20,7 +20,7 @@ class Disposal extends Model
     }
     public function product()
     {
-        return $this->belongsTo(Stock::class, 'product_id', 'id');
+        return $this->belongsTo(Stock::class, 'product_info', 'id');
     }
     public function statuses()
     {

@@ -19,13 +19,13 @@
                     <div class="col-md-6">
                         <div class="mb-2">
                             <label class="form-label">Asset Number</label>
-                            <input class="form-control" id="product_number" type="search" data-bs-original-title="" title="" name="product_id" value="{{$maintainance->product_id}}" placeholder="Enter Asset Number">
+                            <input class="form-control" id="product_id" type="search" data-bs-original-title="" title="" name="product_id" value="{{$maintainance->product_id}}" placeholder="Enter Asset Number">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="mb-2">
                             <label class="form-label">Product</label>
-                            <input class="form-control" value="{{$maintainance->asset}}" id="product_info" name="asset" type="text" data-bs-original-title="" title="" placeholder="">
+                            <input class="form-control" value="{{$maintainance->asset_number}}" id="product_info" name="asset_number" type="text" data-bs-original-title="" title="" placeholder="">
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -37,9 +37,9 @@
                     <div class="col-md-6">
                         <div class="mb-2">
                             <label class="form-label">Supplier</label>
-                            <select class="form-select" id="supplier" name="supplier" aria-label="Default select example">
+                            <select class="form-select" id="supplier" name="supplier_id" aria-label="Default select example">
                                 @foreach ($supplier as $suppliers)
-                                <option value="{{$suppliers->id}}" {{$maintainance->supplier == $suppliers->id ? 'selected':''}}>{{$suppliers->name}}</option>
+                                <option value="{{$suppliers->id}}" {{$maintainance->supplier_id == $suppliers->id ? 'selected':''}}>{{$suppliers->name}}</option>
                                 @endforeach
                             </select>
                         </div>
