@@ -6,8 +6,9 @@
 @section('Content-Area')
 <div class="col-sm-12">
     <div class="card">
-        <div class="card-header pb-0">
-            <h4>List Department</h4>
+        <div class="card-header pb-0 d-flex">
+            <div class="float-left col-sm-6"><h4>List Department</h4></div>
+            <div class="col-sm-6"><a href="{{route('auth.create-department')}}" class="btn btn-primary float-end"><i class="fa fa-plus"></i> Add Department</a></div>
         </div>
         <div class="card-body">
             <div class="table-responsive theme-scrollbar">
