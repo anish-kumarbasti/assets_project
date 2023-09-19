@@ -140,7 +140,35 @@ class MaintenanceController extends Controller
     }
     public function maintenance_edit($id)
     {
-        $maintenanceData = Maintenance::find($id);
+        $maintenanceData = Maintenance::findOrFail($id);
+        if (!$maintenanceData) {
+            return response()->json(['error' => 'JSON Data not Found']);
+        }
         return response()->json($maintenanceData);
+    }
+    public function getSuppliers($id)
+    {
+        $supplier = Supplier::where('id', $id)->first();
+        return response()->json($supplier);
+    }
+    public function getStatuses()
+    {
+        $status = Status::all();
+        return view('Backend.Page.Maintenance.Receive.index', compact('status'));
+    }
+
+    public function statusupdate(Request $request, $id)
+    {
+        $update = Maintenance::find($id);
+        $update->product_id = $request->product_id;
+        $update->asset_number = $request->asset_number;
+        $update->status = $request->status;
+        $update->asset_price = $request->asset_price;
+        $update->supplier_id = $request->supplier_id;
+        $update->start_date = $request->start_date;
+        $update->end_date = $request->end_date;
+        $update->update();
+
+        return response()->json(['message' => 'Data updated successfully']);
     }
 }
