@@ -195,6 +195,21 @@
                                 <input class="form-control" name="due_date" id="validationCustom01" type="date"
                                     data-bs-original-title="" title="">
                             </div>
+                            <div class="col-md-4 mb-4">
+                                <label class="form-label" for="validationCustom01">Location</label>
+                                <select name="location_id" class="form-control" id="locationchange">
+                                    <option value="">Select Location</option>
+                                    @foreach ($location as $locations)
+                                    <option value="{{$locations->id}}">{{$locations->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <label class="form-label" for="validationCustom01">Due Date</label>
+                                <select name="sublocation_id" class="form-control" id="sublocation">
+                                    <option value="">Select Sub-Location</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div class="card-item border">
@@ -464,7 +479,23 @@
                 });
             });
         });
-
+        $("#locationchange").change(function() {
+                var locationId = $(this).val();
+                if (locationId) {
+                    $.ajax({
+                        url: '/get-locations/' + locationId,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(data) {
+                            $('#sublocation').empty();
+                            $.each(data, function(key, value) {
+                                $('#sublocation').append('<option value="' + key +
+                                    '">' + value + '</option>');
+                            });
+                        }
+                    });
+                }
+            });
         $('#allocate-assets-btn').click(function() {
             form.submit();
         });
