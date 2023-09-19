@@ -134,6 +134,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('server_asset_script', [TransferController::class, 'index']);
     Route::get('transfer', [TransferController::class, 'index']);
     Route::post('transfer/store', [TransferController::class, 'store'])->name('transfer-store');
+    Route::get('transfer/all', [TransferController::class, 'showAll'])->name('all-transfers');
     // Route::get('/get-issuance-data', 'IssuanceController@getIssuanceData');
     Route::get('add-user', [UserController::class, 'user']);
     Route::get('user-details', [UserController::class, 'userCard']);
