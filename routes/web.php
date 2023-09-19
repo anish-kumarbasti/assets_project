@@ -245,10 +245,15 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('maintainans-edit/{id}', [MaintenanceController::class, 'edit'])->name('maintenance-edit');
     Route::delete('maintainans-delete/{id}', [MaintenanceController::class, 'destroy'])->name('maintainans-delete');
     Route::put('maintainans-update/{id}', [MaintenanceController::class, 'update'])->name('maintainans-Update');
-    Route::get('maintenance/edit/{id}', [MaintenanceController::class, 'maintenance_edit']);
+    Route::get('maintenance/edit/{id}', [MaintenanceController::class, 'maintenance_edit'])->name('maintenance.edit');
+    Route::post('/maintainans/update/{id}', [MaintenanceController::class, 'statusupdate'])->name('maintenance.update.status');
+
     //Receive Maintenance
     Route::get('receive-maintenance', [MaintenanceController::class, 'receive'])->name('receive-maintenance');
     Route::get('maintenance-print/{id}', [MaintenanceController::class, 'download'])->name('maintenance-print');
+    Route::post('/get-suppliers/{id}', [MaintenanceController::class, 'getSuppliers'])->name('get-suppliers');
+    Route::get('/get-statuses', [MaintenanceController::class, 'getStatuses'])->name('get-statuses');
+
     //Attribute
     Route::get('attributes', [AttributeController::class, 'home'])->name('attributes-index');
     Route::post('attribute-store', [AttributeController::class, 'store'])->name('attribute-store');
