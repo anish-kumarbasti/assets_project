@@ -99,6 +99,9 @@ class IssuenceController extends Controller
             ->get();
         return view('Backend.Page.Issuence.all-issuence', compact('issuences'));
     }
-
+    public function AssetAcceptdetail($id){
+        $data = Stock::find($id);
+        return view('Backend.Page.Issuence.accept-detail',compact('data'));
+    }
 
 }

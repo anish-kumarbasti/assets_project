@@ -122,7 +122,7 @@
                                                 <div class="d-flex"><img class="img-fluid align-top circle"
                                                         src="../assets/images/dashboard/default/01.png" alt="">
                                                     <div class="flex-grow-1"><a
-                                                            href="#"><span>{{ $product->product_info }}</span></a>
+                                                            href="{{route('accept-detail-asset',$product->id)}}"><span>{{ $product->product_info }}</span></a>
                                                         <p class="mb-0">
                                                             {{ Carbon\Carbon::parse($issuedata->created_at)->diffForHumans() }}
                                                         </p>

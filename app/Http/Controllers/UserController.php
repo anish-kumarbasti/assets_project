@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Department;
 use App\Models\Designation;
+use App\Models\Location;
+use App\Models\SubLocationModel;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 //use Illuminate\Foundation\Auth\User;
@@ -59,7 +61,8 @@ class UserController extends Controller
     {
         $departments = Department::all();
         $role = Role::all();
-        return view('Backend.Page.User.add-user', compact('departments', 'role'));
+        $location = Location::all();
+        return view('Backend.Page.User.add-user', compact('departments', 'role','location'));
     }
 
     /**
@@ -94,6 +97,8 @@ class UserController extends Controller
             'password' => 'required|string',
             'department_id' => 'required|integer',
             'designation_id' => 'required|integer',
+            'location_id' => 'required|integer',
+            'sub_location_id' => 'required|integer',
             'mobile_number' => 'required|numeric|digits_between:10,12',
             'employee_id' => ['required', 'unique:users,employee_id', 'regex:/^[a-zA-Z0-9]+$/'],
         ]);
@@ -124,6 +129,8 @@ class UserController extends Controller
             'role_id' => $request->role,
             'age' => $request->age,
             'gender' => $request->gender,
+            'location_id'=>$request->location_id,
+            'sub_location_id'=>$request->sub_location_id
 
         ]);
 
@@ -137,6 +144,11 @@ class UserController extends Controller
         return response()->json($designations);
     }
 
+    public function getlocations($locationId)
+    {
+        $sublocation = SubLocationModel::where('location_id', $locationId)->pluck('name', 'id');
+        return response()->json($sublocation);
+    }
 
 
     /**
@@ -163,7 +175,7 @@ class UserController extends Controller
      */
     public function update($id, Request $request)
     {
-        // dd($id);
+        // dd($request,$id);
         $request->validate([
             'first_name' => 'required|max:15|min:2',
             'last_name' => 'required|max:15|min:2',
@@ -177,6 +189,7 @@ class UserController extends Controller
         ]);
         //$user = User::where('id', $id)->first();
         $user = User::findOrFail($id);
+        // dd($user,$request);
         $user->first_name = $request->input('first_name');
         $user->last_name = $request->input('last_name');
         $user->email = $request->input('email');

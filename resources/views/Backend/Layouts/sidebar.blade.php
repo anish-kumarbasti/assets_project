@@ -20,7 +20,7 @@
            <hr>
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="home"></i><span class="lan-3">Dashboard</span></a>
              <ul class="sidebar-submenu">
-                <li><a href="{{ url('home')}}">Admin Dashboard</a></li>
+                <li><a href="{{ url('home')}}">min Dashboard</a></li>
                <li><a href="{{ url('user_dashboard')}}">User Dashboard</a></li>
              </ul>
            </li>
@@ -28,7 +28,7 @@
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="airplay"></i><span>Masters</span></a>
              <ul class="sidebar-submenu">
               @can('View_Department')
-              <li><a href="{{ route('auth.create-department')}}">Department</a></li>
+              <li><a href="{{ url('department')}}">Department</a></li>
               @endcan
               @can('view_designation')
               <li><a href="{{ url('designations')}}">Designation</a></li>
@@ -85,7 +85,6 @@
            @endcan
            @can('view_stock')
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="home"></i><span>Stocks</span></a>
-
             <ul class="sidebar-submenu">
               <li><a href="{{ url('manage-stocks')}}">Manage Stocks</a></li>
               @can('manage_stock')<li><a href="{{ url('all-stock')}}">All Stocks</a></li>@endcan
@@ -117,9 +116,6 @@
              <ul class="sidebar-submenu">
                <li><a href="{{ url('issuences')}}"> Add Issuence </a></li>
                <li><a href="{{ url('issuences/all') }}"> All Issuence </a></li>
-
-
-
              </ul>
            </li>
            @endcan
@@ -137,13 +133,11 @@
              </ul>
            </li>
            @endcan
-           @can('view_designation')
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="book-open"></i><span>Reports</span></a>
             <ul class="sidebar-submenu">
               <li><a href="{{url('all-reports')}}">All Reports</a> </li>
             </ul>
           </li>
-           @endcan
            @can('view_maintenance')
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="plus-square"></i><span>Maintenance</span></a>
              <ul class="sidebar-submenu">
