@@ -95,7 +95,7 @@ class ReportController extends Controller
     }
     public function activity_report()
     {
-        $data = Asset::all();
+        $data = Stock::with('assetmain', 'statuses')->get();
         return view('Backend.Page.Reports.asset-active', compact('data'));
     }
     public function report_status()
@@ -121,7 +121,7 @@ class ReportController extends Controller
     }
     public function report_supplier()
     {
-        $supplier = Stock::all();
+        $supplier = Stock::with('getsupplier', 'brand')->get();
         return view('Backend.Page.Reports.report-supplier', compact('supplier'));
     }
     public function report_location()

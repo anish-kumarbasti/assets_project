@@ -138,8 +138,9 @@
                             <input class="form-control" id="validationCustom01" type="text" name="quantity" data-bs-original-title="" title="" placeholder="Enter Quantity">
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label" style="float: left;">Asset Code :</label><a href="#" style="float: left;">Generate Number</a>
-                            <input class="form-control" type="text" name="generate_number" placeholder="Number">
+                            <label class="form-label" style="float: left;">Asset Code :</label>
+                            <a href="#" id="generateNumber" style="float: left;">Generate Number</a>
+                            <input class="form-control" type="text" id="generateNumberInput" name="generate_number" placeholder="Generate Number" readonly>
                             {{-- <img id="" src="{{ asset('Backend/assets/images/IT-Assets/Vector_qr.png')}}" alt="QR Code"> --}}
                         </div>
                         <div class="col-md-4 mb-4">
@@ -248,10 +249,28 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
-        var alert = ('#alert-delete');
+        var alert = $('#alert-delete');
         setTimeout(function() {
             alert.alert('close');
         }, 3000);
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $("#generateNumber").click(function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: "/generate/number",
+                type: "GET",
+                dataType: "json",
+                success: function(data) {
+                    $("#generateNumberInput").val(data.number);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error: " + error);
+                }
+            });
+        });
     });
 </script>
 <script>

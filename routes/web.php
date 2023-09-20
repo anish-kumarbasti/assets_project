@@ -79,7 +79,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
     Route::get('/get-designations/{departmentId}', [UserController::class, 'getDesignations']);
-    Route::get('/get-locations/{locationId}', [UserController::class, 'getlocations']);
     Route::get('users.user-profile/{id}', [UserController::class, 'users_profile'])->name('users.user-profile');
     Route::get('users.user.profile', [UserController::class, 'usersprofile']);
     Route::put('/users/{user}/assign-roles', [UserController::class, 'updateRoles'])->name('users.update_roles');
@@ -88,7 +87,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('stock', [StockController::class, 'index']);
     Route::get('markasread/{id}', [IssuenceController::class, 'markasread'])->name('markasread');
     Route::get('accept-asset/{id}', [IssuenceController::class, 'AssetAccept'])->name('accept-asset');
-    Route::get('accept-detail-asset/{id}', [IssuenceController::class, 'AssetAcceptdetail'])->name('accept-detail-asset');
     // Transfer Reason
     Route::get('transfer-reasons', [TransferReasonController::class, 'index'])->name('transfer-reasons.index');
     Route::get('transfer-reasons/create', [TransferReasonController::class, 'create'])->name('transfer-reasons.create');
@@ -98,6 +96,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('transfer-reasons/{transferReason}', [TransferReasonController::class, 'destroy'])->name('transfer-reasons.destroy');
     Route::post('/reason-status/{reason}', [TransferReasonController::class, 'updateStatus'])->name('transfer.updateStatus');
     //Stock
+    Route::get('/generate/number', [StockController::class, 'generateNumber']);
     Route::post('/get-brand-models/{brandId}', [StockController::class, 'getBrandModels']);
     Route::post('/get-slocation/{locationId}', [StockController::class, 'getslocation']);
     Route::post('/get-asset-type/{assettypeId}', [StockController::class, 'getasset']);
@@ -237,7 +236,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/getLocation', [ReportController::class, 'getLocation']);
     Route::get('/getType', [ReportController::class, 'getType']);
     Route::get('/getStatus', [ReportController::class, 'getStatus']);
-
+    Route::post('/import/csv', [AssetTypeController::class, 'import_csv'])->name('import.csv');
     //Maintenances
     Route::get('maintenance', [MaintenanceController::class, 'index']);
     Route::get('asset-maintenances', [MaintenanceController::class, 'maintenances'])->name('assets-maintenances');
