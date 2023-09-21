@@ -1,9 +1,11 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Asset;
 use App\Models\AssetType;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AssetTypeController extends Controller
 {
@@ -27,10 +29,10 @@ class AssetTypeController extends Controller
 
         ]);
 
-        $assetType=AssetType::create($request->all());
+        $assetType = AssetType::create($request->all());
 
         return redirect()->route('assets-type-index')
-                         ->with('success', 'Asset created successfully');
+            ->with('success', 'Asset created successfully');
     }
 
     public function show(Asset $asset)
@@ -38,7 +40,7 @@ class AssetTypeController extends Controller
         return view('Backend.Page.Master.asset_type.show', compact('asset'));
     }
 
-    public function edit(AssetType $asset,$id)
+    public function edit(AssetType $asset, $id)
     {
         $asset = AssetType::findOrFail($id);
         return view('Backend.Page.Master.asset_type.edit', compact('asset'));
@@ -53,22 +55,21 @@ class AssetTypeController extends Controller
         $asset->update($request->all());
 
         return redirect()->route('assets-type-index')
-                         ->with('success', 'Asset Type updated successfully');
+            ->with('success', 'Asset Type updated successfully');
     }
     public function assetTypeStatus(Request $request, $assetId)
     {
 
         $asset = AssetType::findOrFail($assetId);
 
-        if($asset->status==true){
-            AssetType::where('id',$assetId)->update([
+        if ($asset->status == true) {
+            AssetType::where('id', $assetId)->update([
                 'status' => 0
             ]);
-        }else{
-            AssetType::where('id',$assetId)->update([
-            'status' => 1
-        ]);
-
+        } else {
+            AssetType::where('id', $assetId)->update([
+                'status' => 1
+            ]);
         }
 
         return response()->json(['message' => 'Asset Type status updated successfully']);
@@ -77,5 +78,11 @@ class AssetTypeController extends Controller
     {
         $asset->delete();
         return response()->json(['success' => true]);
+    }
+    public function import_csv(Request $request)
+    {
+        // dd($request);
+        Excel::import(new AssetType, $request->file('file'));
+        return redirect()->back();
     }
 }

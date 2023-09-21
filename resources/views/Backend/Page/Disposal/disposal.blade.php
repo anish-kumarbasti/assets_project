@@ -13,8 +13,8 @@
 
 @section('Content-Area')
 @if (session('success'))
-<div class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
-    <p><b> Well done! </b>{{ session('success') }}</p>
+<div id="alerts" class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
+    <p>{{ session('success') }}</p>
     <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 @endif
@@ -156,6 +156,14 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function() {
+        var alerts = $('#alerts');
+        setTimeout(function() {
+            alerts.alert('close');
+        }, 3000);
+    });
+</script>
 <script>
     jQuery(document).ready(function() {
         jQuery('#assettype').change(function() {

@@ -3,6 +3,12 @@
 @section('Style-Area')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 <style>
+    .custom-btn {
+        font-size: 11px;
+        padding: 5px 10px;
+        line-height: 1.5;
+        pointer-events: none;
+    }
 </style>
 @endsection
 
@@ -39,11 +45,11 @@
                         <tbody>
                             @foreach ($data as $asset)
                             <tr class="copy-content">
-                                <td>{{$asset->name}}</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>{{$asset->assetmain->name??''}}</td>
+                                <td>{{$asset->host_name}}</td>
+                                <td><span class=" custom-btn  {{$asset->statuses->status}}"> {{$asset->statuses->name??''}}</span></td>
+                                <td>{{$asset->location??''}}</td>
+                                <td>{{$asset->created_at}}</td>
                             </tr>
                             @endforeach
                         </tbody>

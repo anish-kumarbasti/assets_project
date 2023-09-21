@@ -223,16 +223,16 @@
                     },
                     success: function(response) {
                         $('#updateModal').modal('hide');
+                        alert('Data updated successfully!');
+                        e.preventDefault();
+                        const printUrl = `maintenance-print/${maintenanceId}`;
+
+                        window.location.href = printUrl;
                     },
                     error: function() {
                         alert('Failed to update data.');
                     }
                 });
-                alert('Data updated successfully!');
-                e.preventDefault();
-                const printUrl = `maintenance-print/${maintenanceId}`;
-
-                window.location.href = printUrl;
 
             });
         });
