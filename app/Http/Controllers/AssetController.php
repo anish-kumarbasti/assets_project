@@ -16,6 +16,19 @@ class AssetController extends Controller
         // dd($assets);
         return view('Backend.Page.Master.assets.index', compact('assets'));
     }
+    public function trash()
+    {
+        $assets = Asset::onlyTrashed('AssetName')->get();
+        return view('Backend.Page.Master.assets.trash', compact('assets'));
+    }
+    public function restore($id)
+    {
+        $assets = Asset::withTrashed()->findOrFail($id);
+        if (!empty($assets)) {
+            $assets->restore();
+        }
+        return redirect()->route('assets.index')->with('success', 'Asset Restored Successfully');
+    }
 
 
     public function create()
@@ -28,7 +41,7 @@ class AssetController extends Controller
         // dd($request);
         $request->validate([
             'asset_type_id' => 'required',
-            'name' =>'required|string|max:50|regex:/^[A-Za-z]+( [A-Za-z]+)*$/|min:2',
+            'name' => 'required|string|max:50|regex:/^[A-Za-z]+( [A-Za-z]+)*$/|min:2',
         ]);
         $asset = new Asset;
         $asset->name = $request->name;

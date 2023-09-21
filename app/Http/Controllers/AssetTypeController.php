@@ -85,4 +85,17 @@ class AssetTypeController extends Controller
         Excel::import(new AssetType, $request->file('file'));
         return redirect()->back();
     }
+    public function trash()
+    {
+        $assets = AssetType::onlyTrashed()->get();
+        return view('Backend.Page.Master.asset_type.trash', compact('assets'));
+    }
+    public function restore($id)
+    {
+        $departments = AssetType::withTrashed()->findOrFail($id);
+        if (!empty($departments)) {
+            $departments->restore();
+        }
+        return redirect()->route('assets-type-index')->with('success', 'Asset Type Restore Successfully');
+    }
 }

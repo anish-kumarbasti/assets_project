@@ -1,55 +1,43 @@
 @extends('Backend.Layouts.panel')
 
-@section('Content-Area')
-@if (session('success'))
-<div id="message-success" class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
-    <p><b> Well done! </b>{{ session('success') }}</p>
-    <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-@endif
+@section('Style-Area')
+@endsection
 
+@section('Content-Area')
 <div class="col-sm-12">
     <div class="card">
         <div class="card-header pb-0 d-flex">
             <div class="float-left col-sm-6">
-                <h4>Asset</h4>
+                <h4>Trash</h4>
             </div>
-            @can('create_asset')
-            <div class="col-sm-6"><a href="{{route('assets.trash')}}" class="btn btn-danger float-end" style="margin-left: 5px;">Trash</a><a href="{{ route('assets.create') }}" class="btn btn-primary float-end"><i class="fa fa-plus"></i> Add Asset</a>
+            <div class="col-sm-6"><a href="{{route('departments-index')}}" class="btn btn-warning float-end" style="margin-left: 5px;">Back</a>
             </div>
-            @endcan
         </div>
         <div class="card-body">
             <div class="table-responsive theme-scrollbar">
                 <table class="display" id="basic-1">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Type</th>
-                            <th>Asset Name</th>
+                            <th>SL</th>
+                            <th>Name</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($assets as $asset)
+                        @foreach ($departments as $department)
                         <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $asset->AssetName->name??'' }}</td>
-                            <td>{{ $asset->name }}</td>
+                            <td>{{ $department->id }}</td>
+                            <td>{{ $department->name }}</td>
                             <td class="w-20">
                                 <label class="mb-0 switch">
-                                    <input type="checkbox" data-id="{{$asset->id}}" {{ $asset->status ? 'checked' : '' }}><span class="switch-state"></span>
+                                    <input type="checkbox" checked=""><span class="switch-state"></span>
                                 </label>
                             </td>
                             <td>
-                                @can('edit_asset')
-                                <a href="{{ route('assets.edit', $asset->id) }}" class="btn btn-primary"><i class="fa fa-pencil"></i> Edit</a>
-                                @endcan
-                                @can('delete_asset')
-                                <button class="btn btn-danger delete-button" type="button" data-id="{{ $asset->id }}"><i class="fa fa-trash-o"></i>Trash</button>
-                                @endcan
-
+                                <div class="btn-group">
+                                    <a class="btn btn-info" href="{{ route('restore.department',$department->id) }}">Restore</a>
+                                </div>
                             </td>
                         </tr>
                         @endforeach
@@ -59,53 +47,14 @@
         </div>
     </div>
 </div>
-
 @endsection
+
 @section('Script-Area')
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function() {
-        var alertfun = $('#message-success');
-        setTimeout(function() {
-            alertfun.alert('close');
-        }, 3000);
-    });
-</script>
-<script>
-    $(document).ready(function() {
-
-        $('input[type="checkbox"]').on('change', function() {
-            const assetId = $(this).data('id');
-            const status = $(this).prop('checked');
-            const csrfToken = $('meta[name="csrf-token"]').attr('content');
-
-            $.ajax({
-                url: `assets.destroy${assetId}`,
-                type: 'delete',
-                data: {
-                    status: status
-                },
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken
-                },
-                success: function(response) {
-                    console.log('Status updated successfully');
-                },
-                error: function(error) {
-                    console.error('Error:', error);
-                }
-            });
-        });
-    });
-</script>
-
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
-
 <script>
     document.querySelectorAll('.delete-button').forEach(function(button) {
-
         button.addEventListener('click', function() {
-            const assetId = this.getAttribute('data-id');
+            const Id = this.getAttribute('data-id');
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
             // Show SweetAlert2 confirmation dialog
             Swal.fire({
@@ -119,9 +68,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     // Send AJAX request to the server to delete the item
-
-                    fetch('assets/' + assetId, {
-
+                    fetch('/departments/' + Id, {
                             method: 'delete',
                             headers: {
                                 'X-CSRF-TOKEN': csrfToken, // Include the CSRF token in the headers
@@ -130,7 +77,6 @@
                             // You can set headers and other options here
                         })
                         .then(response => response.json())
-
 
                         .then(data => {
 

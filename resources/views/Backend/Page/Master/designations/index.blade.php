@@ -2,21 +2,22 @@
 @section('Content-Area')
 @if (session('message'))
 <div id="alert-message" class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
-    <p><b> Well done! </b>{{session('message')}}</p>
+    <p>{{session('message')}}</p>
     <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 @endif
 <div class="col-sm-12">
     <div class="card">
-        <div class="card-header pb-0">
-            <h4 class="d-flex justify-content-between align-items-center">
-                <span>Designations</span>
+        <div class="card-header pb-0 d-flex">
+            <div class="float-left col-sm-6">
+                <h4>Designations</h4>
+            </div>
+            <div class="col-sm-6">
                 @can('create_designation')
-                <a href="{{ route('designations.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add Designation</a>
+                <a href="{{route('designation.trash')}}" class="btn btn-danger float-end" style="margin-left: 5px;">Trash</a><a href="{{route('designations.create')}}" class="btn btn-primary float-end"><i class="fa fa-plus"></i> Add Designation</a>
                 @endcan
-            </h4>
+            </div>
         </div>
-
         @can('manage_designation')
         <div class="card-body">
             <div class="table-responsive theme-scrollbar">
@@ -47,7 +48,7 @@
                                 <a href="{{ route('designations.edit', $designation->id) }}" class="btn btn-primary"><i class="fa fa-pencil"></i> Edit</a>
                                 @endcan
                                 @can('delete_designation')
-                                <button class="btn btn-danger delete-button" type="button" data-id="{{ $designation->id }}"><i class="fa fa-trash-o"></i> Delete</button>
+                                <button class="btn btn-danger delete-button" type="button" data-id="{{ $designation->id }}"><i class="fa fa-trash-o"></i> Trash</button>
                                 @endcan
                             </td>
                         </tr>

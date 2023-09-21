@@ -13,6 +13,20 @@ class LocationController extends Controller
         $locations = Location::all();
         return view('Backend.Page.Master.location.index', compact('locations'));
     }
+    public function trash()
+    {
+        $locations = Location::onlyTrashed()->get();
+        return view('Backend.Page.Master.location.trash', compact('locations'));
+    }
+    public function restore($id)
+    {
+        $locations = Location::withTrashed()->findOrFail($id);
+        if (!empty($locations)) {
+            $locations->restore();
+        }
+        return redirect()->route('location-index')->with('success', 'Brand Restore Successfully');
+    }
+
 
     public function create()
     {

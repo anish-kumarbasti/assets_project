@@ -16,13 +16,13 @@
 @endif
 <div class="col-sm-12">
     <div class="card">
-        <div class="card-header pb-0">
-            <h4 class="d-flex justify-content-between align-items-center">
-                <span>Location</span>
-                <a href="{{ route('location-create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Create Location</a>
-            </h4>
+        <div class="card-header pb-0 d-flex">
+            <div class="float-left col-sm-6">
+                <h4>Location</h4>
+            </div>
+            <div class="col-sm-6"><a href="{{route('location.trash')}}" class="btn btn-danger float-end" style="margin-left: 5px;">Trash</a><a href="{{ route('location-create') }}" class="btn btn-primary float-end"><i class="fa fa-plus"></i> Create Location</a>
+            </div>
         </div>
-
         <div class="card-body">
             <div class="table-responsive theme-scrollbar">
                 <table class="display" id="basic-1">
@@ -47,7 +47,7 @@
                             </td>
                             <td>
                                 <a href="{{ route('location-edit', $location->id) }}" class="btn btn-primary" data-bs-original-title="" title=""><i class="fa fa-pencil"></i> Edit</a>
-                                <button class="btn btn-danger delete-button" type="button" data-id="{{ $location->id }}"><i class="fa fa-trash-o"></i> Delete</button>
+                                <button class="btn btn-danger delete-button" type="button" data-id="{{ $location->id }}"><i class="fa fa-trash-o"></i> Trash</button>
                             </td>
                         </tr>
                         @endforeach

@@ -15,6 +15,19 @@ class DesignationController extends Controller
         // dd($designations);
         return view('Backend.Page.Master.designations.index', compact('designations'));
     }
+    public function trash()
+    {
+        $designations = Designation::onlyTrashed('department')->get();
+        return view('Backend.Page.Master.designations.trash', compact('designations'));
+    }
+    public function restore($id)
+    {
+        $designations = Designation::withTrashed()->findOrFail($id);
+        if (!empty($designations)) {
+            $designations->restore();
+        }
+        return redirect()->route('designations.index')->with('success', 'Designation Restore Successfully');
+    }
 
     public function create()
     {

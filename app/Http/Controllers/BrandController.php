@@ -14,6 +14,19 @@ class BrandController extends Controller
         $brands = Brand::all();
         return view('Backend.Page.Master.brands.create', ['brands' => $brands]);
     }
+    public function trash()
+    {
+        $brands = Brand::onlyTrashed()->get();
+        return view('Backend.Page.Master.brands.trash', ['brands' => $brands]);
+    }
+    public function restore($id)
+    {
+        $brands = Brand::withTrashed()->findOrFail($id);
+        if (!empty($brands)) {
+            $brands->restore();
+        }
+        return redirect()->route('create-brand')->with('success', 'Brand Restore Successfully');
+    }
 
     public function store(Request $request)
     {
