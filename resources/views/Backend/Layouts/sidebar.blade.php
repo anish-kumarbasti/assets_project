@@ -20,7 +20,7 @@
            <hr>
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="home"></i><span class="lan-3">Dashboard</span></a>
              <ul class="sidebar-submenu">
-                <li><a href="{{ url('home')}}">min Dashboard</a></li>
+                <li><a href="{{ url('home')}}">Admin Dashboard</a></li>
                <li><a href="{{ url('user_dashboard')}}">User Dashboard</a></li>
              </ul>
            </li>

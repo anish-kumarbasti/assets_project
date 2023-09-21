@@ -101,7 +101,7 @@ class RolesController extends Controller
             $existingRolePermissions = $role->permissions->pluck('id')->toArray();
     
             // Calculate the permissions to add (not already associated)
-            $permissionsToAdd = array_diff($permissionsToAdd, $existingUserPermissions, $existingRolePermissions)??null;
+            $permissionsToAdd = array_diff($permissionsToAdd, $existingUserPermissions, $existingRolePermissions);
     
             if (!empty($permissionsToAdd)) {
                 // Loop through permissions and associate them with the user

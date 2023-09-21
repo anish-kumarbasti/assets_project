@@ -39,7 +39,13 @@
                       @foreach (auth()->user()->notifications as $notification)
                       <div class="flex-shrink-0"><i data-feather="shopping-cart"></i></div>
                       <div class="flex-grow-1">
-                        <p><b>{{$notification->data['name']??''}}</b>&nbsp;&nbsp;<a href="{{route('markasread',$notification->id)}}">New Notification!</a><span class="pull-right">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span></p>
+                        @if (Auth::check() && Auth::user()->role_id == 4)
+                        <p><b>{{Auth::user()->first_name}}</b>&nbsp;&nbsp;<a href="{{route('markasread-controller',$notification->id)}}">New Product Isuue to the User!</a><span class="pull-right">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span></p>
+                        @elseif (Auth::check() && Auth::user()->role_id == 3)
+                        <p><b>{{$notification->data['name']??''}}</b>&nbsp;&nbsp;<a href="{{route('markasread-manager',$notification->id)}}">Manager New Notification!</a><span class="pull-right">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span></p>
+                        @else
+                        <p><b>{{$notification->data['name']??''}}</b>&nbsp;&nbsp;<a href="{{route('markasread',$notification->id)}}">Employee New Notification!</a><span class="pull-right">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span></p>
+                        @endif
                       </div>
                       @endforeach
                     </div>
