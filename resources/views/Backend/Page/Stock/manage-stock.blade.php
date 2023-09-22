@@ -15,7 +15,6 @@
    <div class="card">
       <div class="card-header pb-0">
          <h4>IT Assets</h4>
-         <p>Total Records: {{ $stockCount }}</p>
       </div>
       <div class="card-body">
          <div class="table-responsive theme-scrollbar">
@@ -26,31 +25,29 @@
                     <th>Name</th>
                     <th>Asset Type</th>
                     <th>Asset</th>
-                    <th>In Stock: {{ $statusCounts['in_stock'] }}</th>
-                    <th>Allocated: {{ $statusCounts['allocated'] }}</th>
-                    <th>Stolen: {{ $statusCounts['stolen'] }}</th>
-                    <th>Lost: {{ $statusCounts['lost'] }}</th>
-                    <th>Scrapped: {{ $statusCounts['scrapped'] }}</th>
-                    <th>Under Repair: {{ $statusCounts['under_repair'] }}</th>
-                    <th>Action</th>
+                    <th>In Stock</th>
+                    <th>Allocated</th>
+                    <th>Stolen</th>
+                    <th>Lost</th>
+                    <th>Scrapped</th>
+                    <th>Under Repair</th>
                   </tr>
                </thead>
                <tbody>
-                  @foreach ($stocks as $stock)
+                  @foreach ($groupedStocks as $stock)
                   <tr>
                      <td>{{ $loop->iteration }}</td>
-                     <td>{{ $stock->name }}</td>
-                     <td>{{ $stock->asset_type }}</td>
-                     <td>{{ $stock->asset }}</td>
-                     <td>{{ $stock->in_stock }}</td>
+                     <td>{{ $stock->product_info }}</td>
+                     <td>{{ $stock->asset_type->name }}</td>
+                     <td>{{ $stock->assetmain->name }}</td>
+                     <td class="text-center">
+                        <span class="badge rounded-pill badge-light-success">{{ $stock->count }}</span>
+                     </td>
                      <td>{{ $stock->allocated}}</td>
                      <td>{{ $stock->stolen }}</td>
                      <td>{{ $stock->lost }}</td>
                      <td>{{ $stock->scrapped }}</td>
                      <td>{{ $stock->under_repair }}</td>
-                     <td>
-                        <a href="#" class="btn btn-primary" data-bs-original-title="" title=""><i class="fas fa-edit"></i> Edit</a>
-                     </td>
                   </tr>
                   @endforeach
                </tbody>

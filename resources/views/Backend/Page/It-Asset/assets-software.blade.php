@@ -45,7 +45,7 @@
                         @foreach ($softwareData as $software)
                         <tr>
                             <td>{{$software->id}}</td>
-                            <td>a23</td>
+                            <td>{{$software->product_number}}</td>
                             <td>{{$software->product_info}}</td>
                             <td>xxxx xxxx xxxx</td>
                             <td>

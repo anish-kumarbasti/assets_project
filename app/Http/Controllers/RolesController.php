@@ -122,7 +122,7 @@ class RolesController extends Controller
             }
         }else {
             // Handle the case where the user with the role ID is not found
-            return back()->with('success', 'User not found for the selected role.');
+            return back()->with('danger', 'User not found for the selected role.');
         }
     }
 

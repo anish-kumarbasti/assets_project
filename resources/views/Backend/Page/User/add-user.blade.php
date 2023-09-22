@@ -186,6 +186,7 @@
                         dataType: 'json',
                         success: function(data) {
                             $('#designation').empty();
+                            $('#designation').append('<option value="">Select Designation</option>');
                             $.each(data, function(key, value) {
                                 $('#designation').append('<option value="' + key +
                                     '">' + value + '</option>');
@@ -203,6 +204,7 @@
                         dataType: 'json',
                         success: function(data) {
                             $('#sublocation').empty();
+                            $('#sublocation').append('<option value="">Select sublocation</option>');
                             $.each(data, function(key, value) {
                                 $('#sublocation').append('<option value="' + key +
                                     '">' + value + '</option>');
