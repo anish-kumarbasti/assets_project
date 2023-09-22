@@ -40,21 +40,9 @@ class StatusController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate(
-            [
-                // 'status' => 'numeric|required|in:0,1,2,3',
-                'name' => [
-                    'required',
-                    'string',
-                    'max:20',
-                    'regex:/^[A-Za-z]+([A-Za-z]+)*$/',
-                    Rule::notIn(['']),
-                ]
-            ],
-            [
-                'name.regex' => 'The :attribute may only contain letters and spaces. Numbers and special characters are not allowed.',
-            ]
-        );
+        $request->validate([
+            'name' => 'required|string|max:20',
+        ]);
         $status = Status::find($id);
         $status->name = $request->name;
         $status->status = $request->status;

@@ -40,11 +40,11 @@
                             @foreach ($supplier as $suppliers)
                             <tr class="copy-content">
                                 <td><img src="" alt="picture"></td>
-                                <td>{{$suppliers->product_number}}</td>
-                                <td>{{$suppliers->host_name}} </td>
-                                <td>{{$suppliers->supplier}} </td>
-                                <td>{{$suppliers->brand_id}} </td>
-                                <td>{{$suppliers->location_id}} </td>
+                                <td>{{$suppliers->product_number??''}}</td>
+                                <td>{{$suppliers->host_name??''}} </td>
+                                <td>{{$suppliers->getsupplier->name??''}} </td>
+                                <td>{{$suppliers->brand->name??''}} </td>
+                                <td>{{$suppliers->location_id??''}} </td>
                             </tr>
                             @endforeach
                         </tbody>

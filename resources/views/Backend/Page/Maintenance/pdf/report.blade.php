@@ -38,10 +38,10 @@
         <thead>
             <tr>
                 <th>S.No</th>
-                <th>Asset Type</th>
                 <th>Asset Name</th>
                 <th>Product Number</th>
                 <th>Supplier</th>
+                <th>Price</th>
                 <th>Status</th>
                 <th>Start Date</th>
                 <th>End Date</th>
@@ -50,9 +50,9 @@
         <tbody>
             <tr>
                 <td>{{$maintain->id }}</td>
-                <td>{{$maintain->type ?? 'N/A' }}</td>
-                <td>{{$maintain->asset ?? 'N/A' }}</td>
+                <td>{{$maintain->asset_number ?? 'N/A' }}</td>
                 <td>{{$maintain->product_id ?? 'N/A' }}</td>
+                <td>{{$maintain->suppliers->name ?? 'N/A' }}</td>
                 <td>{{$maintain->asset_price ?? 'N/A' }}</td>
                 <td>{{$maintain->statuss->name??'N/A'}}</td>
                 <td>{{$maintain->start_date??'N/A'}}</td>

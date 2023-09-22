@@ -8,6 +8,12 @@
         line-height: 1.5;
         pointer-events: none;
     }
+
+    .btn-btn {
+        font-size: 11px;
+        padding: 5px 10px;
+        line-height: 1.5;
+    }
 </style>
 @endsection
 
@@ -55,13 +61,13 @@
                             @csrf
                             <div class="modal-body">
                                 <div class="mb-2">
-                                    <label class="form-label">Asset Number</label>
+                                    <label class="form-label">Product Number</label>
                                     <input class="form-control" oninput="showDiv()" id="product_number" type="search" data-bs-original-title="" title="" name="product_id" placeholder="Enter Asset Number" onkeydown="return event.key != 'Enter';" required>
                                 </div>
                                 <div id="myDiv" style="display: none;">
                                     <div class="mb-2">
                                         <label class="form-label" for="validationCustom01">Product:</label>
-                                        <input class="form-control" id="product_info" name="asset" type="text" data-bs-original-title="" title="" placeholder="" readonly>
+                                        <input class="form-control" id="product_info" name="asset_number" type="text" data-bs-original-title="" title="" placeholder="" readonly>
                                     </div>
                                     <div class="mb-4">
                                         <label class="form-label" for="validationCustom01">Asset Price:</label>
@@ -70,7 +76,7 @@
                                 </div>
                                 <div class="mb-2">
                                     <label class="form-label">Supplier</label>
-                                    <select class="form-select" id="supplier" name="supplier" aria-label="Default select example">
+                                    <select class="form-select" id="supplier" name="supplier_id" aria-label="Default select example">
                                         <option value="">--Select Supplier--</option>
                                         @foreach ($supplier as $suppliers)
                                         <option value="{{ $suppliers->id }}">{{ $suppliers->name }}</option>
@@ -111,11 +117,11 @@
                     <table class="display" id="basic-1">
                         <thead>
                             <tr class="text-center">
-                                <th>S.No</th>
-                                <th>Asset Type</th>
+                                <th>ID</th>
                                 <th>Asset Name</th>
                                 <th>Product Number</th>
                                 <th>Supplier</th>
+                                <th>Price</th>
                                 <th>Status</th>
                                 <th>Start Date</th>
                                 <th>End Date</th>
@@ -126,17 +132,18 @@
                             @foreach ($maintain as $maintenance)
                             <tr class="copy-content">
                                 <td>{{ $maintenance->id }}</td>
-                                <td>{{ $maintenance->type ?? 'N/A' }}</td>
-                                <td>{{ $maintenance->asset ?? 'N/A' }}</td>
+                                <td>{{ $maintenance->asset_number ?? 'N/A' }}</td>
                                 <td>{{ $maintenance->product_id ?? 'N/A' }}</td>
+                                <td>{{ $maintenance->suppliers->name ?? 'N/A' }}</td>
                                 <td>{{ $maintenance->asset_price ?? 'N/A' }}</td>
                                 <td><span class=" custom-btn {{$maintenance->statuss->status ?? 'N/A'}}">{{$maintenance->statuss->name ?? 'N/A'}}</span></td>
                                 <td>{{ $maintenance->start_date }}</td>
                                 <td>{{ $maintenance->end_date }}</td>
                                 <td>
                                     <div class="btn-group">
-                                        <a href="{{ route('maintenance-edit', $maintenance->id) }}" class="btn btn-primary"><i class="fa fa-pencil"></i> Edit</a>&nbsp;&nbsp;
-                                        <button class="btn btn-danger delete-button" data-id="{{ $maintenance->id }}" type="button"><i class="fa fa-trash-o"></i> Delete</button>
+                                        <a href="{{ route('maintenance-edit', $maintenance->id) }}" class="btn btn-primary">Edit</a>&nbsp;
+                                        <button class="btn btn-danger delete-button" data-id="{{ $maintenance->id }}" type="button">Delete</button>&nbsp;
+                                        <a href="{{ route('maintenance-print', $maintenance->id) }}" class="btn btn-primary" target="_blank">Print </a>
                                     </div>
                                 </td>
                             </tr>

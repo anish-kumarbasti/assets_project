@@ -31,7 +31,7 @@ class DisposalController extends Controller
     {
         $assettype = AssetType::all();
         $asset = Asset::all();
-        $disposal = Disposal::with('statuses')->get();
+        $disposal = Disposal::with('statuses', 'product')->get();
         $status = Status::all();
         return view('Backend.Page.Disposal.disposal', compact('assettype', 'asset', 'disposal', 'status'));
     }

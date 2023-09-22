@@ -71,14 +71,10 @@
                         </td>
                         <td> <span class=" custom-btn {{$stock->statuses->status ??''}}">{{$stock->statuses->name??''}}</span></td>
                         <td>
-                           <a class="btn btn-primary" href="{{ url('/edit-stock/' . $stock->id) }}">Edit</a>
-                        <td>
-                           <form action="{{ route('delete.stock', $stock->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this stock item?')">
-                              @csrf
-                              @method('DELETE')
-                              <button type="submit" class="btn btn-danger">Delete</button>
-                           </form>
-                        </td>
+                           <div class="button-group d-flex justify-content-between align-items-center">
+                              <a class="btn btn-primary" href="{{ url('/edit-stock/' . $stock->id) }}">Edit</a>&nbsp;
+                              <button class="btn btn-danger delete-button" data-id="{{ $stock->id }}" type="button">Delete</button>
+                           </div>
                         </td>
                      </tr>
                      @endforeach
@@ -93,6 +89,8 @@
 
 @section('Script-Area')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
+
 <script>
    $(document).ready(function() {
       var stocks = $('#stocks');
@@ -123,6 +121,62 @@
             },
             error: function(error) {
                console.error('Error:', error);
+            }
+         });
+      });
+   });
+
+   document.querySelectorAll('.delete-button').forEach(function(button) {
+
+      button.addEventListener('click', function() {
+         const Id = this.getAttribute('data-id');
+         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+         Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+         }).then((result) => {
+            if (result.isConfirmed) {
+               fetch('delete-stock/' + Id, {
+
+                     method: 'delete',
+                     headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Content-Type': 'application/json'
+                     }
+                  })
+                  .then(response => response.json())
+
+
+                  .then(data => {
+
+                     if ('success' in data && data.success) {
+                        Swal.fire(
+                           'Deleted!',
+                           'Your file has been deleted.',
+                           'success'
+                        ).then(() => {
+                           location.reload();
+                        });
+                     } else {
+                        Swal.fire(
+                           'Error',
+                           'Failed to delete the file.',
+                           'error'
+                        );
+                     }
+                  })
+                  .catch(error => {
+                     Swal.fire(
+                        'Error',
+                        'An error occurred while deleting the file.',
+                        'error'
+                     );
+                  });
             }
          });
       });

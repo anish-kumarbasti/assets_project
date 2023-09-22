@@ -15,7 +15,7 @@ class MaintenanceController extends Controller
 {
     public function receive()
     {
-        $maintain = Maintenance::with('statuss')->get();
+        $maintain = Maintenance::with('statuss', 'suppliers')->get();
         $status = Status::all();
         return view('Backend.Page.Maintenance.Receive.index', compact('maintain', 'status'));
     }
@@ -32,7 +32,7 @@ class MaintenanceController extends Controller
     }
     public function download($id)
     {
-        $maintain = Maintenance::with('statuss')->find($id);
+        $maintain = Maintenance::with('statuss', 'suppliers')->find($id);
         return view('Backend.Page.Maintenance.pdf.report', compact('maintain'));
     }
     public function index(Request $request)
@@ -48,27 +48,29 @@ class MaintenanceController extends Controller
         // $asset = Asset::all();
         $supplier = Supplier::all();
         // $assettype = AssetType::all();
-        $maintain = Maintenance::with('statuss')->get();
+        $maintain = Maintenance::with('statuss', 'suppliers')->get();
         $status = Status::all();
         return view('Backend.Page.Maintenance.index', compact('maintain', 'supplier', 'status'));
     }
     public function maintenance_save(Request $request)
     {
+        // dd($request);
         $request->validate([
             'start_date' => 'required|date',
             'end_date' => 'required|date|after:start_date',
             'product_id' => 'required',
-            'asset' => 'required',
-            'supplier' => 'required|max:30',
-            'asset_price' => 'required'
+            'asset_number' => 'required',
+            'supplier_id' => 'required|max:30',
+            'asset_price' => 'required',
+            'status' => 'required'
         ]);
         // dd($request);
         Maintenance::Create([
             'product_id' => $request->product_id,
-            'asset' => $request->asset,
+            'asset_number' => $request->asset_number,
             'status' => $request->status,
             'asset_price' => $request->asset_price,
-            'supplier' => $request->supplier,
+            'supplier_id' => $request->supplier_id,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date
         ]);
@@ -89,17 +91,17 @@ class MaintenanceController extends Controller
             'start_date' => 'required|date',
             'end_date' => 'required|date|after:start_date',
             'product_id' => 'required',
-            'asset' => 'required',
-            'supplier' => 'required|max:30',
+            'asset_number' => 'required',
+            'supplier_id' => 'required|max:30',
             'asset_price' => 'required'
         ]);
         $update = Maintenance::find($id);
 
         $update->product_id = $request->product_id;
-        $update->asset = $request->asset;
+        $update->asset_number = $request->asset_number;
         $update->status = $request->status;
         $update->asset_price = $request->asset_price;
-        $update->supplier = $request->supplier;
+        $update->supplier_id = $request->supplier_id;
         $update->start_date = $request->start_date;
         $update->end_date = $request->end_date;
         // // Check if request has assetType, if not, use the existing value
@@ -135,5 +137,38 @@ class MaintenanceController extends Controller
         }
 
         return response()->json(['success' => 'Record deleted successfully']);
+    }
+    public function maintenance_edit($id)
+    {
+        $maintenanceData = Maintenance::findOrFail($id);
+        if (!$maintenanceData) {
+            return response()->json(['error' => 'JSON Data not Found']);
+        }
+        return response()->json($maintenanceData);
+    }
+    public function getSuppliers($id)
+    {
+        $supplier = Supplier::where('id', $id)->first();
+        return response()->json($supplier);
+    }
+    public function getStatuses()
+    {
+        $status = Status::all();
+        return view('Backend.Page.Maintenance.Receive.index', compact('status'));
+    }
+
+    public function statusupdate(Request $request, $id)
+    {
+        $update = Maintenance::find($id);
+        $update->product_id = $request->product_id;
+        $update->asset_number = $request->asset_number;
+        $update->status = $request->status;
+        $update->asset_price = $request->asset_price;
+        $update->supplier_id = $request->supplier_id;
+        $update->start_date = $request->start_date;
+        $update->end_date = $request->end_date;
+        $update->update();
+
+        return response()->json(['message' => 'Data updated successfully']);
     }
 }

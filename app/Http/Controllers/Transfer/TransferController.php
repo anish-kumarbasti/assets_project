@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Transfer;
 
 use App\Http\Controllers\Controller;
 use App\Models\Issuence;
+use App\Models\Role;
 use App\Models\Stock;
 use App\Models\Transfer;
 use App\Models\TransferReason;
@@ -15,36 +16,31 @@ class TransferController extends Controller
 {
     public function index(Request $request)
     {
-        if($request->ajax()){
-        $employee = User::with('department', 'designation')
-            ->where('employee_id', 'LIKE', '%' . $request->employeeId . '%')
-            ->first() ?? null;
+        if ($request->ajax()) {
+            $employee = User::with('department', 'designation')
+                ->where('employee_id', 'LIKE', '%' . $request->employeeId . '%')
+                ->first() ?? null;
 
-        $issue = Issuence::with('allStock')
-            ->where('employee_id', 'LIKE', '%' . $request->employeeId . '%')
-            ->first() ?? null;
+            $issue = Issuence::with('allStock')
+                ->where('employee_id', 'LIKE', '%' . $request->employeeId . '%')
+                ->first() ?? null;
 
-        $result = [];
-        if ($employee && $issue) {
-            $result['employee'] = $employee;
+            $result = [];
+            if ($employee && $issue) {
+                $result['employee'] = $employee;
+                $productIds = json_decode($issue->product_id);
+                $products = Stock::whereIn('id', $productIds)->with('brand', 'brandmodel', 'asset_type', 'getsupplier')->get();
+                $result['products'] = $products;
+            } else {
+                $result['employee'] = null;
+                $result['products'] = [];
+            }
 
-            // Decode the JSON product_id field from Issuence model
-            $productIds = json_decode($issue->product_id);
-
-            // Retrieve the products from the Stock model where any ID matches the product_ids
-            $products = Stock::whereIn('id', $productIds)->with('brand','brandmodel','asset_type','getsupplier')->get();
-
-            $result['products'] = $products;
-        } else {
-            $result['employee'] = null;
-            $result['products'] = [];
+            // Now, $result contains both the employee and associated products.
+            return response()->json($result);
         }
-
-        // Now, $result contains both the employee and associated products.
-        return response()->json($result);
-    }
-    $reason = TransferReason::all();
-    return view('Backend.Page.Transfer.transfer', compact('reason'));
+        $reason = TransferReason::all();
+        return view('Backend.Page.Transfer.transfer', compact('reason'));
     }
 
     public function store(Request $request)
@@ -57,14 +53,24 @@ class TransferController extends Controller
         ]);
 
         Transfer::create([
-            'employee_id'=>$request->employeeId,
-            'product_id'=>json_encode($request->cardId),
-            'reason_id'=>$request->reason,
-            'handover_employee_id'=>$request->handoverId,
-            'description'=>$request->description,
+            'employee_id' => $request->employeeId,
+            'product_id' => json_encode($request->cardId),
+            'reason_id' => $request->reason,
+            'handover_employee_id' => $request->handoverId,
+            'description' => $request->description,
         ]);
-        $user = User::where('employee_id',$request->employeeId)->first();
-        $user->notify(new TransferNotification($user));
+        $user = User::where('employee_id', $request->employeeId)->first();
+        $managerUser = User::where('role_id', 3)
+            ->where('department_id', $user->department_id)->first();
+        $assetcontroller = Role::where('name', 'Asset Controller')->first();
+        $assetmanager = User::where('role_id', $assetcontroller->id)
+            ->where('department_id', $user->department_id)->first() ?? null;
+        if ($managerUser != null) {
+            $managerUser->notify(new TransferNotification($managerUser));
+        }
+        if ($assetmanager != null) {
+            $assetmanager->notify(new TransferNotification($assetmanager));
+        }
         return back()->with('success', 'Asset Transfered successfully.');
     }
 }

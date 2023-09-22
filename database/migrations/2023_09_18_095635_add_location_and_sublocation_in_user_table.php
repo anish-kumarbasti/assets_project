@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('maintenances', function (Blueprint $table) {
-            $table->string('asset_price');
-            $table->string('status');
+        Schema::table('users', function (Blueprint $table) {
+            $table->unsignedBigInteger('location_id');
+            $table->unsignedBigInteger('sub_location_id');
         });
     }
 
@@ -22,7 +22,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('maintenances', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             //
         });
     }

@@ -118,12 +118,31 @@
                                 <select class="form-select" id="designation" name="designation_id"
                                     aria-label="Default select example">
                                     <option selected> Enter Designation </option>
-                                    {{-- @foreach ($designations as $designation)
-                        <option value="{{ $designation->id }}">{{ $designation->name }}</option>
-                        @endforeach --}}
-                                    <!-- Add designations dynamically -->
                                 </select>
                                 @error('designation_id')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="location">Location</label>
+                                <select class="form-select" id="location" name="location_id"
+                                    aria-label="Default select example">
+                                    <option selected> Enter Location </option>
+                                    @foreach ($location as $location)
+                                        <option value="{{ $location->id }}">{{ $location->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('location_id')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="sublocation">Sub Location</label>
+                                <select class="form-select" id="sublocation" name="sub_location_id"
+                                    aria-label="Default select example">
+                                    <option selected> Select Sublocation </option>
+                                </select>
+                                @error('sublocation_id')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -169,6 +188,23 @@
                             $('#designation').empty();
                             $.each(data, function(key, value) {
                                 $('#designation').append('<option value="' + key +
+                                    '">' + value + '</option>');
+                            });
+                        }
+                    });
+                }
+            });
+            $("#location").change(function() {
+                var locationId = $(this).val();
+                if (locationId) {
+                    $.ajax({
+                        url: '/get-locations/' + locationId,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(data) {
+                            $('#sublocation').empty();
+                            $.each(data, function(key, value) {
+                                $('#sublocation').append('<option value="' + key +
                                     '">' + value + '</option>');
                             });
                         }

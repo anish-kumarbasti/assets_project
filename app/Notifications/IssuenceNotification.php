@@ -11,16 +11,13 @@ class IssuenceNotification extends Notification
 {
     use Queueable;
     public $user;
-    public $role_detail;
 
     /**
      * Create a new notification instance.
      */
     public function __construct($user)
     {
-            $this->user = $user[0];
-            $this->role_detail = $user[1];
-       
+        $this->user = $user;
     }
 
     /**

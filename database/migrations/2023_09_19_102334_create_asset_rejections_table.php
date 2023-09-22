@@ -11,14 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('disposels', function (Blueprint $table) {
+        Schema::create('asset_rejections', function (Blueprint $table) {
             $table->id();
-            $table->string('category');
-            $table->string('asset');
-            $table->string('product_id')->nullable();
-            $table->integer('period_months');
-            $table->decimal('asset_value', 10, 2);
-            $table->string('desposal_code');
+            $table->unsignedBigInteger('rejection_by_user');
+            $table->text('reason');
             $table->timestamps();
         });
     }
@@ -28,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('disposels');
+        Schema::dropIfExists('asset_rejections');
     }
 };

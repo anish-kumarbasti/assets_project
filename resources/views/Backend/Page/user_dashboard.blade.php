@@ -80,10 +80,11 @@
 </style>
 @endsection
 @section('Content-Area')
-@if (Session::has('success'))
-    <div class="alert alert-success">
-        {{ Session::get('success') }}
-    </div>
+@if (session('success'))
+<div id="login" class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
+  <p><b> Well done! </b>{{session('success')}}</p>
+  <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
 @endif
 
 @if (Session::has('error'))
@@ -184,7 +185,7 @@
             <div class="d-flex justify-content-between">
               <div class="flex-grow-1">
                 <p class="square-after f-w-600 header-text-primary">Asset Requests<i class="fa fa-circle"> </i></p>
-                <h4>12 meet</h4>
+
               </div>
               <div class="setting-list">
                 <ul class="list-unstyled setting-option">
@@ -293,7 +294,7 @@
                   </td>
                   <td>21 September </td>
                   <td class="text-end">
-                    <button class="btn btn-secondary" type="button" onclick="document.location='user-cards.html'">Done<i class="fa fa-check-circle"></i></button>
+                    <button class="btn btn-secondary" type="button" onclick="document.location='user-cards.html'">Transfered<i class="fa fa-check-circle"></i></button>
                   </td>
                 </tr>
                 <tr>
@@ -366,5 +367,15 @@
 
 @endsection
 
-
+@section('Script-Area')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    var alerts = $('#login');
+    setTimeout(function() {
+      alerts.alert('close');
+    }, 3000);
+  });
+</script>
+@endsection
 
