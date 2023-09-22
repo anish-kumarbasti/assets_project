@@ -187,12 +187,13 @@
                             </div>
                             <div class="col-md-4 mb-4">
                                 <label class="form-label" for="validationCustom01">Date of Issuing</label>
-                                <input class="form-control" name="date" id="validationCustom01" type="date"
+                                <input class="form-control" name="date" id="datePickerInput" type="date"
                                     data-bs-original-title="" title="">
                             </div>
+
                             <div class="col-md-4 mb-4">
                                 <label class="form-label" for="validationCustom01">Due Date</label>
-                                <input class="form-control" name="due_date" id="validationCustom01" type="date"
+                                <input class="form-control" name="due_date" id="dueDatePickerInput" type="date"
                                     data-bs-original-title="" title="">
                             </div>
                             <div class="col-md-4 mb-4">
@@ -503,6 +504,12 @@
             event.preventDefault();
             storeStepData(steps[steps.length - 1]);
             form.submit();
+        });
+    </script>
+    <script>
+        // Prevent calendar from opening when clicking on the surrounding div
+        $('#datePickerInput, #dueDatePickerInput').click(function (event) {
+            event.stopPropagation();
         });
     </script>
 @endsection

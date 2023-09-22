@@ -9,6 +9,7 @@
 
    {{-- <meta name="csrf_token" content="{{ csrf_token() }}" /> --}}
    <link rel="icon" href="{{ asset('Backend/assets/images/favicon/favicon.png')}}" type="image/x-icon">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/1.0.10/datepicker.min.css">
    <link rel="shortcut icon" href="{{ asset('Backend/assets/images/favicon/favicon.png')}}" type="image/x-icon">
    <title>Admin Panel</title>
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />

@@ -70,11 +70,25 @@ class StockController extends Controller
         return response()->json(['models' => $brandId]);
     }
 
-    public function  manage()
+    public function manage()
     {
+        // Retrieve the status counts
+        $statusCounts = [
+            'in_stock' => Stock::where('status', 'in_stock')->count(),
+            'allocated' => Stock::where('status', 'allocated')->count(),
+            'stolen' => Stock::where('status', 'stolen')->count(),
+            'lost' => Stock::where('status', 'lost')->count(),
+            'scrapped' => Stock::where('status', 'scrapped')->count(),
+            'under_repair' => Stock::where('status', 'under_repair')->count(),
+        ];
 
-        return view('Backend.Page.Stock.manage-stock');
+        // Retrieve the list of stocks
+        $stocks = Stock::all();
+        $stockCount = $stocks->count();
+
+        return view('Backend.Page.Stock.manage-stock', compact('stocks', 'stockCount', 'statusCounts'));
     }
+
 
     public function  stockStatus()
     {

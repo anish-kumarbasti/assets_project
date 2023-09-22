@@ -217,13 +217,21 @@
                 <div class="col-md-4 mb-4" id="warranty">
                     <label class="form-label" for="warrantyDateInput">Warranty</label>
                     <div class="input-group">
-                        <input class="datepicker-here form-control digits" id="warrantyDateInput" name="product_warranty" type="date" data-language="en">
+                        <input class="datepicker-here form-control digits" id="warrantyDateInput" name="product_warranty" type="text" data-language="en">
+                        <span class="input-group-text" id="warrantyCalendarIcon">
+                            <i class="fa fa-calendar"></i>
+                        </span>
                     </div>
                 </div>
 
                 <div class="col-md-4 mb-4" id="expiryField">
                     <label class="col-form-label" for="expiryDateInput">Expiry</label>
-                    <input class="datepicker-here form-control" id="expiryDateInput" name="expiry" type="date" data-language="en">
+                    <div class="input-group">
+                        <input class="datepicker-here form-control" id="expiryDateInput" name="expiry" type="text" data-language="en">
+                        <span class="input-group-text" id="expiryCalendarIcon">
+                            <i class="fa fa-calendar"></i>
+                        </span>
+                    </div>
                 </div>
                 <div class="col-md-4 mb-4">
                     <label class="col-form-label" for="expiryDateInput">Status</label>
@@ -409,6 +417,11 @@
                 }
             });
         });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#warrantyDateInput, #warrantyCalendarIcon, #expiryDateInput, #expiryCalendarIcon').datepicker();
     });
 </script>
 @endsection
