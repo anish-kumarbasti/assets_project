@@ -25,12 +25,13 @@
 @endif
 <div class="col-sm-12">
     <div class="card">
-        <div class="card-header pb-0">
-            <h4 class="d-flex justify-content-between align-item-center">
-                <span>Status</span>
-                <a class="btn btn-primary text-end m-b-30" id="openModalButton" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i>
+        <div class="card-header pb-0 d-flex">
+            <div class="float-left col-sm-6">
+                <h4>Status</h4>
+            </div>
+            <div class="col-sm-6"><a href="{{route('trash.status')}}" class="btn btn-danger float-end" style="margin-left: 5px;">Trash</a><a class="btn btn-primary float-end m-b-30" id="openModalButton" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i>
                     Add Status</a>
-            </h4>
+            </div>
         </div>
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
