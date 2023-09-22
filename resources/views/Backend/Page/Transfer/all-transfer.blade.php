@@ -1,5 +1,4 @@
 @extends('Backend.Layouts.panel')
-
 @section('Content-Area')
 <div class="col-sm-12">
     <div class="card">
@@ -8,9 +7,9 @@
         </div>
         <div class="card">
             <div class="card-body">
-               <div class="table-responsive theme-scrollbar">
-                  <table class="display" id="basic-1">
-                        <thead>
+                <div class="table-responsive theme-scrollbar">
+                    <table class="table table-bordered table-striped" id="transfer-table">
+                        <thead class="table-primary">
                             <tr class="text-center">
                                 <th>SL</th>
                                 <th>Transfer ID</th>
@@ -24,22 +23,22 @@
                         </thead>
                         <tbody>
                             @foreach ($transfers as $transfer)
-                                <tr>
-                                    <td>{{$loop->iteration}}</td>
-                                    <td>{{ $transfer->id }}</td>
-                                    <td>{{ $transfer->employee->employee_id }}</td>
-                                    <td>{{ $transfer->handoverEmployee->employee_id }}</td>
-                                    <td>{{ $transfer->reason->reason }}</td>
-                                    <td>
-                                        <ul>
-                                            @foreach ($transfer->products as $product)
-                                                <li>{{ $product->product_info }}</li>
-                                            @endforeach
-                                        </ul>
-                                    </td>
-                                    <td>{{ $transfer->description }}</td>
-                                    <td>{{ $transfer->created_at }}</td>
-                                </tr>
+                            <tr>
+                                <td>{{$loop->iteration}}</td>
+                                <td>{{ $transfer->id }}</td>
+                                <td>{{ $transfer->employee->employee_id }}</td>
+                                <td>{{ $transfer->handoverEmployee->employee_id }}</td>
+                                <td>{{ $transfer->reason->reason }}</td>
+                                <td>
+                                    <ul class="list-unstyled">
+                                        @foreach ($transfer->products as $product)
+                                        <li>{{ $product->product_info }}</li>
+                                        @endforeach
+                                    </ul>
+                                </td>
+                                <td>{{ $transfer->description }}</td>
+                                <td>{{ $transfer->created_at }}</td>
+                            </tr>
                             @endforeach
                         </tbody>
                     </table>

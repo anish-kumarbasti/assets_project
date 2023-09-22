@@ -8,6 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class BusinessSetting extends Model
 {
     use HasFactory;
-    
-    protected $guarded = [];
+
+    // app/Models/BusinessSetting.php
+
+protected $fillable = [
+    'logo_path',
+];
+    // app/Models/BusinessSetting.php
+
+public function setLogoPathAttribute($value)
+{
+    $this->attributes['logo_path'] = $value;
+}
+
 }

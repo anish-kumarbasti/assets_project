@@ -1,6 +1,14 @@
+@php
+    $businessSetting = \App\Models\BusinessSetting::where('title', 'logo_path')->first();
+    if ($businessSetting) {
+        $logoPath = $businessSetting->value;
+    } else {
+        $logoPath = 'Backend/assets/images/logo/logo.png'; // Default logo path if not found
+    }
+@endphp
  <div class="sidebar-wrapper">
    <div>
-     <div class="logo-wrapper"><a href="index.html"><img class="img-fluid for-light" src="{{asset('Backend/assets/images/logo/logo.png')}}" alt=""></a>
+    <div class="logo-wrapper"><a href="index.html"><img class="img-fluid for-light" src="{{'storage/'.$logoPath}}" style="height: 50px; width: 50px;" alt=""></a></div>
        <div class="back-btn"><i data-feather="grid"></i></div>
        <div class="toggle-sidebar icon-box-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="grid"> </i></div>
      </div>
@@ -102,7 +110,7 @@
             </ul>
           </li>
           @endcan
-           @can('view_general_setting')  
+           @can('view_general_setting')
 
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="settings" class="fa fa-spin"></i><span>Bussiness Settings</span></a>
              <ul class="sidebar-submenu">
@@ -111,7 +119,7 @@
              </ul>
            </li>
            @endcan
-           @can('view_issuence')   
+           @can('view_issuence')
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="box"></i><span>Issuence</span></a>
              <ul class="sidebar-submenu">
                <li><a href="{{ url('issuences')}}"> Add Issuence </a></li>
@@ -119,7 +127,7 @@
              </ul>
            </li>
            @endcan
-           @can('view_transfer')  
+           @can('view_transfer')
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="list"></i><span>Transfer</span></a>
              <ul class="sidebar-submenu">
                <li><a href="{{ url('transfer')}}">Add Transfer</a> </li>
@@ -127,7 +135,7 @@
              </ul>
            </li>
            @endcan
-           @can('view_depreciation')  
+           @can('view_depreciation')
            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="trash"></i><span>Depreciation</span></a>
              <ul class="sidebar-submenu">
                <li><a href="{{ url('disposal')}}">Add Depreciation</a> </li>
@@ -168,4 +176,3 @@
        <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>
      </nav>
    </div>
- </div>
