@@ -15,6 +15,19 @@ class DepartmentController extends Controller
         $departments = Department::all();
         return view('Backend.Page.Master.department.create', ['departments' => $departments]);
     }
+    public function trash()
+    {
+        $departments = Department::onlyTrashed()->get();
+        return view('Backend.Page.Master.department.trash', ['departments' => $departments]);
+    }
+    public function restore($id)
+    {
+        $departments = Department::withTrashed()->findOrFail($id);
+        if (!empty($departments)) {
+            $departments->restore();
+        }
+        return redirect()->route('departments-index')->with('success', 'Department Restore Successfully');
+    }
 
     // Store the newly created department
     public function store(Request $request)

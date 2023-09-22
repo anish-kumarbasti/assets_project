@@ -18,6 +18,20 @@ class BrandmodelController extends Controller
         // dd($brands);
         return view('Backend.Page.Master.brandmodel.create', compact('brands', 'brandmodel'));
     }
+    public function trash()
+    {
+        $brands = Brand::all();
+        $brandmodel = Brandmodel::onlyTrashed()->get();
+        return view('Backend.Page.Master.brandmodel.create', compact('brands', 'brandmodel'));
+    }
+    public function restore($id)
+    {
+        $brandmodel = Brandmodel::withTrashed()->findOrFail($id);
+        if (!empty($brandmodel)) {
+            $brandmodel->restore();
+        }
+        return redirect()->route('create-brand')->with('success', 'Brand Restore Successfully');
+    }
 
     /**
      * Show the form for creating a new resource.

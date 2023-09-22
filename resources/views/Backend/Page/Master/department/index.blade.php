@@ -7,8 +7,11 @@
 <div class="col-sm-12">
     <div class="card">
         <div class="card-header pb-0 d-flex">
-            <div class="float-left col-sm-6"><h4>List Department</h4></div>
-            <div class="col-sm-6"><a href="{{route('auth.create-department')}}" class="btn btn-primary float-end"><i class="fa fa-plus"></i> Add Department</a></div>
+            <div class="float-left col-sm-6">
+                <h4>List Department</h4>
+            </div>
+            <div class="col-sm-6"><a href="{{route('trash.department')}}" class="btn btn-danger float-end" style="margin-left: 5px;">Trash</a><a href="{{route('auth.create-department')}}" class="btn btn-primary float-end"><i class="fa fa-plus"></i> Add Department</a>
+            </div>
         </div>
         <div class="card-body">
             <div class="table-responsive theme-scrollbar">
@@ -34,7 +37,7 @@
                             <td>
                                 <div class="btn-group">
                                     <a class="btn btn-primary" href="{{ url('/departments/' . $department->id . '/edit') }}"><i class="fa fa-pencil"></i>Edit</a>&nbsp;&nbsp;
-                                    <button type="button" data-id="{{$department->id}}" class="btn btn-danger delete-button"><i class="fa fa-trash-o"></i> Delete</button>
+                                    <button type="button" data-id="{{$department->id}}" class="btn btn-danger delete-button"><i class="fa fa-trash-o"></i>Trash</button>
                                 </div>
                             </td>
                         </tr>

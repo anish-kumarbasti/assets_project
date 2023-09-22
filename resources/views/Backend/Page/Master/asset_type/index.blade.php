@@ -12,11 +12,12 @@
 @endif
 <div class="col-sm-12">
    <div class="card">
-      <div class="card-header pb-0">
-         <h4 class="d-flex justify-content-between align-items-center">
-            <span>Asset Types</span>
-            <a href="{{ route('assets-type-create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Create Asset Type</a>
-         </h4>
+      <div class="card-header pb-0 d-flex">
+         <div class="float-left col-sm-6">
+            <h4>Asset Types</h4>
+         </div>
+         <div class="col-sm-6"><a href="{{route('trash.asset_type')}}" class="btn btn-danger float-end" style="margin-left: 5px;">Trash</a><a href="{{route('assets-type-create')}}" class="btn btn-primary float-end"><i class="fa fa-plus"></i>Create Asset Type</a>
+         </div>
       </div>
       <div class="card-body">
          <form action="{{route('import.csv')}}" method="post" enctype="multipart/form-data">
@@ -47,7 +48,7 @@
                      </td>
                      <td>
                         <a href="{{ route('assets-type-edit', $asset->id) }}" class="btn btn-primary" data-bs-original-title="" title=""><i class="fa fa-pencil"></i> Edit</a>
-                        <button class="btn btn-danger delete-button" type="button" data-id="{{ $asset->id }}"><i class="fa fa-trash-o"></i> Delete</button>
+                        <button class="btn btn-danger delete-button" type="button" data-id="{{ $asset->id }}"><i class="fa fa-trash-o"></i>Trash</button>
                      </td>
                   </tr>
                   @endforeach
