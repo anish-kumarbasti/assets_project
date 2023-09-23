@@ -87,19 +87,19 @@
     </style>
 @endsection
 @section('Content-Area')
-@if (session('success'))
-<div id="btn" class="alert alert-success" role="alert"><i class="icon-thumb-up alert-center"></i>
-    <p>{{ session('success') }}</p>
-    <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-@endif
-@if ($errors->any())
-<div class="alert alert-danger outline" role="alert">
-    @foreach ($errors->all() as $error)
-    <p>{{ $error }}</p>
-    @endforeach
-</div>
-@endif
+    @if (session('success'))
+        <div id="btn" class="alert alert-success" role="alert"><i class="icon-thumb-up alert-center"></i>
+            <p>{{ session('success') }}</p>
+            <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+    @if ($errors->any())
+        <div class="alert alert-danger outline" role="alert">
+            @foreach ($errors->all() as $error)
+                <p>{{ $error }}</p>
+            @endforeach
+        </div>
+    @endif
     <div class="row">
         <div class="col-xl-12">
             <div class="card appointment-detail">
@@ -128,8 +128,9 @@
                     <div class="table-responsive theme-scrollbar">
                         <table class="table">
                             <tbody>
+                                @foreach (auth()->user()->notifications as $notification)
                                 @foreach ($products as $product)
-                                    <form action="{{ route('accept-asset', $product->id) }}">
+                                    <form action="{{ Auth::check() && Auth::user()->role_id == 2 ? route('accept-asset', $product->id) : route('accept-asset-manager', $product->id) }}">
                                         <tr>
                                             <td>
                                                 <div class="d-flex"><img class="img-fluid align-top circle"
@@ -155,17 +156,32 @@
                                                     @else
                                                         <button class="btn btn-primary" type="submit">Accept</button>
                                                         <button class="btn btn-danger" type="button" data-toggle="modal"
-                                                            data-target="#rejectionModal" onclick="setProductIdToReject('{{ $product->id }}')">Reject</button>
+                                                            data-target="#rejectionModal"
+                                                            onclick="setProductIdToReject('{{ $product->id }}')">Reject</button>
                                                     @endif
                                                 </td>
                                             @elseif (Auth::check() && Auth::user()->role_id == 3)
-                                                <td>Hello A new Asset ({{ $product->product_info }}) has been issued.</td>
-                                                <td class="text-end">
+                                                @if ($notification->type == 'App\Notifications\TransferNotification')
+                                                    <td>Hello A new Asset ({{ $product->product_info }}) has been Transferred to
+                                                        the ({{ $transferuser->first_name }} {{ $transferuser->last_name }})</td>
+                                                    <td class="text-end">
+                                                        @if ($product->status_available != 8)
                                                         <button class="btn btn-primary" type="submit">Approve</button>
+                                                        @else
+                                                        <button class="btn btn-success" type="button">Approved</button>
+                                                        @endif
+                                                    </td>
+                                                @else
+                                                <td>Hello A new Asset ({{ $product->product_info }}) has been issued. to
+                                                    the ({{ $user->first_name }} {{ $user->last_name }})</td>
+                                                <td class="text-end">
+                                                    <button class="btn btn-success" type="button">Isuued</button>
                                                 </td>
+                                                @endif
                                             @endif
                                         </tr>
                                     </form>
+                                @endforeach
                                 @endforeach
                             </tbody>
                         </table>
@@ -177,37 +193,37 @@
     <div class="modal fade" id="rejectionModal" tabindex="-1" role="dialog" aria-labelledby="rejectionModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <form action="{{route('rejection')}}" method="post">
+            <form action="{{ route('rejection') }}" method="post">
                 @csrf
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="rejectionModalLabel">Enter Rejection Reason</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <input type="hidden" id="productIdToReject" name="productIdToReject" value="">
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="reason">Reason for Rejection</label>
-                        <textarea class="form-control" name="reason" id="reason" rows="4" required></textarea>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="rejectionModalLabel">Enter Rejection Reason</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <input type="hidden" id="productIdToReject" name="productIdToReject" value="">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="reason">Reason for Rejection</label>
+                            <textarea class="form-control" name="reason" id="reason" rows="4" required></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger" id="submitRejection">Submit</button>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-danger" id="submitRejection">Submit</button>
-                </div>
-            </div>
-        </form>
+            </form>
         </div>
     </div>
 @endsection
 @section('Script-Area')
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script>
-    function setProductIdToReject(productId) {
-        document.getElementById('productIdToReject').value = productId;
-    }
-</script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function setProductIdToReject(productId) {
+            document.getElementById('productIdToReject').value = productId;
+        }
+    </script>
 @endsection

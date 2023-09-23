@@ -14,12 +14,12 @@ use App\Models\Stock;
 use App\Models\SubLocationModel;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 
 class StockController extends Controller
 {
 
-    public function  index()
+    public function index()
     {
         $asset_type = AssetType::all();
         $asset = Asset::all();
@@ -55,7 +55,7 @@ class StockController extends Controller
         // dd($assettypeId);
         return response()->json([
             'assets' => $assettype,
-            'attribute' => $attribute
+            'attribute' => $attribute,
         ]);
     }
     public function getproduct($producttypeId)
@@ -73,29 +73,26 @@ class StockController extends Controller
     public function manage()
     {
         // Retrieve the status counts
-        $statusCounts = [
-            'in_stock' => Stock::where('status', 'in_stock')->count(),
-            'allocated' => Stock::where('status', 'allocated')->count(),
-            'stolen' => Stock::where('status', 'stolen')->count(),
-            'lost' => Stock::where('status', 'lost')->count(),
-            'scrapped' => Stock::where('status', 'scrapped')->count(),
-            'under_repair' => Stock::where('status', 'under_repair')->count(),
-        ];
-
-        // Retrieve the list of stocks
-        $stocks = Stock::all();
-        $stockCount = $stocks->count();
-
-        return view('Backend.Page.Stock.manage-stock', compact('stocks', 'stockCount', 'statusCounts'));
+        $groupedStocks = Stock::select('product_info', 'asset_type_id', 'asset', DB::raw('COUNT(*) as count'))
+            ->groupBy('product_info', 'asset_type_id', 'asset')
+            ->get();
+        // 
+        return view('Backend.Page.Stock.manage-stock', compact('groupedStocks'));
     }
 
-
-    public function  stockStatus()
+    public function stockStatus()
     {
         $stock = Stock::where('asset_type_id', 10)->get();
         return view('Backend.Page.Stock.stock-status', compact('stock'));
     }
 
+    public function generateNumber(Request $request)
+    {
+        // $randomNumber = mt_rand(10000, 99999);
+        $randomNumber = 'ABSC' . str_pad(mt_rand(0, 99999), 5, '0', STR_PAD_LEFT);
+
+        return response()->json(['number' => $randomNumber]);
+    }
 
     public function store(Request $request)
     {
@@ -149,11 +146,11 @@ class StockController extends Controller
 
         if ($asset->status == true) {
             Stock::where('id', $stockId)->update([
-                'status' => 0
+                'status' => 0,
             ]);
         } else {
             Stock::where('id', $stockId)->update([
-                'status' => 1
+                'status' => 1,
             ]);
         }
 

@@ -154,7 +154,7 @@
                                 <option value="">--Select Attribute--</option>
                             </select>
                         </div>
-                        {{-- <div class="col-md-4 mb-4">
+                        <div class="col-md-4 mb-4">
                      <label class="form-label" for="validationCustom01">Location</label>
                      <select class="form-select" id="location" name="location" aria-label="Default select example">
                         <option>--Select Location--</option>
@@ -168,7 +168,7 @@
                         <select id="slocation" class="form-select" name="sublocation" aria-label="Default select example">
                             <option value="">--Select Sub Location--</option>
                         </select>
-                    </div> --}}
+                    </div>
                     <div class="col-md-4 mb-4">
                         <label class="form-label" for="validationCustom01">Host Name</label>
                         <input class="form-control" id="validationCustom01" name="host_name" type="text" data-bs-original-title="" title="" placeholder="Enter Host Name">

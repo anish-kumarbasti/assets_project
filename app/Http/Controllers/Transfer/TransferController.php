@@ -21,8 +21,7 @@ class TransferController extends Controller
                 ->where('employee_id', 'LIKE', '%' . $request->employeeId . '%')
                 ->first() ?? null;
 
-            $issue = Issuence::with('allStock')
-                ->where('employee_id', 'LIKE', '%' . $request->employeeId . '%')
+            $issue = Issuence::where('employee_id', 'LIKE', '%' . $request->employeeId . '%')
                 ->first() ?? null;
 
             $result = [];

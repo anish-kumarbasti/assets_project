@@ -26,14 +26,14 @@
              <h6>Pinned</h6>
            </li>
            <hr>
-           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="home"></i><span class="lan-3">Dashboard</span></a>
+           <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="home"></i><span class="lan-3">Dashboard</span></a>
              <ul class="sidebar-submenu">
                 <li><a href="{{ url('home')}}">Admin Dashboard</a></li>
                <li><a href="{{ url('user_dashboard')}}">User Dashboard</a></li>
              </ul>
            </li>
            @can('view_asset')
-           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="airplay"></i><span>Masters</span></a>
+           <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="airplay"></i><span>Masters</span></a>
              <ul class="sidebar-submenu">
               @can('View_Department')
               <li><a href="{{ url('department')}}">Department</a></li>
@@ -73,7 +73,7 @@
            </li>
            @endcan
            @can('view_user')
-           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="layout"></i><span>User Management</span></a>
+           <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="layout"></i><span>User Management</span></a>
              <ul class="sidebar-submenu">
                @can('manage_user')<li><a href="{{url('users')}}">All Users</a></li>@endcan
                @can('create_user')
@@ -92,7 +92,7 @@
            </li>
            @endcan
            @can('view_stock')
-           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="home"></i><span>Stocks</span></a>
+           <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="home"></i><span>Stocks</span></a>
             <ul class="sidebar-submenu">
               <li><a href="{{ url('manage-stocks')}}">Manage Stocks</a></li>
               @can('manage_stock')<li><a href="{{ url('all-stock')}}">All Stocks</a></li>@endcan
@@ -101,7 +101,7 @@
           </li>
           @endcan
           @can('view_asset')
-          <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="airplay"></i><span>Assets</span></a>
+          <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="airplay"></i><span>Assets</span></a>
             <ul class="sidebar-submenu">
               <li><a href="{{ url('it-assets-stock')}}">IT Assets</a></li>
               <li><a href="{{url('non-it-asset')}}">Non-IT Assets</a></li>
@@ -112,43 +112,44 @@
           @endcan
            @can('view_general_setting')
 
-           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="settings" class="fa fa-spin"></i><span>Bussiness Settings</span></a>
+           <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="settings" class="fa fa-spin"></i><span>Bussiness Settings</span></a>
              <ul class="sidebar-submenu">
                <li><a href="{{route('settings.application')}}">General Settings</a></li>
                <li><a href="{{ url('/send-email') }}">Mail Configuration</a></li>
              </ul>
            </li>
            @endcan
-           @can('view_issuence')
-           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="box"></i><span>Issuence</span></a>
+           @can('view_issuence')   
+           <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="box"></i><span>Issuence</span></a>
+
              <ul class="sidebar-submenu">
                <li><a href="{{ url('issuences')}}"> Add Issuence </a></li>
                <li><a href="{{ url('issuences/all') }}"> All Issuence </a></li>
              </ul>
            </li>
            @endcan
-           @can('view_transfer')
-           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="list"></i><span>Transfer</span></a>
+           @can('view_transfer')  
+           <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="list"></i><span>Transfer</span></a>
              <ul class="sidebar-submenu">
                <li><a href="{{ url('transfer')}}">Add Transfer</a> </li>
                <li><a href="{{ url('transfer/all')}}">All Transfer</a> </li>
              </ul>
            </li>
            @endcan
-           @can('view_depreciation')
-           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="trash"></i><span>Depreciation</span></a>
+           @can('view_depreciation')  
+           <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="trash"></i><span>Depreciation</span></a>
              <ul class="sidebar-submenu">
                <li><a href="{{ url('disposal')}}">Add Depreciation</a> </li>
              </ul>
            </li>
            @endcan
-           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="book-open"></i><span>Reports</span></a>
+           <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="book-open"></i><span>Reports</span></a>
             <ul class="sidebar-submenu">
               <li><a href="{{url('all-reports')}}">All Reports</a> </li>
             </ul>
           </li>
            @can('view_maintenance')
-           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="plus-square"></i><span>Maintenance</span></a>
+           <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="plus-square"></i><span>Maintenance</span></a>
              <ul class="sidebar-submenu">
                <li><a href="{{route('assets-maintenances')}}">Add Maintenance</a></li>
                <li><a href="{{route('receive-maintenance')}}">Receive Maintenance</a></li>
@@ -157,14 +158,14 @@
             @endcan
             @if (Auth::check() && Auth::user()->role_id == 2)
             <!-- Issuence menu -->
-            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="plus-square"></i><span>Issuence</span></a>
+            <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="plus-square"></i><span>Issuence</span></a>
                 <ul class="sidebar-submenu">
                     <li><a href="#">Issuence Requests</a></li>
                     <li><a href="#">All Issuence</a></li>
                 </ul>
             </li>
             <!-- Transfer menu -->
-            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="plus-square"></i><span>Transfer</span></a>
+            <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="plus-square"></i><span>Transfer</span></a>
                 <ul class="sidebar-submenu">
                     <li><a href="#">Transfer Requests</a></li>
                     <li><a href="#">All Transfer</a></li>

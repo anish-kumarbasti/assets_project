@@ -16,6 +16,7 @@
         }
 
         .selected {
+            background-color: #e6ffe8;
             border: 2px solid green;
         }
 
@@ -488,6 +489,7 @@
                         dataType: 'json',
                         success: function(data) {
                             $('#sublocation').empty();
+                            $('#sublocation').append('<option value="">Select sublocation</option>');
                             $.each(data, function(key, value) {
                                 $('#sublocation').append('<option value="' + key +
                                     '">' + value + '</option>');
