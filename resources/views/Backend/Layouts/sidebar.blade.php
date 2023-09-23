@@ -8,7 +8,7 @@
 @endphp
  <div class="sidebar-wrapper">
    <div>
-    <div class="logo-wrapper"><a href="index.html"><img class="img-fluid for-light" src="{{'storage/'.$logoPath}}" style="height: 50px; width: 50px;" alt=""></a></div>
+    <div class="logo-wrapper"><a href="index.html"><img class="img-fluid for-light" src="{{asset('storage/'.$logoPath)}}" style="height: 40px; width: 110px;" alt=""></a></div>
        <div class="back-btn"><i data-feather="grid"></i></div>
        <div class="toggle-sidebar icon-box-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="grid"> </i></div>
      </div>
