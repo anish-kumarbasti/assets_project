@@ -37,6 +37,7 @@
                             <td>
                                 <div class="btn-group">
                                     <a class="btn btn-info" href="{{ route('restore.department',$department->id) }}">Restore</a>
+                                    <button class="btn btn-danger delete-button" type="button" data-id="{{ $department->id }}">Delete</button>
                                 </div>
                             </td>
                         </tr>

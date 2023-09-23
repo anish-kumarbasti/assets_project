@@ -4,18 +4,12 @@
 @endsection
 
 @section('Content-Area')
-@if (session('success'))
-<div id="alert-success" class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
-    <p><b> Well done! </b>{{session('success')}}</p>
-    <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-@endif
 <div class="col-sm-12">
     <div class="card">
         <div class="card-header pb-0">
             <h4 class="d-flex justify-content-between align-items-center">
-                <span>Trash Asset Types</span>
-                <a href="{{ route('assets-type-index') }}" class="btn btn-info">Back</a>
+                <span>Trash Brands</span>
+                <a href="{{ route('transfer-reasons.index') }}" class="btn btn-primary float-right">Back</a>
             </h4>
         </div>
         <div class="card-body">
@@ -23,26 +17,26 @@
                 <table class="display" id="basic-1">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Name</th>
+                            <th>SL</th>
+                            <th>Reason</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($assets as $asset)
+                        @foreach ($transferReasons as $reason)
                         <tr>
-                            <td>{{ $asset->id }}</td>
-                            <td>{{ $asset->name }}</td>
+                            <td>{{ $reason->id }}</td>
+                            <td>{{ $reason->reason }}</td>
                             <td class="w-20">
                                 <label class="mb-0 switch">
-                                    <input type="checkbox" data-id="{{ $asset->id }}" {{ $asset->status ? 'checked' : '' }}>
+                                    <input type="checkbox" data-id="{{ $reason->id }}" {{ $reason->status ? 'checked' : '' }}>
                                     <span class="switch-state"></span>
                                 </label>
                             </td>
                             <td>
-                                <a href="{{ route('trsah.asset-type', $asset->id) }}" class="btn btn-primary" data-bs-original-title="" title="">Restore</a>
-                                <button class="btn btn-danger delete-button" type="button" data-id="{{ $asset->id }}">Delete</button>
+                                <a href="{{ route('restore.transfer-reasons', $reason->id) }}" class="btn btn-primary">Restore</a>
+                                <button class="btn btn-danger delete-button" type="button" data-id="{{ $reason->id }}">Delete</button>
                             </td>
                         </tr>
                         @endforeach
@@ -55,50 +49,15 @@
 @endsection
 
 @section('Script-Area')
-@section('Script-Area')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function() {
-        var alertfunction = $('#alert-success');
-        setTimeout(function() {
-            alertfunction.alert('close');
-        }, 3000);
-    });
-</script>
-<script>
-    $(document).ready(function() {
-
-        $('input[type="checkbox"]').on('change', function() {
-            const assetId = $(this).data('id');
-            const status = $(this).prop('checked');
-            const csrfToken = $('meta[name="csrf-token"]').attr('content');
-
-            $.ajax({
-                url: `/assets-type-status/${assetId}`,
-                type: 'PUT',
-                data: {
-                    status: status
-                },
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken
-                },
-                success: function(response) {
-                    console.log('Status updated successfully');
-                },
-                error: function(error) {
-                    console.error('Error:', error);
-                }
-            });
-        });
-    });
-</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
-
 <script>
     document.querySelectorAll('.delete-button').forEach(function(button) {
         button.addEventListener('click', function() {
-            const assettypeId = this.getAttribute('data-id');
+            const reasonId = this.getAttribute('data-id');
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            // Show SweetAlert2 confirmation dialog
             Swal.fire({
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
@@ -109,7 +68,7 @@
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    fetch('/trash/asset/type/' + assettypeId, {
+                    fetch('/trash/transfer-reasons/' + reasonId, {
                             method: 'delete',
                             headers: {
                                 'X-CSRF-TOKEN': csrfToken, // Include the CSRF token in the headers
@@ -126,7 +85,8 @@
                                     'Your file has been deleted.',
                                     'success'
                                 ).then(() => {
-                                    location.reload(); // Reload the page after the alert is closed
+                                    location
+                                        .reload();
                                 });
                             } else {
                                 Swal.fire(
@@ -148,6 +108,4 @@
         });
     });
 </script>
-@endsection
-
 @endsection

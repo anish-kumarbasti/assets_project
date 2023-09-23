@@ -27,6 +27,18 @@ class BrandController extends Controller
         }
         return redirect()->route('create-brand')->with('success', 'Brand Restore Successfully');
     }
+    public function forceDelete($id)
+    {
+        $brands = Brand::withTrashed()->find($id);
+
+        if (!$brands) {
+            return response()->json(['success' => false], 404);
+        }
+
+        $brands->forceDelete();
+
+        return response()->json(['success' => true]);
+    }
 
     public function store(Request $request)
     {
