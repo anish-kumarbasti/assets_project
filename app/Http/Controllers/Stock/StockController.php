@@ -95,14 +95,7 @@ class StockController extends Controller
         $stock = Stock::where('asset_type_id', 10)->get();
         return view('Backend.Page.Stock.stock-status', compact('stock'));
     }
-    public function generateNumber(Request $request)
-    {
-        // $randomNumber = mt_rand(10000, 99999);
-        $randomNumber = 'ABSC' . str_pad(mt_rand(0, 99999), 5, '0', STR_PAD_LEFT);
 
-
-        return response()->json(['number' => $randomNumber]);
-    }
 
     public function store(Request $request)
     {
@@ -225,6 +218,6 @@ class StockController extends Controller
         $stock = Stock::findOrFail($id);
         $stock->delete();
 
-        return response()->json(['success' => true]);
+        return redirect()->route('all.stock');
     }
 }

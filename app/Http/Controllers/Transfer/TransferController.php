@@ -73,4 +73,9 @@ class TransferController extends Controller
         }
         return back()->with('success', 'Asset Transfered successfully.');
     }
+    public function showAll()
+{
+    $transfers = Transfer::with('employee', 'handoverEmployee', 'reason', 'products')->get();
+    return view('Backend.Page.Transfer.all-transfer', compact('transfers'));
+}
 }
