@@ -50,8 +50,12 @@
 @isset($brandmodel)
 <div class="col-sm-12">
     <div class="card">
-        <div class="card-header pb-0">
-            <h4>List Models</h4>
+        <div class="card-header pb-0 d-flex">
+            <div class="float-left col-sm-6">
+                <h4>List Models</h4>
+            </div>
+            <div class="col-sm-6"><a href="{{route('trash.model')}}" class="btn btn-primary float-end">Trash</a>
+            </div>
         </div>
         <div class="card-body">
             <div class="table-responsive theme-scrollbar">
@@ -86,7 +90,7 @@
                             {{-- @dd($brandmodel->id); --}}
                             <td>
                                 <a class="btn btn-primary" href="{{ url('brand-model/' . $brandmodel->id . '/edit' ) }}"><i class="fa fa-pencil"></i> Edit</a>
-                                <button class="btn btn-danger delete-button" type="button" data-id="{{ $brandmodel->id }}"><i class="fa fa-trash-o"></i> Delete</button>
+                                <button class="btn btn-danger delete-button" type="button" data-id="{{ $brandmodel->id }}"><i class="fa fa-trash-o"></i> Trash</button>
 
                             </td>
                         </tr>

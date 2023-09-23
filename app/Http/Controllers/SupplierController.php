@@ -13,6 +13,31 @@ class SupplierController extends Controller
         $suppliers = Supplier::all();
         return view('Backend.Page.Master.suppliers.index', compact('suppliers'));
     }
+    public function trash()
+    {
+        $suppliers = Supplier::onlyTrashed()->get();
+        return view('Backend.Page.Master.suppliers.trash', compact('suppliers'));
+    }
+    public function restore($id)
+    {
+        $suppliers = Supplier::withTrashed()->findOrFail($id);
+        if (!empty($suppliers)) {
+            $suppliers->restore();
+        }
+        return redirect()->route('')->with('success', 'Supplier Restore Successfully');
+    }
+    public function forceDelete($id)
+    {
+        $suppliers = Supplier::withTrashed()->find($id);
+
+        if (!$suppliers) {
+            return response()->json(['message' => false], 404);
+        }
+
+        $suppliers->forceDelete();
+
+        return response()->json(['message' => true]);
+    }
     public function create()
     {
         return view('Backend.Page.Master.suppliers.create');

@@ -50,8 +50,12 @@
 </div>
 <div class="col-sm-12">
     <div class="card">
-        <div class="card-header pb-0">
-            <h4>List Models</h4>
+        <div class="card-header pb-0 d-flex">
+            <div class="float-left col-sm-6">
+                <h4>Attribute</h4>
+            </div>
+            <div class="col-sm-6"><a href="{{route('trash.attributes')}}" class="btn btn-danger float-end">Trash</a>
+            </div>
         </div>
         <div class="card-body">
             <div class="table-responsive theme-scrollbar">
