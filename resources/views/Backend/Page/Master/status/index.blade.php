@@ -93,7 +93,7 @@
                                 <td>
                                     <div class="btn-group">
                                         <a href="{{route('status-edit', $datas->id)}}" class="btn btn-primary"><i class="fa fa-pencil"></i> Edit</a>&nbsp;&nbsp;
-                                        <button class="btn btn-danger delete-button" data-id="{{ $datas->id }}" type="button"><i class="fa fa-trash-o"></i> Delete</button>
+                                        <button class="btn btn-danger delete-button" data-id="{{ $datas->id }}" type="button"><i class="fa fa-trash-o"></i> Trash</button>
                                     </div>
                                 </td>
                             </tr>
@@ -136,7 +136,7 @@
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
+                confirmButtonText: 'Yes, trash it!'
             }).then((result) => {
                 if (result.isConfirmed) {
                     fetch('status-delete/' + Id, {
@@ -154,8 +154,8 @@
 
                             if ('success' in data && data.success) {
                                 Swal.fire(
-                                    'Deleted!',
-                                    'Your file has been deleted.',
+                                    'Trash!',
+                                    'Your file has been trashed.',
                                     'success'
                                 ).then(() => {
                                     location.reload();
@@ -163,7 +163,7 @@
                             } else {
                                 Swal.fire(
                                     'Error',
-                                    'Failed to delete the file.',
+                                    'Failed to trash the file.',
                                     'error'
                                 );
                             }
@@ -171,7 +171,7 @@
                         .catch(error => {
                             Swal.fire(
                                 'Error',
-                                'An error occurred while deleting the file.',
+                                'An error occurred while trashing the file.',
                                 'error'
                             );
                         });

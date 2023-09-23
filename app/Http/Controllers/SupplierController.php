@@ -24,19 +24,19 @@ class SupplierController extends Controller
         if (!empty($suppliers)) {
             $suppliers->restore();
         }
-        return redirect()->route('')->with('success', 'Supplier Restore Successfully');
+        return redirect()->route('suppliers.index')->with('success', 'Supplier Restore Successfully');
     }
     public function forceDelete($id)
     {
         $suppliers = Supplier::withTrashed()->find($id);
 
         if (!$suppliers) {
-            return response()->json(['message' => false], 404);
+            return response()->json(['success' => false], 404);
         }
 
         $suppliers->forceDelete();
 
-        return response()->json(['message' => true]);
+        return response()->json(['success' => true]);
     }
     public function create()
     {

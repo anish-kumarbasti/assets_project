@@ -82,7 +82,7 @@ class AssetTypeController extends Controller
     public function import_csv(Request $request)
     {
         // dd($request);
-        Excel::import(new AssetType, $request->file('file'));
+        // Excel::import(new AssetType, $request->file('file'));
         return redirect()->back();
     }
     public function trash()
@@ -97,5 +97,17 @@ class AssetTypeController extends Controller
             $departments->restore();
         }
         return redirect()->route('assets-type-index')->with('success', 'Asset Type Restore Successfully');
+    }
+    public function forceDelete($id)
+    {
+        $departments = AssetType::withTrashed()->find($id);
+
+        if (!$departments) {
+            return response()->json(['success' => false], 404);
+        }
+
+        $departments->forceDelete();
+
+        return response()->json(['success' => true]);
     }
 }

@@ -29,6 +29,18 @@ class AssetController extends Controller
         }
         return redirect()->route('assets.index')->with('success', 'Asset Restored Successfully');
     }
+    public function forceDelete($id)
+    {
+        $assets = Asset::withTrashed()->find($id);
+
+        if (!$assets) {
+            return response()->json(['success' => false], 404);
+        }
+
+        $assets->forceDelete();
+
+        return response()->json(['success' => true]);
+    }
 
 
     public function create()

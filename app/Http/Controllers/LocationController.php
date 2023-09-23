@@ -26,6 +26,12 @@ class LocationController extends Controller
         }
         return redirect()->route('location-index')->with('success', 'Brand Restore Successfully');
     }
+    public function forceDelete($id)
+    {
+        $locations = Location::withTrashed()->find($id);
+        $locations->forceDelete();
+        return response()->json(['success' => true]);
+    }
 
 
     public function create()

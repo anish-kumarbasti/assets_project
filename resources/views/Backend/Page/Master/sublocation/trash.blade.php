@@ -57,7 +57,6 @@
         button.addEventListener('click', function() {
             const sublocationId = this.getAttribute('data-id');
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-            // Show SweetAlert2 confirmation dialog
             Swal.fire({
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
@@ -68,8 +67,7 @@
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Send AJAX request to the server to delete the item
-                    fetch('/sublocation-destroy/' + sublocationId, {
+                    fetch('/sub-location-permanently-delete/' + sublocationId, {
                             method: 'delete',
                             headers: {
                                 'X-CSRF-TOKEN': csrfToken, // Include the CSRF token in the headers

@@ -28,19 +28,19 @@ class AttributeController extends Controller
         if (!empty($attributes)) {
             $attributes->restore();
         }
-        return redirect()->route('create-brand')->with('success', 'Attribute Restore Successfully');
+        return redirect()->route('attributes-index')->with('success', 'Attribute Restore Successfully');
     }
     public function forceDelete($id)
     {
         $attributes = Attribute::withTrashed()->find($id);
 
         if (!$attributes) {
-            return response()->json(['message' => false], 404);
+            return response()->json(['success' => false], 404);
         }
 
         $attributes->forceDelete();
 
-        return response()->json(['message' => true]);
+        return response()->json(['success' => true]);
     }
 
     public function create()

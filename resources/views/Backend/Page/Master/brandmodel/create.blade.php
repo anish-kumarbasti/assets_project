@@ -89,8 +89,8 @@
                             </td>
                             {{-- @dd($brandmodel->id); --}}
                             <td>
-                                <a class="btn btn-primary" href="{{ url('brand-model/' . $brandmodel->id . '/edit' ) }}"><i class="fa fa-pencil"></i> Edit</a>
-                                <button class="btn btn-danger delete-button" type="button" data-id="{{ $brandmodel->id }}"><i class="fa fa-trash-o"></i> Trash</button>
+                                <a class="btn btn-primary" href="{{ url('brand-model/' . $brandmodel->id . '/edit' ) }}">Edit</a>
+                                <button class="btn btn-danger delete-button" type="button" data-id="{{ $brandmodel->id }}">Trash</button>
 
                             </td>
                         </tr>
@@ -161,7 +161,7 @@
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
+                confirmButtonText: 'Yes, trash it!'
             }).then((result) => {
                 if (result.isConfirmed) {
                     // Send AJAX request to the server to delete the item
@@ -177,8 +177,8 @@
                         .then(data => {
                             if ('success' in data && data.success) {
                                 Swal.fire(
-                                    'Deleted!',
-                                    'Your file has been deleted.',
+                                    'Trashed!',
+                                    'Your file has been trashed.',
                                     'success'
                                 ).then(() => {
                                     location.reload(); // Reload the page after the alert is closed
@@ -186,7 +186,7 @@
                             } else {
                                 Swal.fire(
                                     'Error',
-                                    'Failed to delete the file.',
+                                    'Failed to trash the file.',
                                     'error'
                                 );
                             }
@@ -194,7 +194,7 @@
                         .catch(error => {
                             Swal.fire(
                                 'Error',
-                                'An error occurred while deleting the file.',
+                                'An error occurred while trashing the file.',
                                 'error'
                             );
                         });
