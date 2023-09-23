@@ -53,6 +53,10 @@
         color: #5bc0de;
         font-weight: bold;
     }
+        /* Add some custom styles to ensure the calendar is properly displayed */
+        .datepicker-dropdown {
+            position: absolute !important;
+        }
 </style>
 @endsection
 @section('Content-Area')
@@ -217,18 +221,17 @@
                 <div class="col-md-4 mb-4" id="warranty">
                     <label class="form-label" for="warrantyDateInput">Warranty</label>
                     <div class="input-group">
-                        <input class="datepicker-here form-control digits" id="warrantyDateInput" name="product_warranty" type="text" data-language="en">
-                        <span class="input-group-text" id="warrantyCalendarIcon">
+                        <input class="form-control digits" id="warrantyDateInput" name="product_warranty" type="text" data-language="en" readonly>
+                        <span class="input-group-text" id="warrantyCalendarIcon" style="cursor: pointer;">
                             <i class="fa fa-calendar"></i>
                         </span>
                     </div>
                 </div>
-
                 <div class="col-md-4 mb-4" id="expiryField">
                     <label class="col-form-label" for="expiryDateInput">Expiry</label>
                     <div class="input-group">
-                        <input class="datepicker-here form-control" id="expiryDateInput" name="expiry" type="text" data-language="en">
-                        <span class="input-group-text" id="expiryCalendarIcon">
+                        <input class="form-control" id="expiryDateInput" name="expiry" type="text" data-language="en" readonly>
+                        <span class="input-group-text" id="expiryCalendarIcon" style="cursor: pointer;">
                             <i class="fa fa-calendar"></i>
                         </span>
                     </div>
@@ -421,7 +424,13 @@
 </script>
 <script>
     $(document).ready(function () {
-        $('#warrantyDateInput, #warrantyCalendarIcon, #expiryDateInput, #expiryCalendarIcon').datepicker();
+        $('#warrantyDateInput, #expiryDateInput').datepicker();
+
+        // Add a click event to the calendar icon to open the datepicker
+        $('#warrantyCalendarIcon, #expiryCalendarIcon').on('click', function () {
+            var inputField = $(this).siblings('input.datepicker-here');
+            inputField.datepicker('show');
+        });
     });
 </script>
 @endsection

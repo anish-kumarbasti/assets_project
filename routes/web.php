@@ -94,6 +94,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('accept-asset-manager/{id}', [IssuenceController::class, 'AssetAcceptmanager'])->name('accept-asset-manager');
     Route::get('accept-asset-detail/{id}', [IssuenceController::class, 'AssetAcceptdetail'])->name('accept-detail-asset');
     // Transfer Reason
+    Route::get('trash/sub-location', [TransferReasonController::class, 'trash'])->name('trash.sub-location');
+    Route::get('restore/sub-location/{id}', [TransferReasonController::class, 'restore'])->name('restore.sub-location');
+    Route::delete('/sub-location-permanently-delete/{id}', [TransferReasonController::class, 'forceDelete']);
     Route::get('transfer-reasons', [TransferReasonController::class, 'index'])->name('transfer-reasons.index');
     Route::get('transfer-reasons/create', [TransferReasonController::class, 'create'])->name('transfer-reasons.create');
     Route::post('transfer-reasons', [TransferReasonController::class, 'store'])->name('transfer-reasons.store');
@@ -174,6 +177,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('location-edit/{id}', [LocationController::class, 'edit'])->name('location-edit');
     Route::post('/check-location-duplicate', [LocationController::class, 'checkLocationDuplicate'])->name('check-location-duplicate');
     //Sub-Location
+    Route::get('trash/sub-location', [SubLocationController::class, 'trash'])->name('trash.sub-location');
+    Route::get('restore/sub-location/{id}', [SubLocationController::class, 'restore'])->name('restore.sub-location');
+    Route::delete('/sub-location-permanently-delete/{id}', [SubLocationController::class, 'forceDelete']);
     Route::get('sublocation-show', [SubLocationController::class, 'show'])->name('sublocation-show');
     Route::get('sublocation-index', [SubLocationController::class, 'index'])->name('sublocation-index');
     Route::get('sublocation-create', [SubLocationController::class, 'create'])->name('sublocation-create');
@@ -204,6 +210,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('assets/{id}', [AssetController::class, 'destroy'])->name('assets.destroy')->middleware('permission:delete_asset');
     // routes/web.php.
     //Status
+    Route::get('trash/status', [StatusController::class, 'trash'])->name('trash.status');
+    Route::get('restore/status/{id}', [StatusController::class, 'restore'])->name('restore.status');
+    Route::delete('/status-permanently-delete/{id}', [StatusController::class, 'forceDelete']);
     Route::get('add-status', [StatusController::class, 'status'])->name('change-status');
     Route::post('save-status', [StatusController::class, 'save'])->name('status-save');
     Route::get('status-edit/{id}', [StatusController::class, 'edit'])->name('status-edit');
@@ -221,6 +230,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/brands/{brand}', [BrandController::class, 'updateStatus'])->name('brands.updateStatus');
     Route::post('/brands-model/{brand}', [BrandModelController::class, 'updateStatus'])->name('brands.model.updateStatus');
     Route::resource('brand-model', BrandmodelController::class);
+    Route::get('trash/model', [BrandmodelController::class, 'trash'])->name('trash.model');
+    Route::get('restore/model/{id}', [BrandmodelController::class, 'restore'])->name('restore.model');
+    Route::delete('/model-permanently-delete/{id}', [BrandmodelController::class, 'forceDelete']);
 
     //Reports
     Route::get('all-reports', [ReportController::class, 'allreport'])->name('all-reports');
@@ -271,6 +283,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/get-statuses', [MaintenanceController::class, 'getStatuses'])->name('get-statuses');
 
     //Attribute
+    Route::get('trash/attributes', [AttributeController::class, 'trash'])->name('trash.attributes');
+    Route::get('restore/attributes/{id}', [AttributeController::class, 'restore'])->name('restore.attributes');
+    Route::delete('/attributes-permanently-delete/{id}', [AttributeController::class, 'forceDelete']);
     Route::get('attributes', [AttributeController::class, 'home'])->name('attributes-index');
     Route::post('attribute-store', [AttributeController::class, 'store'])->name('attribute-store');
     Route::get('/attributes/{id}/edit', [AttributeController::class, 'edit']);
@@ -288,7 +303,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('/departments/{id}', [DepartmentController::class, 'update'])->name('departments.update');
     Route::delete('/departments/{id}', [DepartmentController::class, 'destroy'])->middleware('permission:delete_department');
     Route::post('/departments/{department}', [DepartmentController::class, 'updateStatus'])->name('departments.updateStatus');
-
+    //Supplier
+    Route::get('trash/suppliers', [SupplierController::class, 'trash'])->name('trash.suppliers');
+    Route::get('restore/suppliers/{id}', [SupplierController::class, 'restore'])->name('restore.suppliers');
+    Route::delete('/suppliers-permanently-delete/{id}', [SupplierController::class, 'forceDelete']);
     Route::get('/suppliers', [SupplierController::class, 'index'])->name('suppliers.index');
     Route::post('/suppliers', [SupplierController::class, 'store'])->name('suppliers.store');
     Route::get('/suppliers/create', [SupplierController::class, 'create'])->name('suppliers.create');

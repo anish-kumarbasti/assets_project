@@ -22,7 +22,7 @@ class BrandmodelController extends Controller
     {
         $brands = Brand::all();
         $brandmodel = Brandmodel::onlyTrashed()->get();
-        return view('Backend.Page.Master.brandmodel.create', compact('brands', 'brandmodel'));
+        return view('Backend.Page.Master.brandmodel.trash', compact('brands', 'brandmodel'));
     }
     public function restore($id)
     {
@@ -32,10 +32,19 @@ class BrandmodelController extends Controller
         }
         return redirect()->route('create-brand')->with('success', 'Brand Restore Successfully');
     }
+    public function forceDelete($id)
+    {
+        $brandmodel = Brandmodel::withTrashed()->find($id);
 
-    /**
-     * Show the form for creating a new resource.
-     */
+        if (!$brandmodel) {
+            return response()->json(['message' => false], 404);
+        }
+
+        $brandmodel->forceDelete();
+
+        return response()->json(['message' => true]);
+    }
+
     public function create()
     {
     }

@@ -10,9 +10,34 @@ class SubLocationController extends Controller
 {
     public function index()
     {
-        $message = 'Sub location Type status updated successfully';
+        $message = 'Sub location status updated successfully';
         $sublocations = SubLocationModel::with('locations')->get();
         return view('Backend.Page.Master.sublocation.index', compact('sublocations', 'message'));
+    }
+    public function trash()
+    {
+        $sublocations = SubLocationModel::onlyTrashed('locations')->get();
+        return view('Backend.Page.Master.sublocation.trash', compact('sublocations'));
+    }
+    public function restore($id)
+    {
+        $sublocations = SubLocationModel::withTrashed()->findOrFail($id);
+        if (!empty($sublocations)) {
+            $sublocations->restore();
+        }
+        return redirect()->route('create-brand')->with('success', 'Sublocation Restore Successfully');
+    }
+    public function forceDelete($id)
+    {
+        $sublocations = SubLocationModel::withTrashed()->find($id);
+
+        if (!$sublocations) {
+            return response()->json(['message' => false], 404);
+        }
+
+        $sublocations->forceDelete();
+
+        return response()->json(['message' => true]);
     }
 
     public function create()

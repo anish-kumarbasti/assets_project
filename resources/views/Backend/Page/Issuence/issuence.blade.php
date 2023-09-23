@@ -182,9 +182,8 @@
                     <div class="card-item border mt-3 pt-2">
                         <div class="row p-3">
                             <div class="col-md-4 mb-4">
-                                <label class="form-label" for="validationCustom01">Issuing Time:</label>
-                                <input class="form-control" name="time" id="validationCustom01" type="time"
-                                    data-bs-original-title="" title="">
+                                <label class="form-label" for="timePickerInput">Issuing Time:</label>
+                                <input class="form-control" name="time" id="timePickerInput" type="time" data-bs-original-title="" title="">
                             </div>
                             <div class="col-md-4 mb-4">
                                 <label class="form-label" for="validationCustom01">Date of Issuing</label>
@@ -512,6 +511,14 @@
         // Prevent calendar from opening when clicking on the surrounding div
         $('#datePickerInput, #dueDatePickerInput').click(function (event) {
             event.stopPropagation();
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#timePickerDiv').click(function () {
+                // Trigger a click on the time input element to open the time picker
+                $('#validationCustom01').click();
+            });
         });
     </script>
 @endsection

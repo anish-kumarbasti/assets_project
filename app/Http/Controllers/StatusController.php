@@ -13,6 +13,31 @@ class StatusController extends Controller
         $data = Status::all();
         return view('Backend.Page.Master.status.index', compact('data'));
     }
+    public function trash()
+    {
+        $data = Status::onlyTrashed()->get();
+        return view('Backend.Page.Master.status.trash', compact('data'));
+    }
+    public function restore($id)
+    {
+        $data = Status::withTrashed()->findOrFail($id);
+        if (!empty($data)) {
+            $data->restore();
+        }
+        return redirect()->route('create-brand')->with('success', 'Status Restore Successfully');
+    }
+    public function forceDelete($id)
+    {
+        $data = Status::withTrashed()->find($id);
+
+        if (!$data) {
+            return response()->json(['message' => false], 404);
+        }
+
+        $data->forceDelete();
+
+        return response()->json(['message' => true]);
+    }
     public function save(Request $request)
     {
         $status = $request->validate([

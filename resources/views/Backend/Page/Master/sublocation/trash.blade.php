@@ -4,21 +4,12 @@
 @endsection
 
 @section('Content-Area')
-<div class="col-sm-12">
-    @if(session('success'))
-    <div id="alert-success" class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
-        <p>{{ session('success') }}</b>
-            <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    @endif
-</div>
 <div class="card">
-    <div class="card-header pb-0 d-flex">
-        <div class="float-left col-sm-6">
-            <h4>Sub Locations</h4>
-        </div>
-        <div class="col-sm-6"><a href="{{route('trash.sub-location')}}" class="btn btn-danger float-end" style="margin-left: 5px;">Trash</a><a href="{{route('sublocation-create')}}" class="btn btn-primary float-end"><i class="fa fa-plus"></i>Create Sub-Locations</a>
-        </div>
+    <div class="card-header pb-0">
+        <h4 class="d-flex justify-content-between align-items-center">
+            <span>Trash Sub-Locations</span>
+            <a href="{{ route('sublocation-index') }}" class="btn btn-primary">Back</a>
+        </h4>
     </div>
     <div class="card-body">
         <div class="table-responsive theme-scrollbar">
@@ -45,8 +36,8 @@
                             </label>
                         </td>
                         <td>
-                            <a href="{{ route('sublocation-edit', $sublocation->id) }}" class="btn btn-primary" data-bs-original-title="" title=""><i class="fa fa-pencil"></i> Edit</a>
-                            <button class="btn btn-danger delete-button" type="button" data-id="{{ $sublocation->id }}"><i class="fa fa-trash-o"></i> Delete</button>
+                            <a href="{{ route('restore.sub-location', $sublocation->id) }}" class="btn btn-primary" data-bs-original-title="" title="">Restore</a>
+                            <button class="btn btn-danger delete-button" type="button" data-id="{{ $sublocation->id }}">Delete</button>
                         </td>
                     </tr>
                     @endforeach
@@ -59,41 +50,6 @@
 @endsection
 
 @section('Script-Area')
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function() {
-        var alertmessage = $('#alert-success');
-        setTimeout(function() {
-            alertmessage.alert('close');
-        }, 3000);
-    });
-</script>
-<script>
-    $(document).ready(function() {
-
-        $('input[type="checkbox"]').on('change', function() {
-            const locationId = $(this).val();
-            const status = $(this).prop('checked');
-            const csrfToken = $('meta[name="csrf-token"]').attr('content');
-            $.ajax({
-                url: `/location-update-status/${locationId}`,
-                method: 'post',
-                data: {
-                    status: status
-                },
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken
-                },
-                success: function(response) {
-                    console.log('Status updated successfully');
-                },
-                error: function(error) {
-                    console.error('Error:', error);
-                }
-            });
-        });
-    });
-</script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
 
 <script>

@@ -16,6 +16,32 @@ class AttributeController extends Controller
         $assettype = AssetType::all();
         return view('Backend.Page.Master.attribute.add_attribute', compact('attributes', 'assettype'));
     }
+    public function trash()
+    {
+        $attributes = Attribute::onlyTrashed()->get();
+        $assettype = AssetType::all();
+        return view('Backend.Page.Master.attribute.trash', compact('attributes', 'assettype'));
+    }
+    public function restore($id)
+    {
+        $attributes = Attribute::withTrashed()->findOrFail($id);
+        if (!empty($attributes)) {
+            $attributes->restore();
+        }
+        return redirect()->route('create-brand')->with('success', 'Attribute Restore Successfully');
+    }
+    public function forceDelete($id)
+    {
+        $attributes = Attribute::withTrashed()->find($id);
+
+        if (!$attributes) {
+            return response()->json(['message' => false], 404);
+        }
+
+        $attributes->forceDelete();
+
+        return response()->json(['message' => true]);
+    }
 
     public function create()
     {

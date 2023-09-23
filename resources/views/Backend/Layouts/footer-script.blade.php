@@ -57,6 +57,8 @@
      <script src="{{asset('Backend/assets/js/issuence.js')}}"></script>
      <script src="{{asset('Backend/assets/js/datatable/datatable-extension/pdfmake.min.js')}}"></script>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/1.0.10/datepicker.min.js"></script>
+     <script src="path-to-datepicker-here.js"></script>
+
 
     <!-- login js-->
 
