@@ -32,6 +32,7 @@
                 </div>
                 <div class="footer-item">
                     <button class="btn btn-primary mt-3" type="submit" data-bs-original-title="" title="">ADD</button>
+                    <a href="{{ route('departments-index') }}" class="btn btn-warning">Back</a>
                 </div>
             </form>
         </div>

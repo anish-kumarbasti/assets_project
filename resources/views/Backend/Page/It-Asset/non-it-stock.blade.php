@@ -30,8 +30,8 @@
    <div class="card">
       <div class="card-header pb-0">
          <div class="card">
-            <div class="row ">
-               <div class="col-md-9">
+            <div class="row align-items-center" >
+               <div class="col-md-9 p-4">
                   <h4>Non-IT Assets</h4>
                </div>
                <div class="col-md-3 text-end p-4">

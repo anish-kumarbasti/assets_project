@@ -31,7 +31,7 @@
         <div class="card-header pb-0">
             <div class="card">
                 <div class="row ">
-                    <div class="col-md-9">
+                    <div class="col-md-6">
                         <h4>Assets Components</h4>
                     </div>
                     <div class="col-md-3 text-end p-4">

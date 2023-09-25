@@ -65,7 +65,7 @@ class DepartmentController extends Controller
         ]);
 
         // Redirect back to the list of departments
-        return redirect('departments')->with('message', 'Department Added Successfully!');
+        return redirect('/departments')->with('message', 'Department created successfully.');
     }
 
     // Show the list of departments
@@ -108,7 +108,7 @@ class DepartmentController extends Controller
         ]);
 
         // Redirect back to the list of departments
-        return redirect('/departments/create')->with('message', 'Department updated Successfully!');
+        return redirect('departments')->with('message', 'Department updated Successfully!');
     }
 
     // Delete the department
