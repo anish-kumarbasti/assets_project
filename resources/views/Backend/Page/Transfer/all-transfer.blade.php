@@ -26,18 +26,18 @@
                             <tr>
                                 <td>{{$loop->iteration}}</td>
                                 <td>{{ $transfer->id }}</td>
-                                <td>{{ $transfer->employee->employee_id }}</td>
-                                <td>{{ $transfer->handoverEmployee->employee_id }}</td>
-                                <td>{{ $transfer->reason->reason }}</td>
+                                <td>{{ $transfer->user->first_name??''}}</td>
+                                <td>{{ $transfer->handoverEmployee->employee_id??''}}</td>
+                                <td>{{ $transfer->reason->reason??''}}</td>
                                 <td>
                                     <ul class="list-unstyled">
-                                        @foreach ($transfer->products as $product)
-                                        <li>{{ $product->product_info }}</li>
-                                        @endforeach
+                                        {{-- @foreach ($transfer->products as $product)
+                                        <li>{{ $product->product_info??''}}</li>
+                                        @endforeach --}}
                                     </ul>
                                 </td>
-                                <td>{{ $transfer->description }}</td>
-                                <td>{{ $transfer->created_at }}</td>
+                                <td>{{ $transfer->description??''}}</td>
+                                <td>{{ $transfer->created_at??''}}</td>
                             </tr>
                             @endforeach
                         </tbody>

@@ -91,16 +91,17 @@ class IssuenceController extends Controller
         if ($assetmanager != null) {
             $assetmanager->notify(new IssuenceNotification($assetmanager));
         }
-        $stock = Stock::where('id',$request->cardId)->first();
-        $data = ['name'=>$request->first_name.' '.$request->last_name,
-                 'company_name'=>'IT-Asset',
-                 'employee_id'=>$request->employee_id,
-                 'email'=>$request->email,
-                 'product_name'=>$tock->product_info.' '.$stock->assetmain->name,
-                 'product_serial'=>$stock->serial_number,
-                 'product_time'=>$dateTime,
-                ];
-        $users['to']=$user->email;
+        $stock = Stock::where('id', $request->cardId)->first();
+        $data = [
+            'name' => $request->first_name . ' ' . $request->last_name,
+            'company_name' => 'IT-Asset',
+            'employee_id' => $request->employee_id,
+            'email' => $request->email,
+            'product_name' => $stock->product_info . ' ' . $stock->assetmain->name,
+            'product_serial' => $stock->serial_number,
+            'product_time' => $dateTime,
+        ];
+        $users['to'] = $user->email;
         Mail::send('backend.auth.mail.issuance_mail', $data, function ($message) use ($users) {
             $message->from('itasset@svamart.com', 'itasset@svamart.com'); // Replace with your email and name
             $message->to($users['to']);
@@ -132,13 +133,13 @@ class IssuenceController extends Controller
         $issuedata = Issuence::where('employee_id', $user)
             ->orWhere('employee_manager_id', $manager)->orderByDesc('created_at')
             ->first();
-        $transferdata = Transfer::where('employee_id',$issuedata->employee_id)->first();
+        $transferdata = Transfer::where('employee_id', $issuedata->employee_id)->first();
         $productIds = json_decode($issuedata->product_id);
         $products = Stock::whereIn('id', $productIds)->with('brand', 'brandmodel', 'asset_type', 'getsupplier')->get();
         $user = User::where('employee_id', $issuedata->employee_id)->first();
-        $transferuser = User::where('employee_id',$transferdata->handover_employee_id??'')->first();
-        $users = DB::table('notifications')->Where('type','App\Notifications\TransferNotification')->first();
-        return view('Backend.Page.Issuence.accept', compact('products', 'issuedata','user','users','transferuser'));
+        $transferuser = User::where('employee_id', $transferdata->handover_employee_id ?? '')->first();
+        $users = DB::table('notifications')->Where('type', 'App\Notifications\TransferNotification')->first();
+        return view('Backend.Page.Issuence.accept', compact('products', 'issuedata', 'user', 'users', 'transferuser'));
     }
     public function markasreadcontroller($id)
     {
@@ -149,14 +150,14 @@ class IssuenceController extends Controller
     }
     public function AssetAccept($id)
     {
-        if(Auth::user()->role_id == 2){
-        $status = Status::where('name', 'Accepted by User')->orWhere('name', 'Rejected')->first();
-        Stock::updateOrCreate(['id' => $id], ['status_available' => $status->id]);
-        return redirect()->route('user-dashboard')->with('success', 'Asset Alloted!');
-        }else{
+        if (Auth::user()->role_id == 2) {
+            $status = Status::where('name', 'Accepted by User')->orWhere('name', 'Rejected')->first();
+            Stock::updateOrCreate(['id' => $id], ['status_available' => $status->id]);
+            return redirect()->route('user-dashboard')->with('success', 'Asset Alloted!');
+        } else {
             $status = Status::where('name', 'Transferred')->first();
             Stock::updateOrCreate(['id' => $id], ['status_available' => $status->id]);
-            return redirect()->route('user-dashboard')->with('success', 'Asset Alloted!');  
+            return redirect()->route('user-dashboard')->with('success', 'Asset Alloted!');
         }
     }
     public function AssetAcceptmanager($id)

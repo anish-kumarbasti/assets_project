@@ -60,7 +60,7 @@ class TransferController extends Controller
             'description' => $request->description,
         ]);
         $user = User::where('employee_id', $request->employeeId)->first();
-        $handover = User::where('employee_id',$request->handoverId)->first();
+        $handover = User::where('employee_id', $request->handoverId)->first();
         $managerUser = User::where('role_id', 3)
             ->where('department_id', $user->department_id)->first();
         $assetcontroller = Role::where('name', 'Asset Controller')->first();
@@ -72,16 +72,17 @@ class TransferController extends Controller
         if ($assetmanager != null) {
             $assetmanager->notify(new TransferNotification($assetmanager));
         }
-        $stock = Stock::where('id',$request->cardId)->first();
-        $data = ['name'=>$request->first_name.' '.$request->last_name,
-                 'company_name'=>'IT-Asset',
-                 'transfer_from'=>$request->employee_id,
-                 'email'=>$request->email,
-                 'product_name'=>$stock->product_info.' '.$stock->assetmain->name,
-                 'product_serial'=>$stock->serial_number,
-                 'handover_employee'=>$request->handoverId,
-                ];
-        $users['to']=$handover->email;
+        $stock = Stock::where('id', $request->cardId)->first();
+        $data = [
+            'name' => $request->first_name . ' ' . $request->last_name,
+            'company_name' => 'IT-Asset',
+            'transfer_from' => $request->employee_id,
+            'email' => $request->email,
+            'product_name' => $stock->product_info . ' ' . $stock->assetmain->name,
+            'product_serial' => $stock->serial_number,
+            'handover_employee' => $request->handoverId,
+        ];
+        $users['to'] = $handover->email;
         Mail::send('backend.auth.mail.transfer_mail', $data, function ($message) use ($users) {
             $message->from('itasset@svamart.com', 'itasset@svamart.com'); // Replace with your email and name
             $message->to($users['to']);
@@ -90,8 +91,9 @@ class TransferController extends Controller
         return back()->with('success', 'Asset Transfered successfully.');
     }
     public function showAll()
-{
-    $transfers = Transfer::with('employee', 'handoverEmployee', 'reason', 'products')->get();
-    return view('Backend.Page.Transfer.all-transfer', compact('transfers'));
-}
+    {
+        $transfers = Transfer::with('user')->get();
+        // $transfers = Transfer::all();
+        return view('Backend.Page.Transfer.all-transfer', compact('transfers'));
+    }
 }

@@ -145,7 +145,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('user-details', [UserController::class, 'userCard']);
     //Assets
     Route::get('non-it-assets-timeline', [AssetController::class, 'views'])->name('non-it-assets-timeline');
-    Route::get('assets-component-timeline', [AssetController::class, 'compotimeline'])->name('assets-component-timeline');
+    Route::get('assets-component-timeline/{id}', [AssetController::class, 'compotimeline'])->name('assets-component-timeline');
     Route::get('assets-software-timeline', [AssetController::class, 'softwaretimeline'])->name('assets-software-timeline');
     Route::get('non-it-asset', [AssetController::class, 'nonitasset'])->name('non.it.assets');
     Route::get('asset-components', [AssetController::class, 'assetscomponent'])->name('assets.components');
