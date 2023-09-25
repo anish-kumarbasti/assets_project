@@ -91,18 +91,17 @@ class IssuenceController extends Controller
         if ($assetmanager != null) {
             $assetmanager->notify(new IssuenceNotification($assetmanager));
         }
-        $stock = Stock::where('id', $request->cardId)->first();
-        $data = [
-            'name' => $request->first_name . ' ' . $request->last_name,
-            'company_name' => 'IT-Asset',
-            'employee_id' => $request->employee_id,
-            'email' => $request->email,
-            'product_name' => $stock->product_info . ' ' . $stock->assetmain->name,
-            'product_serial' => $stock->serial_number,
-            'product_time' => $dateTime,
-        ];
-        $users['to'] = $user->email;
-        Mail::send('backend.auth.mail.issuance_mail', $data, function ($message) use ($users) {
+        $stock = Stock::where('id',$request->cardId)->first();
+        $data = ['name'=>$request->first_name.' '.$request->last_name,
+                 'company_name'=>'IT-Asset',
+                 'employee_id'=>$request->employee_id,
+                 'email'=>$request->email,
+                 'product_name'=>$stock->product_info.' '.$stock->assetmain->name,
+                 'product_serial'=>$stock->serial_number,
+                 'product_time'=>$dateTime,
+                ];
+        $users['to']=$user->email;
+        Mail::send('Backend.Auth.mail.issuance_mail', $data, function ($message) use ($users) {
             $message->from('itasset@svamart.com', 'itasset@svamart.com'); // Replace with your email and name
             $message->to($users['to']);
             $message->subject('Asset Isuued Succesfully.');

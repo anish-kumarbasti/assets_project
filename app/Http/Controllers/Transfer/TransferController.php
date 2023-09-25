@@ -72,18 +72,17 @@ class TransferController extends Controller
         if ($assetmanager != null) {
             $assetmanager->notify(new TransferNotification($assetmanager));
         }
-        $stock = Stock::where('id', $request->cardId)->first();
-        $data = [
-            'name' => $request->first_name . ' ' . $request->last_name,
-            'company_name' => 'IT-Asset',
-            'transfer_from' => $request->employee_id,
-            'email' => $request->email,
-            'product_name' => $stock->product_info . ' ' . $stock->assetmain->name,
-            'product_serial' => $stock->serial_number,
-            'handover_employee' => $request->handoverId,
-        ];
-        $users['to'] = $handover->email;
-        Mail::send('backend.auth.mail.transfer_mail', $data, function ($message) use ($users) {
+        $stock = Stock::where('id',$request->cardId)->first();
+        $data = ['name'=>$request->first_name.' '.$request->last_name,
+                 'company_name'=>'IT-Asset',
+                 'transfer_from'=>$request->employee_id,
+                 'email'=>$request->email,
+                 'product_name'=>$stock->product_info.' '.$stock->assetmain->name,
+                 'product_serial'=>$stock->serial_number,
+                 'handover_employee'=>$request->handoverId,
+                ];
+        $users['to']=$handover->email;
+        Mail::send('Backend.Auth.mail.transfer_mail', $data, function ($message) use ($users) {
             $message->from('itasset@svamart.com', 'itasset@svamart.com'); // Replace with your email and name
             $message->to($users['to']);
             $message->subject('Asset Transfered Succesfully.');

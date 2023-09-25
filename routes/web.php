@@ -31,7 +31,7 @@ use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\SendEmailController;
 use App\Http\Controllers\Master\TransferReasonController;
 use App\Http\Controllers\StatusController;
-
+use App\Http\Controllers\Transfer\ReturnController;
 /*
 
 
@@ -68,6 +68,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/permission', [PermissionController::class, 'store'])->name('permission.store');
     Route::put('update-permissions/{id}', [PermissionController::class, 'update'])->name('permissions.update');
     Route::get('getPermissionsForRole/{id}', [RolesController::class, 'fetchrole']);
+    Route::get('/return',[ReturnController::class,'index'])->name('return');
+    Route::post('/submit',[ReturnController::class,'submit'])->name('submit');
 
     Route::delete('permissions/{id}', [PermissionController::class, 'destroy']);
 
