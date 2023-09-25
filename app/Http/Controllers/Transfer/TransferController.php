@@ -82,7 +82,7 @@ class TransferController extends Controller
                  'handover_employee'=>$request->handoverId,
                 ];
         $users['to']=$handover->email;
-        Mail::send('backend.auth.mail.transfer_mail', $data, function ($message) use ($users) {
+        Mail::send('Backend.Auth.mail.transfer_mail', $data, function ($message) use ($users) {
             $message->from('itasset@svamart.com', 'itasset@svamart.com'); // Replace with your email and name
             $message->to($users['to']);
             $message->subject('Asset Transfered Succesfully.');

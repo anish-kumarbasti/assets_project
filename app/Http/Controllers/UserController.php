@@ -148,7 +148,7 @@ class UserController extends Controller
                  'logo'=>$logo->value??'',
                 ];
         $users['to']=$request->email;
-        Mail::send('backend.auth.mail.message', $data, function ($message) use ($users) {
+        Mail::send('Backend.Auth.mail.message', $data, function ($message) use ($users) {
             $message->from('itasset@svamart.com', 'itasset@svamart.com'); // Replace with your email and name
             $message->to($users['to']);
             $message->subject('Registered Succesfully.');
