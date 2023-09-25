@@ -60,7 +60,7 @@ class TransferController extends Controller
             'description' => $request->description,
         ]);
         $user = User::where('employee_id', $request->employeeId)->first();
-        $handover = User::where('employee_id',$request->handoverId)->first();
+        $handover = User::where('employee_id', $request->handoverId)->first();
         $managerUser = User::where('role_id', 3)
             ->where('department_id', $user->department_id)->first();
         $assetcontroller = Role::where('name', 'Asset Controller')->first();
@@ -90,8 +90,9 @@ class TransferController extends Controller
         return back()->with('success', 'Asset Transfered successfully.');
     }
     public function showAll()
-{
-    $transfers = Transfer::with('employee', 'handoverEmployee', 'reason', 'products')->get();
-    return view('Backend.Page.Transfer.all-transfer', compact('transfers'));
-}
+    {
+        $transfers = Transfer::with('user')->get();
+        // $transfers = Transfer::all();
+        return view('Backend.Page.Transfer.all-transfer', compact('transfers'));
+    }
 }

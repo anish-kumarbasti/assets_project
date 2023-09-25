@@ -23,6 +23,20 @@
     .border-right {
         border-right: 3px solid #55555533;
     }
+
+    .ellipsis {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 150px;
+    }
+
+    .custom-btn {
+        font-size: 11px;
+        padding: 5px 10px;
+        line-height: 1.5;
+        pointer-events: none;
+    }
 </style>
 @endsection
 @section('Content-Area')
@@ -54,8 +68,8 @@
                             <th>Specification</th>
                             <th>Opening Stack</th>
                             <th>Purchased</th>
-                            <th>InStack</th>
-                            <th>Allocated</th>
+                            <th>Quantity</th>
+                            <th>Status</th>
                             <th>Balanced</th>
                             <th>Allocation</th>
                         </tr>
@@ -64,18 +78,18 @@
                         @foreach ($assteComponent as $component)
                         <tr>
                             <td>{{$component->id}}</td>
-                            <td>a23</td>
+                            <td>{{$component->product_number}}</td>
                             <td>{{$component->product_info}}</td>
-                            <td>{{$component->specification}}</td>
+                            <td class="ellipsis">{{$component->specification}}</td>
                             <td>20</td>
                             <td>15</td>
                             <td>
-                                <span class="badge rounded-pill badge-light-success">143</span>
+                                <span class="badge rounded-pill badge-light-success">{{$component->quantity}}</span>
                             </td>
-                            <td>5</td>
+                            <td> <span class="custom-btn {{$component->statuses->status}}">{{$component->statuses->name}}</span></td>
                             <td>{{$component->price}}</td>
                             <td>
-                                <a href="{{url('assets-component-timeline')}}" class="btn btn-primary btn-view" type="submit" data-bs-original-title="" title="">View</a>
+                                <a href="{{url('assets-component-timeline',$component->id)}}" class="btn btn-primary btn-view" type="submit" data-bs-original-title="" title="">View</a>
                             </td>
                         </tr>
                         @endforeach
