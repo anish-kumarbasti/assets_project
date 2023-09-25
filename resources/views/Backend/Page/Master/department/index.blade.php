@@ -4,6 +4,12 @@
 @endsection
 
 @section('Content-Area')
+@if (session('message'))
+<div id="alert-message" class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
+    <p>{{session('message')}}</p>
+    <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@endif
 <div class="col-sm-12">
     <div class="card">
         <div class="card-header pb-0 d-flex">
@@ -52,6 +58,15 @@
 
 @section('Script-Area')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        var alertmessage = $('#alert-message');
+        setTimeout(function() {
+            alertmessage.alert('close');
+        }, 3000);
+    });
+</script>
 <script>
     document.querySelectorAll('.delete-button').forEach(function(button) {
         button.addEventListener('click', function() {

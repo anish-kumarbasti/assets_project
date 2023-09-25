@@ -70,7 +70,7 @@
                                 </label>
                             </td>
                             <td>
-                                <a href="{{ route('roles.permissions', $role->id) }}" class="btn btn-warning" data-bs-original-title="" title=""><i class="fa fa-lock"></i> Permission</a>
+                                {{-- <a href="{{ route('roles.permissions', $role->id) }}" class="btn btn-warning" data-bs-original-title="" title=""><i class="fa fa-lock"></i> Permission</a> --}}
                                 <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-primary" data-bs-original-title="" title=""><i class="fa fa-pencil"></i> Edit</a>
                                 <button type="submit" class="btn btn-danger delete-button" data-id="{{$role->id}}" data-bs-original-title="" title=""><i class="fa fa-trash-o"></i> Delete</button>
                             </td>

@@ -47,7 +47,7 @@
                             <tr class="copy-content">
                                 <td>{{$asset->assetmain->name??''}}</td>
                                 <td>{{$asset->host_name}}</td>
-                                <td><span class=" custom-btn  {{$asset->statuses->status}}"> {{$asset->statuses->name??''}}</span></td>
+                                <td><span class=" custom-btn  {{$asset->statuses->status??''}}"> {{$asset->statuses->name??''}}</span></td>
                                 <td>{{$asset->location??''}}</td>
                                 <td>{{$asset->created_at}}</td>
                             </tr>
