@@ -74,7 +74,7 @@
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    fetch('status-delete/' + Id, {
+                    fetch('/status-permanently-delete/' + Id, {
 
                             method: 'delete',
                             headers: {

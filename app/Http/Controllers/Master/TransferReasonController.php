@@ -13,6 +13,26 @@ class TransferReasonController extends Controller
         $transferReasons = TransferReason::all();
         return view('Backend.Page.Master.transfer', compact('transferReasons'));
     }
+    public function trash()
+    {
+        $transferReasons = TransferReason::onlyTrashed()->get();
+        return view('Backend.Page.Master.trash', compact('transferReasons'));
+    }
+    public function restore($id)
+    {
+        $transferReasons = TransferReason::withTrashed()->findOrFail($id);
+        if (!empty($transferReasons)) {
+            $transferReasons->restore();
+        }
+        return redirect()->route('transfer-reasons.index')->with('success', 'Brand Restore Successfully');
+    }
+    public function forceDelete($id)
+    {
+        $transferReasons = TransferReason::withTrashed()->find($id);
+        $transferReasons->forceDelete();
+        return response()->json(['success' => true]);
+    }
+
 
     public function create()
     {
@@ -54,7 +74,7 @@ class TransferReasonController extends Controller
     public function destroy(TransferReason $transferReason)
     {
         $transferReason->delete();
-        return response()->json(['success' => true]);    
+        return response()->json(['success' => true]);
     }
     public function updateStatus(Request $request, TransferReason $reason)
     {

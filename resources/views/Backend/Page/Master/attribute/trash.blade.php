@@ -8,7 +8,7 @@
     <div class="card">
         <div class="card-header pb-0">
             <h4 class="d-flex justify-content-between align-items-center">
-                <span>Trash Models</span>
+                <span>Trash Attribute</span>
                 <a href="{{ route('attributes-index') }}" class="btn btn-primary">Back</a>
             </h4>
         </div>
@@ -41,8 +41,8 @@
                             </td>
                             {{-- @dd($brandmodel->id); --}}
                             <td>
-                                <a class="btn btn-primary" href="{{ route('restore.attributes',$attribute->id) }}"><i class="fa fa-pencil"></i>Restore</a>
-                                <button class="btn btn-danger delete-button" type="button" data-id="{{ $attribute->id }}"><i class="fa fa-trash-o"></i> Delete</button>
+                                <a class="btn btn-primary" href="{{ route('restore.attributes',$attribute->id) }}">Restore</a>
+                                <button class="btn btn-danger delete-button" type="button" data-id="{{ $attribute->id }}">Delete</button>
 
                             </td>
                         </tr>
@@ -75,7 +75,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     // Send AJAX request to the server to delete the item
-                    fetch('/attributes/' + attributeId, {
+                    fetch('/attributes-permanently-delete/' + attributeId, {
                             method: 'delete',
                             headers: {
                                 'X-CSRF-TOKEN': csrfToken, // Include the CSRF token in the headers

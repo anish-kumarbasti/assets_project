@@ -28,6 +28,18 @@ class DepartmentController extends Controller
         }
         return redirect()->route('departments-index')->with('success', 'Department Restore Successfully');
     }
+    public function forceDelete($id)
+    {
+        $departments = Department::withTrashed()->find($id);
+
+        if (!$departments) {
+            return response()->json(['success' => false], 404);
+        }
+
+        $departments->forceDelete();
+
+        return response()->json(['success' => true]);
+    }
 
     // Store the newly created department
     public function store(Request $request)

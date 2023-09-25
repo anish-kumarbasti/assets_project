@@ -24,19 +24,15 @@ class StatusController extends Controller
         if (!empty($data)) {
             $data->restore();
         }
-        return redirect()->route('create-brand')->with('success', 'Status Restore Successfully');
+        return redirect()->route('change-status')->with('success', 'Status Restore Successfully');
     }
     public function forceDelete($id)
     {
         $data = Status::withTrashed()->find($id);
 
-        if (!$data) {
-            return response()->json(['message' => false], 404);
-        }
-
         $data->forceDelete();
 
-        return response()->json(['message' => true]);
+        return response()->json(['success' => true]);
     }
     public function save(Request $request)
     {

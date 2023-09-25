@@ -25,7 +25,7 @@ class SubLocationController extends Controller
         if (!empty($sublocations)) {
             $sublocations->restore();
         }
-        return redirect()->route('create-brand')->with('success', 'Sublocation Restore Successfully');
+        return redirect()->route('sublocation-index')->with('success', 'Sublocation Restore Successfully');
     }
     public function forceDelete($id)
     {

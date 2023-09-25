@@ -8,12 +8,13 @@
       line-height: 1.5;
       pointer-events: none;
    }
-   .truncate-text {
-    max-width: 100px; /* Adjust the width as needed */
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+
+   .ellipsis {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 150px;
+   }
 </style>
 @endsection
 
@@ -61,8 +62,8 @@
                         {{-- @dd($stock->assetmain); --}}
                         <td>{{$stock->assetmain->name??''}}</td>
                         <td>{{$stock->brand->name??''}}</td>
-                        <td class="truncate-text">{{$stock->brandmodel->name ?? ''}}</td>
-                        <td>{{$stock->configuration}} </td>
+                        <td>{{$stock->brandmodel->name??''}}</td>
+                        <td class="ellipsis">{{$stock->configuration}} </td>
                         <td>{{$stock->serial_number}} </td>
                         <td>{{$stock->getsupplier->name??''}} </td>
                         <td>{{$stock->price??''}} </td>

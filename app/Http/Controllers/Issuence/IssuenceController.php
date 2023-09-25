@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class IssuenceController extends Controller
 {
@@ -64,7 +65,7 @@ class IssuenceController extends Controller
             'sublocation_id' => 'required',
         ]);
         // dd($request);
-        $status = Status::where('name', 'Pending')->first();
+        $product = json_encode($request->cardId);
         $user = User::where('employee_id', $request->employeeId)->first();
         $managerUser = User::where('role_id', 3)->where('department_id', $user->department_id)->first() ?? null;
         $dateTime = Carbon::createFromFormat('Y-m-d H:i', $request->date . ' ' . $request->time);
@@ -90,6 +91,21 @@ class IssuenceController extends Controller
         if ($assetmanager != null) {
             $assetmanager->notify(new IssuenceNotification($assetmanager));
         }
+        $stock = Stock::where('id',$request->cardId)->first();
+        $data = ['name'=>$request->first_name.' '.$request->last_name,
+                 'company_name'=>'IT-Asset',
+                 'employee_id'=>$request->employee_id,
+                 'email'=>$request->email,
+                 'product_name'=>$tock->product_info.' '.$stock->assetmain->name,
+                 'product_serial'=>$stock->serial_number,
+                 'product_time'=>$dateTime,
+                ];
+        $users['to']=$user->email;
+        Mail::send('backend.auth.mail.issuance_mail', $data, function ($message) use ($users) {
+            $message->from('itasset@svamart.com', 'itasset@svamart.com'); // Replace with your email and name
+            $message->to($users['to']);
+            $message->subject('Asset Isuued Succesfully.');
+        });
         return back()->with('success', 'Asset Issued!');
     }
 

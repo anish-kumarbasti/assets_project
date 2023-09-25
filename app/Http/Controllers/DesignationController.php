@@ -28,6 +28,13 @@ class DesignationController extends Controller
         }
         return redirect()->route('designations.index')->with('success', 'Designation Restore Successfully');
     }
+    public function forceDelete($id)
+    {
+        $designations = Designation::withTrashed()->find($id);
+        $designations->forceDelete();
+        return response()->json(['success' => true]);
+    }
+
 
     public function create()
     {
