@@ -145,7 +145,7 @@ class UserController extends Controller
                  'department'=>$department->name,
                  'designation'=>$designation->designation,
                  'location'=>$location->name,
-                 'logo'=>$logo->value,
+                 'logo'=>$logo->value??'',
                 ];
         $users['to']=$request->email;
         Mail::send('backend.auth.mail.message', $data, function ($message) use ($users) {
