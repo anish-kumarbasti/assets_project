@@ -64,6 +64,19 @@
                 <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
+    @if (session('error'))
+        <div class="alert alert-danger inverse alert-dismissible fade show" role="alert">
+            <p>{{ session('error') }}</b>
+                <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+    @if ($errors->any())
+        <div class="alert alert-danger outline" role="alert">
+            @foreach ($errors->all() as $error)
+                <p>{{ $error }}</p>
+            @endforeach
+        </div>
+    @endif
     <div class="col-sm-12">
         <form class="needs-validation f1" action="{{ route('issuence.store') }}" method="POST" novalidate="">
             @csrf
@@ -123,7 +136,9 @@
                 </div>
             </div>
             <div class="card" id="select-asset-step" style="display: none;">
-                <div class="card-header"><h4>Select Product</h4></div>
+                <div class="card-header">
+                    <h4>Select Product</h4>
+                </div>
                 <div class="card-body pb-0">
                     <div class="card-item border card" style="transform: translateY(-2.5rem);">
                         <div class="row p-3">
@@ -142,9 +157,9 @@
                         </div>
                         <div class="card-footer d-flex justify-content-between">
                             <button class="btn btn-secondary" id="prev-asset" data-prev="employee-step"
-                            type="button">Previous</button>
+                                type="button">Previous</button>
                             <button class="btn btn-primary" id="next-assets" data-next="thirdStep"
-                            type="button">Next</button>
+                                type="button">Next</button>
                         </div>
                     </div>
                 </div>
@@ -183,7 +198,8 @@
                         <div class="row p-3">
                             <div class="col-md-4 mb-4">
                                 <label class="form-label" for="timePickerInput">Issuing Time:</label>
-                                <input class="form-control" name="time" id="timePickerInput" type="time" data-bs-original-title="" title="">
+                                <input class="form-control" name="time" id="timePickerInput" type="time"
+                                    data-bs-original-title="" title="">
                             </div>
                             <div class="col-md-4 mb-4">
                                 <label class="form-label" for="validationCustom01">Date of Issuing</label>
@@ -201,12 +217,12 @@
                                 <select name="location_id" class="form-control" id="locationchange">
                                     <option value="">Select Location</option>
                                     @foreach ($location as $locations)
-                                    <option value="{{$locations->id}}">{{$locations->name}}</option>
+                                        <option value="{{ $locations->id }}">{{ $locations->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="col-md-4 mb-4">
-                                <label class="form-label" for="validationCustom01">Due Date</label>
+                                <label class="form-label" for="validationCustom01">Sub Location</label>
                                 <select name="sublocation_id" class="form-control" id="sublocation">
                                     <option value="">Select Sub-Location</option>
                                 </select>
@@ -481,23 +497,23 @@
             });
         });
         $("#locationchange").change(function() {
-                var locationId = $(this).val();
-                if (locationId) {
-                    $.ajax({
-                        url: '/get-locations/' + locationId,
-                        type: 'GET',
-                        dataType: 'json',
-                        success: function(data) {
-                            $('#sublocation').empty();
-                            $('#sublocation').append('<option value="">Select sublocation</option>');
-                            $.each(data, function(key, value) {
-                                $('#sublocation').append('<option value="' + key +
-                                    '">' + value + '</option>');
-                            });
-                        }
-                    });
-                }
-            });
+            var locationId = $(this).val();
+            if (locationId) {
+                $.ajax({
+                    url: '/get-locations/' + locationId,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#sublocation').empty();
+                        $('#sublocation').append('<option value="">Select sublocation</option>');
+                        $.each(data, function(key, value) {
+                            $('#sublocation').append('<option value="' + key +
+                                '">' + value + '</option>');
+                        });
+                    }
+                });
+            }
+        });
         $('#allocate-assets-btn').click(function() {
             form.submit();
         });
@@ -509,13 +525,13 @@
     </script>
     <script>
         // Prevent calendar from opening when clicking on the surrounding div
-        $('#datePickerInput, #dueDatePickerInput').click(function (event) {
+        $('#datePickerInput, #dueDatePickerInput').click(function(event) {
             event.stopPropagation();
         });
     </script>
     <script>
-        $(document).ready(function () {
-            $('#timePickerDiv').click(function () {
+        $(document).ready(function() {
+            $('#timePickerDiv').click(function() {
                 // Trigger a click on the time input element to open the time picker
                 $('#validationCustom01').click();
             });

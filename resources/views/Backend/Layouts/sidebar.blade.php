@@ -210,6 +210,7 @@
                                 data-feather="plus-square"></i><span>Transfer</span></a>
                         <ul class="sidebar-submenu">
                             <li><a href="#">Transfer Requests</a></li>
+                            <li class="{{ request()->is(['return*']) ? 'active' : '' }}"><a href="{{ url('return') }}">Asset Returning</a> </li>
                             <li><a href="#">All Transfer</a></li>
                         </ul>
                     </li>

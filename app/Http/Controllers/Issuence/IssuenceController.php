@@ -15,8 +15,8 @@ use App\Models\User;
 use App\Notifications\IssuenceNotification;
 use App\Notifications\TransferNotification;
 use Carbon\Carbon;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
-use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -26,7 +26,6 @@ class IssuenceController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            // dd($request);
             $employee = User::with('department', 'designation')->where('employee_id', 'LIKE', '%' . $request->employeeId . '%')->first();
             return response()->json($employee);
         }
@@ -38,9 +37,15 @@ class IssuenceController extends Controller
     {
         // dd($request->serialNumber);
         if ($request->ajax()) {
+            $statusinstock = Status::where('name', 'Pending')->first();
+            $statuspending = Status::where('name', 'Instock')->first();
             $response = Stock::with('brand', 'brandmodel', 'asset_type')
                 ->where('serial_number', 'LIKE', '%' . $request->serialNumber . '%')
                 ->orWhere('product_number', 'LIKE', '%' . $request->serialNumber . '%')
+                ->where(function ($query) use ($statusinstock, $statuspending) {
+                    $query->where('status_available', $statuspending->id)
+                        ->orWhere('status_available', $statusinstock->id);
+                })
                 ->first();
             // dd($response->brandmodel->name);
             return response()->json($response);
@@ -54,59 +59,72 @@ class IssuenceController extends Controller
         // dd($result);
         return response()->json($result);
     }
+
     public function store(Request $request)
     {
-        $request->validate([
-            'employeeId' => 'required',
-            'cardId' => 'required',
-            'due_date' => 'required',
-            'description' => 'nullable',
-            'location_id' => 'required',
-            'sublocation_id' => 'required',
-        ]);
-        // dd($request);
-        $product = json_encode($request->cardId);
-        $user = User::where('employee_id', $request->employeeId)->first();
-        $managerUser = User::where('role_id', 3)->where('department_id', $user->department_id)->first() ?? null;
-        $dateTime = Carbon::createFromFormat('Y-m-d H:i', $request->date . ' ' . $request->time);
-        $issuence = Issuence::create([
-            'employee_id' => $request->employeeId,
-            'asset_type_id' => $request->asset_type,
-            'asset_id' => $request->asset,
-            'product_id' => json_encode($request->cardId),
-            'description' => $request->description,
-            'issuing_time_date' => $dateTime,
-            'due_date' => $request->due_date,
-            'location_id' => $request->location_id,
-            'sub_location_id' => $request->sublocation_id,
-            'employee_manager_id' => $managerUser->id,
-        ]);
-        $assetcontroller = Role::where('name', 'Asset Controller')->first();
-        $assetmanager = User::where('role_id', $assetcontroller->id)
-            ->where('department_id', $user->department_id)->first() ?? null;
-        $user->notify(new IssuenceNotification($user));
-        if ($managerUser != null) {
-            $managerUser->notify(new IssuenceNotification($managerUser));
+        try {
+            $request->validate([
+                'employeeId' => 'required',
+                'cardId' => 'required',
+                'due_date' => 'required',
+                'description' => 'nullable',
+                'location_id' => 'required',
+                'sublocation_id' => 'required',
+            ]);
+            $user = User::where('employee_id', $request->employeeId)->first();
+            if (!$user) {
+                return back()->with('error', 'User not found.');
+            }
+            $managerUser = User::where('role_id', 3)->where('department_id', $user->department_id)->first();
+            $dateTime = Carbon::createFromFormat('Y-m-d H:i', $request->date . ' ' . $request->time);
+            $issuence = Issuence::create([
+                'employee_id' => $request->employeeId,
+                'asset_type_id' => $request->asset_type,
+                'asset_id' => $request->asset,
+                'product_id' => json_encode($request->cardId),
+                'description' => $request->description,
+                'issuing_time_date' => $dateTime,
+                'due_date' => $request->due_date,
+                'location_id' => $request->location_id,
+                'sub_location_id' => $request->sublocation_id,
+                'employee_manager_id' => $managerUser ? $managerUser->id : null,
+            ]);
+            $assetcontroller = Role::where('name', 'Asset Controller')->first();
+            $assetmanager = User::where('role_id', $assetcontroller->id)
+                ->where('department_id', $user->department_id)
+                ->first();
+            $user->notify(new IssuenceNotification($user));
+            if ($managerUser) {
+                $managerUser->notify(new IssuenceNotification($managerUser));
+            }
+            if ($assetmanager) {
+                $assetmanager->notify(new IssuenceNotification($assetmanager));
+            }
+            $stock = Stock::where('id', $request->cardId)->first();
+            if ($stock) {
+                $stock->update(['status_available' => Status::where('name', 'Issued')->first()->id]);
+            }
+            $data = [
+                'name' => $request->first_name . ' ' . $request->last_name,
+                'company_name' => 'IT-Asset',
+                'employee_id' => $request->employee_id,
+                'email' => $request->email,
+                'product_name' => $stock->product_info . ' ' . $stock->assetmain->name,
+                'product_serial' => $stock->serial_number,
+                'product_time' => $dateTime,
+            ];
+            $users['to'] = $user->email;
+            Mail::send('Backend.Auth.mail.issuance_mail', $data, function ($message) use ($users) {
+                $message->from('itasset@svamart.com', 'itasset@svamart.com');
+                $message->to($users['to']);
+                $message->subject('Asset Issued Successfully.');
+            });
+            return back()->with('success', 'Asset Issued!');
+        } catch (QueryException $e) {
+            return back()->with('error', 'Database error: ' . $e->getMessage());
+        } catch (\Exception $e) {
+            return back()->with('error', 'An error occurred: ' . $e->getMessage());
         }
-        if ($assetmanager != null) {
-            $assetmanager->notify(new IssuenceNotification($assetmanager));
-        }
-        $stock = Stock::where('id',$request->cardId)->first();
-        $data = ['name'=>$request->first_name.' '.$request->last_name,
-                 'company_name'=>'IT-Asset',
-                 'employee_id'=>$request->employee_id,
-                 'email'=>$request->email,
-                 'product_name'=>$stock->product_info.' '.$stock->assetmain->name,
-                 'product_serial'=>$stock->serial_number,
-                 'product_time'=>$dateTime,
-                ];
-        $users['to']=$user->email;
-        Mail::send('Backend.Auth.mail.issuance_mail', $data, function ($message) use ($users) {
-            $message->from('itasset@svamart.com', 'itasset@svamart.com'); // Replace with your email and name
-            $message->to($users['to']);
-            $message->subject('Asset Isuued Succesfully.');
-        });
-        return back()->with('success', 'Asset Issued!');
     }
 
     public function markasread($id)

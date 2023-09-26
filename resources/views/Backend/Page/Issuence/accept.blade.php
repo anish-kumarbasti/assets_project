@@ -171,6 +171,12 @@
                                                         <button class="btn btn-success" type="button">Approved</button>
                                                         @endif
                                                     </td>
+                                                @elseif ($notification->type == 'App\Notifications\ReturnNotification')
+                                                <td>Hello A Asset ({{ $product->product_info }}) is Returned by
+                                                    this ({{ $user->first_name }} {{ $user->last_name }})</td>
+                                                <td class="text-end">
+                                                    <button class="btn btn-info" type="button">Returned by User</button>
+                                                </td>
                                                 @else
                                                 <td>Hello A new Asset ({{ $product->product_info }}) has been issued. to
                                                     the ({{ $user->first_name }} {{ $user->last_name }})</td>

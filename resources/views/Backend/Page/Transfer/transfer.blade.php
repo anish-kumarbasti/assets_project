@@ -65,6 +65,19 @@
         <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 @endif
+@if (session('error'))
+<div class="alert alert-danger inverse alert-dismissible fade show" role="alert">
+    <p>{{ session('error') }}</b>
+        <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@endif
+@if ($errors->any())
+<div class="alert alert-danger outline" role="alert">
+    @foreach ($errors->all() as $error)
+    <p>{{ $error }}</p>
+    @endforeach
+</div>
+@endif
     <div class="col-sm-12">
         <form class="needs-validation" method="post" action="{{ route('transfer-store') }}" novalidate="">
             @csrf
