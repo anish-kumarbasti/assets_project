@@ -54,7 +54,7 @@ class AssetController extends Controller
     {
         $request->validate([
             'asset_type_id' => 'required',
-            'name' => 'required|string|max:50|regex:/^[A-Za-z]+( [A-Za-z]+)*$/|min:2',
+            'name' => 'required|string|max:50|regex:/^[A-Za-z]+( [A-Za-z]+)*$/|min:2|unique:assets,name,except,id',
         ]);
         $asset = new Asset;
         $asset->name = $request->name;

@@ -56,7 +56,7 @@ class BrandmodelController extends Controller
     {
         // Validate the form data
         $request->validate([
-            'name' => 'required|min:2|max:50',
+            'name' => 'required|min:2|max:50|unique:brandmodels,name,except,id',
             // Add other validation rules if needed
         ]);
 

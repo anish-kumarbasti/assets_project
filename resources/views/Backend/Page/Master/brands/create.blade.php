@@ -71,7 +71,7 @@
                             </td>
                             <td>
                                 <a class="btn btn-primary" href="{{ url('/brands/' . $brand->id . '/edit') }}"><i class="fa fa-pencil"></i> Edit</a>
-                                <button class="btn btn-danger delete-button" type="button" data-id="{{ $brand->id }}"><i class="fa fa-trash-o"></i>Trash</button>
+                                <button class="btn btn-danger delete-button" type="button" data-id="{{ $brand->id }}"><i class="fa fa-trash-o"></i> Trash</button>
                             </td>
                         </tr>
                         @endforeach

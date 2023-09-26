@@ -69,7 +69,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     // Send AJAX request to the server to delete the item
-                    fetch('/departments/' + Id, {
+                    fetch('/department-permanently-delete/' + Id, {
                             method: 'delete',
                             headers: {
                                 'X-CSRF-TOKEN': csrfToken, // Include the CSRF token in the headers

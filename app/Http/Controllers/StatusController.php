@@ -40,6 +40,7 @@ class StatusController extends Controller
             'status' => 'required',
             'name' => [
                 'required',
+                'unique:statuses,name,except,id',
                 'string',
                 'max:50',
                 'regex:/^[A-Za-z]+( [A-Za-z]+)*$/',

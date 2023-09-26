@@ -42,6 +42,7 @@
                 </div>
 
                 <div class="footer-item">
+                    <a href="{{route('suppliers.index')}}" class="btn btn-warning mt-3">Back</a>
                     <button class="btn btn-primary mt-3" type="submit">Update</button>
                 </div>
             </form>
