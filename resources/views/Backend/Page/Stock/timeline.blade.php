@@ -28,7 +28,7 @@
               <div class="cd-timeline-content">
                 <h4>1. In Stock</h4>
                 <p class="m-0">Date & Time of Adding The Product in InStock</p>
-                <p>{{$data->created_at}}</p><span class="cd-date f-w-600">Jan <span class="counter"> 14</span></span>
+                <p>{{$data->created_at??''}}</p><span class="cd-date f-w-600">Jan <span class="counter"> 14</span></span>
               </div>
             </div>
             <div class="cd-timeline-block">

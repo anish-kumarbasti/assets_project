@@ -65,8 +65,8 @@
                         <td> {{ $user->designation->designation??'' }} </td>
                         <td>
                             <div class="d-flex justify-content-between align-item-center">
-                                <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary custom-btn"><i class="fa fa-pencil"> Edit</i></a>
-                                <button class="btn btn-danger custom-btn delete-button" type="button" data-id="{{ $user->id }}"><i class="fa fa-trash-o"> Delete</i></button>
+                                <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary custom-btn"><i class="fa fa-pencil"></i> Edit</a>
+                                <button class="btn btn-danger custom-btn delete-button" type="button" data-id="{{ $user->id }}"><i class="fa fa-trash-o"></i> Delete</button>
                             </div>
                         </td>
                     </tr>

@@ -42,7 +42,7 @@ class TransferReasonController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'reason' => 'required|string|max:255',
+            'reason' => 'required|string|max:255|unique:transfer_reasons,reason,except,id',
         ]);
 
         TransferReason::create([

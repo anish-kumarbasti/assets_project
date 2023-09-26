@@ -12,7 +12,7 @@ class AttributeController extends Controller
     public function home()
     {
         // dd('hi');
-        $attributes = Attribute::all();
+        $attributes = Attribute::with('asset_type')->get();
         $assettype = AssetType::all();
         return view('Backend.Page.Master.attribute.add_attribute', compact('attributes', 'assettype'));
     }
@@ -56,6 +56,7 @@ class AttributeController extends Controller
             'name' => [
                 'required',
                 'string',
+                'unique:attributes,name,except,id',
                 'max:40',
                 'min:2',
             ],

@@ -47,7 +47,7 @@
         </thead>
         <tbody>
             @foreach ($component as $components)
-            <tr>
+            <tr class="copy-content">
                 <td>{{$components->product_number}}</td>
                 <td>{{$components->product_info}}</td>
                 <td>{{$components->quantity}}</td>

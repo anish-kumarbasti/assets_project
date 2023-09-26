@@ -49,7 +49,7 @@ class SubLocationController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:50',
+            'name' => 'required|string|max:50|unique:sublocations,name,except,id',
             'location_id' => 'required',
         ]);
 

@@ -1,8 +1,8 @@
 @extends('Backend.Layouts.panel')
 @section('Content-Area')
-@if (session('message'))
+@if (session('success'))
 <div id="alert-message" class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
-    <p><b> Well done! </b>{{session('message')}}</p>
+    <p>{{session('message')}}</p>
     <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 @endif

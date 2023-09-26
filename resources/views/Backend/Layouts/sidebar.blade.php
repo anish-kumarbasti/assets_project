@@ -31,7 +31,7 @@
                 </li>
                 <hr>
                 <li class="sidebar-list {{ request()->is('home*') ? 'active' : '' }}">
-                    <a class="sidebar-link sidebar-title" href="{{ url('home') }}">
+                    <a class="sidebar-link sidebar-title" href="javascript:void(0)">
                         <i data-feather="home"></i><span class="lan-3">Dashboard</span>
                     </a>
                     <ul class="sidebar-submenu">

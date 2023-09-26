@@ -48,6 +48,7 @@ class DesignationController extends Controller
             'department_id' => 'required',
             'designation_name' => [
                 'required',
+                'unique:designations,designation,except,id',
                 'string',
                 'max:50',
                 'regex:/^[A-Za-z]+( [A-Za-z]+)*$/',

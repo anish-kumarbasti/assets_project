@@ -47,6 +47,7 @@ class BrandController extends Controller
                 'required',
                 'string',
                 'max:50',
+                'unique:brands,name,except,id',
                 'regex:/^[A-Za-z]+( [A-Za-z]+)*$/',
                 'min:2',
                 Rule::notIn(['']),

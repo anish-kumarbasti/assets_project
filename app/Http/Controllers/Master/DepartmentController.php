@@ -49,6 +49,7 @@ class DepartmentController extends Controller
             'name' => [
                 'required',
                 'string',
+                'unique:departments,name,except,id',
                 'max:50',
                 'regex:/^[A-Za-z]+( [A-Za-z]+)*$/',
                 'min:2',

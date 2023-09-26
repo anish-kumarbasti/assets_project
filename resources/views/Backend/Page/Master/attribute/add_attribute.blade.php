@@ -63,7 +63,7 @@
                     <thead>
                         <tr>
                             <th>SL</th>
-
+                            <th>Asset Type</th>
                             <th>Attribute Name</th>
                             <th>Status</th>
                             <th>Action</th>
@@ -76,6 +76,7 @@
                         @foreach($attributes as $attribute)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
+                            <td>{{$attribute->asset_type->name}}</td>
                             <td>{{ $attribute->name }}</td>
 
                             <td class="w-20">

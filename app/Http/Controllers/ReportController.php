@@ -12,7 +12,7 @@ class ReportController extends Controller
 {
     public function getPrint()
     {
-        $data = Asset::all();
+        $data = Stock::with('assetmain', 'statuses')->get();
         return view('Backend.Page.Reports.pdf.asset-active', compact('data'));
     }
     public function getComponent()
