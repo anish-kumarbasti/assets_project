@@ -29,12 +29,8 @@
     }
 
     .status-tab.selected {
-        /* background-color: #ffffff; */
-        /* Set the background color you want for selected tab */
         font-weight: bold;
         text-decoration: underline;
-        /* Optional: Adjust the style as needed */
-        /* Add any other styles to indicate selection */
     }
 
     .status-tab {
@@ -45,6 +41,13 @@
 
     .sc {
         transform: translateY(-11px);
+    }
+
+    .ellipsis {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 150px;
     }
 </style>
 @endsection
@@ -85,25 +88,30 @@
                                 <a class="nav-link status-tab sc" href="#danger-scrapped" aria-selected="true" data-toggle="tab" data-status="scrapped">Scrapped</a>
                             </div>
                             <div class="col-md-2">
-                                <a class="nav-link status-tab" href="#danger-lost" aria-selected="true" data-toggle="tab" data-status="scrapped">Lost</a>
+                                <a class="nav-link status-tab" href="#danger-lost" aria-selected="true" data-toggle="tab" data-status="scrapped">Transfer</a>
                             </div>
-                            <!-- Repeat the same structure for other tabs -->
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- <div class="modal" id="calendarModal" tabindex="-1" role="dialog">
+            <div class="modal" id="calendarModal" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">Select Date Range</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <button type="button" class="close rounded" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            <input type="text" id="modal_start_date" placeholder="Start Date">
-                            <input type="text" id="modal_end_date" placeholder="End Date">
+                            <div class="form-group">
+                                <label for="startDate">Start Date:</label>
+                                <input type="text" class="form-control" id="modal_start_date" placeholder="Start Date">
+                            </div>
+                            <div class="form-group">
+                                <label for="endDate">End Date:</label>
+                                <input type="text" class="form-control" id="modal_end_date" placeholder="End Date">
+                            </div>
                             <div id="modal_calendar"></div>
                         </div>
                         <div class="modal-footer">
@@ -112,7 +120,7 @@
                         </div>
                     </div>
                 </div>
-            </div> -->
+            </div>
         </div>
         <div class="card-body">
             <!-- Add the tab content container -->
@@ -126,31 +134,25 @@
                                 <th>SL</th>
                                 <th>Code</th>
                                 <th>Asset</th>
-                                <th>Model</th>
                                 <th>Brand</th>
-
+                                <th>Model</th>
                                 <th>Serial Number</th>
                                 <th>Configuration</th>
-
                                 <th>Price</th>
                                 <th>Timeline</th>
-
-
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($stock as $stock)
                             <tr>
                                 <td>{{$loop->iteration}}</td>
-                                <td>a23</td>
+                                <td>{{$stock->product_number??''}}</td>
                                 <td>{{$stock->assetmain->name??''}}</td>
+                                <td>{{$stock->brand->name??''}}</td>
                                 <td>{{$stock->brandmodel->name??''}}</td>
-
-                                <td>{{$stock->serial_number}}</td>
-
-                                <td>{{$stock->configuration}}</td>
-                                <td> ₹{{$stock->price}}</td>
-
+                                <td>{{$stock->serial_number??''}}</td>
+                                <td class="ellipsis">{{$stock->configuration??''}}</td>
+                                <td> ₹{{$stock->price??''}}</td>
                                 <td>
                                     <a class="btn btn-primary btn-view" href="{{url('timeline')}}" data-bs-original-title="" title="">View</a>
                                 </td>
@@ -167,89 +169,38 @@
                                 <th>SL</th>
                                 <th>Code</th>
                                 <th>Asset</th>
-                                <th>Model</th>
                                 <th>Brand</th>
-
+                                <th>Model</th>
                                 <th>Serial Number</th>
                                 <th>Configuration</th>
-                                <th>User ID</th>
+                                <!-- <th>User ID</th>
                                 <th>User</th>
                                 <th>Deparment</th>
-                                <th>Designation</th>
-
+                                <th>Designation</th> -->
                                 <th>Price</th>
                                 <th>Timeline</th>
-
-
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach ($allocated as $allocateds)
                             <tr>
-                                <td>1</td>
-                                <td>a23</td>
-                                <td>Laptop</td>
-                                <td>Inspiron</td>
-                                <td>Dell</td>
-                                <td>0123456789</td>
-                                <td>125a5</td>
-                                <td>Anoop</td>
-                                <td>IT</td>
-                                <td>CEO</td>
-
-                                <td>Processor: Intel Core i5-1235U
-                                    12th Generation
-                                    (up to 4.40 GHz, 12MB 10 Cores)
-                                    RAM & Storage: 8GB</td>
-                                <td> ₹62,443</td>
-
+                                <td>{{$loop->iteration}}</td>
+                                <td>{{$allocateds->product_number??''}}</td>
+                                <td>{{$allocateds->assetmain->name??''}}</td>
+                                <td>{{$allocateds->brand->name??''}}</td>
+                                <td>{{$allocateds->brandmodel->name??''}}</td>
+                                <td>{{$allocateds->serial_number??''}}</td>
+                                <td class="ellipsis">{{$allocateds->configuration??''}}</td>
+                                {{--<td>{{$allocateds->serial_number??''}}</td>
+                                <td>{{$allocateds->serial_number??''}}</td>
+                                <td>{{$allocateds->serial_number??''}}</td>
+                                <td>{{$allocateds->serial_number??''}}</td>--}}
+                                <td> ₹{{$allocateds->price??''}}</td>
                                 <td>
                                     <a class="btn btn-primary btn-view" href="{{url('timeline')}}" data-bs-original-title="" title="">View</a>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>a23</td>
-                                <td>Laptop</td>
-                                <td>Inspiron</td>
-                                <td>Dell</td>
-                                <td>0123456789</td>
-                                <td>125a5</td>
-                                <td>Anoop</td>
-                                <td>IT</td>
-                                <td>CEO</td>
-
-                                <td>Processor: Intel Core i5-1235U
-                                    12th Generation
-                                    (up to 4.40 GHz, 12MB 10 Cores)
-                                    RAM & Storage: 8GB</td>
-                                <td> ₹62,443</td>
-
-                                <td>
-                                    <a class="btn btn-primary btn-view" href="{{url('timeline')}}" data-bs-original-title="" title="">View</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>a23</td>
-                                <td>Laptop</td>
-                                <td>Inspiron</td>
-                                <td>Dell</td>
-                                <td>0123456789</td>
-                                <td>125a5</td>
-                                <td>Anoop</td>
-                                <td>IT</td>
-                                <td>CEO</td>
-
-                                <td>Processor: Intel Core i5-1235U
-                                    12th Generation
-                                    (up to 4.40 GHz, 12MB 10 Cores)
-                                    RAM & Storage: 8GB</td>
-                                <td> ₹62,443</td>
-
-                                <td>
-                                    <a class="btn btn-primary btn-view" href="{{url('timeline')}}" data-bs-original-title="" title="">View</a>
-                                </td>
-                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -261,72 +212,30 @@
                                 <th>SL</th>
                                 <th>Code</th>
                                 <th>Asset</th>
-                                <th>Model</th>
                                 <th>Brand</th>
-
+                                <th>Model</th>
                                 <th>Serial Number</th>
                                 <th>Configuration</th>
                                 <th>Price</th>
                                 <th>Timeline</th>
-
-
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach ($unrepair as $unrepairs)
                             <tr>
-                                <td>1</td>
-                                <td>a23</td>
-                                <td>Laptop</td>
-                                <td>Inspiron</td>
-                                <td>Dell</td>
-                                <td>0123456789</td>
-
-                                <td>Processor: Intel Core i5-1235U
-                                    12th Generation
-                                    (up to 4.40 GHz, 12MB 10 Cores)
-                                    RAM & Storage: 8GB</td>
-                                <td> ₹62,443</td>
-
+                                <td>{{$loop->iteration}}</td>
+                                <td>{{$unrepairs->product_number??''}}</td>
+                                <td>{{$unrepairs->assetmain->name??''}}</td>
+                                <td>{{$unrepairs->brand->name??''}}</td>
+                                <td>{{$unrepairs->brandmodel->name??''}}</td>
+                                <td>{{$unrepairs->serial_number??''}}</td>
+                                <td class="ellipsis">{{$unrepairs->configuration??''}}</td>
+                                <td> ₹{{$unrepairs->price??''}}</td>
                                 <td>
                                     <a class="btn btn-primary btn-view" href="{{url('timeline')}}" data-bs-original-title="" title="">View</a>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>a23</td>
-                                <td>Laptop</td>
-                                <td>Inspiron</td>
-                                <td>Dell</td>
-                                <td>0123456789</td>
-
-                                <td>Processor: Intel Core i5-1235U
-                                    12th Generation
-                                    (up to 4.40 GHz, 12MB 10 Cores)
-                                    RAM & Storage: 8GB</td>
-                                <td> ₹62,443</td>
-
-                                <td>
-                                    <a class="btn btn-primary btn-view" href="{{url('timeline')}}" data-bs-original-title="" title="">View</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>a23</td>
-                                <td>Laptop</td>
-                                <td>Inspiron</td>
-                                <td>Dell</td>
-                                <td>0123456789</td>
-
-                                <td>Processor: Intel Core i5-1235U
-                                    12th Generation
-                                    (up to 4.40 GHz, 12MB 10 Cores)
-                                    RAM & Storage: 8GB</td>
-                                <td> ₹62,443</td>
-
-                                <td>
-                                    <a class="btn btn-primary btn-view" href="{{url('timeline')}}" data-bs-original-title="" title="">View</a>
-                                </td>
-                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -340,70 +249,28 @@
                                 <th>Asset</th>
                                 <th>Model</th>
                                 <th>Brand</th>
-
                                 <th>Serial Number</th>
                                 <th>Configuration</th>
                                 <th>Price</th>
                                 <th>Timeline</th>
-
-
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach ($scrapped as $scrappeds)
                             <tr>
-                                <td>1</td>
-                                <td>a23</td>
-                                <td>Laptop</td>
-                                <td>Inspiron</td>
-                                <td>Dell</td>
-                                <td>0123456789</td>
-
-                                <td>Processor: Intel Core i5-1235U
-                                    12th Generation
-                                    (up to 4.40 GHz, 12MB 10 Cores)
-                                    RAM & Storage: 8GB</td>
-                                <td> ₹62,443</td>
-
+                                <td>{{$loop->iteration}}</td>
+                                <td>{{$scrappeds->product_number??''}}</td>
+                                <td>{{$scrappeds->assetmain->name??''}}</td>
+                                <td>{{$scrappeds->brand->name??''}}</td>
+                                <td>{{$scrappeds->brandmodel->name??''}}</td>
+                                <td>{{$scrappeds->serial_number??''}}</td>
+                                <td class="ellipsis">{{$scrappeds->configuration??''}}</td>
+                                <td> ₹{{$scrappeds->price??''}}</td>
                                 <td>
                                     <a class="btn btn-primary btn-view" href="{{url('timeline')}}" data-bs-original-title="" title="">View</a>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>a23</td>
-                                <td>Laptop</td>
-                                <td>Inspiron</td>
-                                <td>Dell</td>
-                                <td>0123456789</td>
-
-                                <td>Processor: Intel Core i5-1235U
-                                    12th Generation
-                                    (up to 4.40 GHz, 12MB 10 Cores)
-                                    RAM & Storage: 8GB</td>
-                                <td> ₹62,443</td>
-
-                                <td>
-                                    <a class="btn btn-primary btn-view" href="{{url('timeline')}}" data-bs-original-title="" title="">View</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>a23</td>
-                                <td>Laptop</td>
-                                <td>Inspiron</td>
-                                <td>Dell</td>
-                                <td>0123456789</td>
-
-                                <td>Processor: Intel Core i5-1235U
-                                    12th Generation
-                                    (up to 4.40 GHz, 12MB 10 Cores)
-                                    RAM & Storage: 8GB</td>
-                                <td> ₹62,443</td>
-
-                                <td>
-                                    <a class="btn btn-primary btn-view" href="{{url('timeline')}}" data-bs-original-title="" title="">View</a>
-                                </td>
-                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -417,71 +284,28 @@
                                 <th>Asset</th>
                                 <th>Model</th>
                                 <th>Brand</th>
-
                                 <th>Serial Number</th>
                                 <th>Configuration</th>
-
                                 <th>Price</th>
                                 <th>Timeline</th>
-
-
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach ($stolen as $stolens)
                             <tr>
-                                <td>1</td>
-                                <td>a23</td>
-                                <td>Laptop</td>
-                                <td>Inspiron</td>
-                                <td>Dell</td>
-                                <td>0123456789</td>
-
-                                <td>Processor: Intel Core i5-1235U
-                                    12th Generation
-                                    (up to 4.40 GHz, 12MB 10 Cores)
-                                    RAM & Storage: 8GB</td>
-                                <td> ₹62,443</td>
-
+                                <td>{{$loop->iteration}}</td>
+                                <td>{{$stolens->product_number??''}}</td>
+                                <td>{{$stolens->assetmain->name??''}}</td>
+                                <td>{{$stolens->brand->name??''}}</td>
+                                <td>{{$stolens->brandmodel->name??''}}</td>
+                                <td>{{$stolens->serial_number??''}}</td>
+                                <td class="ellipsis">{{$stolens->configuration??''}}</td>
+                                <td> ₹{{$stolens->price??''}}</td>
                                 <td>
                                     <a class="btn btn-primary btn-view" href="{{url('timeline')}}" data-bs-original-title="" title="">View</a>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>a23</td>
-                                <td>Laptop</td>
-                                <td>Inspiron</td>
-                                <td>Dell</td>
-                                <td>0123456789</td>
-
-                                <td>Processor: Intel Core i5-1235U
-                                    12th Generation
-                                    (up to 4.40 GHz, 12MB 10 Cores)
-                                    RAM & Storage: 8GB</td>
-                                <td> ₹62,443</td>
-
-                                <td>
-                                    <a class="btn btn-primary btn-view" href="{{url('timeline')}}" data-bs-original-title="" title="">View</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>a23</td>
-                                <td>Laptop</td>
-                                <td>Inspiron</td>
-                                <td>Dell</td>
-                                <td>0123456789</td>
-
-                                <td>Processor: Intel Core i5-1235U
-                                    12th Generation
-                                    (up to 4.40 GHz, 12MB 10 Cores)
-                                    RAM & Storage: 8GB</td>
-                                <td> ₹62,443</td>
-
-                                <td>
-                                    <a class="btn btn-primary btn-view" href="{{url('timeline')}}" data-bs-original-title="" title="">View</a>
-                                </td>
-                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -492,73 +316,30 @@
                                 <th>SL</th>
                                 <th>Code</th>
                                 <th>Asset</th>
-                                <th>Model</th>
                                 <th>Brand</th>
-
+                                <th>Model</th>
                                 <th>Serial Number</th>
                                 <th>Configuration</th>
-
                                 <th>Price</th>
                                 <th>Timeline</th>
-
-
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach ($transfer as $transfers)
                             <tr>
-                                <td>1</td>
-                                <td>a23</td>
-                                <td>Laptop</td>
-                                <td>Inspiron</td>
-                                <td>Dell</td>
-                                <td>0123456789</td>
-
-                                <td>Processor: Intel Core i5-1235U
-                                    12th Generation
-                                    (up to 4.40 GHz, 12MB 10 Cores)
-                                    RAM & Storage: 8GB</td>
-                                <td> ₹62,443</td>
-
+                                <td>{{$loop->iteration}}</td>
+                                <td>{{$transfers->product_number??''}}</td>
+                                <td>{{$transfers->assetmain->name??''}}</td>
+                                <td>{{$transfers->brand->name??''}}</td>
+                                <td>{{$transfers->brandmodel->name??''}}</td>
+                                <td>{{$transfers->serial_number??''}}</td>
+                                <td class="ellipsis">{{$allocateds->configuration??''}}</td>
+                                <td> ₹{{$transfers->price??''}}</td>
                                 <td>
                                     <a class="btn btn-primary btn-view" href="{{url('timeline')}}" data-bs-original-title="" title="">View</a>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>a23</td>
-                                <td>Laptop</td>
-                                <td>Inspiron</td>
-                                <td>Dell</td>
-                                <td>0123456789</td>
-
-                                <td>Processor: Intel Core i5-1235U
-                                    12th Generation
-                                    (up to 4.40 GHz, 12MB 10 Cores)
-                                    RAM & Storage: 8GB</td>
-                                <td> ₹62,443</td>
-
-                                <td>
-                                    <a class="btn btn-primary btn-view" href="{{url('timeline')}}" data-bs-original-title="" title="">View</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>a23</td>
-                                <td>Laptop</td>
-                                <td>Inspiron</td>
-                                <td>Dell</td>
-                                <td>0123456789</td>
-
-                                <td>Processor: Intel Core i5-1235U
-                                    12th Generation
-                                    (up to 4.40 GHz, 12MB 10 Cores)
-                                    RAM & Storage: 8GB</td>
-                                <td> ₹62,443</td>
-
-                                <td>
-                                    <a class="btn btn-primary btn-view" href="{{url('timeline')}}" data-bs-original-title="" title="">View</a>
-                                </td>
-                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -592,29 +373,21 @@
         $('.status-tab').on('click', function(e) {
             e.preventDefault();
 
-            // Remove 'active' class from all tabs
             $('.status-tab').removeClass('active');
-            // Add 'active' class to the clicked tab
             $(this).addClass('active');
 
-            // Hide all tables
             $('.tab-pane').removeClass('show active');
 
-            // Show the corresponding table based on the clicked tab's data-status attribute
             var targetTab = $(this).attr('href');
             $(targetTab).addClass('show active');
         });
         $('.status-tab').on('click', function(e) {
             e.preventDefault();
 
-            // Remove 'selected' class from all tabs
             $('.status-tab').removeClass('selected');
-            // Add 'selected' class to the clicked tab
             $(this).addClass('selected');
 
-            // Handle tab content switching (if required)
             var targetTab = $(this).attr('href');
-            // ... Your code to switch tab content ...
         });
     });
 </script>
@@ -623,17 +396,18 @@
     $(document).ready(function() {
         $("#openModalBtn").click(function() {
             $("#calendarModal").modal("show");
-            initDatePicker();
+            $("#calendarModal .modal-content").ready(function() {
+                initDatePicker();
+            });
+            // initDatePicker();
         });
 
         $("#applyFilterBtn").click(function() {
             const startDate = $("#modal_start_date").val();
             const endDate = $("#modal_end_date").val();
 
-            // Perform filtering based on startDate and endDate
             console.log("Selected date range:", startDate, "to", endDate);
 
-            // Close the modal
             $("#calendarModal").modal("hide");
         });
 
@@ -652,7 +426,6 @@
 
             $("#modal_calendar").datepicker({
                 onSelect: function(dateText) {
-                    // Update the input fields when a date is selected
                     $("#modal_start_date").datepicker("setDate", dateText);
                     $("#modal_end_date").datepicker("setDate", dateText);
                 }

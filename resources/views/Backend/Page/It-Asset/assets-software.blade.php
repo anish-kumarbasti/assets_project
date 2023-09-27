@@ -14,7 +14,7 @@
         <div class="card-header pb-0">
             <div class="card">
                 <div class="row ">
-                    <div class="col-md-6">
+                    <div class="col-md-6 p-4">
                         <h4>Assets Software</h4>
                     </div>
                     <div class="col-md-6 text-end p-4">
@@ -45,14 +45,14 @@
                         @foreach ($softwareData as $software)
                         <tr>
                             <td>{{$software->id}}</td>
-                            <td>{{$software->product_number}}</td>
-                            <td>{{$software->product_info}}</td>
-                            <td>xxxx xxxx xxxx</td>
+                            <td>{{$software->product_number??''}}</td>
+                            <td>{{$software->product_info??''}}</td>
+                            <td>{{$software->serial_number??''}}</td>
                             <td>
-                                <span class="badge rounded-pill badge-light-success">{{$software->quantity}}</span>
+                                <span class="badge rounded-pill badge-light-success">{{$software->quantity??''}}</span>
                             </td>
                             <td>15 </td>
-                            <td>{{$software->price}}</td>
+                            <td>{{$software->price??''}}</td>
                             <td>
                                 <a href="{{url('assets-software-timeline')}}" class="btn btn-primary" type="submit" data-bs-original-title="" title="">View</a>
                             </td>

@@ -82,8 +82,13 @@ class StockController extends Controller
 
     public function stockStatus()
     {
-        $stock = Stock::where('asset_type_id', 10)->get();
-        return view('Backend.Page.Stock.stock-status', compact('stock'));
+        $stock = Stock::where('status_available', 1)->get();
+        $allocated = Stock::where('status_available', 2)->get();
+        $stolen = Stock::where('status_available', 11)->get();
+        $scrapped = Stock::where('status_available', 12)->get();
+        $unrepair = Stock::where('status_available', 6)->get();
+        $transfer = Stock::where('status_available', 5)->get();
+        return view('Backend.Page.Stock.stock-status', compact('stock', 'allocated', 'unrepair', 'transfer', 'stolen', 'scrapped'));
     }
 
     public function generateNumber(Request $request)

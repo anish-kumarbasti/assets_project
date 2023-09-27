@@ -14,23 +14,23 @@
 <div class="col-sm-12">
    <div class="card">
       <div class="card-header pb-0">
-         <h4>IT Assets</h4>
+         <h4>Manage Stock</h4>
       </div>
       <div class="card-body">
          <div class="table-responsive theme-scrollbar">
             <table class="table table-bordered table-striped" id="basic-1">
                <thead>
                   <tr>
-                    <th>SL</th>
-                    <th>Name</th>
-                    <th>Asset Type</th>
-                    <th>Asset</th>
-                    <th>In Stock</th>
-                    <th>Allocated</th>
-                    <th>Stolen</th>
-                    <th>Lost</th>
-                    <th>Scrapped</th>
-                    <th>Under Repair</th>
+                     <th>SL</th>
+                     <th>Name</th>
+                     <th>Asset Type</th>
+                     <th>Asset</th>
+                     <th>In Stock</th>
+                     <th>Allocated</th>
+                     <th>Stolen</th>
+                     <th>Lost</th>
+                     <th>Scrapped</th>
+                     <th>Under Repair</th>
                   </tr>
                </thead>
                <tbody>

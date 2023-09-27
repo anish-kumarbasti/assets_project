@@ -131,14 +131,14 @@ class AssetController extends Controller
     public function nonitasset()
     {
         $id = '2';
-        $matchingData = Stock::where('asset_type_id', $id)->get();
+        $matchingData = Stock::where('asset_type_id', $id)->with('statuses')->get();
 
         return view('Backend.Page.It-Asset.non-it-stock', compact('matchingData'));
     }
     public function assetscomponent()
     {
         $id = '4';
-        $assteComponent = Stock::where('asset_type_id', $id)->get();
+        $assteComponent = Stock::where('asset_type_id', $id)->with('statuses')->get();
         return view('Backend.Page.It-Asset.assets-components', compact('assteComponent'));
     }
     public function assetsoftware()
