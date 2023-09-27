@@ -45,10 +45,10 @@
         <div class="card-header pb-0">
             <div class="card">
                 <div class="row ">
-                    <div class="col-md-6">
+                    <div class="col-md-6 p-4">
                         <h4>Assets Components</h4>
                     </div>
-                    <div class="col-md-3 text-end p-4">
+                    <div class="col-md-6 text-end p-4">
                         <button class="btn btn-primary qr_btn"><img src="{{ asset('Backend/assets/images/It-Assets/Vector1.svg') }}" alt='...'></button>
                         <button class="btn btn-primary qr_btn"><img src="{{ asset('Backend/assets/images/It-Assets/veckor2.svg') }}" alt='...'></button>
                         <button class="btn btn-primary qr_btn"><img src="{{ asset('Backend/assets/images/It-Assets/Vector3.svg') }}" alt='...'></button>
@@ -78,16 +78,16 @@
                         @foreach ($assteComponent as $component)
                         <tr>
                             <td>{{$component->id}}</td>
-                            <td>{{$component->product_number}}</td>
-                            <td>{{$component->product_info}}</td>
-                            <td class="ellipsis">{{$component->specification}}</td>
+                            <td>{{$component->product_number??''}}</td>
+                            <td>{{$component->product_info??''}}</td>
+                            <td class="ellipsis">{{$component->specification??''}}</td>
                             <td>20</td>
                             <td>15</td>
                             <td>
-                                <span class="badge rounded-pill badge-light-success">{{$component->quantity}}</span>
+                                <span class="badge rounded-pill badge-light-success">{{$component->quantity??''}}</span>
                             </td>
-                            <td> <span class="custom-btn {{$component->statuses->status}}">{{$component->statuses->name}}</span></td>
-                            <td>{{$component->price}}</td>
+                            <td> <span class="custom-btn {{$component->statuses->status}}">{{$component->statuses->name??''}}</span></td>
+                            <td>{{$component->price??''}}</td>
                             <td>
                                 <a href="{{url('assets-component-timeline',$component->id)}}" class="btn btn-primary btn-view" type="submit" data-bs-original-title="" title="">View</a>
                             </td>

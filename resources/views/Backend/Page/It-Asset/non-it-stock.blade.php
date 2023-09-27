@@ -23,6 +23,13 @@
    .border-right {
       border-right: 3px solid #55555533;
    }
+
+   .custom-btn {
+      font-size: 11px;
+      padding: 5px 10px;
+      line-height: 1.5;
+      pointer-events: none;
+   }
 </style>
 @endsection
 @section('Content-Area')
@@ -30,7 +37,7 @@
    <div class="card">
       <div class="card-header pb-0">
          <div class="card">
-            <div class="row align-items-center" >
+            <div class="row align-items-center">
                <div class="col-md-9 p-4">
                   <h4>Non-IT Assets</h4>
                </div>
@@ -53,7 +60,7 @@
                      <th>Asset</th>
                      <th>Specification</th>
                      <th>Quantity</th>
-                     <th>Allocated</th>
+                     <th>Status</th>
                      <th>Balanced</th>
                      <th>Allocation</th>
                   </tr>
@@ -62,14 +69,14 @@
                   @foreach ($matchingData as $nonit)
                   <tr>
                      <td>{{$nonit->id}}</td>
-                     <td>a23</td>
-                     <td>{{$nonit->product_info }}</td>
-                     <td>{{$nonit->specification}}</td>
+                     <td>{{$nonit->product_number??''}}</td>
+                     <td>{{$nonit->product_info??'' }}</td>
+                     <td>{{$nonit->specification??''}}</td>
                      <td>
-                        <span class="badge rounded-pill badge-light-success">{{$nonit->quantity}}</span>
+                        <span class="badge rounded-pill badge-light-success">{{$nonit->quantity??''}}</span>
                      </td>
-                     <td>5</td>
-                     <td>{{$nonit->price}}</td>
+                     <td> <span class="custom-btn {{$nonit->statuses->status}}">{{$nonit->statuses->name??''}}</span></td>
+                     <td>{{$nonit->price??''}}</td>
                      <td>
                         <a href="{{url('non-it-assets-timeline')}}" class="btn btn-primary btn-view" type="submit" data-bs-original-title="" title="">View</a>
                      </td>
