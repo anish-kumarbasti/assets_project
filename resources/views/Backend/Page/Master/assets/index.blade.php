@@ -12,7 +12,7 @@
     <div class="card">
         <div class="card-header pb-0 d-flex">
             <div class="float-left col-sm-6">
-                <h4>Asset</h4>
+                <h4>Asset's</h4>
             </div>
             @can('create_asset')
             <div class="col-sm-6"><a href="{{route('assets.trash')}}" class="btn btn-danger float-end" style="margin-left: 5px;">Trash</a><a href="{{ route('assets.create') }}" class="btn btn-primary float-end"><i class="fa fa-plus"></i> Add Asset</a>

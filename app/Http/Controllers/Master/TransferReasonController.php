@@ -21,9 +21,11 @@ class TransferReasonController extends Controller
     public function restore($id)
     {
         $transferReasons = TransferReason::withTrashed()->findOrFail($id);
+        // dd($id);
         if (!empty($transferReasons)) {
             $transferReasons->restore();
         }
+        TransferReason::find($id)->update(['status'=>true]);
         return redirect()->route('transfer-reasons.index')->with('success', 'Brand Restore Successfully');
     }
     public function forceDelete($id)
@@ -73,8 +75,14 @@ class TransferReasonController extends Controller
 
     public function destroy(TransferReason $transferReason)
     {
-        $transferReason->delete();
-        return response()->json(['success' => true]);
+        if($transferReason->status == true){
+            TransferReason::find($transferReason->id)->update(['status'=>false]);
+            $transferReason->delete();
+            return response()->json(['success' => true]);
+        }else{
+            $transferReason->delete();
+            return response()->json(['success' => true]);   
+        }
     }
     public function updateStatus(Request $request, TransferReason $reason)
     {

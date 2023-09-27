@@ -25,7 +25,7 @@
             @if (isset($transferReason))
             <h4>Edit Transfer Reason</h4>
             @else
-            <h4>Create Transfer Reason</h4>
+            <h4>Transfer Reason</h4>
             @endif
         </div>
         <div class="card-body">
@@ -57,7 +57,7 @@
     <div class="card">
         <div class="card-header pb-0">
             <h4 class="d-flex justify-content-between align-items-center">
-                <span>List Brands</span>
+                <span>List of Transfer Reason</span>
                 <a href="{{ route('trash.transfer-reasons') }}" class="btn btn-primary float-right">Trash</a>
             </h4>
         </div>

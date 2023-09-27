@@ -14,7 +14,7 @@
     <div class="card">
         <div class="card-header pb-0 d-flex">
             <div class="float-left col-sm-6">
-                <h4>List Department</h4>
+                <h4>Department</h4>
             </div>
             <div class="col-sm-6"><a href="{{route('trash.department')}}" class="btn btn-danger float-end" style="margin-left: 5px;">Trash</a>
                 <a href="{{route('auth.create-department')}}" class="btn btn-primary float-end"><i class="fa fa-plus"></i> Add Department</a>

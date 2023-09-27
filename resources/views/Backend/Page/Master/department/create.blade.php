@@ -14,7 +14,7 @@
 <div class="col-sm-12">
     <div class="card">
         <div class="card-header pb-0">
-            <h4>Department</h4>
+            <h4>Add Department</h4>
         </div>
         <div class="card-body">
             <form class="needs-validation" novalidate method="POST" action="{{ url('/departments') }}">
@@ -43,7 +43,7 @@
 <div class="col-sm-12">
     <div class="card">
         <div class="card-header pb-0">
-            <h4>List Department</h4>
+            <h4>Department</h4>
         </div>
         <div class="card-body">
             <div class="table-responsive theme-scrollbar">
