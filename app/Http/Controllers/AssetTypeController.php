@@ -6,6 +6,7 @@ use App\Models\Asset;
 use App\Models\AssetType;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\UserImport;
 
 class AssetTypeController extends Controller
 {
@@ -82,7 +83,8 @@ class AssetTypeController extends Controller
     public function import_csv(Request $request)
     {
         // dd($request);
-        // Excel::import(new AssetType, $request->file('file'));
+        Excel::import(new UserImport, $request->file('file'));
+
         return redirect()->back();
     }
     public function trash()

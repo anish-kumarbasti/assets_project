@@ -3,8 +3,8 @@
 @if (session('message'))
 <div id="alert-message" class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
     <p>{{session('message')}}</p>
-<button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close" style="font-size: 16px; padding: 5px 10px; margin-top: -5px; background-color: transparent; border: none; color: #000; transition: background-color 0.3s, color 0.3s;" title="Close"></button>
-@endif
+    <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close" style="font-size: 12px; padding: 3px 6px;"></button>
+        @endif
 <div class="col-sm-12">
     <div class="card">
         <div class="card-header pb-0 d-flex">
@@ -19,6 +19,11 @@
         </div>
         @can('manage_designation')
         <div class="card-body">
+            <form action="{{route('import.department')}}" method="post" enctype="multipart/form-data">
+                @csrf
+                <input type="file" class="form-label" placeholder="Select CSV file" name="file">
+                <button type="submit" class="btn btn-primary text-end">Import</button>
+             </form>
             <div class="table-responsive theme-scrollbar">
                 <table class="display" id="basic-1">
                     <thead>
