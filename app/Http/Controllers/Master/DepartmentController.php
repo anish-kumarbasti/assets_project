@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Master;
 use App\Models\Department;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Imports\DepartmentImport;
 use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DepartmentController extends Controller
 {
@@ -139,5 +141,10 @@ class DepartmentController extends Controller
         // dd($department);
 
         return redirect()->route('auth.create-department')->with('success', 'Department status updated successfully.');
+    }
+    public function import(Request $request){
+        Excel::import(new DepartmentImport, $request->file('file'));
+
+        return redirect()->back();
     }
 }

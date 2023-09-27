@@ -31,7 +31,7 @@ use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\SendEmailController;
 use App\Http\Controllers\Master\TransferReasonController;
 use App\Http\Controllers\StatusController;
-use App\Http\Controllers\Transfer\ReturnController;
+
 /*
 
 
@@ -272,7 +272,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/getLocation', [ReportController::class, 'getLocation']);
     Route::get('/getType', [ReportController::class, 'getType']);
     Route::get('/getStatus', [ReportController::class, 'getStatus']);
-    Route::post('/import/csv', [AssetTypeController::class, 'import_csv'])->name('import.csv');
+    Route::post('/import-csv', [AssetTypeController::class, 'import_csv'])->name('import.csv');
+    Route::post('import-department', [DepartmentController::class, 'import'])->name('import.department');
     //Maintenances
     Route::get('maintenance', [MaintenanceController::class, 'index']);
     Route::get('asset-maintenances', [MaintenanceController::class, 'maintenances'])->name('assets-maintenances');
