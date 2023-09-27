@@ -16,9 +16,34 @@
             <div class="float-left col-sm-6">
                 <h4>Department</h4>
             </div>
-            <div class="col-sm-6"><a href="{{route('trash.department')}}" class="btn btn-danger float-end" style="margin-left: 5px;">Trash</a><a href="{{route('auth.create-department')}}" class="btn btn-primary float-end"><i class="fa fa-plus"></i> Add Department</a>
+            <div class="col-sm-6"><a href="{{route('trash.department')}}" class="btn btn-danger float-end" style="margin-left: 5px;">Trash</a>
+                <a href="{{route('auth.create-department')}}" class="btn btn-primary float-end"><i class="fa fa-plus"></i> Add Department</a>
+                <a class="btn btn-primary text-end m-b-30" id="openModalButton" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i>Import</a>
             </div>
         </div>
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content date-picker">
+                    <div class="modal-header border-bottom">
+                        <h4 class="modal-title text-primary" id="exampleModalLabel">Import File :</h4>
+                        <button type="button" class="close ml-auto rounded float-right" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="" method="post">
+                        @csrf
+                        <div class="form-group">
+                            <label for="excelFile">Choose Excel File</label>
+                            <input type="file" class="form-control" id="excelFile" name="excelFile" required>
+                        </div>
+                        <div class="footer-item">
+                        <button type="submit" class="btn btn-primary float-right">Import</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
         <div class="card-body">
             <div class="table-responsive theme-scrollbar">
                 <table class="display" id="basic-1">
@@ -59,6 +84,13 @@
 @section('Script-Area')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    $('#myModal').on('shown.bs.modal', function() {
+        $('#myInput').trigger('focus')
+    });
+</script>
 <script>
     $(document).ready(function() {
         var alertmessage = $('#alert-message');
