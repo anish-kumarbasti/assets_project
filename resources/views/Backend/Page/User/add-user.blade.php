@@ -50,9 +50,6 @@
                                 <label class="form-label" for="Age">Age</label>
                                 <input class="form-control" id="Age" name="age" type="number"
                                     placeholder="Enter Age">
-                                @error('age')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="gender">Gender</label>

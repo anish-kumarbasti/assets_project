@@ -388,14 +388,17 @@
                                 });
                             });
                             productList.append(productRow);
+                            $("#next-assets").show();
                         } else {
                             productList.append($("<p>", {
                                 text: "No products found for the employee.",
                             }));
+                            $("#next-assets").hide();
                         }
                     },
                     error: function() {
                         console.error("AJAX request failed: " + error.statusText);
+                        $("#next-assets").hide();
                     },
                 });
             });

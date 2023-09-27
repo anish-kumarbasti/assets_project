@@ -48,15 +48,15 @@
                   <div class="card-footer row">
                      <div class="col-4 col-sm-4">
                         <p class="text-it">IT Asset</p>
-                        <h3 class="counter">09</h3>
+                        <h3 class="counter">00</h3>
                      </div>
                      <div class="col-4 col-sm-4">
                         <p class="text-it">Non IT Asset</p>
-                        <h3><span class="counter">09</span></h3>
+                        <h3><span class="counter">00</span></h3>
                      </div>
                      <div class="col-4 col-sm-4">
                         <p class="text-it">Software</p>
-                        <h3><span class="counter">09</span></h3>
+                        <h3><span class="counter">00</span></h3>
                      </div>
                   </div>
                </div>
@@ -67,7 +67,7 @@
                      <div class="col-md-3">
                         <div class="card card-item">
                            <div class="card-body">
-                              <h3 class="text-center first-heading">401</h3>
+                              <h3 class="text-center first-heading">0</h3>
                               <h6 class="text-center">IT Assets</h6>
                            </div>
                         </div>
@@ -75,7 +75,7 @@
                      <div class="col-md-3">
                         <div class="card card-item">
                            <div class="card-body">
-                              <h3 class="text-center first-heading">401</h3>
+                              <h3 class="text-center first-heading">0</h3>
                               <h6 class="text-center">IT Assets</h6>
                            </div>
                         </div>
@@ -83,7 +83,7 @@
                      <div class="col-md-3">
                         <div class="card card-item">
                            <div class="card-body">
-                              <h3 class="text-center first-heading">401</h3>
+                              <h3 class="text-center first-heading">0</h3>
                               <h6 class="text-center">IT Assets</h6>
                            </div>
                         </div>
@@ -91,7 +91,7 @@
                      <div class="col-md-3">
                         <div class="card card-item">
                            <div class="card-body">
-                              <h3 class="text-center first-heading">401</h3>
+                              <h3 class="text-center first-heading">0</h3>
                               <h6 class="text-center">IT Assets</h6>
                            </div>
                         </div>

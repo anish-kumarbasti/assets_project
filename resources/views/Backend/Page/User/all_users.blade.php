@@ -95,20 +95,11 @@
                     <button class="btn btn-light ican-envo"><i class="fa fa-phone" aria-hidden="true"></i></button>
                     <button class="btn btn-light ican-action">Active</button>
                 </ul>
-                <div class="card-footer row">
-                    <div class="col-4 col-sm-4">
-                        <p class="text-it">IT Asset</p>
-                        <h3 class="counter">09</h3>
+                {{-- <div class="card-footer row">
+                    <div class="col-12 col-sm-12">
+                        <h3 class="counter">for more Details</h3>
                     </div>
-                    <div class="col-4 col-sm-4">
-                        <p class="text-it">Non IT Asset</p>
-                        <h3><span class="counter">09</span></h3>
-                    </div>
-                    <div class="col-4 col-sm-4">
-                        <p class="text-it">Software</p>
-                        <h3><span class="counter">09</span></h3>
-                    </div>
-                </div>
+                </div> --}}
             </div>
         </div>
         @endforeach

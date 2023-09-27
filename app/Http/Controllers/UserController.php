@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\BusinessSetting;
 use App\Models\Department;
 use App\Models\Designation;
+use App\Models\Issuence;
 use App\Models\Location;
+use App\Models\Status;
+use App\Models\Stock;
 use App\Models\SubLocationModel;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
@@ -128,7 +131,6 @@ class UserController extends Controller
             'designation_id' => $request->designation_id,
             'mobile_number' => $request->mobile_number,
             'role_id' => $request->role,
-            'age' => $request->age,
             'gender' => $request->gender,
             'location_id'=>$request->location_id,
             'sub_location_id'=>$request->sub_location_id
@@ -255,6 +257,16 @@ class UserController extends Controller
     public function users_profile($id)
     {
         $user = User::find($id);
+        // $issueproduct = Issuence::where('employee_id',$user->employee_id)->get();
+        // $issuestatus = Status::where('name','Issued')->orWhere('name','Accepted by User')->get();
+        // foreach($issueproduct as $issue){
+        // $json = json_decode($issue->product_id);
+        // $stock = Stock::where('id',$json)->get();
+        //     foreach($stock as $data){
+                
+        //     }
+        // }
+        // dd($user->employee_id);
         return view('Backend.Page.User.user-profile', compact('user'));
     }
     public function usersprofile()

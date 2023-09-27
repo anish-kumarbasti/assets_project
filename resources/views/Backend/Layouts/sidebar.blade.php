@@ -6,16 +6,15 @@
         $logoPath = 'Backend/assets/images/logo/logo.png'; // Default logo path if not found
     }
 @endphp
-
 <div class="sidebar-wrapper">
     <div>
-        <div class="logo-wrapper"><a href="index.html"><img class="img-fluid for-light"
+        <div class="logo-wrapper"><a href="#"><img class="img-fluid for-light"
                     src="{{ asset('storage/' . $logoPath) }}" style="height: 40px; width: 110px;" alt=""></a></div>
         <div class="back-btn"><i data-feather="grid"></i></div>
         <div class="toggle-sidebar icon-box-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="grid">
             </i></div>
     </div>
-    <div class="logo-icon-wrapper"><a href="index.html">
+    <div class="logo-icon-wrapper"><a href="#">
             <div class="icon-box-sidebar"><i data-feather="grid"></i></div>
         </a></div>
     <nav class="sidebar-main">
@@ -52,7 +51,7 @@
                             @endcan
                             <li class="{{ request()->is(['assets-type-index*']) ? 'active' : '' }}"><a href="{{ route('assets-type-index') }}">Asset Type</a></li>
                             @can('view_asset')
-                                <li class="{{ request()->is(['assets*']) ? 'active' : '' }}"><a href="{{ url('assets') }}">Asset Name</a></li>
+                                <li class="{{ request()->is(['assets*']) ? 'active' : '' }}"><a href="{{ url('assets') }}">Asset</a></li>
                             @endcan
                             @can('view_brand')
                                 <li class="{{ request()->is(['/brands/create*']) ? 'active' : '' }}"><a href="{{ route('create-brand') }}">Brands</a></li>
@@ -73,7 +72,7 @@
                                 <li class="{{ request()->is(['suppliers*']) ? 'active' : '' }}"><a href="{{ url('suppliers') }}">Suppliers</a></li>
                             @endcan
                             @can('view_asset_status')
-                                <li class="{{ request()->is(['add-status*']) ? 'active' : '' }}"><a href="{{ url('add-status') }}">Asset Status</a></li>
+                                <li class="{{ request()->is(['add-status*']) ? 'active' : '' }}"><a href="{{ url('add-status') }}">All Status</a></li>
                             @endcan
                             @can('view_transfer_reason')
                                 <li class="{{ request()->is(['transfer-reasons*']) ? 'active' : '' }}"><a href="{{ route('transfer-reasons.index') }}">Transfer Reasons</a></li>

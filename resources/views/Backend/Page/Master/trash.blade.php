@@ -8,7 +8,7 @@
     <div class="card">
         <div class="card-header pb-0">
             <h4 class="d-flex justify-content-between align-items-center">
-                <span>Trash Brands</span>
+                <span>Trash Transfer Reason</span>
                 <a href="{{ route('transfer-reasons.index') }}" class="btn btn-primary float-right">Back</a>
             </h4>
         </div>

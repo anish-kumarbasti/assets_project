@@ -3,7 +3,8 @@
 @if (session('message'))
 <div id="alert-message" class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
     <p>{{session('message')}}</p>
-<button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close" style="font-size: 16px; padding: 5px 10px; margin-top: -5px; background-color: transparent; border: none; color: #000; transition: background-color 0.3s, color 0.3s;" title="Close"></button>
+<button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close" style="font-size: 16px;transform:translateY(10px);height:10px;width:10px;" title="Close"></button>
+</div>
 @endif
 <div class="col-sm-12">
     <div class="card">

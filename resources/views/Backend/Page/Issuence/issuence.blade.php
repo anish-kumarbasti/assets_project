@@ -131,7 +131,7 @@
                     </div>
                 </div>
                 <div class="footer-item p-5">
-                    <button class="btn btn-primary float-end" id="next-employee" data-next="select-asset-step"
+                    <button class="btn btn-primary float-end" id="next-employee" style="display: none;" data-next="select-asset-step"
                         type="button">Next</button>
                 </div>
             </div>
@@ -295,33 +295,37 @@
                 var assetDetailsContainer = $('#assetdetails');
                 assetDetailsContainer.show();
 
-                if (asset) {
-                    // console.log(asset);
+                if (asset != null) {
                     var allbrand = asset.brand;
                     var isSelected = selectedCards[asset.id];
                     var deselectButton = isSelected ? '<div class="deselect-button"></div>' : '';
                     var assetCard = `
-                            <div class="col-md-3">
-                                <div class="card change-card ${isSelected ? 'selected' : ''}" data-card-id="${asset.id}">
-                                    <div class="card-body">
-                                        <h5 class="card-title card-text p-2">${asset.product_info}</h5>
-                                        <p class="card-subtitle mb-2">Type: <span class="text-muted">${asset.asset_type.name}</span></p>
-                                        <p class="card-subtitle mb-2">${allbrand ? 'Brand: <span class="text-muted">' + allbrand.name + '</span>' : 'License Number: <span class="text-muted">' + (asset.license_number || 'N/A')}</span></p>
-                                        <p class="card-subtitle mb-2">${allbrand ? 'Brand Model: <span class="text-muted">' + (asset.brandmodel.name || 'N/A') + '</span>' : 'Configuration: <span class="text-muted">' + (asset.configuration || 'N/A')}</span></p>
-                                        <p class="card-subtitle mb-2">Brand Model: <span class="text-muted">${asset.supplier}</p>
-                                        <p class="card-subtitle mb-2">Price: <span class="text-muted">${asset.price}</span></p>
-                                        <input type="hidden" value="${asset.id}" name="cardId[]">
-                                        ${deselectButton}
-                                    </div>
-                                </div>
-                            </div>
-                        `;
+            <div class="col-md-3">
+                <div class="card change-card ${isSelected ? 'selected' : ''}" data-card-id="${asset.id}">
+                    <div class="card-body">
+                        <h5 class="card-title card-text p-2">${asset.product_info}</h5>
+                        <p class="card-subtitle mb-2">Type: <span class="text-muted">${asset.asset_type.name}</span></p>
+                        <p class="card-subtitle mb-2">${allbrand ? 'Brand: <span class="text-muted">' + allbrand.name + '</span>' : 'License Number: <span class="text-muted">' + (asset.license_number || 'N/A')}</span></p>
+                        <p class="card-subtitle mb-2">${allbrand ? 'Brand Model: <span class="text-muted">' + (asset.brandmodel.name || 'N/A') + '</span>' : 'Configuration: <span class="text-muted">' + (asset.configuration || 'N/A')}</span></p>
+                        <p class="card-subtitle mb-2">Brand Model: <span class="text-muted">${asset.supplier}</p>
+                        <p class="card-subtitle mb-2">Price: <span class="text-muted">${asset.price}</span></p>
+                        <input type="hidden" value="${asset.id}" name="cardId[]">
+                        ${deselectButton}
+                    </div>
+                </div>
+            </div>
+        `;
                     assetDetailsContainer.html(assetCard);
                 } else {
-                    // Clear the asset details if no assets are found
-                    assetDetailsContainer.empty();
+                    var empty = `
+            <div class="col-md-12">
+                <h4>There is no Product of this Serial Number.</h4>
+            </div>
+        `;
+                    assetDetailsContainer.html(empty);
                 }
             }
+
 
         });
         $(document).ready(function() {
@@ -462,11 +466,13 @@
         function showDiv() {
             var inputField = document.getElementById('employeeId');
             var div = document.getElementById('myDiv');
-
+            var button = document.getElementById('next-employee');
             if (inputField.value.trim() !== '') {
                 div.style.display = 'block';
+                button.style.display = 'block';
             } else {
                 div.style.display = 'none';
+                button.style.display = 'none';
             }
         }
         $(document).ready(function() {
