@@ -226,4 +226,11 @@ class StockController extends Controller
         $stock->delete();
         return redirect()->route('all.stock');
     }
+    public function filter(Request $request)
+    {
+        $startdate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+        $data = Stock::with('assetmain', 'brandmodel', 'brand')->whereBetween('created_at', [$startdate, $endDate])->get();
+        return response()->json($data);
+    }
 }
