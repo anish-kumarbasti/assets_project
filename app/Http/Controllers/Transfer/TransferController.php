@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Transfer;
 
+use App\Helpers\TimelineHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Issuence;
 use App\Models\Role;
@@ -12,6 +13,7 @@ use App\Models\User;
 use App\Notifications\TransferNotification;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
 class TransferController extends Controller
@@ -22,21 +24,20 @@ class TransferController extends Controller
             $employee = User::with('department', 'designation')
                 ->where('employee_id', 'LIKE', '%' . $request->employeeId . '%')
                 ->first() ?? null;
-
             $issue = Issuence::where('employee_id', 'LIKE', '%' . $request->employeeId . '%')
-                ->first() ?? null;
-
+                ->get() ?? null;
             $result = [];
             if ($employee && $issue) {
                 $result['employee'] = $employee;
-                $productIds = json_decode($issue->product_id);
-                $products = Stock::whereIn('id', $productIds)->with('brand', 'brandmodel', 'asset_type', 'getsupplier')->get();
+                foreach($issue as $product){
+                $productid = json_decode($product->product_id);
+                $products = Stock::whereIn('id', $productid)->with('brand', 'brandmodel', 'asset_type', 'getsupplier')->get();
+                }
                 $result['products'] = $products;
             } else {
                 $result['employee'] = null;
                 $result['products'] = [];
             }
-
             // Now, $result contains both the employee and associated products.
             return response()->json($result);
         }
@@ -46,6 +47,7 @@ class TransferController extends Controller
 
     public function store(Request $request)
     {
+        DB::beginTransaction(); // Start a database transaction
         try {
             $request->validate([
                 'employeeId' => 'required|exists:users,employee_id',
@@ -54,17 +56,25 @@ class TransferController extends Controller
                 'description' => 'required',
             ]);
 
-            Transfer::create([
+            $transfer = Transfer::create([
                 'employee_id' => $request->employeeId,
                 'product_id' => json_encode($request->cardId),
                 'reason_id' => $request->reason,
                 'handover_employee_id' => $request->handoverId,
                 'description' => $request->description,
             ]);
-
+            
             $user = User::where('employee_id', $request->employeeId)->first();
             $handover = User::where('employee_id', $request->handoverId)->first();
-
+            foreach ($request->cardId as $productId) {
+                $stock = Stock::find($productId);
+                // dd($stock);
+                $transferId=$transfer->id;
+                if ($stock) {
+                    TimelineHelper::logAction('Product Transferred', $productId, $stock->asset_type_id, $stock->asset, null,null,$transferId, $user->id);
+                }
+            }
+            DB::commit();
             $managerUser = User::where('role_id', 3)
                 ->where('department_id', $user->department_id)->first();
 
@@ -102,8 +112,10 @@ class TransferController extends Controller
 
             return back()->with('success', 'Asset Transferred successfully.');
         } catch (QueryException $e) {
+            DB::rollback(); // Rollback the transaction in case of an error
             return back()->with('error', 'Database error: ' . $e->getMessage());
         } catch (\Exception $e) {
+            DB::rollback(); // Rollback the transaction in case of an error
             return back()->with('error', 'An error occurred: ' . $e->getMessage());
         }
     }

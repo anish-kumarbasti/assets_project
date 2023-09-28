@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\TimelineHelper;
 use App\Models\Asset;
 use App\Models\AssetType;
 use App\Models\Maintenance;
@@ -64,8 +65,10 @@ class MaintenanceController extends Controller
             'asset_price' => 'required',
             'status' => 'required'
         ]);
-        // dd($request);
-        Maintenance::Create([
+        $product = Stock::where('product_number',$request->product_id)
+                            ->orWhere('serial_number',$request->product_id)
+                            ->first();
+        $maintenance = Maintenance::Create([
             'product_id' => $request->product_id,
             'asset_number' => $request->asset_number,
             'status' => $request->status,
@@ -74,6 +77,8 @@ class MaintenanceController extends Controller
             'start_date' => $request->start_date,
             'end_date' => $request->end_date
         ]);
+        Stock::where('product_number',$request->product_id)->update(['status_available'=>$request->status]);
+        TimelineHelper::logAction('Product Maintenance', $product->id, $product->asset_type_id, $product->asset, null, null, null, null, null, null, $maintenance->id, $request->supplier_id);
         return redirect()->route('assets-maintenances')->with('success', 'Asset Created Successfully');
     }
     public function edit(Maintenance $maintenance, $id)

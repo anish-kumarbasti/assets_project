@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Disposal;
 
+use App\Helpers\TimelineHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Asset;
 use App\Models\AssetType;
@@ -9,6 +10,7 @@ use App\Models\Disposal;
 use App\Models\Status;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DisposalController extends Controller
 {
@@ -46,8 +48,8 @@ class DisposalController extends Controller
             'desposal_code' => 'required|alpha_num',
             'status' => 'required',
         ]);
-        // dd($request);
-        Disposal::create([
+        // dd(Auth::id());
+        $disposal = Disposal::create([
             'category' => $request->assetType,
             'asset' => $request->assetName,
             'product_info' => $request->product_name,
@@ -56,6 +58,7 @@ class DisposalController extends Controller
             'desposal_code' => $request->desposal_code,
             'status' => $request->status,
         ]);
+        TimelineHelper::logAction('Disposal Created', $request->product_name, $request->assetType, $request->assetName, null, null, null, null, $disposal->id, Auth::id());
         return redirect()->route('disposal')->with('success', 'Add Disposal successfully');
     }
     public function edit(Disposal $disposal, $id)

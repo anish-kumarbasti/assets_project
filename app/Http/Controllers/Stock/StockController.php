@@ -2,17 +2,21 @@
 
 namespace App\Http\Controllers\Stock;
 
+use App\Helpers\TimelineHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Asset;
 use App\Models\AssetType;
 use App\Models\Attribute;
 use App\Models\Brand;
 use App\Models\Brandmodel;
+use App\Models\Issuence;
 use App\Models\Location;
 use App\Models\Status;
 use App\Models\Stock;
 use App\Models\SubLocationModel;
 use App\Models\Supplier;
+use App\Models\Timeline;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -82,12 +86,12 @@ class StockController extends Controller
 
     public function stockStatus()
     {
-        $stock = Stock::where('status_available', 1)->get();
-        $allocated = Stock::where('status_available', 2)->get();
+        $stock = Stock::where('status_available', 1)->get(); 
+        $allocated = Stock::where('status_available', 2)->orWhere('status_available',10)->get();
         $stolen = Stock::where('status_available', 11)->get();
         $scrapped = Stock::where('status_available', 12)->get();
         $unrepair = Stock::where('status_available', 6)->get();
-        $transfer = Stock::where('status_available', 5)->get();
+        $transfer = Stock::where('status_available', 5)->orWhere('status_available',8)->get();
         return view('Backend.Page.Stock.stock-status', compact('stock', 'allocated', 'unrepair', 'transfer', 'stolen', 'scrapped'));
     }
 
@@ -113,7 +117,7 @@ class StockController extends Controller
             $filepath = $destinationPath . '/' . $imagess;
         }
         // dd($request);
-        Stock::create([
+        $product = Stock::create([
             'status_available' => $request->status,
             'product_info' => $request->product_info,
             'asset_type_id' => $request->asset_type,
@@ -135,7 +139,7 @@ class StockController extends Controller
             'supplier' => $request->supplier,
             'image' => $filepath,
         ]);
-
+        TimelineHelper::logAction('Product Created', $product->id, $request->asset_type, $request->asset);
         // You might want to redirect the user somewhere after successful creation
         return redirect()->back()->with('success', 'Stock created successfully!');
     }
@@ -210,16 +214,16 @@ class StockController extends Controller
         // You might want to redirect the user somewhere after successful creation
         return redirect()->route('all.stock')->with('success', 'Stock Updated successfully!');
     }
-    public function timeline()
-    {
-        return view('Backend.Page.Stock.timeline');
+    public function timeline($id)
+    {   
+        $product = Timeline::where('product_id',$id)->with('user','product','issuance','transfer','disposal','maintenance','assetReturn')->get();
+        return view('Backend.Page.Stock.timeline',compact('product'));
     }
 
     public function destroy($id)
     {
         $stock = Stock::findOrFail($id);
         $stock->delete();
-
         return redirect()->route('all.stock');
     }
 }
