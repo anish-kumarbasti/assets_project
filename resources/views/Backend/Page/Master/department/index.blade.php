@@ -18,44 +18,44 @@
             </div>
             <div class="col-sm-6"><a href="{{route('trash.department')}}" class="btn btn-danger float-end" style="margin-left: 5px;">Trash</a>
                 <a href="{{route('auth.create-department')}}" class="btn btn-primary float-end"><i class="fa fa-plus"></i> Add Department</a>
-                <a class="btn btn-primary text-end m-b-30" id="openModalButton" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i>Import</a>
+                <!-- <a class="btn btn-primary text-end m-b-30" id="openModalButton" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i>Import</a> -->
             </div>
         </div>
     </div>
-        <div class="card-body">
-            <div class="table-responsive theme-scrollbar">
-                <table class="display" id="basic-1">
-                    <thead>
-                        <tr>
-                            <th>SL</th>
-                            <th>Name</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($departments as $department)
-                        <tr>
-                            <td>{{ $department->id }}</td>
-                            <td>{{ $department->name }}</td>
-                            <td class="w-20">
-                                <label class="mb-0 switch">
-                                    <input type="checkbox" checked=""><span class="switch-state"></span>
-                                </label>
-                            </td>
-                            <td>
-                                <div class="btn-group">
-                                    <a class="btn btn-primary" href="{{ url('/departments/' . $department->id . '/edit') }}">Edit</a>&nbsp;
-                                    <button type="button" data-id="{{$department->id}}" class="btn btn-danger delete-button">Trash</button>
-                                </div>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+    <div class="card-body">
+        <div class="table-responsive theme-scrollbar">
+            <table class="display" id="basic-1">
+                <thead>
+                    <tr>
+                        <th>SL</th>
+                        <th>Name</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($departments as $department)
+                    <tr>
+                        <td>{{ $department->id }}</td>
+                        <td>{{ $department->name }}</td>
+                        <td class="w-20">
+                            <label class="mb-0 switch">
+                                <input type="checkbox" checked=""><span class="switch-state"></span>
+                            </label>
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <a class="btn btn-primary" href="{{ url('/departments/' . $department->id . '/edit') }}">Edit</a>&nbsp;
+                                <button type="button" data-id="{{$department->id}}" class="btn btn-danger delete-button">Trash</button>
+                            </div>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
+</div>
 </div>
 @endsection
 
