@@ -20,11 +20,6 @@
         </div>
         @can('manage_designation')
         <div class="card-body">
-            <form action="{{route('import.department')}}" method="post" enctype="multipart/form-data">
-                @csrf
-                <input type="file" class="form-label" placeholder="Select CSV file" name="file">
-                <button type="submit" class="btn btn-primary text-end">Import</button>
-             </form>
             <div class="table-responsive theme-scrollbar">
                 <table class="display" id="basic-1">
                     <thead>
