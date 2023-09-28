@@ -105,6 +105,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('transfer-reasons/{transferReason}', [TransferReasonController::class, 'destroy'])->name('transfer-reasons.destroy');
     Route::post('/reason-status/{reason}', [TransferReasonController::class, 'updateStatus'])->name('transfer.updateStatus');
     //Stock
+    Route::post('/filter-data', [StockController::class, 'filter'])->name('filter.data');
     Route::get('/generate/number', [StockController::class, 'generateNumber']);
     Route::post('/get-brand-models/{brandId}', [StockController::class, 'getBrandModels']);
     Route::post('/get-slocation/{locationId}', [StockController::class, 'getslocation']);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AssetReturn;
 use App\Models\BusinessSetting;
 use App\Models\Department;
 use App\Models\Designation;
@@ -10,6 +11,7 @@ use App\Models\Location;
 use App\Models\Status;
 use App\Models\Stock;
 use App\Models\SubLocationModel;
+use App\Models\Transfer;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 //use Illuminate\Foundation\Auth\User;
@@ -66,7 +68,7 @@ class UserController extends Controller
         $departments = Department::all();
         $role = Role::all();
         $location = Location::all();
-        return view('Backend.Page.User.add-user', compact('departments', 'role','location'));
+        return view('Backend.Page.User.add-user', compact('departments', 'role', 'location'));
     }
 
     /**
@@ -106,19 +108,6 @@ class UserController extends Controller
             'mobile_number' => 'required|numeric|digits_between:10,12',
             'employee_id' => ['required', 'unique:users,employee_id', 'regex:/^[a-zA-Z0-9]+$/'],
         ]);
-        // dd($request);
-        // $profile_photo = null;
-        // $cover_photo = null;
-
-        // if ($request->hasFile('profile_photo')) {
-        //     $profile_photo = $request->file('profile_photo')->storePublicly('profile_photos', 'public');
-        // }
-
-        // if ($request->hasFile('cover_photo')) {
-        //     $cover_photo = $request->file('cover_photo')->storePublicly('cover_photos', 'public');
-        // }
-        // $randomno = mt_rand('100000', '999999');
-
         $user = User::create([
             'employee_id' => $request->employee_id,
             'first_name' => $request->first_name,
@@ -132,24 +121,25 @@ class UserController extends Controller
             'mobile_number' => $request->mobile_number,
             'role_id' => $request->role,
             'gender' => $request->gender,
-            'location_id'=>$request->location_id,
-            'sub_location_id'=>$request->sub_location_id
+            'location_id' => $request->location_id,
+            'sub_location_id' => $request->sub_location_id
 
         ]);
-        $department = Department::where('id',$request->department_id)->first();
-        $designation = Designation::where('id',$request->designation_id)->first();
-        $location = Location::where('id',$request->location_id)->first();
-        $logo = BusinessSetting::where('title','logo_path')->first();
-        $data = ['name'=>$request->first_name.' '.$request->last_name,
-                 'company_name'=>'IT-Asset',
-                 'employee_id'=>$request->employee_id,
-                 'email'=>$request->email,
-                 'department'=>$department->name,
-                 'designation'=>$designation->designation,
-                 'location'=>$location->name,
-                 'logo'=>$logo->value??'',
-                ];
-        $users['to']=$request->email;
+        $department = Department::where('id', $request->department_id)->first();
+        $designation = Designation::where('id', $request->designation_id)->first();
+        $location = Location::where('id', $request->location_id)->first();
+        $logo = BusinessSetting::where('title', 'logo_path')->first();
+        $data = [
+            'name' => $request->first_name . ' ' . $request->last_name,
+            'company_name' => 'IT-Asset',
+            'employee_id' => $request->employee_id,
+            'email' => $request->email,
+            'department' => $department->name,
+            'designation' => $designation->designation,
+            'location' => $location->name,
+            'logo' => $logo->value ?? '',
+        ];
+        $users['to'] = $request->email;
         Mail::send('Backend.Auth.mail.message', $data, function ($message) use ($users) {
             $message->from('itasset@svamart.com', 'itasset@svamart.com'); // Replace with your email and name
             $message->to($users['to']);
@@ -182,9 +172,9 @@ class UserController extends Controller
     {
         $department = Department::all();
         $designation = Designation::all();
-        $role=Role::all();
+        $role = Role::all();
         $user = User::find($id);
-        return view('Backend.Page.User.edit', compact('user', 'department', 'designation','role'));
+        return view('Backend.Page.User.edit', compact('user', 'department', 'designation', 'role'));
     }
 
     /**
@@ -205,7 +195,7 @@ class UserController extends Controller
             'designation_id' => 'required|integer',
             'age' => 'required',
             'mobile_number' => 'required|integer|digits_between:10,12',
-            'role'=>'required|integer',
+            'role' => 'required|integer',
 
         ]);
         //$user = User::where('id', $id)->first();
@@ -257,17 +247,10 @@ class UserController extends Controller
     public function users_profile($id)
     {
         $user = User::find($id);
-        // $issueproduct = Issuence::where('employee_id',$user->employee_id)->get();
-        // $issuestatus = Status::where('name','Issued')->orWhere('name','Accepted by User')->get();
-        // foreach($issueproduct as $issue){
-        // $json = json_decode($issue->product_id);
-        // $stock = Stock::where('id',$json)->get();
-        //     foreach($stock as $data){
-                
-        //     }
-        // }
-        // dd($user->employee_id);
-        return view('Backend.Page.User.user-profile', compact('user'));
+        $issueproduct = Issuence::where('employee_id', $user->employee_id)->count();
+        $transfer = Transfer::where('employee_id', $user->employee_id)->count();
+        // $return = AssetReturn::where('return_by_user	', $user->id)->count();
+        return view('Backend.Page.User.user-profile', compact('user', 'issueproduct', 'transfer'));
     }
     public function usersprofile()
     {

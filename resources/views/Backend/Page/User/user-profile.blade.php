@@ -2,22 +2,25 @@
 @section('Style-Area')
 <style>
    .fixed-ui-button {
-   position: fixed;
-   bottom: 20px;
-   right: 20px;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
    }
+
    .user-profile {
-   background: url('Backend/assets/images/It-Assets/Rectangle4378.png');
-   background-repeat: no-repeat;
-   background-size: cover;
-   width: 100%;
-   height: 100%;
+      background: url('Backend/assets/images/It-Assets/Rectangle4378.png');
+      background-repeat: no-repeat;
+      background-size: cover;
+      width: 100%;
+      height: 100%;
    }
+
    .user-card {
-   height: 100%;
+      height: 100%;
    }
-   .text-assts{
-   float:right;
+
+   .text-assts {
+      float: right;
    }
 </style>
 @endsection
@@ -38,25 +41,25 @@
                   </div>
                   <ul class="card-social">
                      <button class="btn btn-light ican-envo">
-                     <i class="fa fa-envelope" aria-hidden="true"></i>
+                        <i class="fa fa-envelope" aria-hidden="true"></i>
                      </button>
                      <button class="btn btn-light ican-envo">
-                     <i class="fa fa-phone" aria-hidden="true"></i>
+                        <i class="fa fa-phone" aria-hidden="true"></i>
                      </button>
                      <button class="btn btn-light ican-action">Active</button>
                   </ul>
                   <div class="card-footer row">
                      <div class="col-4 col-sm-4">
-                        <p class="text-it">IT Asset</p>
-                        <h3 class="counter">00</h3>
+                        <p class="text-it">Issue</p>
+                        <h3 class="counter">{{$issueproduct}}</h3>
                      </div>
                      <div class="col-4 col-sm-4">
-                        <p class="text-it">Non IT Asset</p>
-                        <h3><span class="counter">00</span></h3>
+                        <p class="text-it">Transfer</p>
+                        <h3><span class="counter">{{$transfer}}</span></h3>
                      </div>
                      <div class="col-4 col-sm-4">
-                        <p class="text-it">Software</p>
-                        <h3><span class="counter">00</span></h3>
+                        <p class="text-it">Return</p>
+                        <h3><span class="counter">0</span></h3>
                      </div>
                   </div>
                </div>
@@ -76,7 +79,7 @@
                         <div class="card card-item">
                            <div class="card-body">
                               <h3 class="text-center first-heading">0</h3>
-                              <h6 class="text-center">IT Assets</h6>
+                              <h6 class="text-center">Non IT Assets</h6>
                            </div>
                         </div>
                      </div>
@@ -84,42 +87,34 @@
                         <div class="card card-item">
                            <div class="card-body">
                               <h3 class="text-center first-heading">0</h3>
-                              <h6 class="text-center">IT Assets</h6>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="col-md-3">
-                        <div class="card card-item">
-                           <div class="card-body">
-                              <h3 class="text-center first-heading">0</h3>
-                              <h6 class="text-center">IT Assets</h6>
+                              <h6 class="text-center">Software</h6>
                            </div>
                         </div>
                      </div>
                   </div>
                </div>
-               <button class="btn btn-light w-30 d-flex align-items-center justify-content-between" style="background-color: white !important;">
+               <!-- <button class="btn btn-light w-30 d-flex align-items-center justify-content-between" style="background-color: white !important;">
                Select
                <label class="mb-0 ml-2 switch">
                <input type="checkbox" checked="">
                <span class="switch-state"></span>
                </label>
-               </button>
+               </button> -->
             </div>
          </div>
       </div>
    </div>
-   <div class="card">
+   <!-- <div class="card">
       <div class="card-body">
          <h5> Assets <span class="text-assts">20</span></h5>
       </div>
-   </div>
-   <div class="card mt-3">
+   </div> -->
+   <!-- <div class="card mt-3">
       <div class="card-body">
          <div class="card-header pb-0">
          </div>
          <div class="row py-3">
-            <!-- First Card -->
+            First Card
             <div class="col-md-3">
                <div class="card card-box">
                   <div class="card-body">
@@ -130,7 +125,7 @@
                   </div>
                </div>
             </div>
-            <!-- Second Card -->
+            Second Card
             <div class="col-md-3">
                <div class="card card-box">
                   <div class="card-body">
@@ -141,7 +136,7 @@
                   </div>
                </div>
             </div>
-            <!-- Third Card -->
+            Third Card
             <div class="col-md-3">
                <div class="card card-box">
                   <div class="card-body">
@@ -152,7 +147,7 @@
                   </div>
                </div>
             </div>
-            <!-- Fourth Card -->
+            Fourth Card
             <div class="col-md-3">
                <div class="card card-box">
                   <div class="card-body">
@@ -165,6 +160,6 @@
             </div>
          </div>
       </div>
-   </div>
+   </div> -->
 </div>
 @endsection

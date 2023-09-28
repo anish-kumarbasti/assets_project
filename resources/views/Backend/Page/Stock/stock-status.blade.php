@@ -55,45 +55,45 @@
 <div class="col-sm-12">
     <div class="card">
         <div class="card-header pb-0">
-            <div class="card">
-                <div class="card-head">
-                    <div class="row">
-                        <div class="col-md-6 p-4">
-                            <b class="p-4 fs-5">IT ASSET</b>
-                        </div>
-                        <div class="col-md-6 text-end p-4">
-                            <button class="btn btn-primary qr_btn"><img src="{{ asset('Backend/assets/images/It-Assets/Vector1.svg') }}" alt='...'></button>
-                            <button class="btn btn-primary qr_btn" id="openModalBtn"><img src="{{ asset('Backend/assets/images/It-Assets/veckor2.svg') }}" alt='...'></button>
-                            <button class="btn btn-primary qr_btn"><img src="{{ asset('Backend/assets/images/It-Assets/Vector3.svg') }}" alt='...'></button>
-                        </div>
-                    </div>
+            <!-- <div class="card"> -->
+            <!-- <div class="card-head"> -->
+            <div class="row">
+                <div class="col-md-6 p-4">
+                    <b class="p-4 fs-5">IT ASSET</b>
                 </div>
-                <div class="card-body">
-                    <div class="row d-flex justify-content-center stock-item mb-3">
-                        <!-- Add the tab navigation links -->
-                        <div class="col-md-12 d-flex justify-content-center flex-nowrap">
-                            <div class="col-md-2 border-right">
-                                <a class="nav-link active status-tab" href="#danger-instock" aria-selected="true" data-toggle="tab" data-status="in-stock">In Stock</a>
-                            </div>
-                            <div class="col-md-2 border-right">
-                                <a class="nav-link status-tab" href="#danger-allocated" aria-selected="true" data-toggle="tab" data-status="allocated">Allocated</a>
-                            </div>
-                            <div class="col-md-2 border-right">
-                                <a class="nav-link status-tab" href="#danger-underrepair" aria-selected="true" data-toggle="tab" data-status="underrepair">Under Repair</a>
-                            </div>
-                            <div class="col-md-2 border-right">
-                                <a class="nav-link status-tab" href="#danger-stolen" aria-selected="true" data-toggle="tab" data-status="stolen">Stolen
-                            </div>
-                            <div class="col-md-2 border-right">
-                                <a class="nav-link status-tab sc" href="#danger-scrapped" aria-selected="true" data-toggle="tab" data-status="scrapped">Scrapped</a>
-                            </div>
-                            <div class="col-md-2">
-                                <a class="nav-link status-tab" href="#danger-lost" aria-selected="true" data-toggle="tab" data-status="scrapped">Transfer</a>
-                            </div>
-                        </div>
+                <div class="col-md-6 text-end p-4">
+                    <button class="btn btn-primary qr_btn"><img src="{{ asset('Backend/assets/images/It-Assets/Vector1.svg') }}" alt='...'></button>
+                    <button class="btn btn-primary qr_btn" id="openModalBtn"><img src="{{ asset('Backend/assets/images/It-Assets/veckor2.svg') }}" alt='...'></button>
+                    <button class="btn btn-primary qr_btn"><img src="{{ asset('Backend/assets/images/It-Assets/Vector3.svg') }}" alt='...'></button>
+                </div>
+            </div>
+            <!-- </div> -->
+            <!-- <div class="card-body"> -->
+            <div class="row d-flex justify-content-center stock-item mb-3">
+                <!-- Add the tab navigation links -->
+                <div class="col-md-12 d-flex justify-content-center flex-nowrap">
+                    <div class="col-md-2 border-right">
+                        <a class="nav-link active status-tab" href="#danger-instock" aria-selected="true" data-toggle="tab" data-status="in-stock">In Stock</a>
+                    </div>
+                    <div class="col-md-2 border-right">
+                        <a class="nav-link status-tab" href="#danger-allocated" aria-selected="true" data-toggle="tab" data-status="allocated">Allocated</a>
+                    </div>
+                    <div class="col-md-2 border-right">
+                        <a class="nav-link status-tab" href="#danger-underrepair" aria-selected="true" data-toggle="tab" data-status="underrepair">Under Repair</a>
+                    </div>
+                    <div class="col-md-2 border-right">
+                        <a class="nav-link status-tab" href="#danger-stolen" aria-selected="true" data-toggle="tab" data-status="stolen">Stolen
+                    </div>
+                    <div class="col-md-2 border-right">
+                        <a class="nav-link status-tab sc" href="#danger-scrapped" aria-selected="true" data-toggle="tab" data-status="scrapped">Scrapped</a>
+                    </div>
+                    <div class="col-md-2">
+                        <a class="nav-link status-tab" href="#danger-lost" aria-selected="true" data-toggle="tab" data-status="scrapped">Transfer</a>
                     </div>
                 </div>
             </div>
+            <!-- </div> -->
+            <!-- </div> -->
             <div class="modal" id="calendarModal" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -106,13 +106,13 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="startDate">Start Date:</label>
-                                <input type="text" class="form-control" id="modal_start_date" placeholder="Start Date">
-                            </div>
-                            <div class="form-group">
-                                <label for="endDate">End Date:</label>
-                                <input type="text" class="form-control" id="modal_end_date" placeholder="End Date">
+                                <input type="date" class="form-control" id="modal_start_date" placeholder="Start Date">
                             </div>
                             <div id="modal_calendar"></div>
+                            <div class="form-group">
+                                <label for="endDate">End Date:</label>
+                                <input type="date" class="form-control" id="modal_end_date" placeholder="End Date">
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -142,7 +142,7 @@
                                 <th>Timeline</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="table-body">
                             @foreach ($stock as $stock)
                             <tr>
                                 <td>{{$loop->iteration}}</td>
@@ -396,44 +396,51 @@
     $(document).ready(function() {
         $("#openModalBtn").click(function() {
             $("#calendarModal").modal("show");
-            $("#calendarModal .modal-content").ready(function() {
-                initDatePicker();
-            });
-            // initDatePicker();
         });
 
         $("#applyFilterBtn").click(function() {
             const startDate = $("#modal_start_date").val();
             const endDate = $("#modal_end_date").val();
 
-            console.log("Selected date range:", startDate, "to", endDate);
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
-            $("#calendarModal").modal("hide");
+            $.ajax({
+                type: "POST",
+                url: "{{ route('filter.data') }}",
+                data: {
+                    start_date: startDate,
+                    end_date: endDate,
+                    _token: csrfToken
+                },
+
+                success: function(response) {
+                    $("#calendarModal").modal("hide");
+                    if (response.length > 0) {
+                        $("#table-body").empty();
+
+                        $.each(response, function(index, data) {
+                            var newRow = '<tr>' +
+                                '<td>' + (index + 1) + '</td>' +
+                                '<td>' + data.product_number + '</td>' +
+                                '<td>' + data.assetmain.name + '</td>' +
+                                '<td>' + data.brand.name + '</td>' +
+                                '<td>' + data.brandmodel.name + '</td>' +
+                                '<td>' + data.serial_number + '</td>' +
+                                '<td class="ellipsis">' + data.configuration + '</td>' +
+                                '<td> ₹' + data.price + '</td>' +
+                                '<td><a class="btn btn-primary btn-view" href="{{url("timeline")}}" data-bs-original-title="" title="">View</a></td>' +
+                                '</tr>';
+                            $("#table-body").append(newRow);
+                        });
+                    }
+                },
+                error: function(error) {
+                    console.error(error, xhr, status, );
+
+                }
+            });
         });
-
-        function initDatePicker() {
-            $("#modal_start_date").datepicker({
-                onSelect: function(selectedDate) {
-                    $("#modal_end_date").datepicker("option", "minDate", selectedDate);
-                }
-            });
-
-            $("#modal_end_date").datepicker({
-                onSelect: function(selectedDate) {
-                    $("#modal_start_date").datepicker("option", "maxDate", selectedDate);
-                }
-            });
-
-            $("#modal_calendar").datepicker({
-                onSelect: function(dateText) {
-                    $("#modal_start_date").datepicker("setDate", dateText);
-                    $("#modal_end_date").datepicker("setDate", dateText);
-                }
-            });
-        }
     });
 </script>
 @endsection
-
-
 {{-- @endsection --}}
