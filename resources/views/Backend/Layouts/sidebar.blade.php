@@ -6,7 +6,9 @@ $logoPath = $businessSetting->value;
 $logoPath = 'Backend/assets/images/logo/logo.png'; // Default logo path if not found
 }
 @endphp
-<div class="sidebar-wrapper">
+<div class="sidebar-wrapper" style="
+background-color:#1d0950!important;
+">
     <div>
         <div class="logo-wrapper"><a href="#"><img class="img-fluid for-light" src="{{ asset('storage/' . $logoPath) }}" style="height: auto; width: 100%;" alt=""></a></div>
         <div class="back-btn"><i data-feather="grid"></i></div>

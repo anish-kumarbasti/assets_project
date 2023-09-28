@@ -1,4 +1,17 @@
 <style>
+    .VIpgJd-ZVi9od-ORHb-OEVmcd {
+    left: 0;
+    top: 0;
+    height: 39px;
+    width: 100%;
+    z-index: 10000001;
+    position: fixed;
+    border: none;
+    border-bottom: 1px solid #6B90DA;
+    margin: 0;
+    box-shadow: 0 0 8px 1px #999;
+    display: none!important;
+}
     .goog-te-banner-frame.skiptranslate,
     .goog-te-gadget-icon {
         display: none !important;
@@ -149,6 +162,7 @@
         </div>
         <script src="https://translate.google.com/translate_a/element.js?cb=loadGoogleTranslate"></script>
         <script>
+
             function loadGoogleTranslate() {
                 var translator = new google.translate.TranslateElement({
                     pageLanguage: 'en',
@@ -164,7 +178,7 @@
                 var observer = new MutationObserver(function(mutations) {
                     mutations.forEach(function(mutation) {
                         if (mutation.addedNodes.length > 0) {
-                          
+
                             mutation.addedNodes.forEach(function(node) {
                                 if (node.tagName === 'TABLE') {
                                     node.style.display = 'none';
