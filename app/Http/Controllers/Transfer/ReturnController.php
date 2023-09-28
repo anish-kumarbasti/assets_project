@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Transfer;
 
+use App\Helpers\TimelineHelper;
 use App\Http\Controllers\Controller;
 use App\Models\AssetReturn;
 use App\Models\Issuence;
@@ -49,13 +50,17 @@ class ReturnController extends Controller
             ]);
             $auth = Auth::user();
             $cardIds = $request->input('cardId');
-            AssetReturn::create([
+            $return = AssetReturn::create([
                 'product_id' => json_encode($cardIds),
                 'reason' => $request->description,
                 'return_by_user' => $auth->id,
             ]);
             $status = Status::where('name', 'Returned by User')->first();
             Stock::whereIn('id', $cardIds)->update(['status_available' => $status->id]);
+            foreach ($cardIds as $cardId) {
+                $product = Stock::where('id',$cardId)->first();
+                TimelineHelper::logAction('Asset Returned', $cardId, $product->asset_type_id, $product->asset, null, null, null, null, null, null, null, null, $return->id, $auth->id);
+            }
             $role = Role::where('name', 'Manager')->first();
             $user = User::where('role_id', $role->id)
                 ->where('department_id', $auth->department_id)

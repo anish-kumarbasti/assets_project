@@ -21,29 +21,7 @@
                 <h4>Location</h4>
             </div>
             <div class="col-sm-6"><a href="{{route('location.trash')}}" class="btn btn-danger float-end" style="margin-left: 5px;">Trash</a>
-                <a href="{{ route('location-create') }}" class="btn btn-primary float-end"><i class="fa fa-plus"></i> Create Location</a>                <a class="btn btn-primary text-end m-b-30" id="openModalButton" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i>Import</a>
-            </div>
-        </div>
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content date-picker">
-                    <div class="modal-header border-bottom">
-                        <h4 class="modal-title text-primary" id="exampleModalLabel">Import File :</h4>
-                        <button type="button" class="close ml-auto rounded float-right" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <form action="" method="post">
-                        @csrf
-                        <div class="form-group">
-                            <label for="excelFile">Choose Excel File</label>
-                            <input type="file" class="form-control" id="excelFile" name="excelFile" required>
-                        </div>
-                        <div class="footer-item">
-                        <button type="submit" class="btn btn-primary float-right">Import</button>
-                        </div>
-                    </form>
-                </div>
+                <a href="{{ route('location-create') }}" class="btn btn-primary float-end"><i class="fa fa-plus"></i> Create Location</a>
             </div>
         </div>
     </div>

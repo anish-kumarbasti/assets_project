@@ -197,7 +197,10 @@
                                 <td>{{$allocateds->serial_number??''}}</td>--}}
                                 <td> ₹{{$allocateds->price??''}}</td>
                                 <td>
-                                    <a class="btn btn-primary btn-view" href="{{url('timeline')}}" data-bs-original-title="" title="">View</a>
+                                    <form action="{{url('timeline',$allocateds->id)}}" method="post">
+                                        @csrf
+                                        <button class="btn btn-primary btn-view" type="submit" data-bs-original-title="" title="">View</button>
+                                    </form>
                                 </td>
                             </tr>
                             @endforeach

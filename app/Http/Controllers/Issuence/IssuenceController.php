@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Issuence;
 
+use App\Helpers\TimelineHelper;
 use App\Http\Controllers\Controller;
 use App\Models\AssetRejection;
 use App\Models\AssetType;
@@ -39,8 +40,10 @@ class IssuenceController extends Controller
         if ($request->ajax()) {
             $statusinstock = Status::where('name', 'Pending')->first();
             $statuspending = Status::where('name', 'Instock')->first();
+            // dd($request);
             $response = Stock::with('brand', 'brandmodel', 'asset_type')
-                ->where('serial_number',$request->serialNumber)
+                ->where('serial_number', $request->serialNumber)
+                ->orWhere('product_number', $request->serialNumber)
                 ->where(function ($query) use ($statusinstock, $statuspending) {
                     $query->where('status_available', $statuspending->id)
                         ->orWhere('status_available', $statusinstock->id);
@@ -60,6 +63,7 @@ class IssuenceController extends Controller
 
     public function store(Request $request)
     {
+        DB::beginTransaction(); // Start a database transaction
         try {
             $request->validate([
                 'employeeId' => 'required',
@@ -69,16 +73,18 @@ class IssuenceController extends Controller
                 'location_id' => 'required',
                 'sublocation_id' => 'required',
             ]);
+            $stock = Stock::where('id',$request->cardId)->first();
+            // dd($stock->asset_type_id);
             $user = User::where('employee_id', $request->employeeId)->first();
             if (!$user) {
                 return back()->with('error', 'User not found.');
             }
             $managerUser = User::where('role_id', 3)->where('department_id', $user->department_id)->first();
             $dateTime = Carbon::createFromFormat('Y-m-d H:i', $request->date . ' ' . $request->time);
-            $issuence = Issuence::create([
+            $issuance = Issuence::create([
                 'employee_id' => $request->employeeId,
-                'asset_type_id' => $request->asset_type,
-                'asset_id' => $request->asset,
+                'asset_type_id' => $stock->asset_type_id,
+                'asset_id' => $stock->asset,
                 'product_id' => json_encode($request->cardId),
                 'description' => $request->description,
                 'issuing_time_date' => $dateTime,
@@ -87,6 +93,12 @@ class IssuenceController extends Controller
                 'sub_location_id' => $request->sublocation_id,
                 'employee_manager_id' => $managerUser ? $managerUser->id : null,
             ]);
+            $productId = $request->cardId;
+            foreach($productId as $product){
+            TimelineHelper::logAction('Product Issued', $product, $stock->asset_type_id, $stock->asset, $issuance->id, $user->id);
+            }
+            DB::commit(); // Commit the transaction
+
             $assetcontroller = Role::where('name', 'Asset Controller')->first();
             $assetmanager = User::where('role_id', $assetcontroller->id)
                 ->where('department_id', $user->department_id)
@@ -109,7 +121,7 @@ class IssuenceController extends Controller
                 'email' => $request->email,
                 'product_name' => $stock->product_info . ' ' . $stock->assetmain->name,
                 'product_serial' => $stock->serial_number,
-                'product_time' => $dateTime,
+                'product_time' => $issuance->created_at,
             ];
             $users['to'] = $user->email;
             Mail::send('Backend.Auth.mail.issuance_mail', $data, function ($message) use ($users) {
@@ -119,8 +131,10 @@ class IssuenceController extends Controller
             });
             return back()->with('success', 'Asset Issued!');
         } catch (QueryException $e) {
+            DB::rollback(); // Rollback the transaction in case of an error
             return back()->with('error', 'Database error: ' . $e->getMessage());
         } catch (\Exception $e) {
+            DB::rollback(); // Rollback the transaction in case of an error
             return back()->with('error', 'An error occurred: ' . $e->getMessage());
         }
     }
