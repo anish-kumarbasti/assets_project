@@ -21,6 +21,15 @@
           <h4>TimeLine</h4>
         </div>
         <div class="card-body">
+          @if ($product->isEmpty())
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="h3 text-center">
+                  There is no Timeline for this Product.
+                </div>
+              </div>
+            </div>
+          @else
           <section class="cd-container" id="cd-timeline">
             @foreach ($product as $data)
             <div class="cd-timeline-block">
@@ -80,7 +89,8 @@
             </div>
             @endforeach
           </section>
-          <a href="" class="btn btn-primary text-white" style="text-align:center;width:20%;transform:translate(450px,10px);border-radius:20px;">Download</a>
+          @endif
+          {{-- <a href="{{url('gettimelinePDF',$data->id)}}" class="btn btn-primary text-white" style="text-align:center;width:20%;transform:translate(450px,10px);border-radius:20px;">Download</a> --}}
         </div>
       </div>
     </div>
