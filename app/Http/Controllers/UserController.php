@@ -121,6 +121,7 @@ class UserController extends Controller
             'mobile_number' => $request->mobile_number,
             'role_id' => $request->role,
             'gender' => $request->gender,
+            'age' => $request->age,
             'location_id' => $request->location_id,
             'sub_location_id' => $request->sub_location_id
 
@@ -249,8 +250,8 @@ class UserController extends Controller
         $user = User::find($id);
         $issueproduct = Issuence::where('employee_id', $user->employee_id)->count();
         $transfer = Transfer::where('employee_id', $user->employee_id)->count();
-        // $return = AssetReturn::where('return_by_user	', $user->id)->count();
-        return view('Backend.Page.User.user-profile', compact('user', 'issueproduct', 'transfer'));
+        $returns = AssetReturn::where('return_by_user', $user->id)->count();
+        return view('Backend.Page.User.user-profile', compact('user', 'issueproduct', 'transfer', 'returns'));
     }
     public function usersprofile()
     {
