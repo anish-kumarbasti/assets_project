@@ -31,6 +31,7 @@ use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\SendEmailController;
 use App\Http\Controllers\Master\TransferReasonController;
 use App\Http\Controllers\StatusController;
+use App\Http\Controllers\Transfer\ReturnController;
 
 /*
 
@@ -144,6 +145,10 @@ Route::group(['middleware' => 'auth'], function () {
     // Route::get('/get-issuance-data', 'IssuanceController@getIssuanceData');
     Route::get('add-user', [UserController::class, 'user']);
     Route::get('user-details', [UserController::class, 'userCard']);
+
+    //Asset Return 
+    Route::get('/return', [ReturnController::class, 'index'])->name('return');
+    Route::post('/asset-return', [ReturnController::class, 'submit'])->name('submit');
     //Assets
     Route::get('non-it-assets-timeline', [AssetController::class, 'views'])->name('non-it-assets-timeline');
     Route::get('assets-component-timeline/{id}', [AssetController::class, 'compotimeline'])->name('assets-component-timeline');

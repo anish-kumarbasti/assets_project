@@ -4,12 +4,12 @@
 @section('Content-Area')
 @section('Content-Area')
     @if (Session::has('success'))
-        <div class="alert alert-success">
+        <div id="alerts" class="alert alert-success">
             {{ Session::get('success') }}
         </div>
     @endif
     @if (Session::has('danger'))
-        <div class="alert alert-danger">
+        <div id="alerts" class="alert alert-danger">
             {{ Session::get('danger') }}
         </div>
     @endif
@@ -146,6 +146,15 @@
     </div>
 @endsection
 @section('Script-Area')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function (){
+        var alert = $('#alerts');
+        setTimeout(function(){
+            alert.alert('close');
+        },3000);
+    });
+</script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Get references to the select box and permissions card

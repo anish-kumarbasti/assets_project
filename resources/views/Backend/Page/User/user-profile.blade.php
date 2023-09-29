@@ -51,15 +51,15 @@
                   <div class="card-footer row">
                      <div class="col-4 col-sm-4">
                         <p class="text-it">Issue</p>
-                        <h3 class="counter">{{$issueproduct}}</h3>
+                        <h3 class="counter">{{$issueproduct??''}}</h3>
                      </div>
                      <div class="col-4 col-sm-4">
                         <p class="text-it">Transfer</p>
-                        <h3><span class="counter">{{$transfer}}</span></h3>
+                        <h3><span class="counter">{{$transfer??''}}</span></h3>
                      </div>
                      <div class="col-4 col-sm-4">
                         <p class="text-it">Return</p>
-                        <h3><span class="counter">0</span></h3>
+                        <h3><span class="counter">{{$returns??''}}</span></h3>
                      </div>
                   </div>
                </div>
@@ -80,6 +80,14 @@
                            <div class="card-body">
                               <h3 class="text-center first-heading">0</h3>
                               <h6 class="text-center">Non IT Assets</h6>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-3">
+                        <div class="card card-item">
+                           <div class="card-body">
+                              <h3 class="text-center first-heading">0</h3>
+                              <h6 class="text-center">Asset Component</h6>
                            </div>
                         </div>
                      </div>
