@@ -45,8 +45,8 @@
                         </td>
                         <td>
                             <div class="btn-group">
-                                <a class="btn btn-primary" href="{{ url('/departments/' . $department->id . '/edit') }}">Edit</a>&nbsp;
-                                <button type="button" data-id="{{$department->id}}" class="btn btn-danger delete-button">Trash</button>
+                                <a class="btn btn-primary" href="{{ url('/departments/' . $department->id . '/edit') }}"><i class="fa fa-pencil"></i>Edit</a>&nbsp;
+                                <button type="button" data-id="{{$department->id}}" class="btn btn-danger delete-button"><i class="fa fa-trash-o"></i>Trash</button>
                             </div>
                         </td>
                     </tr>

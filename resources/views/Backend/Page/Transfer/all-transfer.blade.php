@@ -25,7 +25,7 @@
                             @foreach ($transfers as $transfer)
                             <tr>
                                 <td>{{$loop->iteration}}</td>
-                                <td>{{ $transfer->id }}</td>
+                                <td>{{ $transfer->employee_id??'' }}</td>
                                 <td>{{ $transfer->user->first_name??''}}</td>
                                 <td>{{ $transfer->handoverEmployee->employee_id??''}}</td>
                                 <td>{{ $transfer->reason->reason??''}}</td>

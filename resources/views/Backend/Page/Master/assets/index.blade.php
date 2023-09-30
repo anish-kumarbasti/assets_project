@@ -44,10 +44,10 @@
                             </td>
                             <td>
                                 @can('edit_asset')
-                                <a href="{{ route('assets.edit', $asset->id) }}" class="btn btn-primary">Edit</a>
+                                <a href="{{ route('assets.edit', $asset->id) }}" class="btn btn-primary"><i class="fa fa-pencil"></i>Edit</a>
                                 @endcan
                                 @can('delete_asset')
-                                <button class="btn btn-danger delete-button" type="button" data-id="{{ $asset->id }}">Trash</button>
+                                <button class="btn btn-danger delete-button" type="button" data-id="{{ $asset->id }}"><i class="fa fa-trash-o"></i>Trash</button>
                                 @endcan
 
                             </td>

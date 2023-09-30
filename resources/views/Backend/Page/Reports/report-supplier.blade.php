@@ -39,7 +39,7 @@
                         <tbody>
                             @foreach ($supplier as $suppliers)
                             <tr class="copy-content">
-                                <td><img src="" alt="picture"></td>
+                                <td><img src="{{ $suppliers->image_url ? $suppliers->image_url : '/Backend/assets/images/It-Assets/default-image.jpg' }}" alt="picture" width="50"></td>
                                 <td>{{$suppliers->product_number??''}}</td>
                                 <td>{{$suppliers->host_name??''}} </td>
                                 <td>{{$suppliers->getsupplier->name??''}} </td>

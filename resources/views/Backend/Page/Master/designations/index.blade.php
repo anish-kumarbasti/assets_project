@@ -3,7 +3,7 @@
 @if (session('message'))
 <div id="alert-message" class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
     <p>{{session('message')}}</p>
-<button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close" style="font-size: 16px;transform:translateY(10px);height:10px;width:10px;" title="Close"></button>
+    <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close" style="font-size: 16px;transform:translateY(10px);height:10px;width:10px;" title="Close"></button>
 </div>
 @endif
 <div class="col-sm-12">
@@ -45,10 +45,10 @@
                             </td>
                             <td>
                                 @can('edit_designation')
-                                <a href="{{ route('designations.edit', $designation->id) }}" class="btn btn-primary">Edit</a>
+                                <a href="{{ route('designations.edit', $designation->id) }}" class="btn btn-primary"><i class="fa fa-pencil"></i>Edit</a>
                                 @endcan
                                 @can('delete_designation')
-                                <button class="btn btn-danger delete-button" type="button" data-id="{{ $designation->id }}">Trash</button>
+                                <button class="btn btn-danger delete-button" type="button" data-id="{{ $designation->id }}"><i class="fa fa-trash-o"></i>Trash</button>
                                 @endcan
                             </td>
                         </tr>

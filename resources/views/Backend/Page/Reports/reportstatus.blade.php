@@ -40,7 +40,7 @@
                         <tbody>
                             @foreach ($report as $reports)
                             <tr class="copy-content">
-                                <td><img src="" alt="status"></td>
+                                <td><img src="{{ $reports->image_url ? $reports->image_url : '/Backend/assets/images/It-Assets/default-image.jpg' }}" alt="status" width="50"></td>
                                 <td>{{$reports->product_number}}</td>
                                 <td>{{$reports->host_name}}</td>
                                 <td>{{$reports->status}}</td>

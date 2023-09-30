@@ -42,8 +42,8 @@
                         </label>
                      </td>
                      <td>
-                        <a href="{{ route('assets-type-edit', $asset->id) }}" class="btn btn-primary" data-bs-original-title="" title="">Edit</a>
-                        <button class="btn btn-danger delete-button" type="button" data-id="{{ $asset->id }}">Trash</button>
+                        <a href="{{ route('assets-type-edit', $asset->id) }}" class="btn btn-primary" data-bs-original-title="" title=""><i class="fa fa-pencil"></i>Edit</a>
+                        <button class="btn btn-danger delete-button" type="button" data-id="{{ $asset->id }}"><i class="fa fa-trash-o"></i>Trash</button>
                      </td>
                   </tr>
                   @endforeach

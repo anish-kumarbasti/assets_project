@@ -69,27 +69,16 @@
             </div>
             <!-- </div> -->
             <!-- <div class="card-body"> -->
-            <div class="row d-flex justify-content-center stock-item mb-3">
+            <div class="row d-flex justify-content-center">
                 <!-- Add the tab navigation links -->
-                <div class="col-md-12 d-flex justify-content-center flex-nowrap">
-                    <div class="col-md-2 border-right">
-                        <a class="nav-link active status-tab" href="#danger-instock" aria-selected="true" data-toggle="tab" data-status="in-stock">In Stock</a>
-                    </div>
-                    <div class="col-md-2 border-right">
-                        <a class="nav-link status-tab" href="#danger-allocated" aria-selected="true" data-toggle="tab" data-status="allocated">Allocated</a>
-                    </div>
-                    <div class="col-md-2 border-right">
-                        <a class="nav-link status-tab" href="#danger-underrepair" aria-selected="true" data-toggle="tab" data-status="underrepair">Under Repair</a>
-                    </div>
-                    <div class="col-md-2 border-right">
-                        <a class="nav-link status-tab" href="#danger-stolen" aria-selected="true" data-toggle="tab" data-status="stolen">Stolen
-                    </div>
-                    <div class="col-md-2 border-right">
-                        <a class="nav-link status-tab sc" href="#danger-scrapped" aria-selected="true" data-toggle="tab" data-status="scrapped">Scrapped</a>
-                    </div>
-                    <div class="col-md-2">
-                        <a class="nav-link status-tab" href="#danger-lost" aria-selected="true" data-toggle="tab" data-status="scrapped">Transfer</a>
-                    </div>
+                <div class="btn btn-group">
+                    <a class="nav-link active status-tab btn btn-primary" href="#danger-instock" aria-selected="true" data-toggle="tab" data-status="in-stock">In Stock</a>
+                    <a class="nav-link status-tab btn btn-secondary" href="#danger-allocated" aria-selected="true" data-toggle="tab" data-status="allocated">Allocated</a>
+                    <a class="nav-link status-tab btn btn-success" href="#danger-underrepair" aria-selected="true" data-toggle="tab" data-status="underrepair">Under Repair</a>
+                    <a class="nav-link status-tab btn btn-info" href="#danger-stolen" aria-selected="true" data-toggle="tab" data-status="stolen">Stolen</a>
+                    <a class="nav-link status-tab btn btn-danger" href="#danger-scrapped" aria-selected="true" data-toggle="tab" data-status="scrapped">Scrapped</a>
+                    <a class="nav-link status-tab btn btn-warning" href="#danger-lost" aria-selected="true" data-toggle="tab" data-status="scrapped">Transfer</a>
+
                 </div>
             </div>
             <!-- </div> -->
@@ -99,7 +88,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">Select Date Range</h5>
-                            <button type="button" class="close rounded" data-dismiss="modal" aria-label="Close">
+                            <button type="button" class="close rounded mbtn" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -115,7 +104,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary mbtn" data-dismiss="modal">Close</button>
                             <button type="button" class="btn btn-primary" id="applyFilterBtn">Apply Filter</button>
                         </div>
                     </div>
@@ -394,7 +383,11 @@
         });
     });
 </script>
-
+<script>
+    ('.mbtn').on('click', function() {
+        ('.modal').alert();
+    })
+</script>
 <script>
     $(document).ready(function() {
         $("#openModalBtn").click(function() {

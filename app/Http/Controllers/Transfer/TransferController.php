@@ -123,6 +123,7 @@ class TransferController extends Controller
     public function showAll()
     {
         $transfers = Transfer::with('user')->get();
+        
         // $transfers = Transfer::all();
         return view('Backend.Page.Transfer.all-transfer', compact('transfers'));
     }
