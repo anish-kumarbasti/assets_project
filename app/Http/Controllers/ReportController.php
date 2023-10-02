@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Asset;
 use App\Models\Stock;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
+use App\Models\Timeline;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class ReportController extends Controller
@@ -76,6 +75,22 @@ class ReportController extends Controller
         $supplier = Stock::all();
         $suppliers = Pdf::loadView('Backend.Page.Reports.Pdf.supplier', compact('supplier'));
         return $suppliers->download('reports-supplier.pdf');
+    }
+    public function pdftimeline($id)
+    {
+        $timeline = Timeline::find($id);
+        if (!$timeline) {
+            abort(404); 
+        }
+        $data = [
+            'timeline' => $timeline,
+        ];
+        $html = view('Backend.Page.Reports.pdf.gettimeline', $data)->render();
+        $pdf = PDF::loadHTML($html);
+        $image = $pdf->output();
+        $imagePath = public_path('images/timeline-' . $id . '.jpg');
+        file_put_contents($imagePath, $image);
+        return response()->download($imagePath, 'timeline-' . $id . '.jpg')->deleteFileAfterSend(true);
     }
     public function pdftype()
     {
