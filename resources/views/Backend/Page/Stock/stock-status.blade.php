@@ -51,40 +51,45 @@
     </style>
 @endsection
 @section('Content-Area')
-    <div class="col-sm-12">
-        <div class="card">
-            <div class="card-header pb-0">
-                <!-- <div class="card"> -->
-                <!-- <div class="card-head"> -->
-                <div class="row">
-                    <div class="col-md-6 p-4">
-                        <b class="p-4 fs-5">IT ASSET</b>
-                    </div>
-                    <div class="col-md-6 text-end p-4">
-                        <button class="btn btn-primary qr_btn"><img
-                                src="{{ asset('Backend/assets/images/It-Assets/Vector1.svg') }}" alt='...'></button>
-                        <button class="btn btn-primary qr_btn" id="openModalBtn"><img
-                                src="{{ asset('Backend/assets/images/It-Assets/veckor2.svg') }}" alt='...'></button>
-                        <button class="btn btn-primary qr_btn"><img
-                                src="{{ asset('Backend/assets/images/It-Assets/Vector3.svg') }}" alt='...'></button>
-                    </div>
+<div class="col-sm-12">
+    <div class="card">
+        <div class="card-header pb-0">
+            <!-- <div class="card"> -->
+            <!-- <div class="card-head"> -->
+            <div class="row">
+                <div class="col-md-6 p-4">
+                    <b class="p-4 fs-5">IT ASSET</b>
                 </div>
-                <!-- </div> -->
-                <!-- <div class="card-body"> -->
-                <div class="row d-flex justify-content-center stock-item mb-3">
-                    <!-- Add the tab navigation links -->
-                    <div class="col-md-12 d-flex justify-content-center flex-nowrap">
-                        <div class="col-md-2 border-right">
-                            <a class="nav-link active status-tab" href="#danger-instock" aria-selected="true"
-                                data-toggle="tab" data-status="in-stock">In Stock</a>
-                        </div>
-                        <div class="col-md-2 border-right">
-                            <a class="nav-link status-tab" href="#danger-allocated" aria-selected="true" data-toggle="tab"
-                                data-status="allocated">Allocated</a>
-                        </div>
-                        <div class="col-md-2 border-right">
-                            <a class="nav-link status-tab" href="#danger-underrepair" aria-selected="true" data-toggle="tab"
-                                data-status="underrepair">Under Repair</a>
+                <div class="col-md-6 text-end p-4">
+                    <button class="btn btn-primary qr_btn"><img src="{{ asset('Backend/assets/images/It-Assets/Vector1.svg') }}" alt='...'></button>
+                    <button class="btn btn-primary qr_btn" id="openModalBtn"><img src="{{ asset('Backend/assets/images/It-Assets/veckor2.svg') }}" alt='...'></button>
+                    <button class="btn btn-primary qr_btn"><img src="{{ asset('Backend/assets/images/It-Assets/Vector3.svg') }}" alt='...'></button>
+                </div>
+            </div>
+            <!-- </div> -->
+            <!-- <div class="card-body"> -->
+            <div class="row d-flex justify-content-center">
+                <!-- Add the tab navigation links -->
+                <div class="btn btn-group">
+                    <a class="nav-link active status-tab btn btn-primary" href="#danger-instock" aria-selected="true" data-toggle="tab" data-status="in-stock">In Stock</a>
+                    <a class="nav-link status-tab btn btn-secondary" href="#danger-allocated" aria-selected="true" data-toggle="tab" data-status="allocated">Allocated</a>
+                    <a class="nav-link status-tab btn btn-success" href="#danger-underrepair" aria-selected="true" data-toggle="tab" data-status="underrepair">Under Repair</a>
+                    <a class="nav-link status-tab btn btn-info" href="#danger-stolen" aria-selected="true" data-toggle="tab" data-status="stolen">Stolen</a>
+                    <a class="nav-link status-tab btn btn-danger" href="#danger-scrapped" aria-selected="true" data-toggle="tab" data-status="scrapped">Scrapped</a>
+                    <a class="nav-link status-tab btn btn-warning" href="#danger-lost" aria-selected="true" data-toggle="tab" data-status="scrapped">Transfer</a>
+
+                </div>
+            </div>
+            <!-- </div> -->
+            <!-- </div> -->
+            <div class="modal" id="calendarModal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Select Date Range</h5>
+                            <button type="button" class="close rounded mbtn" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
                         <div class="col-md-2 border-right">
                             <a class="nav-link status-tab" href="#danger-stolen" aria-selected="true" data-toggle="tab"
@@ -127,6 +132,10 @@
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                 <button type="button" class="btn btn-primary" id="applyFilterBtn">Apply Filter</button>
                             </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary mbtn" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" id="applyFilterBtn">Apply Filter</button>
                         </div>
                     </div>
                 </div>
@@ -420,13 +429,18 @@
                 var targetTab = $(this).attr('href');
             });
         });
-    </script>
-
-    <script>
-        $(document).ready(function() {
-            $("#openModalBtn").click(function() {
-                $("#calendarModal").modal("show");
-            });
+    });
+</script>
+<script>
+    ('.mbtn').on('click', function() {
+        ('.modal').alert();
+    })
+</script>
+<script>
+    $(document).ready(function() {
+        $("#openModalBtn").click(function() {
+            $("#calendarModal").modal("show");
+        });
 
             $("#applyFilterBtn").click(function() {
                 const startDate = $("#modal_start_date").val();

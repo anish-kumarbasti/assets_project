@@ -6,7 +6,7 @@
 @section('Content-Area')
 @if (session('message'))
 <div id="alerts" class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
-    <p><b> Well done! </b>{{session('message')}}</p>
+    <p>{{session('message')}}</p>
     <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 @endif
@@ -31,7 +31,7 @@
                     </div>
                 </div>
                 <div class="footer-item">
-                    <button class="btn btn-primary mt-3" type="submit" data-bs-original-title="" title="">ADD</button>
+                    <button class="btn btn-primary" type="submit" data-bs-original-title="" title="">ADD</button>
                     <a href="{{ route('departments-index') }}" class="btn btn-warning">Back</a>
                 </div>
             </form>

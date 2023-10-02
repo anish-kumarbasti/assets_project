@@ -28,7 +28,7 @@
 <div class="col-sm-12">
    <div class="card">
       <div class="card-header pb-0">
-         <h4>IT Assets</h4>
+         <h4>All Stocks</h4>
          <hr>
       </div>
       <div class="card">
@@ -38,6 +38,7 @@
                   <thead>
                      <tr class="text-center">
                         <th>SL</th>
+                        <th>Image</th>
                         <th>Product</th>
                         <th>Asset Type</th>
                         <th>Asset</th>
@@ -47,7 +48,6 @@
                         <th>Serial Number</th>
                         <th>Supplier</th>
                         <th>Price</th>
-                        <th>Image</th>
                         <th>Active/Inactive</th>
                         <th>Status</th>
                         <th>Action</th>
@@ -57,6 +57,9 @@
                      @foreach ($stock as $stock)
                      <tr>
                         <td>{{$loop->iteration}}</td>
+                        <td>
+                           <img src="{{ $stock->image_url ? $stock->image_url : '/Backend/assets/images/It-Assets/default-image.jpg'}}" alt="Stock Image" width="50">
+                        </td>
                         <td>{{$stock->product_info}}</td>
                         <td>{{$stock->asset_type->name??''}}</td>
                         {{-- @dd($stock->assetmain); --}}
@@ -67,10 +70,6 @@
                         <td>{{$stock->serial_number}} </td>
                         <td>{{$stock->getsupplier->name??''}} </td>
                         <td>{{$stock->price??''}} </td>
-                        <td>
-                           <img src="{{ asset('images/' . $stock->image) }}" alt="Stock Image">
-                        </td>
-
                         <td class="w-20">
                            <label class="mb-0 switch">
                               <input type="checkbox" data-id="{{$stock->id}}" {{ $stock->status ? 'checked' : '' }}><span class="switch-state"></span>
@@ -79,8 +78,8 @@
                         <td> <span class=" custom-btn {{$stock->statuses->status ??''}}">{{$stock->statuses->name??''}}</span></td>
                         <td>
                            <div class="button-group d-flex justify-content-between align-items-center">
-                              <a class="btn btn-primary" href="{{ url('/edit-stock/' . $stock->id) }}">Edit</a>&nbsp;
-                              <button class="btn btn-danger delete-button" data-id="{{ $stock->id }}" type="button">Delete</button>
+                              <a style="display: flex;" class="btn btn-primary" href="{{ url('/edit-stock/' . $stock->id) }}"><i class="fa fa-pencil"></i> Edit</a>&nbsp;
+                              <button style="display: flex;" class="btn btn-danger delete-button" data-id="{{ $stock->id }}" type="button"><i class="fa fa-trash-o"></i> Delete</button>
                            </div>
                         </td>
                      </tr>

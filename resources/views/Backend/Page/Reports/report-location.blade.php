@@ -40,7 +40,7 @@
                         <tbody>
                             @foreach ($location as $locations)
                             <tr class="copy-content">
-                                <td><img src="" style="width: 25%;" alt="location"></td>
+                                <td><img src="{{ $locations->image_url ? $locations->image_url : '/Backend/assets/images/It-Assets/default-image.jpg' }}" alt="location" width="50"></td>
                                 <td>{{$locations->product_number}}</td>
                                 <td>{{$locations->host_name}}</td>
                                 <td>{{$locations->supplier}}</td>

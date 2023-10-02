@@ -23,7 +23,6 @@
             <div class="btn btn-group">
                 <button class="btn btn-primary" id="copy-button"><i class="far fa-copy"></i> Copy</button>
                 <button class="btn btn-secondary" id="csvButton"><i class="fas fa-file-csv"></i> CSV</button>
-
                 <a href="{{url('/getPDF')}}" class="btn btn-success" id="pdfButton"><i class="fas fa-file-pdf"></i> PDF</a>
                 <a href="{{url('/getPrint')}}" class="btn btn-info"><i class="fas fa-print"></i> Print</a>
 

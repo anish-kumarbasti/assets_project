@@ -62,7 +62,7 @@
                 @csrf
                 <input type="file" class="form-label" placeholder="Select CSV file" name="file">
                 <button type="submit" class="btn btn-primary text-end">Import</button>
-             </form>
+            </form>
             <div class="table-responsive theme-scrollbar">
                 <table class="display" id="basic-1">
                     <thead>
@@ -94,8 +94,8 @@
                             </td>
                             {{-- @dd($brandmodel->id); --}}
                             <td>
-                                <a class="btn btn-primary" href="{{ url('brand-model/' . $brandmodel->id . '/edit' ) }}">Edit</a>
-                                <button class="btn btn-danger delete-button" type="button" data-id="{{ $brandmodel->id }}">Trash</button>
+                                <a class="btn btn-primary" href="{{ url('brand-model/' . $brandmodel->id . '/edit' ) }}"><i class="fa fa-pencil"></i> Edit</a>
+                                <button class="btn btn-danger delete-button" type="button" data-id="{{ $brandmodel->id }}"><i class="fa fa-trash-o"></i> Trash</button>
 
                             </td>
                         </tr>
