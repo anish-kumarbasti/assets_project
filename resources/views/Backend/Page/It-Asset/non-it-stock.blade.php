@@ -78,7 +78,10 @@
                      <td> <span class="custom-btn {{$nonit->statuses->status}}">{{$nonit->statuses->name??''}}</span></td>
                      <td>{{$nonit->price??''}}</td>
                      <td>
-                        <a href="{{url('non-it-assets-timeline')}}" class="btn btn-primary btn-view" type="submit" data-bs-original-title="" title="">View</a>
+                        <form action="{{url('timeline',$nonit->id)}}" method="post">
+                           @csrf
+                           <button class="btn btn-primary btn-view" type="submit" data-bs-original-title="" title="">View</button>
+                        </form>
                      </td>
                   </tr>
                   @endforeach

@@ -89,7 +89,10 @@
                             <td> <span class="custom-btn {{$component->statuses->status}}">{{$component->statuses->name??''}}</span></td>
                             <td>{{$component->price??''}}</td>
                             <td>
-                                <a href="{{url('assets-component-timeline',$component->id)}}" class="btn btn-primary btn-view" type="submit" data-bs-original-title="" title="">View</a>
+                                <form action="{{url('timeline',$component->id)}}" method="post">
+                                    @csrf
+                                    <button class="btn btn-primary btn-view" type="submit" data-bs-original-title="" title="">View</button>
+                                </form>
                             </td>
                         </tr>
                         @endforeach

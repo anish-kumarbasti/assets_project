@@ -54,7 +54,10 @@
                             <td>15 </td>
                             <td>{{$software->price??''}}</td>
                             <td>
-                                <a href="{{url('assets-software-timeline')}}" class="btn btn-primary" type="submit" data-bs-original-title="" title="">View</a>
+                                <form action="{{url('timeline',$software->id)}}" method="post">
+                                    @csrf
+                                    <button class="btn btn-primary btn-view" type="submit" data-bs-original-title="" title="">View</button>
+                                </form>
                             </td>
                         </tr>
                         @endforeach
