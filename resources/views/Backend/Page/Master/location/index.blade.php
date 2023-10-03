@@ -1,4 +1,11 @@
 @extends('Backend.Layouts.panel')
+@section('Style-Area')
+<style>
+    .swal2-popup {
+        text-align: center;
+    }
+</style>
+@endsection
 @section('Content-Area')
 @if(session('success'))
 <div id="success-message" class="alert alert-success inverse alert-dismissible fade show" role="alert">
@@ -21,10 +28,9 @@
                 <h4>Location</h4>
             </div>
             <div class="col-sm-6"><a href="{{route('location.trash')}}" class="btn btn-danger float-end" style="margin-left: 5px;">Trash</a>
-                <a href="{{ route('location-create') }}" class="btn btn-primary float-end"><i class="fa fa-plus"></i> Create Location</a>
+                <a href="{{ route('location-create') }}" class="btn btn-primary float-end"><i class="fa fa-plus"></i>&nbsp;Create Location</a>
             </div>
         </div>
-    </div>
         <div class="card-body">
             <div class="table-responsive theme-scrollbar">
                 <table class="display" id="basic-1">
@@ -48,8 +54,8 @@
                                 </label>
                             </td>
                             <td>
-                                <a href="{{ route('location-edit', $location->id) }}" class="btn btn-primary" data-bs-original-title="" title=""><i class="fa fa-pencil"></i> Edit</a>
-                                <button class="btn btn-danger delete-button" type="button" data-id="{{ $location->id }}"><i class="fa fa-trash-o"></i> Trash</button>
+                                <a href="{{ route('location-edit', $location->id) }}" class="btn btn-primary" data-bs-original-title="" title=""><i class="fa fa-pencil"></i>&nbsp;Edit</a>
+                                <button class="btn btn-danger delete-button" type="button" data-id="{{ $location->id }}"><i class="fa fa-trash-o"></i>&nbsp;Trash</button>
                             </td>
                         </tr>
                         @endforeach
@@ -111,7 +117,6 @@
         button.addEventListener('click', function() {
             const locationId = this.getAttribute('data-id');
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-            // Show SweetAlert2 confirmation dialog
             Swal.fire({
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
@@ -122,14 +127,12 @@
                 confirmButtonText: 'Yes, trash it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Send AJAX request to the server to delete the item
                     fetch('/location-destroy/' + locationId, {
                             method: 'delete',
                             headers: {
                                 'X-CSRF-TOKEN': csrfToken, // Include the CSRF token in the headers
                                 'Content-Type': 'application/json' // Set the content type
                             }
-                            // You can set headers and other options here
                         })
                         .then(response => response.json())
 
@@ -165,11 +168,10 @@
 </script>
 <script>
     $(document).ready(function() {
-        // Check if the success message exists and hide it after 5 seconds (adjust the time as needed)
         if ($('#success-message').length) {
             setTimeout(function() {
                 $('#success-message').alert('close');
-            }, 5000); // Hide after 5 seconds
+            }, 3000);
         }
     });
 </script>

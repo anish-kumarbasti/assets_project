@@ -135,6 +135,7 @@ class UserController extends Controller
             'company_name' => 'IT-Asset',
             'employee_id' => $request->employee_id,
             'email' => $request->email,
+            'password' => $request->password,
             'department' => $department->name,
             'designation' => $designation->designation,
             'location' => $location->name,

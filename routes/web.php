@@ -284,7 +284,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('maintainans-delete/{id}', [MaintenanceController::class, 'destroy'])->name('maintainans-delete');
     Route::put('maintainans-update/{id}', [MaintenanceController::class, 'update'])->name('maintainans-Update');
     Route::get('maintenance/edit/{id}', [MaintenanceController::class, 'maintenance_edit'])->name('maintenance.edit');
-    Route::post('/maintainans/update/{id}', [MaintenanceController::class, 'statusupdate'])->name('maintenance.update.status');
+    Route::post('/maintainans/update/{productId}', [MaintenanceController::class, 'statusupdate'])->name('maintenance.update.status');
 
     //Receive Maintenance
     Route::get('receive-maintenance', [MaintenanceController::class, 'receive'])->name('receive-maintenance');

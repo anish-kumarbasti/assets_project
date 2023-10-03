@@ -1,6 +1,11 @@
 @extends('Backend.Layouts.panel')
 
 @section('Style-Area')
+<style>
+   .swal2-popup {
+      text-align: center;
+   }
+</style>
 @endsection
 
 @section('Content-Area')
@@ -16,7 +21,7 @@
          <div class="float-left col-sm-6">
             <h4>Asset Types</h4>
          </div>
-         <div class="col-sm-6"><a href="{{route('trash.asset_type')}}" class="btn btn-danger float-end" style="margin-left: 5px;">Trash</a><a href="{{route('assets-type-create')}}" class="btn btn-primary float-end"><i class="fa fa-plus"></i>Create Asset Type</a>
+         <div class="col-sm-6"><a href="{{route('trash.asset_type')}}" class="btn btn-danger float-end" style="margin-left: 5px;">Trash</a><a href="{{route('assets-type-create')}}" class="btn btn-primary float-end"><i class="fa fa-plus"></i>&nbsp;Create Asset Type</a>
          </div>
       </div>
       <div class="card-body">
@@ -42,8 +47,8 @@
                         </label>
                      </td>
                      <td>
-                        <a href="{{ route('assets-type-edit', $asset->id) }}" class="btn btn-primary" data-bs-original-title="" title=""><i class="fa fa-pencil"></i>Edit</a>
-                        <button class="btn btn-danger delete-button" type="button" data-id="{{ $asset->id }}"><i class="fa fa-trash-o"></i>Trash</button>
+                        <a href="{{ route('assets-type-edit', $asset->id) }}" class="btn btn-primary" data-bs-original-title="" title=""><i class="fa fa-pencil"></i>&nbsp;Edit</a>
+                        <button class="btn btn-danger delete-button" type="button" data-id="{{ $asset->id }}"><i class="fa fa-trash-o"></i>&nbsp;Trash</button>
                      </td>
                   </tr>
                   @endforeach

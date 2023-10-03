@@ -53,10 +53,11 @@
         color: #5bc0de;
         font-weight: bold;
     }
-        /* Add some custom styles to ensure the calendar is properly displayed */
-        .datepicker-dropdown {
-            position: absolute !important;
-        }
+
+    /* Add some custom styles to ensure the calendar is properly displayed */
+    .datepicker-dropdown {
+        position: absolute !important;
+    }
 </style>
 @endsection
 @section('Content-Area')
@@ -154,104 +155,105 @@
                                 <option value="">--Select Attribute--</option>
                             </select>
                         </div>
+                        <div id="dynamicFields" class="col-md-12 p-3"></div>
                         <div class="col-md-4 mb-4">
-                     <label class="form-label" for="validationCustom01">Location</label>
-                     <select class="form-select" id="location" name="location" aria-label="Default select example">
-                        <option>--Select Location--</option>
-                        @foreach ($location as $location)
-                        <option value="{{$location->id}}" {{ isset($stockedit) && $stockedit->location_id == $location->id ? 'selected' : '' }}>{{$location->name}}</option>
-                        @endforeach
-                        </select>
-                    </div>
-                    <div class="col-md-4 mb-4">
-                        <label class="form-label" for="validationCustom01">Sub Location</label>
-                        <select id="slocation" class="form-select" name="sublocation" aria-label="Default select example">
-                            <option value="">--Select Sub Location--</option>
-                        </select>
-                    </div>
-                    <div class="col-md-4 mb-4">
-                        <label class="form-label" for="validationCustom01">Host Name</label>
-                        <input class="form-control" id="validationCustom01" name="host_name" type="text" data-bs-original-title="" title="" placeholder="Enter Host Name">
-                    </div>
-                    <div class="col-md-4 mb-4">
-                        <label for="image" class="form-label">Image</label>
-                        <input type="file" class="form-control" name="image" id="image">
-                    </div>
-                    <div id="dynamicFields" class="col-md-12"></div>
-                </div>
-            </div>
-            <div class="card-item border">
-                <div class="row p-3" id="configuration">
-                    <div class="col-md-12 mb-4">
-                        <label class="form-label" for="validationCustom01"> Configuration</label>
-                        <textarea class="form-control" name="configuration" value="{{ isset($stockedit) ? $stockedit->configuration : '' }}" id="exampleFormControlTextarea1" placeholder="configuration" rows="3"></textarea>
+                            <label class="form-label" for="validationCustom01">Location</label>
+                            <select class="form-select" id="location" name="location" aria-label="Default select example">
+                                <option>--Select Location--</option>
+                                @foreach ($location as $location)
+                                <option value="{{$location->id}}" {{ isset($stockedit) && $stockedit->location_id == $location->id ? 'selected' : '' }}>{{$location->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <label class="form-label" for="validationCustom01">Sub Location</label>
+                            <select id="slocation" class="form-select" name="sublocation" aria-label="Default select example">
+                                <option value="">--Select Sub Location--</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <label class="form-label" for="validationCustom01">Host Name</label>
+                            <input class="form-control" id="validationCustom01" name="host_name" type="text" data-bs-original-title="" title="" placeholder="Enter Host Name">
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <label for="image" class="form-label">Image</label>
+                            <input type="file" class="form-control" name="image" id="image">
+                        </div>
+
                     </div>
                 </div>
-                <div class="row p-3">
-                    <div class="col-md-12 mb-4" id="specificationField">
-                        <label class="form-label" for="validationCustom01">Specification</label>
-                        <textarea class="form-control" name="specification" id="exampleFormControlTextarea1" placeholder="Specification" rows="3"></textarea>
+                <div class="card-item border">
+                    <div class="row p-3" id="configuration">
+                        <div class="col-md-12 mb-4">
+                            <label class="form-label" for="validationCustom01"> Configuration</label>
+                            <textarea class="form-control" name="configuration" value="{{ isset($stockedit) ? $stockedit->configuration : '' }}" id="exampleFormControlTextarea1" placeholder="configuration" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="row p-3">
+                        <div class="col-md-12 mb-4" id="specificationField">
+                            <label class="form-label" for="validationCustom01">Specification</label>
+                            <textarea class="form-control" name="specification" id="exampleFormControlTextarea1" placeholder="Specification" rows="3"></textarea>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="card-item border">
-                <div class="row p-3">
-                    {{-- <div class="col-md-4">
+                <div class="card-item border">
+                    <div class="row p-3">
+                        {{-- <div class="col-md-4">
                         <label class="form-label" for="validationCustom01">Vendor</label>
                         <input class="form-control" id="validationCustom01" name="vendor" type="text" data-bs-original-title="" value="{{ isset($stockedit) ? $stockedit->vendor : '' }}" title="" placeholder="Enter Vendor">
-                </div> --}}
-                <div class="col-md-4 mb-4">
-                    <label class="form-label" for="validationCustom01">Suppliers</label>
-                    <select class="form-select" id="supplier" name="supplier" aria-label="Default select example">
-                        <option value="">--Select Supplier --</option>
-                        @foreach ($supplier as $supplier)
-                        <option value="{{ $supplier->id }}" {{ isset($stockedit) && $stockedit->supplier_id == $supplier->id ? 'selected' : '' }}>
-                            {{ $supplier->name }}
-                        </option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <label class="form-label" for="validationCustom01">Price</label>
-                    <input class="form-control" id="validationCustom01" value="{{ isset($stockedit) ? $stockedit->price : '' }}" type="text" name="price" data-bs-original-title="" title="" placeholder="Enter Price">
-                    @error('price')
-                    <div class="text-danger">{{ $message }}</div>
-                    @enderror
-                </div>
-                <div class="col-md-4 mb-4" id="warranty">
-                    <label class="form-label" for="warrantyDateInput">Warranty</label>
-                    <div class="input-group">
-                        <input class="form-control digits" id="warrantyDateInput" name="product_warranty" type="text" data-language="en" readonly>
-                        <span class="input-group-text" id="warrantyCalendarIcon" style="cursor: pointer;">
-                            <i class="fa fa-calendar"></i>
-                        </span>
+                    </div> --}}
+                    <div class="col-md-4 mb-4">
+                        <label class="form-label" for="validationCustom01">Suppliers</label>
+                        <select class="form-select" id="supplier" name="supplier" aria-label="Default select example">
+                            <option value="">--Select Supplier --</option>
+                            @foreach ($supplier as $supplier)
+                            <option value="{{ $supplier->id }}" {{ isset($stockedit) && $stockedit->supplier_id == $supplier->id ? 'selected' : '' }}>
+                                {{ $supplier->name }}
+                            </option>
+                            @endforeach
+                        </select>
                     </div>
-                </div>
-                <div class="col-md-4 mb-4" id="expiryField">
-                    <label class="col-form-label" for="expiryDateInput">Expiry</label>
-                    <div class="input-group">
-                        <input class="form-control" id="expiryDateInput" name="expiry" type="text" data-language="en" readonly>
-                        <span class="input-group-text" id="expiryCalendarIcon" style="cursor: pointer;">
-                            <i class="fa fa-calendar"></i>
-                        </span>
+                    <div class="col-md-4 mb-4">
+                        <label class="form-label" for="validationCustom01">Price</label>
+                        <input class="form-control" id="validationCustom01" value="{{ isset($stockedit) ? $stockedit->price : '' }}" type="text" name="price" data-bs-original-title="" title="" placeholder="Enter Price">
+                        @error('price')
+                        <div class="text-danger">{{ $message }}</div>
+                        @enderror
                     </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <label class="col-form-label" for="expiryDateInput">Status</label>
-                    <select class="form-select" id="status" name="status" aria-label="Default select example">
-                        <option value="">--Select Status--</option>
-                        @foreach ($status as $status)
-                        <option value="{{ $status->id }}">{{ $status->name }}</option>
-                        @endforeach
-                    </select>
+                    <div class="col-md-4 mb-4" id="warranty">
+                        <label class="form-label" for="warrantyDateInput">Warranty</label>
+                        <div class="input-group">
+                            <input class="form-control digits" id="warrantyDateInput" style="cursor: pointer;" name="product_warranty" type="text" data-language="en" readonly>
+                            <span class="input-group-text" id="warrantyCalendarIcon" style="cursor: pointer;">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4" id="expiryField">
+                        <label class="col-form-label" for="expiryDateInput">Expiry</label>
+                        <div class="input-group">
+                            <input class="form-control" id="expiryDateInput" name="expiry" type="text" data-language="en" readonly>
+                            <span class="input-group-text" id="expiryCalendarIcon" style="cursor: pointer;">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <label class="col-form-label" for="expiryDateInput">Status</label>
+                        <select class="form-select" id="status" name="status" aria-label="Default select example">
+                            <option value="">--Select Status--</option>
+                            @foreach ($status as $status)
+                            <option value="{{ $status->id }}">{{ $status->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
             </div>
+            <div class="footer-item">
+                <button class="btn btn-primary mt-3" type="submit">{{ isset($stockedit) ? 'UPDATE' : 'ADD' }}</button>
+                <a href="{{url('all-stock')}}" class="btn btn-warning mt-3" type="button" data-bs-original-title="" title="">Cancel</a>
+            </div>
         </div>
-        <div class="footer-item">
-            <button class="btn btn-primary mt-3" type="submit">{{ isset($stockedit) ? 'UPDATE' : 'ADD' }}</button>
-            <a href="{{url('all-stock')}}" class="btn btn-warning mt-3" type="button" data-bs-original-title="" title="">Cancel</a>
-        </div>
-</div>
 </div>
 </form>
 </div>
@@ -381,39 +383,29 @@
 </script>
 <script>
     $(document).ready(function() {
-        // Hide all dynamic fields initially
         $('#quantityField, #specificationField, #licenseNumberField, #expiryField').hide();
 
-        // Handle changes in the asset type dropdown
         $('#assettype').change(function() {
             var selectedAssetTypeId = $(this).val();
 
-            // Make an AJAX call to fetch data from the server
             $.ajax({
                 url: '/get-asset-details/' + selectedAssetTypeId, // Replace with your actual route
                 method: 'POST',
                 data: 'selectedAssetTypeId' + selectedAssetTypeId + '&_token={{csrf_token()}}',
                 success: function(data) {
-                    // alert(data);
-                    // Hide all dynamic fields
+
                     $('#quantityField, #specificationField, #licenseNumberField, #expiryField').hide();
 
-                    // Show/hide fields based on the fetched data
                     if (data.assetType === 'IT Asset Component') {
-                        // Show quantity and specification fields
                         $('#quantityField, #specificationField, #showbrand,#warranty').show();
                         $('#serialnumber, #configuration').hide();
                     } else if (data.assetType === 'Non IT Asset') {
-                        // alert('hi');
-                        // Show quantity and specification fields
                         $('#quantityField, #specificationField, #showbrand, #warranty').show();
                         $('#serialnumber, #configuration').hide();
                     } else if (data.assetType === 'Software') {
-                        // Show license number and expiry fields
                         $('#licenseNumberField, #expiryField, #configuration').show();
                         $('#serialnumber,#showbrand,#warranty').hide();
                     } else {
-                        // Default: Show serial number field only
                         $('#serialnumber, #showbrand,#configuration,#warranty').show();
                         $('#serial_number_label').text('Serial Number');
                     }
@@ -423,14 +415,13 @@
     });
 </script>
 <script>
-    $(document).ready(function () {
-        $('#warrantyDateInput, #expiryDateInput').datepicker();
-
-        // Add a click event to the calendar icon to open the datepicker
-        $('#warrantyCalendarIcon, #expiryCalendarIcon').on('click', function () {
-            var inputField = $(this).siblings('input.datepicker-here');
-            inputField.datepicker('show');
+    $(document).ready(function() {
+        $("#warrantyDateInput, #expiryDateInput").datepicker({
+            onSelect: function(dateText, inst) {
+                $("#warrantyDateInput,#expiryDateInput").datepicker('hide');
+            }
         });
     });
 </script>
+
 @endsection

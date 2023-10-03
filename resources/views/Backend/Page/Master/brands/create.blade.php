@@ -1,6 +1,11 @@
 @extends('Backend.Layouts.panel')
 
 @section('Style-Area')
+<style>
+    .swal2-popup {
+        text-align: center;
+    }
+</style>
 @endsection
 
 @section('Content-Area')
@@ -52,7 +57,7 @@
                 @csrf
                 <input type="file" class="form-label" placeholder="Select CSV file" name="file">
                 <button type="submit" class="btn btn-primary text-end">Import</button>
-             </form>
+            </form>
             <div class="table-responsive theme-scrollbar">
                 <table class="display" id="basic-1">
                     <thead>
@@ -75,8 +80,8 @@
                                 </label>
                             </td>
                             <td>
-                                <a class="btn btn-primary" href="{{ url('/brands/' . $brand->id . '/edit') }}"><i class="fa fa-pencil"></i> Edit</a>
-                                <button class="btn btn-danger delete-button" type="button" data-id="{{ $brand->id }}"><i class="fa fa-trash-o"></i> Trash</button>
+                                <a class="btn btn-primary" href="{{ url('/brands/' . $brand->id . '/edit') }}"><i class="fa fa-pencil"></i>&nbsp; Edit</a>
+                                <button class="btn btn-danger delete-button" type="button" data-id="{{ $brand->id }}"><i class="fa fa-trash-o"></i>&nbsp; Trash</button>
                             </td>
                         </tr>
                         @endforeach
@@ -135,7 +140,6 @@
         button.addEventListener('click', function() {
             const brandId = this.getAttribute('data-id');
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-            // Show SweetAlert2 confirmation dialog
             Swal.fire({
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
@@ -146,14 +150,12 @@
                 confirmButtonText: 'Yes, trash it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Send AJAX request to the server to delete the item
                     fetch('/brands/' + brandId, {
                             method: 'delete',
                             headers: {
-                                'X-CSRF-TOKEN': csrfToken, // Include the CSRF token in the headers
-                                'Content-Type': 'application/json' // Set the content type
+                                'X-CSRF-TOKEN': csrfToken,
+                                'Content-Type': 'application/json'
                             }
-                            // You can set headers and other options here
                         })
                         .then(response => response.json())
 
@@ -165,7 +167,7 @@
                                     'Your file has been trashed.',
                                     'success'
                                 ).then(() => {
-                                    location.reload(); // Reload the page after the alert is closed
+                                    location.reload();
                                 });
                             } else {
                                 Swal.fire(

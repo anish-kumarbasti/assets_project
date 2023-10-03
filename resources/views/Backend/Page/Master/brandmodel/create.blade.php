@@ -1,6 +1,11 @@
 @extends('Backend.Layouts.panel')
 
 @section('Style-Area')
+<style>
+    .swal2-popup {
+        text-align: center;
+    }
+</style>
 @endsection
 
 @section('Content-Area')
@@ -58,20 +63,18 @@
             </div>
         </div>
         <div class="card-body">
-            <form action="{{route('import.department')}}" method="post" enctype="multipart/form-data">
-                @csrf
-                <input type="file" class="form-label" placeholder="Select CSV file" name="file">
-                <button type="submit" class="btn btn-primary text-end">Import</button>
-            </form>
+            {{-- <form action="{{route('import.department')}}" method="post" enctype="multipart/form-data">
+            @csrf
+            <input type="file" class="form-label" placeholder="Select CSV file" name="file">
+            <button type="submit" class="btn btn-primary text-end">Import</button>
+            </form> --}}
             <div class="table-responsive theme-scrollbar">
                 <table class="display" id="basic-1">
                     <thead>
                         <tr>
                             <th>SL</th>
-
                             <th>Brand Name</th>
                             <th>Model Name</th>
-
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -94,8 +97,8 @@
                             </td>
                             {{-- @dd($brandmodel->id); --}}
                             <td>
-                                <a class="btn btn-primary" href="{{ url('brand-model/' . $brandmodel->id . '/edit' ) }}"><i class="fa fa-pencil"></i> Edit</a>
-                                <button class="btn btn-danger delete-button" type="button" data-id="{{ $brandmodel->id }}"><i class="fa fa-trash-o"></i> Trash</button>
+                                <a class="btn btn-primary" href="{{ url('brand-model/' . $brandmodel->id . '/edit' ) }}"><i class="fa fa-pencil"></i>&nbsp;Edit</a>
+                                <button class="btn btn-danger delete-button" type="button" data-id="{{ $brandmodel->id }}"><i class="fa fa-trash-o"></i>&nbsp;Trash</button>
 
                             </td>
                         </tr>
@@ -111,13 +114,11 @@
 
 @section('Script-Area')
 <script>
-    // Add an event listener to the checkboxes for updating the brand status
     document.querySelectorAll('input[type="checkbox"]').forEach(function(checkbox) {
         checkbox.addEventListener('change', function() {
             const brandId = this.getAttribute('data-id');
             const status = this.checked;
 
-            // Send an AJAX request to update the status
             fetch(`/brands-model/${brandId}`, {
                 method: 'POST',
                 headers: {
@@ -126,16 +127,14 @@
                 },
                 body: JSON.stringify({
                     status: status
-                }) // Send the correct status value
+                })
             }).then(function(response) {
                 console.log(response);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-                // Optionally, you can handle the response here
                 console.log('Status updated successfully');
             }).catch(function(error) {
-                // Handle errors if any
                 console.error('Error:', error);
             });
         });
@@ -158,7 +157,6 @@
         button.addEventListener('click', function() {
             const brandId = this.getAttribute('data-id');
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-            // Show SweetAlert2 confirmation dialog
             Swal.fire({
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
@@ -169,14 +167,12 @@
                 confirmButtonText: 'Yes, trash it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Send AJAX request to the server to delete the item
                     fetch('/brand-model/' + brandId, {
                             method: 'delete',
                             headers: {
-                                'X-CSRF-TOKEN': csrfToken, // Include the CSRF token in the headers
-                                'Content-Type': 'application/json' // Set the content type
+                                'X-CSRF-TOKEN': csrfToken,
+                                'Content-Type': 'application/json'
                             }
-                            // You can set headers and other options here
                         })
                         .then(response => response.json())
                         .then(data => {
@@ -186,7 +182,7 @@
                                     'Your file has been trashed.',
                                     'success'
                                 ).then(() => {
-                                    location.reload(); // Reload the page after the alert is closed
+                                    location.reload();
                                 });
                             } else {
                                 Swal.fire(

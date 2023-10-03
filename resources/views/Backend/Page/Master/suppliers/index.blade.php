@@ -1,4 +1,11 @@
 @extends('Backend.Layouts.panel')
+@section('Style-Area')
+<style>
+    .swal2-popup {
+        text-align: center;
+    }
+</style>
+@endsection
 @section('Content-Area')
 @if (session('success'))
 <div id="alert-message" class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
@@ -12,7 +19,7 @@
             <div class="float-left col-sm-6">
                 <h4>Suppliers</h4>
             </div>
-            <div class="col-sm-6"><a href="{{route('trash.suppliers')}}" class="btn btn-danger float-end" style="margin-left: 5px;">Trash</a><a href="{{route('suppliers.create')}}" class="btn btn-primary float-end"><i class="fa fa-plus"></i>Create Suppliers</a>
+            <div class="col-sm-6"><a href="{{route('trash.suppliers')}}" class="btn btn-danger float-end" style="margin-left: 5px;">Trash</a><a href="{{route('suppliers.create')}}" class="btn btn-primary float-end"><i class="fa fa-plus"></i>&nbsp;Create Suppliers</a>
             </div>
         </div>
         <div class="card-body">
@@ -37,15 +44,14 @@
                             <td>{{ $supplier->email }}</td>
                             <td>{{ $supplier->phone }}</td>
                             <td>{{ $supplier->address }}</td>
-
                             <td class="w-20">
                                 <label class="mb-0 switch">
                                     <input type="checkbox" checked=""><span class="switch-state"></span>
                                 </label>
                             </td>
                             <td>
-                                <a href="{{ url('suppliers/'.$supplier->id.'/edit') }}" class="btn btn-primary"><i class="fa fa-pencil"></i> Edit</a>
-                                <button type="button" class=" delete-button btn btn-danger" data-id="{{$supplier->id}}"><i class="fa fa-trash-o"></i> Trash</button>
+                                <a href="{{ url('suppliers/'.$supplier->id.'/edit') }}" class="btn btn-primary"><i class="fa fa-pencil"></i>&nbsp;Edit</a>
+                                <button type="button" class=" delete-button btn btn-danger" data-id="{{$supplier->id}}"><i class="fa fa-trash-o"></i>&nbsp;Trash</button>
                             </td>
                         </tr>
                         @endforeach

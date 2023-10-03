@@ -1,6 +1,11 @@
 @extends('Backend.Layouts.panel')
 
 @section('Style-Area')
+<style>
+    .swal2-popup {
+        text-align: center;
+    }
+</style>
 @endsection
 
 @section('Content-Area')
@@ -114,13 +119,11 @@
 </script>
 
 <script>
-    // Add an event listener to the checkboxes for updating the brand status
     document.querySelectorAll('input[type="checkbox"]').forEach(function(checkbox) {
         checkbox.addEventListener('change', function() {
             const attributeID = this.getAttribute('data-id');
             const status = this.checked;
 
-            // Send an AJAX request to update the status
             fetch(`/attributes/${attributeID}`, {
                 method: 'POST',
                 headers: {
@@ -135,10 +138,8 @@
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-                // Optionally, you can handle the response here
                 console.log('Status updated successfully');
             }).catch(function(error) {
-                // Handle errors if any
                 console.error('Error:', error);
             });
         });
@@ -149,7 +150,6 @@
         button.addEventListener('click', function() {
             const attributeId = this.getAttribute('data-id');
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-            // Show SweetAlert2 confirmation dialog
             Swal.fire({
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
@@ -160,14 +160,12 @@
                 confirmButtonText: 'Yes, trash it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Send AJAX request to the server to delete the item
                     fetch('/attributes/' + attributeId, {
                             method: 'delete',
                             headers: {
                                 'X-CSRF-TOKEN': csrfToken, // Include the CSRF token in the headers
                                 'Content-Type': 'application/json' // Set the content type
                             }
-                            // You can set headers and other options here
                         })
                         .then(response => response.json())
 
