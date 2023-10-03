@@ -1,6 +1,11 @@
 @extends('Backend.Layouts.panel')
 
 @section('Style-Area')
+<style>
+    .swal2-popup {
+        text-align: center;
+    }
+</style>
 @endsection
 
 @section('Content-Area')
@@ -17,7 +22,7 @@
         <div class="float-left col-sm-6">
             <h4>Sub Locations</h4>
         </div>
-        <div class="col-sm-6"><a href="{{route('trash.sub-location')}}" class="btn btn-danger float-end" style="margin-left: 5px;">Trash</a><a href="{{route('sublocation-create')}}" class="btn btn-primary float-end"><i class="fa fa-plus"></i>Create Sub-Locations</a>
+        <div class="col-sm-6"><a href="{{route('trash.sub-location')}}" class="btn btn-danger float-end" style="margin-left: 5px;">Trash</a><a href="{{route('sublocation-create')}}" class="btn btn-primary float-end"><i class="fa fa-plus"></i> Create Sub-Locations</a>
         </div>
     </div>
     <div class="card-body">

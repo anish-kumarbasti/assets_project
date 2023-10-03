@@ -79,28 +79,30 @@
     <div class="row" id="userCard">
         @foreach ($users as $user)
         <div class="col-lg-4 col-md-6 box-col-33">
-            <div class="card custom-card">
-                <!-- ... Card view content ... -->
-                <div class="card-header"><img class="img-fluid img" src="{{ asset($user->cover_photo) }}" style="width: 300px; height: 100px;" alt="Uploaded Image"></div>
-                <div class="card-profile"><img class="rounded-circle square-image" src="{{ asset($user->profile_photo) }}" alt=""></div>
-                <div class="text-center profile-details"><a href="{{ route('users.user-profile', $user->id) }}" data-bs-original-title="" title="">
+            <a href="{{ route('users.user-profile', $user->id) }}" data-bs-original-title="" title="">
+                <div class="card custom-card">
+                    <!-- ... Card view content ... -->
+                    <div class="card-header"><img class="img-fluid img" src="{{ asset($user->cover_photo) }}" style="width: 300px; height: 100px;" alt="Uploaded Image"></div>
+                    <div class="card-profile"><img class="rounded-circle square-image" src="{{ asset($user->profile_photo) }}" alt=""></div>
+                    <div class="text-center profile-details">
 
                         <h4>{{ $user->first_name }} {{ $user->last_name }}</h4>
-                    </a>
-                    <h6>{{ $user->designation->designation??'' }}</h6>
 
-                </div>
-                <ul class="card-social">
-                    <button class="btn btn-light ican-envo"><i class="fa fa-envelope" aria-hidden="true"></i></button>
-                    <button class="btn btn-light ican-envo"><i class="fa fa-phone" aria-hidden="true"></i></button>
-                    <button class="btn btn-light ican-action">Active</button>
-                </ul>
-                {{-- <div class="card-footer row">
+                        <h6>{{ $user->designation->designation??'' }}</h6>
+
+                    </div>
+                    <ul class="card-social">
+                        <!-- <button class="btn btn-light ican-envo"><i class="fa fa-envelope" aria-hidden="true"></i></button>
+                        <button class="btn btn-light ican-envo"><i class="fa fa-phone" aria-hidden="true"></i></button> -->
+                        <button class="btn btn-light ican-action">Active</button>
+                    </ul>
+                    {{-- <div class="card-footer row">
                     <div class="col-12 col-sm-12">
                         <h3 class="counter">for more Details</h3>
                     </div>
                 </div> --}}
-            </div>
+                </div>
+            </a>
         </div>
         @endforeach
     </div>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,22 +10,27 @@
         body {
             font-family: Arial, sans-serif;
         }
+
         .container {
             max-width: 600px;
             margin: 0 auto;
             padding: 20px;
         }
+
         .logo {
             text-align: center;
         }
+
         .logo img {
             max-width: 100px;
         }
+
         .content {
             margin-top: 20px;
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="logo">
@@ -37,7 +43,8 @@
             <p>Your Employee ID: {{$employee_id}}</p>
             <p>Here are some important details:</p>
             <ul>
-                <li>Your Email: {{$email}}</li>
+                <li>User Id: {{$email}}</li>
+                <li>Password: {{$password}}</li>
                 <li>Department: {{$department}}</li>
                 <li>Designation: {{$designation}}</li>
                 <li>Location: {{$location}}</li>
@@ -50,4 +57,5 @@
         </div>
     </div>
 </body>
+
 </html>

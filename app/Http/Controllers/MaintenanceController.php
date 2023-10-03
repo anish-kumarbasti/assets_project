@@ -65,9 +65,9 @@ class MaintenanceController extends Controller
             'asset_price' => 'required',
             'status' => 'required'
         ]);
-        $product = Stock::where('product_number',$request->product_id)
-                            ->orWhere('serial_number',$request->product_id)
-                            ->first();
+        $product = Stock::where('product_number', $request->product_id)
+            ->orWhere('serial_number', $request->product_id)
+            ->first();
         $maintenance = Maintenance::Create([
             'product_id' => $request->product_id,
             'asset_number' => $request->asset_number,
@@ -77,7 +77,7 @@ class MaintenanceController extends Controller
             'start_date' => $request->start_date,
             'end_date' => $request->end_date
         ]);
-        Stock::where('product_number',$request->product_id)->update(['status_available'=>$request->status]);
+        Stock::where('product_number', $request->product_id)->update(['status_available' => $request->status]);
         TimelineHelper::logAction('Product Maintenance', $product->id, $product->asset_type_id, $product->asset, null, null, null, null, null, null, $maintenance->id, $request->supplier_id);
         return redirect()->route('assets-maintenances')->with('success', 'Asset Created Successfully');
     }
@@ -162,17 +162,15 @@ class MaintenanceController extends Controller
         return view('Backend.Page.Maintenance.Receive.index', compact('status'));
     }
 
-    public function statusupdate(Request $request, $id)
+    public function statusupdate(Request $request, $productId)
     {
-        $update = Maintenance::find($id);
-        $update->product_id = $request->product_id;
-        $update->asset_number = $request->asset_number;
-        $update->status = $request->status;
-        $update->asset_price = $request->asset_price;
-        $update->supplier_id = $request->supplier_id;
-        $update->start_date = $request->start_date;
-        $update->end_date = $request->end_date;
-        $update->update();
+        $maintenance = Maintenance::where('product_id', $productId)->first();
+        if (!$maintenance) {
+            return response()->json(['message' => 'Maintenance record not found'], 404);
+        }
+        $maintenance->update([
+            'status' => $request->input('status'),
+        ]);
 
         return response()->json(['message' => 'Data updated successfully']);
     }

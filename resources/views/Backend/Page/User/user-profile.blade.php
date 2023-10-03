@@ -40,12 +40,12 @@
                      <h6>{{$user->designation->name??''}}</h6>
                   </div>
                   <ul class="card-social">
-                     <button class="btn btn-light ican-envo">
+                     <!-- <button class="btn btn-light ican-envo">
                         <i class="fa fa-envelope" aria-hidden="true"></i>
                      </button>
                      <button class="btn btn-light ican-envo">
                         <i class="fa fa-phone" aria-hidden="true"></i>
-                     </button>
+                     </button> -->
                      <button class="btn btn-light ican-action">Active</button>
                   </ul>
                   <div class="card-footer row">

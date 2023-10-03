@@ -7,6 +7,10 @@
         line-height: 1.5;
         pointer-events: none;
     }
+
+    .swal2-popup {
+        text-align: center;
+    }
 </style>
 @endsection
 @section('Content-Area')

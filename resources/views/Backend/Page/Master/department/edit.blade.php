@@ -14,7 +14,7 @@
                 @csrf
                 @method('PUT')
 
-                <div class="card-item border">
+                <div class="card-item">
                     <div class="row p-3">
                         <div class="col-md-12 mb-4">
                             <label class="form-label" for="name">Department Name</label>
@@ -28,7 +28,7 @@
 
                 <div class="footer-item">
                     <button class="btn btn-primary mt-3" type="submit">Update</button>
-                    <a class="btn btn-warning mt-3" href="{{ route('auth.create-department') }}">Back</a>
+                    <a class="btn btn-warning mt-3" href="{{ route('departments-index') }}">Back</a>
                 </div>
             </form>
         </div>

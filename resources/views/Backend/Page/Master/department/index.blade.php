@@ -1,6 +1,11 @@
 @extends('Backend.Layouts.panel')
 
 @section('Style-Area')
+<style>
+    .swal2-popup {
+        text-align: center;
+    }
+</style>
 @endsection
 
 @section('Content-Area')
@@ -21,41 +26,41 @@
                 <!-- <a class="btn btn-primary text-end m-b-30" id="openModalButton" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i>Import</a> -->
             </div>
         </div>
-    </div>
-    <div class="card-body">
-        <div class="table-responsive theme-scrollbar">
-            <table class="display" id="basic-1">
-                <thead>
-                    <tr>
-                        <th>SL</th>
-                        <th>Name</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($departments as $department)
-                    <tr>
-                        <td>{{ $department->id }}</td>
-                        <td>{{ $department->name }}</td>
-                        <td class="w-20">
-                            <label class="mb-0 switch">
-                                <input type="checkbox" checked=""><span class="switch-state"></span>
-                            </label>
-                        </td>
-                        <td>
-                            <div class="btn-group">
-                                <a class="btn btn-primary" href="{{ url('/departments/' . $department->id . '/edit') }}"><i class="fa fa-pencil"></i>Edit</a>&nbsp;
-                                <button type="button" data-id="{{$department->id}}" class="btn btn-danger delete-button"><i class="fa fa-trash-o"></i>Trash</button>
-                            </div>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+
+        <div class="card-body">
+            <div class="table-responsive theme-scrollbar">
+                <table class="display" id="basic-1">
+                    <thead>
+                        <tr>
+                            <th>SL</th>
+                            <th>Name</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($departments as $department)
+                        <tr>
+                            <td>{{ $department->id }}</td>
+                            <td>{{ $department->name }}</td>
+                            <td class="w-20">
+                                <label class="mb-0 switch">
+                                    <input type="checkbox" checked=""><span class="switch-state"></span>
+                                </label>
+                            </td>
+                            <td>
+                                <div class="btn-group">
+                                    <a class="btn btn-primary" href="{{ url('/departments/' . $department->id . '/edit') }}"><i class="fa fa-pencil"></i>&nbsp;Edit</a>&nbsp;
+                                    <button type="button" data-id="{{$department->id}}" class="btn btn-danger delete-button"><i class="fa fa-trash-o"></i>&nbsp;Trash</button>
+                                </div>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-</div>
 </div>
 @endsection
 

@@ -14,6 +14,10 @@
         padding: 5px 10px;
         line-height: 1.5;
     }
+
+    .swal2-popup {
+        text-align: center;
+    }
 </style>
 @endsection
 
@@ -61,7 +65,7 @@
                             @csrf
                             <div class="modal-body">
                                 <div class="mb-2">
-                                    <label class="form-label">Product ID</label>
+                                    <label class="form-label">Product Number</label>
                                     <input class="form-control" oninput="showDiv()" id="product_number" type="search" data-bs-original-title="" title="" name="product_id" placeholder="Enter Asset Number" onkeydown="return event.key != 'Enter';" required>
                                 </div>
                                 <div id="myDiv" style="display: none;">

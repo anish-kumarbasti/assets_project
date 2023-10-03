@@ -1,4 +1,11 @@
 @extends('Backend.Layouts.panel')
+@section('Style-Area')
+<style>
+    .swal2-popup {
+        text-align: center;
+    }
+</style>
+@endsection
 @section('Content-Area')
 @if (session('message'))
 <div id="alert-message" class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
@@ -45,10 +52,10 @@
                             </td>
                             <td>
                                 @can('edit_designation')
-                                <a href="{{ route('designations.edit', $designation->id) }}" class="btn btn-primary"><i class="fa fa-pencil"></i>Edit</a>
+                                <a href="{{ route('designations.edit', $designation->id) }}" class="btn btn-primary"><i class="fa fa-pencil"></i>&nbsp;Edit</a>
                                 @endcan
                                 @can('delete_designation')
-                                <button class="btn btn-danger delete-button" type="button" data-id="{{ $designation->id }}"><i class="fa fa-trash-o"></i>Trash</button>
+                                <button class="btn btn-danger delete-button" type="button" data-id="{{ $designation->id }}"><i class="fa fa-trash-o"></i>&nbsp;Trash</button>
                                 @endcan
                             </td>
                         </tr>

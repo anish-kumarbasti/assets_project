@@ -58,7 +58,7 @@
                      <tr>
                         <td>{{$loop->iteration}}</td>
                         <td>
-                           <img src="{{ $stock->image_url ? $stock->image_url : '/Backend/assets/images/It-Assets/default-image.jpg'}}" alt="Stock Image" width="50">
+                           <img src="{{ $stock->image ? $stock->image : '/Backend/assets/images/It-Assets/default-image.jpg'}}" alt="Stock Image" width="50">
                         </td>
                         <td>{{$stock->product_info}}</td>
                         <td>{{$stock->asset_type->name??''}}</td>
