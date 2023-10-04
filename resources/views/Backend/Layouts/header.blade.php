@@ -1,17 +1,18 @@
 <style>
     .VIpgJd-ZVi9od-ORHb-OEVmcd {
-    left: 0;
-    top: 0;
-    height: 39px;
-    width: 100%;
-    z-index: 10000001;
-    position: fixed;
-    border: none;
-    border-bottom: 1px solid #6B90DA;
-    margin: 0;
-    box-shadow: 0 0 8px 1px #999;
-    display: none!important;
-}
+        left: 0;
+        top: 0;
+        height: 39px;
+        width: 100%;
+        z-index: 10000001;
+        position: fixed;
+        border: none;
+        border-bottom: 1px solid #6B90DA;
+        margin: 0;
+        box-shadow: 0 0 8px 1px #999;
+        display: none !important;
+    }
+
     .goog-te-banner-frame.skiptranslate,
     .goog-te-gadget-icon {
         display: none !important;
@@ -40,9 +41,7 @@
     <div class="header-wrapper row m-0">
         <div class="header-logo-wrapper col-auto p-0">
             <div class="toggle-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="grid"> </i></div>
-            <div class="logo-header-main"><a href="index.html"><img class="img-fluid for-light img-100"
-                        src="../assets/images/logo/logo2.png" alt=""><img class="img-fluid for-dark"
-                        src="../assets/images/logo/logo.png" alt=""></a></div>
+            <div class="logo-header-main"><a href="index.html"><img class="img-fluid for-light img-100" src="../assets/images/logo/logo2.png" alt=""><img class="img-fluid for-dark" src="../assets/images/logo/logo.png" alt=""></a></div>
         </div>
         <div class="left-header col horizontal-wrapper ps-0">
         </div>
@@ -69,37 +68,31 @@
                         <li>
                             <div class="d-flex align-items-center">
 
-                                <div class="flex-grow-1">
+                                <!-- <div class="flex-grow-1">
                                     <p><a href="order-history.html">Asset alloted! </a><span class="pull-right">6
                                             hr</span></p>
-                                </div>
+                                </div> -->
                             </div>
                         </li>
                         <li>
                             <div class="align-items-center">
                                 @foreach (auth()->user()->notifications as $notification)
-                                    <div class="flex-shrink-0"><i data-feather="shopping-cart"></i></div>
-                                    <div class="flex-grow-1">
-                                        @if (Auth::check() && Auth::user()->role_id == 4)
-                                            <p><b>{{ Auth::user()->first_name }}</b>&nbsp;&nbsp;<a
-                                                    href="{{ route('markasread-controller', $notification->id) }}">New
-                                                    Product Isuue to the User!</a><span
-                                                    class="pull-right">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span>
-                                            </p>
-                                        @elseif (Auth::check() && Auth::user()->role_id == 3)
-                                            <p><b>{{ $notification->data['name'] ?? '' }}</b>&nbsp;&nbsp;<a
-                                                    href="{{ route('markasread-manager', $notification->id) }}">Manager
-                                                    New Notification!</a><span
-                                                    class="pull-right">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span>
-                                            </p>
-                                        @else
-                                            <p><b>{{ $notification->data['name'] ?? '' }}</b>&nbsp;&nbsp;<a
-                                                    href="{{ route('markasread', $notification->id) }}">Employee New
-                                                    Notification!</a><span
-                                                    class="pull-right">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span>
-                                            </p>
-                                        @endif
-                                    </div>
+                                <div class="flex-shrink-0"><i data-feather="shopping-cart"></i></div>
+                                <div class="flex-grow-1">
+                                    @if (Auth::check() && Auth::user()->role_id == 4)
+                                    <p><b>{{ Auth::user()->first_name }}</b>&nbsp;&nbsp;<a href="{{ route('markasread-controller', $notification->id) }}">New
+                                            Product Isuue to the User!</a><span class="pull-right">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span>
+                                    </p>
+                                    @elseif (Auth::check() && Auth::user()->role_id == 3)
+                                    <p><b>{{ $notification->data['name'] ?? '' }}</b>&nbsp;&nbsp;<a href="{{ route('markasread-manager', $notification->id) }}">Manager
+                                            New Notification!</a><span class="pull-right">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span>
+                                    </p>
+                                    @else
+                                    <p><b>{{ $notification->data['name'] ?? '' }}</b>&nbsp;&nbsp;<a href="{{ route('markasread', $notification->id) }}">Employee New
+                                            Notification!</a><span class="pull-right">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span>
+                                    </p>
+                                    @endif
+                                </div>
                                 @endforeach
                             </div>
                         </li>
@@ -149,10 +142,9 @@
                 <li class="profile-nav onhover-dropdown">
                     <div class="account-user"><i data-feather="user"></i></div>
                     <ul class="profile-dropdown onhover-show-div">
-                        <li><a href="user-profile.html"><i data-feather="user"></i><span>Account</span></a></li>
-                        <li><a href="email_inbox.html"><i data-feather="mail"></i><span>Inbox</span></a></li>
-                        <li><a href="{{ route('settings.user') }}"><i
-                                    data-feather="settings"></i><span>Settings</span></a></li>
+                        <!-- <li><a href="user-profile.html"><i data-feather="user"></i><span>Account</span></a></li>
+                        <li><a href="email_inbox.html"><i data-feather="mail"></i><span>Inbox</span></a></li> -->
+                        <li><a href="{{ route('settings.user') }}"><i data-feather="settings"></i><span>Settings</span></a></li>
                         <li><a href="{{ route('logout') }}"><i data-feather="log-in"> </i><span>Log Out</span></a>
 
                         </li>
@@ -162,7 +154,6 @@
         </div>
         <script src="https://translate.google.com/translate_a/element.js?cb=loadGoogleTranslate"></script>
         <script>
-
             function loadGoogleTranslate() {
                 var translator = new google.translate.TranslateElement({
                     pageLanguage: 'en',
@@ -196,7 +187,7 @@
             hideDynamicallyAddedElements();
         </script>
         <script class="result-template" type="text/x-handlebars-template">
-      <div class="ProfileCard u-cf">
+            <div class="ProfileCard u-cf">
             <div class="ProfileCard-avatar"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-airplay m-0"><path d="M5 17H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-1"></path><polygon points="12 15 17 21 7 21 12 15"></polygon></svg></div>
             <div class="ProfileCard-details">
             <div class="ProfileCard-realName"></div>

@@ -73,7 +73,7 @@ class IssuenceController extends Controller
                 'location_id' => 'required',
                 'sublocation_id' => 'required',
             ]);
-            $stock = Stock::where('id',$request->cardId)->first();
+            $stock = Stock::where('id', $request->cardId)->first();
             // dd($stock->asset_type_id);
             $user = User::where('employee_id', $request->employeeId)->first();
             if (!$user) {
@@ -94,8 +94,8 @@ class IssuenceController extends Controller
                 'employee_manager_id' => $managerUser ? $managerUser->id : null,
             ]);
             $productId = $request->cardId;
-            foreach($productId as $product){
-            TimelineHelper::logAction('Product Issued', $product, $stock->asset_type_id, $stock->asset, $issuance->id, $user->id);
+            foreach ($productId as $product) {
+                TimelineHelper::logAction('Product Issued', $product, $stock->asset_type_id, $stock->asset, $issuance->id, $user->id);
             }
             DB::commit(); // Commit the transaction
 
@@ -226,5 +226,30 @@ class IssuenceController extends Controller
         $status = Status::where('name', 'Rejected')->first();
         Stock::updateOrCreate(['id' => $request->productIdToReject], ['status_available' => $status->id]);
         return back()->with('success', 'Asset Rejected!');
+    }
+    public function employee_issue()
+    {
+        $id = 2;
+        if ($id) {
+            auth()->user()->unreadNotifications->where('id', $id)->markAsRead();
+        }
+        $user = Auth::user()->employee_id;
+        $manager = Auth::user()->id;
+        $issuedata = Issuence::where('employee_id', $user)
+            ->orWhere('employee_manager_id', $manager)->first();
+        $productIds = json_decode($issuedata->product_id);
+        $products = Stock::whereIn('id', $productIds)->with('brand', 'brandmodel', 'asset_type', 'getsupplier')->get();
+        return view('Backend.Page.Employee.issue_request', compact('products', 'issuedata'));
+    }
+    public function employee_all_issue()
+    {
+        if (Auth::check()) {
+            $user = Auth::user();
+            $data = Issuence::where('employee_id', $user->employee_id)->get();
+            // dd($data);
+            return view('Backend.Page.Employee.all_issue', compact('data'));
+        } else {
+            return redirect()->back();
+        }
     }
 }

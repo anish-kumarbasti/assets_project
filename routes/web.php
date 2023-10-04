@@ -177,7 +177,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('location-create', [LocationController::class, 'create'])->name('location-create');
     Route::post('location-store', [LocationController::class, 'store'])->name('location-store');
     Route::put('location-update/{location}', [LocationController::class, 'update'])->name('location-update');
-    Route::put('location-status/{locationId}', [LocationController::class, 'locationStatus'])->name('location-status');
+    Route::put('location-status/{locationId}', [LocationController::class, 'locationStatus'])->name('locationf-status');
     Route::delete('location-destroy/{location}', [LocationController::class, 'destroy'])->name('location-destroy');
     Route::get('location-edit/{id}', [LocationController::class, 'edit'])->name('location-edit');
     Route::post('/check-location-duplicate', [LocationController::class, 'checkLocationDuplicate'])->name('check-location-duplicate');
@@ -194,6 +194,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('sublocation-update/{sublocation}', [SubLocationController::class, 'update'])->name('sublocation-update');
     Route::delete('sublocation-destroy/{sublocation}', [SubLocationController::class, 'destroy'])->name('sublocation-destroy');
     Route::put('sublocation-status/{sublocationId}', [SubLocationController::class, 'updateStatus'])->name('sublocation-status');
+    //employee_issue
+    Route::get('employee/issue', [IssuenceController::class, 'employee_issue'])->name('employee.issue');
+    Route::get('all/issue', [IssuenceController::class, 'employee_all_issue'])->name('employee.all.issue');
     //designationFget
     Route::get('designations/trash', [DesignationController::class, 'trash'])->name('designation.trash');
     Route::get('designations/restore/{id}', [DesignationController::class, 'restore'])->name('designations.restore');
