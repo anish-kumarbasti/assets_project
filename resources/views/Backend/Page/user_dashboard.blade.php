@@ -186,6 +186,124 @@
       </div>
     </div>
   </div>
+  <div class="row">
+    <div class="col-xl-12">
+      <div class="card appointment-detail">
+        <div class="card-header pb-0">
+          <div class="d-flex justify-content-between">
+            <div class="flex-grow-1">
+              <p class="square-after f-w-600 header-text-primary">Asset Requests<i class="fa fa-circle"> </i>
+              </p>
+              <h4>Asset Requests</h4>
+            </div>
+            <div class="setting-list">
+              <ul class="list-unstyled setting-option">
+                <li>
+                  <div class="setting-light"><i class="icon-layout-grid2"></i></div>
+                </li>
+                <li><i class="view-html fa fa-code font-white"></i></li>
+                <li><i class="icofont icofont-maximize full-card font-white"></i></li>
+                <li><i class="icofont icofont-minus minimize-card font-white"></i></li>
+                <li><i class="icofont icofont-refresh reload-card font-white"></i></li>
+                <li><i class="icofont icofont-error close-card font-white"> </i></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive theme-scrollbar">
+            <table class="table">
+              <tbody>
+                @foreach (auth()->user()->notifications as $notification)
+                @foreach ($products as $product)
+                <form action="{{ Auth::check() && Auth::user()->role_id == 2 ? route('accept-asset', $product->id) : route('accept-asset-manager', $product->id) }}">
+                  <tr>
+                    <td>
+                      <div class="d-flex"><img class="img-fluid align-top circle" src="../assets/images/dashboard/default/01.png" alt="">
+                        <div class="flex-grow-1"><a href="{{ route('accept-detail-asset', $product->id) }}"><span>{{ $product->product_info }}</span></a>
+                          <p class="mb-0">
+                            {{ Carbon\Carbon::parse($issuedata->created_at)->diffForHumans() }}
+                          </p>
+                        </div>
+                      </div>
+                    </td>
+                    @if (Auth::check() && Auth::user()->role_id == 2)
+                    <td>Hello User A new Asset ({{ $product->product_info }}) has been issued
+                      please
+                      accept to the
+                      request!</td>
+                    <td class="text-end">
+                      @if ($product->status_available == 3)
+                      <button class="btn btn-success" type="button">Accepted</button>
+                      @elseif ($product->status_available == 4)
+                      <button class="btn btn-danger" type="button">Rejected</button>
+                      @else
+                      <button class="btn btn-primary" type="submit">Accept</button>&nbsp;
+                      <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#rejectionModal" onclick="setProductIdToReject('{{ $product->id }}')">Reject</button>
+                      @endif
+                    </td>
+                    @elseif (Auth::check() && Auth::user()->role_id == 3)
+                    @if ($notification->type == 'App\Notifications\TransferNotification')
+                    <td>Hello A new Asset ({{ $product->product_info }}) has been Transferred to
+                      the ({{ $transferuser->first_name }} {{ $transferuser->last_name }})</td>
+                    <td class="text-end">
+                      @if ($product->status_available != 8)
+                      <button class="btn btn-primary" type="submit">Approve</button>
+                      @else
+                      <button class="btn btn-success" type="button">Approved</button>
+                      @endif
+                    </td>
+                    @elseif ($notification->type == 'App\Notifications\ReturnNotification')
+                    <td>Hello A Asset ({{ $product->product_info }}) is Returned by
+                      this ({{ $user->first_name }} {{ $user->last_name }})</td>
+                    <td class="text-end">
+                      <button class="btn btn-info" type="button">Returned by User</button>
+                    </td>
+                    @else
+                    <td>Hello A new Asset ({{ $product->product_info }}) has been issued. to
+                      the ({{ $user->first_name }} {{ $user->last_name }})</td>
+                    <td class="text-end">
+                      <button class="btn btn-success" type="button">Isuued</button>
+                    </td>
+                    @endif
+                    @endif
+                  </tr>
+                </form>
+                @endforeach
+                @endforeach
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="rejectionModal" tabindex="-1" role="dialog" aria-labelledby="rejectionModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <form action="{{ route('rejection') }}" method="post">
+        @csrf
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="rejectionModalLabel">Enter Rejection Reason</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <input type="hidden" id="productIdToReject" name="productIdToReject" value="">
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="reason">Reason for Rejection</label>
+              <textarea class="form-control" name="reason" id="reason" rows="4" required></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-danger" id="submitRejection">Submit</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
   <!-- <div class="row">
     <div class="col-xl-8 ">
       <div class="card appointment-detail">
@@ -376,6 +494,13 @@
 @endsection
 
 @section('Script-Area')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+  function setProductIdToReject(productId) {
+    document.getElementById('productIdToReject').value = productId;
+  }
+</script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
   $(document).ready(function() {

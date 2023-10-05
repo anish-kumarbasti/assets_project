@@ -9,6 +9,7 @@ use App\Models\Disposal;
 use App\Models\Issuence;
 use App\Models\Maintenance;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ChartDashboardController extends Controller
 {
@@ -83,6 +84,20 @@ class ChartDashboardController extends Controller
 
     public function userDashboard(Request $request)
     {
-        return view('Backend.Page.user_dashboard');
+        if (Auth::check()) {
+            $user = Auth::user();
+            if ($user) {
+                auth()->user()->unreadNotifications->where('id', $user)->markAsRead();
+            }
+            $user = Auth::user()->employee_id;
+            $manager = Auth::user()->id;
+            $issuedata = Issuence::where('employee_id', $user)
+                ->orWhere('employee_manager_id', $manager)->first();
+            $productIds = json_decode($issuedata->product_id);
+            $products = Stock::whereIn('id', $productIds)->with('brand', 'brandmodel', 'asset_type', 'getsupplier')->get();
+            return view('Backend.Page.user_dashboard', compact('products', 'issuedata'));
+        } else {
+            return redirect('/');
+        }
     }
 }
