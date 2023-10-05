@@ -27,20 +27,9 @@
                             <tr>
                                 <td>{{$loop->iteration}}</td>
                                 <td>{{ $issuence->employee_id }}</td>
-                                <td>{{ isset($issuence->asset_type) ? $issuence->asset_type->name : 'N/A' }}</td>
-                                <td>{{ isset($issuence->serial_number) ? $issuence->serial_number : 'N/A' }}</td>
-                                <td>
-                                    @if (isset($issuence->product))
-                                    @foreach (json_decode($issuence->product) as $product)
-                                    {{ $product->name }}
-                                    @if (!$loop->last)
-                                    ,
-                                    @endif
-                                    @endforeach
-                                    @else
-                                    N/A
-                                    @endif
-                                </td>
+                                <td>{{ $issuence->assettype->name??'N/A' }}</td>
+                                <td>{{ $issuence->asset->name??'N/A' }}</td>
+                                <td>{{$issuence->product->name??'N/A'}}</td>
                                 <td>{{ isset($issuence->description) ? $issuence->description : 'N/A' }}</td>
                                 <td>{{ isset($issuence->issuing_time_date) ? $issuence->issuing_time_date : 'N/A' }}</td>
                                 <td>{{ isset($issuence->due_date) ? $issuence->due_date : 'N/A' }}</td>

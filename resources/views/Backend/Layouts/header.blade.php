@@ -96,8 +96,15 @@
                                 @endforeach
                             </div>
                         </li>
-
-                        <li><a class="btn btn-primary" href="javascript:void(0)">Check all notification</a></li>
+                        @foreach (auth()->user()->notifications as $notification)
+                        @if(Auth::check() && Auth::user()->role_id == 4)
+                        <li><a class="btn btn-primary" href="{{ route('markasread-controller', $notification->id) }}">Check all notification</a></li>
+                        @elseif (Auth::check() && Auth::user()->role_id == 3)
+                        <li><a class="btn btn-primary" href="{{ route('markasread-manager', $notification->id) }}">Check all notification</a></li>
+                        @else
+                        <li><a class="btn btn-primary" href="{{ route('markasread', $notification->id) }}">Check all notification</a></li>
+                        @endif
+                        @endforeach
                     </ul>
                 </li>
                 {{-- <li class="onhover-dropdown">

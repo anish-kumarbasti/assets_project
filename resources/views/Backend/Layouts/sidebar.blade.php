@@ -193,9 +193,8 @@ background-color:#1d0950!important;
                 <li class="sidebar-list {{ request()->is(['transfer-requests*', 'all-transfer*']) ? 'active' : '' }}">
                     <a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="plus-square"></i><span>Transfer</span></a>
                     <ul class="sidebar-submenu">
-                        <li><a href="#">Transfer Requests</a></li>
                         <li class="{{ request()->is(['return*']) ? 'active' : '' }}"><a href="{{ url('return') }}">Asset Returning</a> </li>
-                        <li><a href="#">All Transfer</a></li>
+                        <li><a href="{{url('employee/all/transfer')}}">All Transfer</a></li>
                     </ul>
                 </li>
                 @endif
