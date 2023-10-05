@@ -181,7 +181,14 @@
                                                 <td>Hello A new Asset ({{ $product->product_info }}) has been issued. to
                                                     the ({{ $user->first_name }} {{ $user->last_name }})</td>
                                                 <td class="text-end">
-                                                    <button class="btn btn-success" type="button">Isuued</button>
+                                                    @if ($product->status_available == 13)
+                                                    <a class="btn btn-success" type="button">Approved.</a>
+                                                    @elseif ($product->status_available == 14)
+                                                    <a class="btn btn-danger" type="button">Denied.</a>
+                                                    @else  
+                                                    <a class="btn btn-success" href="{{route('approve-manager',$product->id)}}">Approve</a>
+                                                    <a class="btn btn-danger" href="{{route('denied-manager',$product->id)}}">Denied</a>
+                                                    @endif
                                                 </td>
                                                 @endif
                                             @endif

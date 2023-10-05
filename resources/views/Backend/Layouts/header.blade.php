@@ -66,15 +66,15 @@
                         <li><i data-feather="bell"> </i>
                             <h6 class="f-18 mb-0">Notitications</h6>
                         </li>
-                        <li>
+                        {{-- <li>
                             <div class="d-flex align-items-center">
 
                                 <div class="flex-grow-1">
-                                    <p><a href="order-history.html">Asset alloted! </a><span class="pull-right">6
+                                    <p><a href="#">Asset alloted! </a><span class="pull-right">6
                                             hr</span></p>
                                 </div>
                             </div>
-                        </li>
+                        </li> --}}
                         <li>
                             <div class="align-items-center">
                                 @foreach (auth()->user()->notifications as $notification)
@@ -92,6 +92,14 @@
                                                     New Notification!</a><span
                                                     class="pull-right">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span>
                                             </p>
+                                        @elseif(Auth::check() && Auth::user()->role_id == 1)
+                                        @if ($notification->type == 'App\Notifications\IssuenceNotification')   
+                                        <p><b>{{ $notification->data['name'] ?? '' }}</b>&nbsp;&nbsp;<a
+                                            href="{{ route('markasread-admin', $notification->id) }}">New
+                                            Asset Accepted by Employee!</a><span
+                                            class="pull-right">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span>
+                                        </p>
+                                        @endif
                                         @else
                                             <p><b>{{ $notification->data['name'] ?? '' }}</b>&nbsp;&nbsp;<a
                                                     href="{{ route('markasread', $notification->id) }}">Employee New
