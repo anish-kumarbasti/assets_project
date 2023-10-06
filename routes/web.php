@@ -197,6 +197,7 @@ Route::group(['middleware' => 'auth'], function () {
     //employee_issue
     Route::get('employee/issue', [IssuenceController::class, 'employee_issue'])->name('employee.issue');
     Route::get('all/issue', [IssuenceController::class, 'employee_all_issue'])->name('employee.all.issue');
+    Route::get('employee/all/transfer', [IssuenceController::class, 'all_transfer'])->name('employee.all.transfer');
     //designationFget
     Route::get('designations/trash', [DesignationController::class, 'trash'])->name('designation.trash');
     Route::get('designations/restore/{id}', [DesignationController::class, 'restore'])->name('designations.restore');
@@ -357,4 +358,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/issuence/store', [IssuenceController::class, 'store'])->name('issuence.store');
     Route::get('/issuences/all', [IssuenceController::class, 'showAll'])->name('issuances.all');
     Route::get('/fetch-Card-info', [IssuenceController::class, 'CardInfo'])->name('fetch-Card-info');
+    Route::post('update/stock/status', [IssuenceController::class, 'updatestockstatus'])->name('update.stock.status');
 });

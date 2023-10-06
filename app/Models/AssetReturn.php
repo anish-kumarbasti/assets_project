@@ -9,5 +9,13 @@ class AssetReturn extends Model
 {
     use HasFactory;
 
-    protected $guarded=[];
+    protected $guarded = [];
+    public function username()
+    {
+        return $this->belongsTo(User::class, 'return_by_user');
+    }
+    public function products()
+    {
+        return $this->belongsTo(Stock::class, 'product_id');
+    }
 }

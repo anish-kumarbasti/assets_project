@@ -508,9 +508,32 @@
             });
         }
     });
-    $('#allocate-assets-btn').click(function() {
-        form.submit();
+    // $('#allocate-assets-btn').click(function() {
+    //     form.submit();
+    // });
+    $('#allocate-assets-btn').click(function(event) {
+        event.preventDefault();
+        $.ajax({
+            url: 'update/stock/status',
+            method: 'POST',
+            data: {
+                asset_id: $('#serialNumber').val(),
+                new_status: '2',
+                _token: '{{ csrf_token() }}',
+            },
+            success: function(response) {
+                if (response.success) {
+                    form.submit();
+                } else {
+                    console.log('Status update failed:', response.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX error:', status, error);
+            }
+        });
     });
+
     form.addEventListener("submit", function(event) {
         event.preventDefault();
         storeStepData(steps[steps.length - 1]);
