@@ -88,7 +88,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('user_dashboard', [ChartDashboardController::class, 'userDashboard'])->name('user-dashboard');
     Route::get('stock', [StockController::class, 'index']);
     Route::get('markasread/{id}', [IssuenceController::class, 'markasread'])->name('markasread');
+    Route::get('markasread-admin/{id}', [IssuenceController::class, 'markasreadAdmin'])->name('markasread-admin');
     Route::get('markasread-manager/{id}', [IssuenceController::class, 'markasreadmanager'])->name('markasread-manager');
+    Route::get('approve-manager/{id}', [IssuenceController::class, 'approvemanager'])->name('approve-manager');
+    Route::get('denied-manager/{id}', [IssuenceController::class, 'deniedmanager'])->name('denied-manager');
     Route::get('markasread-controller/{id}', [IssuenceController::class, 'markasreadcontroller'])->name('markasread-controller');
     Route::post('rejection/', [IssuenceController::class, 'rejection'])->name('rejection');
     Route::get('accept-asset/{id}', [IssuenceController::class, 'AssetAccept'])->name('accept-asset');

@@ -154,10 +154,6 @@ class AssetController extends Controller
             'assetType' => $assetType->name,
         ]);
     }
-    public function views()
-    {
-        return view('Backend.Page.Stock.timeline');
-    }
     public function compotimeline($id)
     {
         $data = null;
