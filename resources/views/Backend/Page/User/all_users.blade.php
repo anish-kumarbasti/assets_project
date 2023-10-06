@@ -8,15 +8,14 @@
 
     .square-image {
         width: 100px;
-        /* You can adjust this value to your desired square size */
         height: 100px;
-        /* Keep the same value as width to maintain a square aspect ratio */
     }
 
     .custom-btn {
         font-size: 12px;
         padding: 5px 10px;
         line-height: 1.5;
+        display: flex;
     }
 </style>
 @endsection
@@ -29,85 +28,56 @@
 </div>
 @endif
 <div class="col-sm-12">
-    <div class="row">
-        <div class="col-md-12 mb-3">
-            <div class="float-end" role="group" aria-label="Toggle View">
-                <a id="toggleListView" class="fw-bold link" href="#"><i class="fa fa-list-alt"></i> View List</a>
-                <a id="toggleCardView" class="fw-bold link" href="#"><i class="fa fa-user"></i>View Card</a>
+    <div class="card">
+        <div class="card-header pb-0 d-flex">
+            <div class="float-left col-sm-6">
+                <h4>All User</h4>
+            </div>
+            <div class="col-sm-6"></div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive theme-scrollbar">
+                <table class="display" id="basic-1">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Profile Photo</th>
+                            <th>Name</th>
+                            <th>Employee ID</th>
+                            <th>Email</th>
+                            <th>Department</th>
+                            <th>Designation</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($users as $user)
+                        <tr>
+                            <td>{{ $user->id }}</td>
+                            <td>
+                                <img src="{{ asset($user->profile_photo) }}" alt="Profile Photo" style="width: 100px; height: 50px;">
+                            </td>
+                            <td><a href="{{ route('users.user-profile', $user->id) }}">{{ $user->first_name }} {{ $user->last_name }} </a></td>
+                            <td>{{$user->employee_id}}</td>
+                            <td>{{ $user->email }}</td>
+                            <td>{{$user->department->name??''}}</td>
+                            <td> {{ $user->designation->designation??'' }} </td>
+                            <td>
+                                <div class="d-flex justify-content-between align-item-center">
+                                    <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary custom-btn"><i class="fa fa-pencil"></i>&nbsp;Edit</a>&nbsp;
+                                    <button class="btn btn-danger custom-btn delete-button" type="button" data-id="{{ $user->id }}"><i class="fa fa-trash-o"></i>&nbsp;Delete</button>
+                                </div>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+
             </div>
         </div>
     </div>
-    <div class="row" id="userList" style="display: none;">
-        <div class="col-md-12">
-            <table class="display" id="basic-1">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Profile Photo</th>
-                        <th>Department</th>
-                        <th>Designation</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                    @foreach ($users as $user)
-                    <tr>
-                        <td>{{ $user->id }}</td>
-                        <td>{{ $user->first_name }} {{ $user->last_name }}</td>
-                        <td>{{ $user->email }}</td>
-                        <td>
-                            <img src="{{ asset($user->profile_photo) }}" alt="Profile Photo" style="width: 100px; height: 50px;">
-                        </td>
-                        <td>{{$user->department->name??''}}</td>
-                        <td> {{ $user->designation->designation??'' }} </td>
-                        <td>
-                            <div class="d-flex justify-content-between align-item-center">
-                                <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary custom-btn"><i class="fa fa-pencil"></i> Edit</a>
-                                <button class="btn btn-danger custom-btn delete-button" type="button" data-id="{{ $user->id }}"><i class="fa fa-trash-o"></i> Delete</button>
-                            </div>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-
-        </div>
-    </div>
-    <div class="row" id="userCard">
-        @foreach ($users as $user)
-        <div class="col-lg-4 col-md-6 box-col-33">
-            <a href="{{ route('users.user-profile', $user->id) }}" data-bs-original-title="" title="">
-                <div class="card custom-card">
-                    <!-- ... Card view content ... -->
-                    <div class="card-header"><img class="img-fluid img" src="{{ asset($user->cover_photo) }}" style="width: 300px; height: 100px;" alt="Uploaded Image"></div>
-                    <div class="card-profile"><img class="rounded-circle square-image" src="{{ asset($user->profile_photo) }}" alt=""></div>
-                    <div class="text-center profile-details">
-
-                        <h4>{{ $user->first_name }} {{ $user->last_name }}</h4>
-
-                        <h6>{{ $user->designation->designation??'' }}</h6>
-
-                    </div>
-                    <ul class="card-social">
-                        <!-- <button class="btn btn-light ican-envo"><i class="fa fa-envelope" aria-hidden="true"></i></button>
-                        <button class="btn btn-light ican-envo"><i class="fa fa-phone" aria-hidden="true"></i></button> -->
-                        <button class="btn btn-light ican-action">Active</button>
-                    </ul>
-                    {{-- <div class="card-footer row">
-                    <div class="col-12 col-sm-12">
-                        <h3 class="counter">for more Details</h3>
-                    </div>
-                </div> --}}
-                </div>
-            </a>
-        </div>
-        @endforeach
-    </div>
 </div>
-</div>
+
 @endsection
 
 @section('Script-Area')
@@ -121,22 +91,22 @@
     });
 </script>
 <script>
-    $(document).ready(function() {
-        $('#toggleCardView').hide();
-        $('#toggleListView').click(function() {
-            $('#userCard').hide();
-            $('#userList').show();
-            $('#toggleCardView').show();
-            $(this).hide();
-        });
+    // $(document).ready(function() {
+    //     $('#toggleCardView').hide();
+    //     $('#toggleListView').click(function() {
+    //         $('#userCard').hide();
+    //         $('#userList').show();
+    //         $('#toggleCardView').show();
+    //         $(this).hide();
+    //     });
 
-        $('#toggleCardView').click(function() {
-            $('#userList').hide();
-            $('#userCard').show();
-            $('#toggleListView').show();
-            $(this).hide();
-        });
-    });
+    //     $('#toggleCardView').click(function() {
+    //         $('#userList').hide();
+    //         $('#userCard').show();
+    //         $('#toggleListView').show();
+    //         $(this).hide();
+    //     });
+    // });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
 <script>

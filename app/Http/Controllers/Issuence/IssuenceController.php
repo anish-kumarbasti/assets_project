@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Issuence;
 use App\Helpers\TimelineHelper;
 use App\Http\Controllers\Controller;
 use App\Models\AssetRejection;
+use App\Models\AssetReturn;
 use App\Models\AssetType;
 use App\Models\Issuence;
 use App\Models\Location;
@@ -73,7 +74,7 @@ class IssuenceController extends Controller
                 'location_id' => 'required',
                 'sublocation_id' => 'required',
             ]);
-            $stock = Stock::where('id',$request->cardId)->first();
+            $stock = Stock::where('id', $request->cardId)->first();
             // dd($stock->asset_type_id);
             $user = User::where('employee_id', $request->employeeId)->first();
             if (!$user) {
@@ -94,8 +95,8 @@ class IssuenceController extends Controller
                 'employee_manager_id' => $managerUser ? $managerUser->id : null,
             ]);
             $productId = $request->cardId;
-            foreach($productId as $product){
-            TimelineHelper::logAction('Product Issued', $product, $stock->asset_type_id, $stock->asset, $issuance->id, $user->id);
+            foreach ($productId as $product) {
+                TimelineHelper::logAction('Product Issued', $product, $stock->asset_type_id, $stock->asset, $issuance->id, $user->id);
             }
             DB::commit(); // Commit the transaction
 
@@ -282,5 +283,74 @@ class IssuenceController extends Controller
         $user=User::where('role_id',1)->first();
         $user->notify(new IssuenceNotification($user));
         return back()->with('success', 'Asset Rejected!');
+    }
+    public function employee_issue()
+    {
+        $id = 2;
+        if ($id) {
+            auth()->user()->unreadNotifications->where('id', $id)->markAsRead();
+        }
+        $user = Auth::user()->employee_id;
+        $manager = Auth::user()->id;
+        $issuedata = Issuence::where('employee_id', $user)
+            ->orWhere('employee_manager_id', $manager)->first();
+        $productIds = json_decode($issuedata->product_id);
+        $products = Stock::whereIn('id', $productIds)->with('brand', 'brandmodel', 'asset_type', 'getsupplier')->get();
+        return view('Backend.Page.Employee.issue_request', compact('products', 'issuedata'));
+    }
+    public function employee_all_issue()
+    {
+        if (Auth::check()) {
+            $user = Auth::user();
+            $data = Issuence::where('employee_id', $user->employee_id)->get();
+            // dd($data);
+            return view('Backend.Page.Employee.all_issue', compact('data'));
+        } else {
+            return redirect()->back();
+        }
+    }
+    public function all_transfer()
+    {
+        if (Auth::check()) {
+            $transfer = Auth::user();
+            // $return = AssetReturn::where('product_id', $transfer->employee_id)->get();
+            $return = AssetReturn::when(isset($transfer->product_id), function ($query) use ($transfer) {
+                return $query->where('product_id', $transfer->employee_id);
+            })
+                ->get();
+            return view('Backend.Page.Employee.all_transfer', compact('return'));
+        } else {
+            return redirect()->back();
+        }
+    }
+    public function updatestockstatus(Request $request)
+    {
+        $assetId = $request->input('asset_id');
+        $newStatus = $request->input('new_status');
+        $asset = Stock::where('serial_number', $assetId)->first();
+        $product = Stock::where('product_number', $assetId)->first();
+
+        if ($asset) {
+            $updateResult = $asset->update(['status_available' => $newStatus]);
+
+            if ($updateResult) {
+                sleep(3);
+                return response()->json(['success' => true, 'message' => 'Status updated successfully']);
+            } else {
+                return response()->json(['success' => false, 'message' => 'Failed to update status']);
+            }
+        }
+
+        if ($product) {
+            $updateResult = $product->update(['status_available' => $newStatus]);
+
+            if ($updateResult) {
+                sleep(3);
+                return response()->json(['success' => true, 'message' => 'Status updated successfully']);
+            } else {
+                return response()->json(['success' => false, 'message' => 'Failed to update status']);
+            }
+        }
+        return response()->json(['success' => false, 'message' => 'Asset or product not found']);
     }
 }

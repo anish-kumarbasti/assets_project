@@ -1,6 +1,12 @@
 @extends('Backend.Layouts.panel')
 
 @section('Content-Area')
+@if (session('success'))
+<div id="pop" class="alert alert-success inverse alert-dismissible show" role="alert"><i class="icon-thumb-up alert-center"></i>
+    <p><b> Well done! </b>{{ session('success') }}</p>
+    <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@endif
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -27,8 +33,8 @@
                         </div>
                         <div class="form-group">
                             <label for="logo">Logo</label>
-                            <input type="file" class="form-control" id="logo" name="logo">
-                            <small class="form-text text-muted">Upload a company logo (if needed).</small>
+                            <input type="file" class="form-control" id="logo" name="logo" required>
+                            <small class="form-text text-muted">Upload a company logo.</small>
                         </div>
                         <button type="submit" class="btn btn-primary">{{ $businessSetting ? 'Update' : 'Add' }}</button>
                         <a href="" class="btn btn-secondary">Cancel</a>
@@ -38,4 +44,15 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('Script-Area')
+<script>
+    $(document).ready(function() {
+        var alerts = $('#pop');
+        setTimeout(function() {
+            alerts.alert('close');
+        }, 3000);
+    });
+</script>
 @endsection

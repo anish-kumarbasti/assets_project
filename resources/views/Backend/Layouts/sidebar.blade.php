@@ -34,7 +34,8 @@ background-color:#1d0950!important;
                         <i data-feather="home"></i><span class="lan-3">Dashboard</span>
                     </a>
                     <ul class="sidebar-submenu">
-                        <li class="{{ request()->is(['home*']) ? 'active' : '' }}"><a href="{{ url('home') }}">Admin Dashboard</a></li>
+                        @hasrole('Admin')
+                        <li class="{{ request()->is(['home*']) ? 'active' : '' }}"><a href="{{ url('home') }}">Admin Dashboard</a></li>@endhasrole
                         @hasrole('Employee')<li class="{{ request()->is(['user_dashboard*']) ? 'active' : '' }}"><a href="{{ url('user_dashboard') }}">User Dashboard</a></li>@endhasrole
                     </ul>
                 </li>
@@ -162,12 +163,14 @@ background-color:#1d0950!important;
                     </ul>
                 </li>
                 @endcan
+                @if (Auth::check() && Auth::user()->role_id == 1)
                 <li class="sidebar-list {{ request()->is(['all-reports*']) ? 'active' : '' }}">
                     <a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="book-open"></i><span>Reports</span></a>
                     <ul class="sidebar-submenu">
-                        <li {{ request()->is(['all-reports*']) ? 'active' : '' }}><a href="{{ url('all-reports') }}">All Reports</a> </li>
+                        <li class="{{request()->is(['all-reports*']) ? 'active' : ''}}"><a href="{{ url('all-reports') }}">All Reports</a> </li>
                     </ul>
                 </li>
+                @endif
                 @can('view_maintenance')
                 <li class="sidebar-list {{ request()->is(['asset-maintenances*', 'receive-maintenance*']) ? 'active' : '' }}">
                     <a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="plus-square"></i><span>Maintenance</span></a>
@@ -182,17 +185,16 @@ background-color:#1d0950!important;
                 <li class="sidebar-list {{ request()->is(['issuence-requests*', 'all-issuence*']) ? 'active' : '' }}">
                     <a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="plus-square"></i><span>Issuence</span></a>
                     <ul class="sidebar-submenu">
-                        <li><a href="#">Issuence Requests</a></li>
-                        <li><a href="#">All Issuence</a></li>
+                        <li><a href="{{url('employee/issue')}}">Issuence Requests</a></li>
+                        <li><a href="{{url('all/issue')}}">All Issuence</a></li>
                     </ul>
                 </li>
                 <!-- Transfer menu -->
                 <li class="sidebar-list {{ request()->is(['transfer-requests*', 'all-transfer*']) ? 'active' : '' }}">
                     <a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="plus-square"></i><span>Transfer</span></a>
                     <ul class="sidebar-submenu">
-                        <li><a href="#">Transfer Requests</a></li>
                         <li class="{{ request()->is(['return*']) ? 'active' : '' }}"><a href="{{ url('return') }}">Asset Returning</a> </li>
-                        <li><a href="#">All Transfer</a></li>
+                        <li><a href="{{url('employee/all/transfer')}}">All Transfer</a></li>
                     </ul>
                 </li>
                 @endif

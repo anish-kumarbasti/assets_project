@@ -223,22 +223,17 @@
                     <div class="col-md-4 mb-4" id="warranty">
                         <label class="form-label" for="warrantyDateInput">Warranty</label>
                         <div class="input-group">
-                            <input class="form-control digits" id="warrantyDateInput" style="cursor: pointer;" name="product_warranty" type="text" data-language="en" readonly>
-                            <span class="input-group-text" id="warrantyCalendarIcon" style="cursor: pointer;">
-                                <i class="fa fa-calendar"></i>
-                            </span>
+                            <input class="form-control digits" id="warrantyDateInput" name="product_warranty" type="date" data-language="en">
                         </div>
                     </div>
                     <div class="col-md-4 mb-4" id="expiryField">
                         <label class="col-form-label" for="expiryDateInput">Expiry</label>
                         <div class="input-group">
-                            <input class="form-control" id="expiryDateInput" name="expiry" type="text" data-language="en" readonly>
-                            <span class="input-group-text" id="expiryCalendarIcon" style="cursor: pointer;">
-                                <i class="fa fa-calendar"></i>
-                            </span>
+                            <input class="form-control" id="expiryDateInput" name="expiry" type="date" data-language="en">
+                            <input type="hidden" value="1" name="status">
                         </div>
                     </div>
-                    <div class="col-md-4 mb-4">
+                    <!-- <div class="col-md-4 mb-4">
                         <label class="col-form-label" for="expiryDateInput">Status</label>
                         <select class="form-select" id="status" name="status" aria-label="Default select example">
                             <option value="">--Select Status--</option>
@@ -246,7 +241,7 @@
                             <option value="{{ $status->id }}">{{ $status->name }}</option>
                             @endforeach
                         </select>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="footer-item">
@@ -414,14 +409,4 @@
         });
     });
 </script>
-<script>
-    $(document).ready(function() {
-        $("#warrantyDateInput, #expiryDateInput").datepicker({
-            onSelect: function(dateText, inst) {
-                $("#warrantyDateInput,#expiryDateInput").datepicker('hide');
-            }
-        });
-    });
-</script>
-
 @endsection
