@@ -45,7 +45,7 @@
                         <th>Brand</th>
                         <th>Brand Model</th>
                         <th>Configuration</th>
-                        <th>Serial Number</th>
+                        <th>Product Number</th>
                         <th>Supplier</th>
                         <th>Price</th>
                         <th>Active/Inactive</th>
@@ -67,7 +67,7 @@
                         <td>{{$stock->brand->name??''}}</td>
                         <td>{{$stock->brandmodel->name??''}}</td>
                         <td class="ellipsis">{{$stock->configuration}} </td>
-                        <td>{{$stock->serial_number}} </td>
+                        <td>{{$stock->product_number}} </td>
                         <td>{{$stock->getsupplier->name??''}} </td>
                         <td>{{$stock->price??''}} </td>
                         <td class="w-20">
@@ -78,8 +78,8 @@
                         <td> <span class=" custom-btn {{$stock->statuses->status ??''}}">{{$stock->statuses->name??''}}</span></td>
                         <td>
                            <div class="button-group d-flex justify-content-between align-items-center">
-                              <a style="display: flex;" class="btn btn-primary" href="{{ url('/edit-stock/' . $stock->id) }}"><i class="fa fa-pencil"></i> Edit</a>&nbsp;
-                              <button style="display: flex;" class="btn btn-danger delete-button" data-id="{{ $stock->id }}" type="button"><i class="fa fa-trash-o"></i> Delete</button>
+                              <a style="display: flex;" class="btn btn-primary" href="{{ url('/edit-stock/' . $stock->id) }}"><i class="fa fa-pencil"></i>&nbsp;Edit</a>&nbsp;
+                              <button style="display: flex;" class="btn btn-danger delete-button" data-id="{{ $stock->id }}" type="button"><i class="fa fa-trash-o"></i>&nbsp;Delete</button>
                            </div>
                         </td>
                      </tr>

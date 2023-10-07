@@ -86,12 +86,12 @@ class StockController extends Controller
 
     public function stockStatus()
     {
-        $stock = Stock::where('status_available', 1)->get(); 
-        $allocated = Stock::where('status_available', 2)->orWhere('status_available',10)->get();
+        $stock = Stock::where('status_available', 1)->get();
+        $allocated = Stock::where('status_available', 2)->orWhere('status_available', 10)->get();
         $stolen = Stock::where('status_available', 11)->get();
         $scrapped = Stock::where('status_available', 12)->get();
         $unrepair = Stock::where('status_available', 6)->get();
-        $transfer = Stock::where('status_available', 5)->orWhere('status_available',8)->get();
+        $transfer = Stock::where('status_available', 5)->orWhere('status_available', 8)->get();
         return view('Backend.Page.Stock.stock-status', compact('stock', 'allocated', 'unrepair', 'transfer', 'stolen', 'scrapped'));
     }
 
@@ -215,9 +215,9 @@ class StockController extends Controller
         return redirect()->route('all.stock')->with('success', 'Stock Updated successfully!');
     }
     public function timeline($id)
-    {   
-        $product = Timeline::where('product_id',$id)->with('user','product','issuance','transfer','disposal','maintenance','assetReturn')->get();
-        return view('Backend.Page.Stock.timeline',compact('product'));
+    {
+        $product = Timeline::where('product_id', $id)->with('user', 'product', 'issuance', 'transfer', 'disposal', 'maintenance', 'assetReturn')->get();
+        return view('Backend.Page.Stock.timeline', compact('product'));
     }
 
     public function destroy($id)

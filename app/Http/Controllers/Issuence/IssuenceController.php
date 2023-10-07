@@ -43,7 +43,7 @@ class IssuenceController extends Controller
             $statuspending = Status::where('name', 'Instock')->first();
             // dd($request);
             $response = Stock::with('brand', 'brandmodel', 'asset_type')
-                ->where('serial_number', $request->serialNumber)
+                ->where('product_number', $request->serialNumber)
                 ->orWhere('product_number', $request->serialNumber)
                 ->where(function ($query) use ($statusinstock, $statuspending) {
                     $query->where('status_available', $statuspending->id)
@@ -187,27 +187,27 @@ class IssuenceController extends Controller
         $productIds = json_decode($issuedata->product_id);
         $products = Stock::whereIn('id', $productIds)->with('brand', 'brandmodel', 'asset_type', 'getsupplier')->get();
         $user = User::where('employee_id', $issuedata->employee_id)->first();
-        $issuedmanager = Status::where('name','Issue accept Manager')->first();
-        Stock::find($id)->update(['status_available'=>$issuedmanager->id]);
+        $issuedmanager = Status::where('name', 'Issue accept Manager')->first();
+        Stock::find($id)->update(['status_available' => $issuedmanager->id]);
         $user->notify(new IssuenceNotification($user));
-        foreach($products as $products){
-        $data = [
-            'name' => $user->first_name . ' ' . $user->last_name,
-            'company_name' => 'IT-Asset',
-            'employee_id' => $user->employee_id,
-            'email' => $user->email,
-            'product_name' => $products->product_info . ' ' . $products->assetmain->name,
-            'product_serial' => $products->serial_number,
-            'product_time' => $issuedata->created_at,
-        ];
-        $users['to'] = $user->email;
+        foreach ($products as $products) {
+            $data = [
+                'name' => $user->first_name . ' ' . $user->last_name,
+                'company_name' => 'IT-Asset',
+                'employee_id' => $user->employee_id,
+                'email' => $user->email,
+                'product_name' => $products->product_info . ' ' . $products->assetmain->name,
+                'product_serial' => $products->serial_number,
+                'product_time' => $issuedata->created_at,
+            ];
+            $users['to'] = $user->email;
             Mail::send('Backend.Auth.mail.issuance_mail', $data, function ($message) use ($users) {
                 $message->from('itasset@svamart.com', 'itasset@svamart.com');
                 $message->to($users['to']);
                 $message->subject('Asset Issued Successfully.');
             });
         }
-        return back()->with('success','Aprroved.');
+        return back()->with('success', 'Aprroved.');
     }
     public function deniedmanager($id)
     {
@@ -219,9 +219,9 @@ class IssuenceController extends Controller
         $productIds = json_decode($issuedata->product_id);
         $products = Stock::whereIn('id', $productIds)->with('brand', 'brandmodel', 'asset_type', 'getsupplier')->get();
         $user = User::where('employee_id', $issuedata->employee_id)->first();
-        $issuedmanager = Status::where('name','Denied by Manager')->first();
-        Stock::find($id)->update(['status_available'=>$issuedmanager->id]);
-        return back()->with('success','Denied.');
+        $issuedmanager = Status::where('name', 'Denied by Manager')->first();
+        Stock::find($id)->update(['status_available' => $issuedmanager->id]);
+        return back()->with('success', 'Denied.');
     }
     public function markasreadcontroller($id)
     {
@@ -235,7 +235,7 @@ class IssuenceController extends Controller
         if (Auth::user()->role_id == 2) {
             $status = Status::where('name', 'Accepted by User')->orWhere('name', 'Rejected')->first();
             Stock::updateOrCreate(['id' => $id], ['status_available' => $status->id]);
-            $user=User::where('role_id',1)->first();
+            $user = User::where('role_id', 1)->first();
             $user->notify(new IssuenceNotification($user));
             return redirect()->route('user-dashboard')->with('success', 'Asset Alloted!');
         } else {
@@ -280,7 +280,7 @@ class IssuenceController extends Controller
         ]);
         $status = Status::where('name', 'Rejected')->first();
         Stock::updateOrCreate(['id' => $request->productIdToReject], ['status_available' => $status->id]);
-        $user=User::where('role_id',1)->first();
+        $user = User::where('role_id', 1)->first();
         $user->notify(new IssuenceNotification($user));
         return back()->with('success', 'Asset Rejected!');
     }
