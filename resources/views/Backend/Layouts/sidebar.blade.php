@@ -34,9 +34,12 @@ background-color:#1d0950!important;
                         <i data-feather="home"></i><span class="lan-3">Dashboard</span>
                     </a>
                     <ul class="sidebar-submenu">
-                        @hasrole('Admin')
-                        <li class="{{ request()->is(['home*']) ? 'active' : '' }}"><a href="{{ url('home') }}">Admin Dashboard</a></li>@endhasrole
-                        @hasrole('Employee')<li class="{{ request()->is(['user_dashboard*']) ? 'active' : '' }}"><a href="{{ url('user_dashboard') }}">User Dashboard</a></li>@endhasrole
+                        @can('admin_dashboard')
+                        <li class="{{ request()->is(['home*']) ? 'active' : '' }}"><a href="{{ url('home') }}">Admin Dashboard</a></li>
+                        @endcan
+                        @if (Auth::user()->role_id == 2)
+                        <li class="{{ request()->is(['user_dashboard*']) ? 'active' : '' }}"><a href="{{ url('user_dashboard') }}">User Dashboard</a></li>
+                        @endif
                     </ul>
                 </li>
                 @can('view_asset')
@@ -75,7 +78,7 @@ background-color:#1d0950!important;
                         <li class="{{ request()->is(['add-status*']) ? 'active' : '' }}"><a href="{{ url('add-status') }}">All Status</a></li>
                         @endcan
                         @can('view_transfer_reason')
-                        <li class="{{ request()->is(['transfer-reasons*']) ? 'active' : '' }}"><a href="{{ route('transfer-reasons.index') }}">Transfer Reasons</a></li>
+                        <li class="{{ request()->is(['transfer-reasons*']) ? 'active' : '' }}"><a href="{{ route('transfer-reasons.index') }}">Reasons</a></li>
                         @endcan
                     </ul>
                 </li>
@@ -138,10 +141,10 @@ background-color:#1d0950!important;
                 @endcan
                 @can('view_issuence')
                 <li class="sidebar-list {{ request()->is(['issuences*', 'issuences/all*']) ? 'active' : '' }}">
-                    <a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="box"></i><span>Issuence</span></a>
+                    <a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="box"></i><span>Issuance</span></a>
                     <ul class="sidebar-submenu">
-                        <li class="{{ request()->is(['issuences*']) ? 'active' : '' }}"><a href="{{ url('issuences') }}"> Add Issuence </a></li>
-                        <li class="{{ request()->is(['issuences/all*']) ? 'active' : '' }}"><a href="{{ url('issuences/all') }}"> All Issuence </a></li>
+                        <li class="{{ request()->is(['issuences*']) ? 'active' : '' }}"><a href="{{ url('issuences') }}"> Add Issuance </a></li>
+                        <li class="{{ request()->is(['issuences/all*']) ? 'active' : '' }}"><a href="{{ url('issuences/all') }}"> All Issuance </a></li>
                     </ul>
                 </li>
                 @endcan

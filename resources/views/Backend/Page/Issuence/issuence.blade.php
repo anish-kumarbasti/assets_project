@@ -133,7 +133,7 @@
                 <div class="card-item border card" style="transform: translateY(-2.5rem);">
                     <div class="row p-3">
                         <div class="col-md-12 mb-4">
-                            <label class="form-label" for="serialNumber">Serial Number:</label>
+                            <label class="form-label" for="serialNumber">Product Number:</label>
                             <input class="form-control" id="serialNumber" name="serialNumber" type="text" data-bs-original-title="" title="" placeholder="Enter Serial Number">
                         </div>
                     </div>

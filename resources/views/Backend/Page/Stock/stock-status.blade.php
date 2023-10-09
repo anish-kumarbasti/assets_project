@@ -54,16 +54,33 @@
 <div class="col-sm-12">
     <div class="card">
         <div class="card-header pb-0">
-            <!-- <div class="card"> -->
-            <!-- <div class="card-head"> -->
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">IT Asset</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <label for="product_number">Product Number</label>
+                            <input type="text" class="form-control" name="product_number" placeholder="Product Number" id="product_number">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Search</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-6 p-4">
                     <b class="p-4 fs-5">IT ASSET</b>
                 </div>
                 <div class="col-md-6 text-end p-4">
-                    <button class="btn btn-primary qr_btn"><img src="{{ asset('Backend/assets/images/It-Assets/Vector1.svg') }}" alt='...'></button>
+                    <button class="btn btn-primary qr_btn" data-bs-toggle="modal" data-bs-target="#exampleModal"><img src="{{ asset('Backend/assets/images/It-Assets/Vector1.svg') }}" alt='...'></button>
                     <button class="btn btn-primary qr_btn" id="openModalBtn"><img src="{{ asset('Backend/assets/images/It-Assets/veckor2.svg') }}" alt='...'></button>
-                    <button class="btn btn-primary qr_btn"><img src="{{ asset('Backend/assets/images/It-Assets/Vector3.svg') }}" alt='...'></button>
+                    <!-- <button class="btn btn-primary qr_btn"><img src="{{ asset('Backend/assets/images/It-Assets/Vector3.svg') }}" alt='...'></button> -->
                 </div>
             </div>
             <!-- </div> -->
@@ -84,14 +101,12 @@
             <!-- </div> -->
             <!-- </div> -->
             <!-- </div> -->
-            <div class="modal" id="calendarModal" tabindex="-1" role="dialog">
-                <div class="modal-dialog" role="document">
+            <div id="calendarModal" tabindex="-1" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">Select Date Range</h5>
-                            <button type="button" class="close rounded" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
@@ -105,7 +120,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="button" class="btn btn-primary" id="applyFilterBtn">Apply Filter</button>
                         </div>
                     </div>
