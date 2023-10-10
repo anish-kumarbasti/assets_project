@@ -60,16 +60,11 @@ class ChartDashboardController extends Controller
                 ->groupBy('month')
                 ->orderBy('month')
                 ->get();
-
-            // Initialize an array to store counts for each month
             $monthlyCountsArray = array_fill(1, 12, 0);
-
-            // Populate the array with counts from the database results
             foreach ($monthlyCounts as $count) {
                 $monthlyCountsArray[$count->month] = $count->count;
             }
 
-            // Store the monthly counts in the result array, keyed by the asset type ID
             $monthlyCountsByAssetType[$monthlyAssetType] = $monthlyCountsArray;
         }
         // dd($monthlyCountsByAssetType);
@@ -86,18 +81,29 @@ class ChartDashboardController extends Controller
     {
         if (Auth::check()) {
             $user = Auth::user();
-            if ($user) {
-                auth()->user()->unreadNotifications->where('id', $user)->markAsRead();
+            auth()->user()->unreadNotifications->where('id', $user)->markAsRead();
+
+            $userEmployeeId = Auth::user()->employee_id;
+            $managerId = Auth::user()->id;
+
+            $issuedata = Issuence::where('employee_id', $userEmployeeId)
+                ->orWhere('employee_manager_id', $managerId)
+                ->first();
+
+            $productIds = json_decode($issuedata->product_id ?? '');
+
+            if ($productIds) {
+                $products = Stock::whereIn('id', $productIds)
+                    ->with('brand', 'brandmodel', 'asset_type', 'getsupplier')
+                    ->get();
+            } else {
+                $products = [];
             }
-            $user = Auth::user()->employee_id;
-            $manager = Auth::user()->id;
-            $issuedata = Issuence::where('employee_id', $user)
-                ->orWhere('employee_manager_id', $manager)->first();
-            $productIds = json_decode($issuedata->product_id);
-            $products = Stock::whereIn('id', $productIds)->with('brand', 'brandmodel', 'asset_type', 'getsupplier')->get();
+
             return view('Backend.Page.user_dashboard', compact('products', 'issuedata'));
         } else {
             return redirect('/');
         }
+
     }
 }

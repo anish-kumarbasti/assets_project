@@ -193,17 +193,17 @@
                             @foreach ($allocated as $allocateds)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $allocateds->product_number ?? '' }}</td>
-                                <td>{{ $allocateds->assetmain->name ?? '' }}</td>
-                                <td>{{ $allocateds->brand->name ?? '' }}</td>
-                                <td>{{ $allocateds->brandmodel->name ?? '' }}</td>
-                                <td>{{ $allocateds->serial_number ?? '' }}</td>
-                                <td class="ellipsis">{{ $allocateds->configuration ?? '' }}</td>
+                                <td>{{ $allocateds->product_number ?? 'N/A' }}</td>
+                                <td>{{ $allocateds->assetmain->name ?? 'N/A' }}</td>
+                                <td>{{ $allocateds->brand->name ?? 'N/A' }}</td>
+                                <td>{{ $allocateds->brandmodel->name ?? 'N/A' }}</td>
+                                <td>{{ $allocateds->serial_number ?? 'N/A' }}</td>
+                                <td class="ellipsis">{{ $allocateds->configuration ?? 'N/A' }}</td>
                                 {{-- <td>{{$allocateds->serial_number??''}}</td>
                                 <td>{{$allocateds->serial_number??''}}</td>
                                 <td>{{$allocateds->serial_number??''}}</td>
                                 <td>{{$allocateds->serial_number??''}}</td> --}}
-                                <td> ₹{{ $allocateds->price ?? '' }}</td>
+                                <td> ₹{{ $allocateds->price ?? 'N/A' }}</td>
                                 <td>
                                     <form action="{{ url('timeline', $allocateds->id) }}" method="post">
                                         @csrf
@@ -235,13 +235,13 @@
                             @foreach ($unrepair as $unrepairs)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $unrepairs->product_number ?? '' }}</td>
-                                <td>{{ $unrepairs->assetmain->name ?? '' }}</td>
-                                <td>{{ $unrepairs->brand->name ?? '' }}</td>
-                                <td>{{ $unrepairs->brandmodel->name ?? '' }}</td>
-                                <td>{{ $unrepairs->serial_number ?? '' }}</td>
-                                <td class="ellipsis">{{ $unrepairs->configuration ?? '' }}</td>
-                                <td> ₹{{ $unrepairs->price ?? '' }}</td>
+                                <td>{{ $unrepairs->product_number ?? 'N/A' }}</td>
+                                <td>{{ $unrepairs->assetmain->name ?? 'N/A' }}</td>
+                                <td>{{ $unrepairs->brand->name ?? 'N/A' }}</td>
+                                <td>{{ $unrepairs->brandmodel->name ?? 'N/A' }}</td>
+                                <td>{{ $unrepairs->serial_number ?? 'N/A' }}</td>
+                                <td class="ellipsis">{{ $unrepairs->configuration ?? 'N/A' }}</td>
+                                <td> ₹{{ $unrepairs->price ?? 'N/A' }}</td>
                                 <td>
                                     <form action="{{ url('timeline', $unrepairs->id) }}" method="post">
                                         @csrf
@@ -273,13 +273,13 @@
                             @foreach ($scrapped as $scrappeds)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $scrappeds->product_number ?? '' }}</td>
-                                <td>{{ $scrappeds->assetmain->name ?? '' }}</td>
-                                <td>{{ $scrappeds->brand->name ?? '' }}</td>
-                                <td>{{ $scrappeds->brandmodel->name ?? '' }}</td>
-                                <td>{{ $scrappeds->serial_number ?? '' }}</td>
+                                <td>{{ $scrappeds->product_number ?? 'N/A' }}</td>
+                                <td>{{ $scrappeds->assetmain->name ?? 'N/A' }}</td>
+                                <td>{{ $scrappeds->brand->name ?? 'N/A' }}</td>
+                                <td>{{ $scrappeds->brandmodel->name ?? 'N/A' }}</td>
+                                <td>{{ $scrappeds->serial_number ?? 'N/A' }}</td>
                                 <td class="ellipsis">{{ $scrappeds->configuration ?? '' }}</td>
-                                <td> ₹{{ $scrappeds->price ?? '' }}</td>
+                                <td> ₹{{ $scrappeds->price ?? 'N/A' }}</td>
                                 <td>
                                     <form action="{{url('timeline',$scrappeds->id)}}" method="post">
                                         @csrf
@@ -311,13 +311,13 @@
                             @foreach ($stolen as $stolens)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $stolens->product_number ?? '' }}</td>
-                                <td>{{ $stolens->assetmain->name ?? '' }}</td>
-                                <td>{{ $stolens->brand->name ?? '' }}</td>
-                                <td>{{ $stolens->brandmodel->name ?? '' }}</td>
-                                <td>{{ $stolens->serial_number ?? '' }}</td>
-                                <td class="ellipsis">{{ $stolens->configuration ?? '' }}</td>
-                                <td> ₹{{ $stolens->price ?? '' }}</td>
+                                <td>{{ $stolens->product_number ?? 'N/A' }}</td>
+                                <td>{{ $stolens->assetmain->name ?? 'N/A' }}</td>
+                                <td>{{ $stolens->brand->name ?? 'N/A' }}</td>
+                                <td>{{ $stolens->brandmodel->name ?? 'N/A' }}</td>
+                                <td>{{ $stolens->serial_number ?? 'N/A' }}</td>
+                                <td class="ellipsis">{{ $stolens->configuration ?? 'N/A' }}</td>
+                                <td> ₹{{ $stolens->price ?? 'N/A' }}</td>
                                 <td>
                                     <form action="{{url('timeline',$stolens->id)}}" method="post">
                                         @csrf
@@ -348,13 +348,13 @@
                             @foreach ($transfer as $transfers)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $transfers->product_number ?? '' }}</td>
-                                <td>{{ $transfers->assetmain->name ?? '' }}</td>
-                                <td>{{ $transfers->brand->name ?? '' }}</td>
-                                <td>{{ $transfers->brandmodel->name ?? '' }}</td>
-                                <td>{{ $transfers->serial_number ?? '' }}</td>
-                                <td class="ellipsis">{{ $allocateds->configuration ?? '' }}</td>
-                                <td> ₹{{ $transfers->price ?? '' }}</td>
+                                <td>{{ $transfers->product_number ?? 'N/A' }}</td>
+                                <td>{{ $transfers->assetmain->name ?? 'N/A' }}</td>
+                                <td>{{ $transfers->brand->name ?? 'N/A' }}</td>
+                                <td>{{ $transfers->brandmodel->name ?? 'N/A' }}</td>
+                                <td>{{ $transfers->serial_number ?? 'N/A' }}</td>
+                                <td class="ellipsis">{{ $allocateds->configuration ?? 'N/A' }}</td>
+                                <td> ₹{{ $transfers->price ?? 'N/A' }}</td>
                                 <td>
                                     <form action="{{url('timeline',$transfers->id)}}" method="post">
                                         @csrf
