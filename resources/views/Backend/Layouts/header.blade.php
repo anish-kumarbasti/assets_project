@@ -108,11 +108,11 @@
                         </li>
                         {{-- @foreach (auth()->user()->notifications as $notification) --}}
                         @if(Auth::check() && Auth::user()->role_id == 4 && auth()->user()->notifications)
-                        <li><a class="btn btn-primary" href="{{ route('markasread-controller', auth()->user()->notifications->first()->id) }}">Check all notification</a></li>
+                        <li><a class="btn btn-primary" href="{{ route('markasread-controller', auth()->user()->notifications->first()->id ??'') }}">Check all notification</a></li>
                         @elseif (Auth::check() && Auth::user()->role_id == 3 && auth()->user()->notifications)
-                        <li><a class="btn btn-primary" href="{{ route('markasread-manager', auth()->user()->notifications->first()->id) }}">Check all notification</a></li>
+                        <li><a class="btn btn-primary" href="{{ route('markasread-manager', auth()->user()->notifications->first()->id??'') }}">Check all notification</a></li>
                         @else
-                        <li><a class="btn btn-primary" href="{{ route('markasread', auth()->user()->notifications->first()->id) }}">Check all notification</a></li>
+                        <li><a class="btn btn-primary" href="{{ route('markasread', auth()->user()->notifications->first()->id??'') }}">Check all notification</a></li>
                         @endif
 
                         {{-- @endforeach --}}
