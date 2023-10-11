@@ -151,13 +151,13 @@
                             @foreach ($stock as $stock)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $stock->product_number ?? '' }}</td>
-                                <td>{{ $stock->assetmain->name ?? '' }}</td>
-                                <td>{{ $stock->brand->name ?? '' }}</td>
-                                <td>{{ $stock->brandmodel->name ?? '' }}</td>
-                                <td>{{ $stock->serial_number ?? '' }}</td>
-                                <td class="ellipsis">{{ $stock->configuration ?? '' }}</td>
-                                <td> ₹{{ $stock->price ?? '' }}</td>
+                                <td>{{ $stock->product_number ?? 'N/A' }}</td>
+                                <td>{{ $stock->assetmain->name ?? 'N/A' }}</td>
+                                <td>{{ $stock->brand->name ?? 'N/A' }}</td>
+                                <td>{{ $stock->brandmodel->name ?? 'N/A' }}</td>
+                                <td>{{ $stock->serial_number ?? 'N/A' }}</td>
+                                <td class="ellipsis">{{ $stock->configuration ?? 'N/A' }}</td>
+                                <td> ₹{{ $stock->price ?? 'N/A' }}</td>
                                 <td>
                                     <form action="{{ url('timeline', $stock->id) }}" method="post">
                                         @csrf

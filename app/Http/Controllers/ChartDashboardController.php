@@ -68,7 +68,7 @@ class ChartDashboardController extends Controller
             $monthlyCountsByAssetType[$monthlyAssetType] = $monthlyCountsArray;
         }
         // dd($monthlyCountsByAssetType);
-        $id = '5';
+        $id = '1';
         $instock = Stock::where('status_available', $id)->count();
         $issue = Issuence::all();
         $totalissue = $issue->count();

@@ -35,13 +35,17 @@
         border: none !important;
         box-shadow: none !important;
     }
+    .scrolling-container{
+        height: 200px;
+        overflow-y:scroll;
+    }
 </style>
 
 <div class="page-header">
     <div class="header-wrapper row m-0">
         <div class="header-logo-wrapper col-auto p-0">
             <div class="toggle-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="grid"> </i></div>
-            <div class="logo-header-main"><a href="index.html"><img class="img-fluid for-light img-100" src="../assets/images/logo/logo2.png" alt=""><img class="img-fluid for-dark" src="../assets/images/logo/logo.png" alt=""></a></div>
+            <div class="logo-header-main"><a href="index.html"><img class="img-fluid for-light img-100" src="../assets/images/logo/logo2.png" alt=""><img class="img-fluid for-dark" src="../assets/images/logo/logo.png" alt="abc"></a></div>
         </div>
         <div class="left-header col horizontal-wrapper ps-0">
         </div>
@@ -77,7 +81,7 @@
                             </div>
                         </li> --}}
                         <li>
-                            <div class="align-items-center">
+                            <div class="align-items-center scrolling-container">
                                 @foreach (auth()->user()->notifications as $notification)
 
                                 <div class="flex-shrink-0"><i data-feather="shopping-cart"></i></div>
@@ -111,10 +115,11 @@
                         <li><a class="btn btn-primary" href="{{ route('markasread-controller', auth()->user()->notifications->first()->id ??'') }}">Check all notification</a></li>
                         @elseif (Auth::check() && Auth::user()->role_id == 3 && auth()->user()->notifications)
                         <li><a class="btn btn-primary" href="{{ route('markasread-manager', auth()->user()->notifications->first()->id??'') }}">Check all notification</a></li>
+                        @elseif (Auth::check() && Auth::user()->role_id == 1 && auth()->user()->notifications)
+                        <li><a class="btn btn-primary" href="{{ route('markasread-admin', auth()->user()->notifications->first()->id??'') }}">Check all notification</a></li>
                         @else
                         <li><a class="btn btn-primary" href="{{ route('markasread', auth()->user()->notifications->first()->id??'') }}">Check all notification</a></li>
                         @endif
-
                         {{-- @endforeach --}}
                     </ul>
                 </li>

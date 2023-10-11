@@ -11,12 +11,12 @@ background-color:#1d0950!important;
 ">
     <div>
         <div class="logo-wrapper"><a href="#"><img class="img-fluid for-light" src="{{ asset('storage/' . $logoPath) }}" style="height: auto; width: 100%;" alt=""></a></div>
-        <div class="back-btn"><i data-feather="grid"></i></div>
-        <div class="toggle-sidebar icon-box-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="grid">
+        <div class="back-btn"><i style="background-color: #1d0950!important;" data-feather="grid"></i></div>
+        <div class="toggle-sidebar icon-box-sidebar"  style="background-color: #1d0950!important;"><i class="status_toggle middle sidebar-toggle" data-feather="grid">
             </i></div>
     </div>
     <div class="logo-icon-wrapper"><a href="#">
-            <div class="icon-box-sidebar"><i data-feather="grid"></i></div>
+            <div class="icon-box-sidebar" style="position: relative!important"><i data-feather="grid"></i></div>
         </a></div>
     <nav class="sidebar-main">
         <div class="left-arrow" id="left-arrow"><i data-feather="arrow-left"></i></div>

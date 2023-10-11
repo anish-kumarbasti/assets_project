@@ -21,7 +21,7 @@
 @if ($errors->any())
 <ul class="alert alert-danger">
     @foreach ($errors->all() as $error)
-    <li>{{ $error }}</li>
+    <span>{{ $error }}</span>
     @endforeach
 </ul>
 @endif
@@ -61,31 +61,49 @@
                                         @foreach ($assettype as $assettypes)
                                         <option value="{{ $assettypes->id }}">{{ $assettypes->name }}</option>
                                         @endforeach
+                                        @error('assetType')
+                                        <div class="text-danger">{{ $message }}</div>
+                                        @enderror
                                     </select>
                                 </div>
                                 <div class="mb-2">
                                     <label class="form-label">Asset</label>
                                     <select class="form-select" id="asset" name="assetName" aria-label="Default select example">
                                         <option value="">--Select Asset--</option>
+                                        @error('assetName')
+                                        <div class="text-danger">{{ $message }}</div>
+                                        @enderror
                                     </select>
                                 </div>
                                 <div class="mb-2">
                                     <label class="form-label">Choose Product</label>
                                     <select class="form-select" id="product" name="product_name" aria-label="Default select example">
                                         <option value="">--Select Product--</option>
+                                        @error('product_name')
+                                        <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     </select>
                                 </div>
                                 <div class="mb-2">
                                     <label class="form-label">Period (Month)</label>
                                     <input class="form-control" name="period_months" type="text" id="period_months" inputmode="numeric">
+                                    @error('period_months')
+                                        <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                 </div>
                                 <div class="mb-2">
                                     <label class="form-label">Desposal Code</label>
                                     <input type="text" class="form-control" name="desposal_code" id="desposal">
+                                    @error('desposal_code')
+                                    <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
                                 <div class="mb-2">
                                     <label class="form-label">Asset Value</label>
                                     <input type="text" class="form-control" name="asset_value" id="assetvalue" inputmode="numeric">
+                                    @error('asset_value')
+                                    <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
                                 <div class="mb-2">
                                     <label for="form-label">Status</label>
