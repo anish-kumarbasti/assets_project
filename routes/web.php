@@ -21,6 +21,7 @@ use App\Http\Controllers\Transfer\TransferController;
 use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\SubLocationController;
 use App\Http\Controllers\AttributeController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\ReportController;
@@ -145,7 +146,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('transfer', [TransferController::class, 'index']);
     Route::post('transfer/store', [TransferController::class, 'store'])->name('transfer-store');
     Route::get('transfer/all', [TransferController::class, 'showAll'])->name('all-transfers');
-    // Route::get('/get-issuance-data', 'IssuanceController@getIssuanceData');
+    Route::get('search-master', [SearchController::class, 'searchAll'])->name('search-master');
+    Route::get('search', [SearchController::class, 'search'])->name('search');
+    Route::get('/user/{id}/timeline', [SearchController::class, 'userTimeline'])->name('user-timeline');
+    Route::get('/stock/{id}/timeline', [SearchController::class, 'stockTimeline'])->name('stock-timeline');
     Route::get('add-user', [UserController::class, 'user']);
     Route::get('user-details', [UserController::class, 'userCard']);
 

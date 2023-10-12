@@ -63,6 +63,10 @@
                 <li>
                     <div class="mode"><i class="fa fa-moon-o"></i></div>
                 </li>
+                <li>
+                    <div class="search">
+                        <a href="{{ route('search-master') }}"><i class="fa fa-search"></i></a></div>
+                </li>
                 <li class="onhover-dropdown">
                     <div class="notification-box"><i data-feather="bell"></i></div>
                     <ul class="notification-dropdown onhover-show-div">
