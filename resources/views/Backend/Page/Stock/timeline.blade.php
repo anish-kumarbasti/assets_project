@@ -25,7 +25,7 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="h3 text-center">
-                  There is no Timeline for this Product.
+                  No timeline for this product.
                 </div>
               </div>
             </div>
@@ -37,9 +37,9 @@
               <div class="cd-timeline-content">
                 <h4>{{$loop->iteration}}.{{$data->action}}</h4>
                 @if ($data->action == 'Product Created')
-                <p class="m-0">Date & Time of Adding The Product in InStock</p> 
+                <p class="m-0">Date & Time of Adding The Product in InStock</p>
                 @elseif ($data->action == 'Product Issued')
-                <p class="m-0">Date & Time of Issuing The Product to the Employee</p> 
+                <p class="m-0">Date & Time of Issuing The Product to the Employee</p>
                 <div class="cd-timeline-block">
                     <div class="bg-white p-2 pl-4">
                       @php
@@ -54,7 +54,7 @@
                     <p>Date & Time of Allocating The Product to Employee</p><a style="color:rgba(107, 107, 107, 0.564);">{{ $data['issuance']->created_at->format('d/m/Y \a\t H:i A') }}</a>
                 </div>
                 @elseif ($data->action == 'Product Transferred')
-                <p class="m-0">Date & Time of Transferring The Product by Employee to Employee</p> 
+                <p class="m-0">Date & Time of Transferring The Product by Employee to Employee</p>
                 <div class="cd-timeline-block">
                   <div class="bg-white p-2 pl-4">
                     @php
@@ -69,7 +69,7 @@
                   <p>Date & Time of Transfering The Product to New Employee</p><a style="color:rgba(107, 107, 107, 0.564);">{{ $data['transfer']->created_at->format('d/m/Y \a\t H:i A') }}</a>
                 </div>
                 @elseif ($data->action == 'Product Maintenance')
-                <p class="m-0">Date & Time of Start Maintenance The Product</p> 
+                <p class="m-0">Date & Time of Start Maintenance The Product</p>
                 <div class="cd-timeline-block">
                   <div class="bg-white p-2 pl-4">
                     @php

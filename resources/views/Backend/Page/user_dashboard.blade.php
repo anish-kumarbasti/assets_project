@@ -245,7 +245,7 @@
                     @elseif (Auth::check() && Auth::user()->role_id == 3)
                     @if ($notification->type == 'App\Notifications\TransferNotification')
                     <td>Hello A new Asset ({{ $product->product_info }}) has been Transferred to
-                      the ({{ $transferuser->first_name }} {{ $transferuser->last_name }})</td>
+                      the ({{ $transferuser->first_name??'' }} {{ $transferuser->last_name??'' }})</td>
                     <td class="text-end">
                       @if ($product->status_available != 8)
                       <button class="btn btn-primary" type="submit">Approve</button>
@@ -255,13 +255,13 @@
                     </td>
                     @elseif ($notification->type == 'App\Notifications\ReturnNotification')
                     <td>Hello A Asset ({{ $product->product_info }}) is Returned by
-                      this ({{ $user->first_name }} {{ $user->last_name }})</td>
+                      this ({{ $user->first_name??'' }} {{ $user->last_name??'' }})</td>
                     <td class="text-end">
                       <button class="btn btn-info" type="button">Returned by User</button>
                     </td>
                     @else
                     <td>Hello A new Asset ({{ $product->product_info }}) has been issued. to
-                      the ({{ $user->first_name }} {{ $user->last_name }})</td>
+                      the ({{ $user->first_name??'' }} {{ $user->last_name??'' }})</td>
                     <td class="text-end">
                       <button class="btn btn-success" type="button">Isuued</button>
                     </td>

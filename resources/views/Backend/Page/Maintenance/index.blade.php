@@ -67,6 +67,9 @@
                                 <div class="mb-2">
                                     <label class="form-label">Product Number</label>
                                     <input class="form-control" oninput="showDiv()" id="product_number" type="search" data-bs-original-title="" title="" name="product_id" placeholder="Enter Asset Number" onkeydown="return event.key != 'Enter';" required>
+                                    @error('product_number')
+                                    <span class="btn btn-danger">{{$message}}</span>
+                                    @enderror
                                 </div>
                                 <div id="myDiv" style="display: none;">
                                     <div class="mb-2">
@@ -99,10 +102,16 @@
                                 <div class="mb-2">
                                     <label class="form-label">Start Date</label>
                                     <input type="date" class="form-control digits" name="start_date" type="date" id="start">
+                                    @error('start_date')
+                                    <span class="text-danger">{{$message}}</span>
+                                    @enderror
                                 </div>
                                 <div class="mb-2">
                                     <label class="form-label">End Date</label>
                                     <input type="date" class="form-control digits" name="end_date" id="end" type="date">
+                                    @error('end_date')
+                                    <span class="text-danger">{{$message}}</span>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="modal-footer">

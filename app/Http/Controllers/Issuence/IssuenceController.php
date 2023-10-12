@@ -141,17 +141,27 @@ class IssuenceController extends Controller
 
     public function markasread($id)
     {
-        if ($id) {
-            auth()->user()->unreadNotifications->where('id', $id)->markAsRead();
+    if ($id) {
+        auth()->user()->unreadNotifications->where('id', $id)->markAsRead();
         }
-        $user = Auth::user()->employee_id;
-        $manager = Auth::user()->id;
-        $issuedata = Issuence::where('employee_id', $user)
-            ->orWhere('employee_manager_id', $manager)->first();
+
+    $user = Auth::user()->employee_id;
+    $manager = Auth::user()->id;
+
+    $issuedata = Issuence::where('employee_id', $user)
+        ->orWhere('employee_manager_id', $manager)->first();
+
+    if($issuedata && $issuedata->product_id){
         $productIds = json_decode($issuedata->product_id);
         $products = Stock::whereIn('id', $productIds)->with('brand', 'brandmodel', 'asset_type', 'getsupplier')->get();
-        return view('Backend.Page.Issuence.accept', compact('products', 'issuedata'));
     }
+    else{
+        $products = [];
+    }
+
+    return view('Backend.Page.Issuence.accept', compact('products', 'issuedata'));
+    }
+
     public function markasreadAdmin($id)
     {
         if ($id) {

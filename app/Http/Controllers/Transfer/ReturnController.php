@@ -43,7 +43,6 @@ class ReturnController extends Controller
 
     public function submit(Request $request)
     {
-        dd($request);
         try {
             $request->validate([
                 'cardId' => 'required', // Ensure that cardId is an array
@@ -55,8 +54,7 @@ class ReturnController extends Controller
             $return = AssetReturn::create([
                 'product_id' => json_encode($cardIds),
                 'reason' => $request->description,
-                'return_by_user' => $auth->id,
-                'status'=>$request->status,
+                'return_by_user' => $auth->id
             ]);
             $status = Status::where('name', 'Returned by User')->first();
             Stock::whereIn('id', $cardIds)->update(['status_available' => $status->id]);
