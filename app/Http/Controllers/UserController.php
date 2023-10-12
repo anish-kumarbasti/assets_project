@@ -53,7 +53,7 @@ class UserController extends Controller
     }
     public function showUsers()
     {
-        $users = User::with(['department', 'designation'])->get();
+        $users = User::with(['department', 'designation'])->orderBy('created_at', 'DESC')->get();
         // dd($users);
         return view('Backend.Page.User.user-details', compact('users'));
     }

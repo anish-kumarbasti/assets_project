@@ -82,10 +82,10 @@ class RolesController extends Controller
     {
         $permissionsToAdd = $request->permissions;
         $user = Auth::user();
-        
+
         $usersWithRole = User::where('role_id', $role->id)->get();
-     
         if ($usersWithRole->isNotEmpty()) {
+            // dd($usersWithRole);
             foreach ($usersWithRole as $userWithRole) {
                 $existingUserPermissions = DB::table('model_has_permissions')
                     ->where('model_type', get_class($userWithRole))

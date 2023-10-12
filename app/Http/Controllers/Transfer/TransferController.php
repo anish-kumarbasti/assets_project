@@ -63,7 +63,7 @@ class TransferController extends Controller
                 'handover_employee_id' => $request->handoverId,
                 'description' => $request->description,
             ]);
-            
+
             $user = User::where('employee_id', $request->employeeId)->first();
             $handover = User::where('employee_id', $request->handoverId)->first();
             foreach ($request->cardId as $productId) {
@@ -123,7 +123,7 @@ class TransferController extends Controller
     public function showAll()
     {
         $transfers = Transfer::with('user')->get();
-        
+
         // $transfers = Transfer::all();
         return view('Backend.Page.Transfer.all-transfer', compact('transfers'));
     }

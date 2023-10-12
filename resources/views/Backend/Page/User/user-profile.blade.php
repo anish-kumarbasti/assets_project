@@ -62,6 +62,18 @@
                         <h3><span class="counter">{{$returns??''}}</span></h3>
                      </div>
                   </div>
+                  <hr>
+                  <div class="col-sm-12">
+                    <thead>
+                        <tr>
+                            <th><b>Employee Id:</b> {{$user->employee_id??''}}</th><br>
+                            <th><b>Email:</b> {{$user->email ??''}}</th><br>
+                            <th><b>Department:</b> {{$user->department->name??''}}</th><br>
+                            <th><b>Designation:</b> {{$user->designation->designation??''}}</th><br>
+                            <th><b>Phone No:</b> {{$user->mobile_number??''}}</th> <br>
+                        </tr>
+                    </thead>
+                  </div>
                </div>
             </div>
             <div class="col-md-8">

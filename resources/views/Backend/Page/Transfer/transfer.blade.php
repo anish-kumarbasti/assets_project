@@ -78,6 +78,26 @@
     @endforeach
 </div>
 @endif
+  <!-- Modal -->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Employee Id</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <label class="form-label" for="employeeId">Employee's ID</label>
+            <input class="form-control" type="search" name="employeeId" id="employeeId">
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Understood</button>
+        </div>
+      </div>
+    </div>
+  </div>
     <div class="col-sm-12">
         <form class="needs-validation" method="post" action="{{ route('transfer-store') }}" novalidate="">
             @csrf
@@ -110,7 +130,7 @@
                                             id="qrInput">
                                         <img id="qrImage"
                                             src="{{ asset('Backend/assets/images/IT-Assets/Vector_qr.png') }}"
-                                            alt="QR Code">
+                                            alt="QR Code" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                                     </div>
                                 </div>
                             </div>
@@ -122,17 +142,17 @@
                                 <div class="col-md-4 mb-4">
                                     <label class="form-label" for="validationCustom01">Name:</label>
                                     <input class="form-control" id="name" type="text" data-bs-original-title=""
-                                        title="" placeholder="Abhi" readonly>
+                                        title="" placeholder="" readonly>
                                 </div>
                                 <div class="col-md-4 mb-4">
                                     <label class="form-label" for="validationCustom01">Department:</label>
                                     <input class="form-control" id="depart" type="text" data-bs-original-title=""
-                                        title="" placeholder="IT Department" readonly>
+                                        title="" placeholder="" readonly>
                                 </div>
                                 <div class="col-md-4 mb-4">
                                     <label class="form-label" for="validationCustom01">Designation:</label>
                                     <input class="form-control" id="location" type="text" data-bs-original-title=""
-                                        title="" placeholder="HR" readonly>
+                                        title="" placeholder="" readonly>
                                 </div>
                             </div>
                         </div>
@@ -172,7 +192,7 @@
                                 {{ $message }}
                             </span>
                             @enderror
-                            
+
                         </div>
                         <div class="col-md-12 mb-4">
                            <label class="form-label" for="employeeId">Handover to Employee's</label>
@@ -227,7 +247,7 @@
                 </div>
                 <div class="footer-item mt-3 mb-3 d-flex justify-content-end">
                     <button class="btn btn-secondary prev-step" id="prev-asset" data-step="select-asset-step"
-                        type="button">Previous</button>
+                        type="button">Previous</button>&nbsp;
                     <button class="btn btn-primary mt-2" type="submit" data-bs-original-title="" title="">Proceed
                         Request</button>
                 </div>
@@ -298,7 +318,7 @@
                         if (data.employee) {
                             $("#name").val(data.employee.first_name);
                             $("#depart").val(data.employee.department.name);
-                            $("#location").val(data.employee.designation.name);
+                            $("#location").val(data.employee.designation.designation);
                         } else {
                             $("#name").val('');
                             $("#depart").val('');
