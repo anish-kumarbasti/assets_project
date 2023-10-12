@@ -17,7 +17,7 @@
                             <div class="col-md-6">
                                 <label class="form-label" for="firstName">First Name</label>
                                 <input class="form-control" id="firstName" name="first_name" type="text"
-                                    placeholder="First Name">
+                                    placeholder="First Name" autocomplete="off">
                                 @error('first_name')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
@@ -25,7 +25,7 @@
                             <div class="col-md-6">
                                 <label class="form-label" for="lastName">Last Name</label>
                                 <input class="form-control" id="lastName" name="last_name" type="text"
-                                    placeholder="Last Name">
+                                    placeholder="Last Name" autocomplete="off">
                                 @error('last_name')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
@@ -33,7 +33,7 @@
                             <div class="col-md-6">
                                 <label class="form-label" for="email">Email</label>
                                 <input class="form-control" id="email" name="email" type="email"
-                                    placeholder="Email">
+                                    placeholder="Email" autocomplete="off">
                                 @error('email')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
@@ -41,14 +41,14 @@
                             <div class="col-md-6">
                                 <label class="form-label" for="mobileNumber">Mobile Number</label>
                                 <input class="form-control" id="mobileNumber" name="mobile_number" type="number"
-                                    placeholder="Mobile Number">
+                                    placeholder="Mobile Number" autocomplete="off">
                                 @error('mobile_number')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="Age">Age</label>
-                                <input class="form-control" id="Age" name="age" type="number"
+                                <input class="form-control" autocomplete="off" id="Age" name="age" type="number"
                                     placeholder="Enter Age">
                             </div>
                             <div class="col-md-6">
@@ -67,7 +67,7 @@
                             <div class="col-md-6">
                                 <label class="form-label" for="password">Password</label>
                                 <input class="form-control" id="password" name="password" type="password"
-                                    placeholder="Password">
+                                    placeholder="Password" autocomplete="new-password">
                                 @error('password')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror

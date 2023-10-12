@@ -63,8 +63,6 @@
                   <button class="btn btn-primary btn-block w-100" type="submit">Sign In </button>
                 </div>
               </div>
-
-              <p class="mt-4 mb-0 text-center">Don't have account?<a class="ms-2" href="sign-up.html">Create Account</a></p>
             </form>
           </div>
         </div>
