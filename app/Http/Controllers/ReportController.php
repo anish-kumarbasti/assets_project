@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Asset;
+use App\Models\Issuence;
 use App\Models\Stock;
 use App\Models\Timeline;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -80,7 +81,7 @@ class ReportController extends Controller
     {
         $timeline = Timeline::find($id);
         if (!$timeline) {
-            abort(404); 
+            abort(404);
         }
         $data = [
             'timeline' => $timeline,
@@ -115,7 +116,8 @@ class ReportController extends Controller
     }
     public function report_status()
     {
-        $report = Stock::all();
+        $report = Issuence::all();
+        
         return view('Backend.Page.Reports.reportstatus', compact('report'));
     }
     public function component_reports()

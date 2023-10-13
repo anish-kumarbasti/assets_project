@@ -41,12 +41,12 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Profile Photo</th>
-                            <th>Name</th>
-                            <th>Employee ID</th>
-                            <th>Email</th>
+                            <th>Emp ID</th>
+                            <th>Emp Name</th>
+                            <th>Emp Email</th>
                             <th>Department</th>
                             <th>Designation</th>
+                            <th>Profile Photo</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -54,14 +54,14 @@
                         @foreach ($users as $user)
                         <tr>
                             <td>{{ $user->id }}</td>
-                            <td>
-                                <img src="{{ asset($user->profile_photo) }}" alt="Profile Photo" style="width: 100px; height: 50px;">
-                            </td>
-                            <td><a href="{{ route('users.user-profile', $user->id) }}">{{ $user->first_name }} {{ $user->last_name }} </a></td>
                             <td>{{$user->employee_id}}</td>
+                            <td><a href="{{ route('users.user-profile', $user->id) }}">{{ $user->first_name }} {{ $user->last_name }} </a></td>
                             <td>{{ $user->email }}</td>
                             <td>{{$user->department->name??''}}</td>
                             <td> {{ $user->designation->designation??'' }} </td>
+                            <td>
+                                <img src="{{ asset($user->profile_photo) }}" alt="Profile Photo" style="width: 100px; height: 50px;">
+                            </td>
                             <td>
                                 <div class="d-flex justify-content-between align-item-center">
                                     <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary custom-btn"><i class="fa fa-pencil"></i>&nbsp;Edit</a>&nbsp;

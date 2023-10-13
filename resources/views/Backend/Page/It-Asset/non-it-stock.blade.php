@@ -36,7 +36,6 @@
 <div class="col-sm-12">
    <div class="card">
       <div class="card-header pb-0">
-         <div class="card">
             <div class="row align-items-center">
                <div class="col-md-9 p-4">
                   <h4>Non-IT Assets</h4>
@@ -45,7 +44,6 @@
                   <button class="btn btn-primary qr_btn"><img src="{{ asset('Backend/assets/images/It-Assets/veckor2.svg') }}" alt='...'></button>
                </div>
             </div>
-         </div>
       </div>
       <div class="card-body">
          <div class="table-responsive theme-scrollbar">
@@ -57,7 +55,6 @@
                      <th>Asset</th>
                      <th>Specification</th>
                      <th>Quantity</th>
-                     <th>Status</th>
                      <th>Balanced</th>
                      <th>Allocation</th>
                   </tr>
@@ -72,7 +69,6 @@
                      <td>
                         <span class="badge rounded-pill badge-light-success">{{$nonit->quantity??''}}</span>
                      </td>
-                     <td> <span class="custom-btn {{$nonit->statuses->status}}">{{$nonit->statuses->name??''}}</span></td>
                      <td>{{$nonit->price??''}}</td>
                      <td>
                         <form action="{{url('timeline',$nonit->id)}}" method="post">

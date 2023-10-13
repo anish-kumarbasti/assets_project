@@ -82,7 +82,8 @@
                             <select class="form-select" id="assettype" name="asset_type" aria-label="Default select example">
                                 <option>--Select Asset Category--</option>
                                 @foreach ($asset_type as $asset_type)
-                                <option value="{{ $asset_type->id }}" {{ isset($stockedit) && $stockedit->asset_type_id == $asset_type->id ? 'selected' : '' }}>
+                                <option value="{{ $asset_type->id }}"
+                                {{ old('asset_type') == $asset_type->id ? 'selected' : '' }}>
                                     {{ $asset_type->name }}
                                 </option>
                                 @endforeach
@@ -92,9 +93,11 @@
                             <label class="form-label" for="validationCustom01">Asset</label>
                             <select class="form-select" id="asset" name="asset" aria-label="Default select example">
                                 <option value="">--Select Asset--</option>
+                                @if(old('asset'))
+                                    <option value="{{ old('asset') }}" selected>{{ old('asset') }}</option>
+                                @endif
                             </select>
                         </div>
-
                     </div>
                     <div class="row p-3" id="showbrand">
                         <div class="col-md-6 mb-4">
@@ -140,7 +143,7 @@
                         </div>
                         <div class="col-md-4 mb-4" id="quantityField">
                             <label class="form-label" for="validationCustom01">Quantity</label>
-                            <input class="form-control" id="validationCustom01" type="text" name="quantity" data-bs-original-title="" title="" placeholder="Enter Quantity">
+                            <input class="form-control" id="validationCustom01" type="text" value="{{old('quantity')}}" name="quantity" data-bs-original-title="" title="" placeholder="Enter Quantity">
                         </div>
                         <div class="col-md-4">
                             <label class="form-label" style="float: left;">Asset Code :</label>
@@ -173,7 +176,7 @@
                         </div>
                         <div class="col-md-4 mb-4">
                             <label class="form-label" for="validationCustom01">Host Name</label>
-                            <input class="form-control" id="validationCustom01" name="host_name" type="text" data-bs-original-title="" title="" placeholder="Enter Host Name">
+                            <input class="form-control" id="validationCustom01" name="host_name" value="{{old('host_name')}}" type="text" data-bs-original-title="" title="" placeholder="Enter Host Name">
                         </div>
                         <div class="col-md-4 mb-4">
                             <label for="image" class="form-label">Image</label>
@@ -186,13 +189,16 @@
                     <div class="row p-3" id="configuration">
                         <div class="col-md-12 mb-4">
                             <label class="form-label" for="validationCustom01"> Configuration</label>
-                            <textarea class="form-control" name="configuration" value="{{ isset($stockedit) ? $stockedit->configuration : '' }}" id="exampleFormControlTextarea1" placeholder="configuration" rows="3"></textarea>
+                            <textarea class="form-control" name="configuration" value="{{ isset($stockedit) ? $stockedit->configuration : '' }}" id="exampleFormControlTextarea1" placeholder="configuration" rows="3">{{old('configuration')}}</textarea>
                         </div>
                     </div>
                     <div class="row p-3">
                         <div class="col-md-12 mb-4" id="specificationField">
                             <label class="form-label" for="validationCustom01">Specification</label>
-                            <textarea class="form-control" name="specification" id="exampleFormControlTextarea1" placeholder="Specification" rows="3"></textarea>
+                            <textarea class="form-control" name="specification" id="exampleFormControlTextarea1" placeholder="Specification" rows="3">{{old('specification')}}</textarea>
+                            @error('specification')
+                            <span class="text-danger">{{$message}}</span>
+                            @enderror
                         </div>
                     </div>
                 </div>
@@ -217,23 +223,23 @@
                         <label class="form-label" for="validationCustom01">Price</label>
                         <input class="form-control" id="validationCustom01" value="{{ isset($stockedit) ? $stockedit->price : '' }}" type="text" name="price" data-bs-original-title="" title="" placeholder="Enter Price">
                         @error('price')
-                        <div class="text-danger">{{ $message }}</div>
+                        <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
                     <div class="col-md-4 mb-4" id="warranty">
                         <label class="form-label" for="warrantyDateInput">Warranty</label>
                         <div class="input-group">
-                            <input class="form-control digits" id="warrantyDateInput" name="product_warranty" type="date" data-language="en">
+                            <input class="form-control digits" id="warrantyDateInput" value="{{old('product_warranty')}}" name="product_warranty" type="date" data-language="en">
                         </div>
                     </div>
                     <div class="col-md-4 mb-4" id="expiryField">
                         <label class="col-form-label" for="expiryDateInput">Expiry</label>
                         <div class="input-group">
-                            <input class="form-control" id="expiryDateInput" name="expiry" type="date" data-language="en">
+                            <input class="form-control" id="expiryDateInput" name="expiry" type="date" data-language="en" value="{{old('expiry')}}">
                             <input type="hidden" value="1" name="status">
                         </div>
                     </div>
-                    <!-- <div class="col-md-4 mb-4">
+                    {{-- <div class="col-md-4 mb-4">
                         <label class="col-form-label" for="expiryDateInput">Status</label>
                         <select class="form-select" id="status" name="status" aria-label="Default select example">
                             <option value="">--Select Status--</option>
@@ -241,7 +247,7 @@
                             <option value="{{ $status->id }}">{{ $status->name }}</option>
                             @endforeach
                         </select>
-                    </div> -->
+                    </div> --}}
                 </div>
             </div>
             <div class="footer-item">

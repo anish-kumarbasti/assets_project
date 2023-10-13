@@ -36,10 +36,10 @@
     <h1 id="text">Report By Supplier</h1>
     <table>
         <thead>
-            <tr>
-                <th>Picture</th>
-                <th>Asset Tag</th>
-                <th>Name</th>
+            <tr class="text-center">
+                <th>SL</th>
+                <th>Asset Code</th>
+                <th>Asset Type</th>
                 <th>Supplier</th>
                 <th>Brand</th>
                 <th>Location</th>
@@ -47,13 +47,13 @@
         </thead>
         <tbody>
             @foreach ($supplier as $suppliers)
-            <tr>
-                <td><img src="" alt="picture"></td>
-                <td>{{$suppliers->product_number}}</td>
-                <td>{{$suppliers->host_name}} </td>
-                <td>{{$suppliers->supplier}} </td>
-                <td>{{$suppliers->brand_id}} </td>
-                <td>{{$suppliers->location_id}} </td>
+            <tr class="text-center">
+                <td>{{$loop->iteration}} </td>
+                <td>{{$suppliers->product_number??'N/A'}}</td>
+                <td>{{$suppliers->asset_type->name??'N/A'}}</td>
+                <td>{{$suppliers->getsupplier->name??'N/A'}} </td>
+                <td>{{$suppliers->brand->name??'N/A'}} </td>
+                <td>{{$suppliers->location->name??'N/A'}} </td>
             </tr>
             @endforeach
         </tbody>

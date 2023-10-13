@@ -56,8 +56,6 @@
               </div>
               <div class="form-group mb-0">
                 <div class="checkbox p-0">
-                  <input id="checkbox1" type="checkbox">
-                  <label class="text-muted first-heading-p" for="checkbox1">Remember password</label>
                 </div><a class="link" href="{{ route('forget.password') }}">Forgot password?</a>
                 <div class="text-end mt-3">
                   <button class="btn btn-primary btn-block w-100" type="submit">Sign In </button>
