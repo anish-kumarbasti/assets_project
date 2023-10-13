@@ -29,23 +29,25 @@
                     <table class="display" id="basic-1">
                         <thead>
                             <tr class="text-center">
-                                <th>Picture</th>
-                                <th>Asset tag</th>
-                                <th>Name</th>
-                                <th>Supplier</th>
-                                <th>Brand</th>
+                                <th>SL</th>
+                                <th>Asset Code</th>
+                                <th>Asset Type</th>
+                                <th>Asset</th>
+                                <th>Price</th>
                                 <th>Location</th>
+                                <th>Sub Location</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($location as $locations)
-                            <tr class="copy-content">
-                                <td><img src="{{ $locations->image_url ? $locations->image_url : '/Backend/assets/images/It-Assets/default-image.jpg' }}" alt="location" width="50"></td>
-                                <td>{{$locations->product_number}}</td>
-                                <td>{{$locations->host_name}}</td>
-                                <td>{{$locations->supplier}}</td>
-                                <td>{{$locations->brand_id}}</td>
-                                <td>{{$locations->location_id}}</td>
+                            <tr class="copy-content text-center">
+                                <td>{{$loop->iteration}}</td>
+                                <td>{{$locations->product_number??'N/A'}}</td>
+                                <td>{{$locations->asset_type->name??'N/A'}}</td>
+                                <td>{{$locations->assetmain->name??'N/A'}}</td>
+                                <td>{{$locations->price??'N/A'}}</td>
+                                <td>{{$locations->location->name??'N/A'}}</td>
+                                <td>{{$locations->sublocation->name??'N/A'}}</td>
                             </tr>
                             @endforeach
                         </tbody>

@@ -25,14 +25,15 @@
                         <h5>Maintenance report</h5>
                     </a>
                     <hr>
-                    <a href="{{route('report-type')}}">
-                        <h5>Report by Asset type</h5>
-                    </a>
-                    <hr>
+
                 </div>
                 <div class="col-md-6">
-                    <a href="{{route('report-status')}}">
-                        <h5>Report by status</h5>
+                    {{-- <a href="{{route('report-status')}}">
+                        <h5>Report by Department</h5>
+                    </a>
+                    <hr>--}}
+                    <a href="{{route('report-type')}}">
+                        <h5>Report by Asset type</h5>
                     </a>
                     <hr>
                     <a href="{{route('report-supplier')}}">

@@ -80,7 +80,7 @@ class StockController extends Controller
         $groupedStocks = Stock::select('product_info', 'asset_type_id', 'asset', DB::raw('COUNT(*) as count'))
             ->groupBy('product_info', 'asset_type_id', 'asset')
             ->get();
-        // 
+        //
         return view('Backend.Page.Stock.manage-stock', compact('groupedStocks'));
     }
 
@@ -105,10 +105,16 @@ class StockController extends Controller
 
     public function store(Request $request)
     {
-        // $request->validate([
-        //     'price' => 'required|integer',
-        //     'product_info' => 'required', ]);
-        // dd($request);
+        $request->validate([
+            'specification' => [
+                'max:255',
+                function ($attribute, $value, $fail) {
+                    if (str_word_count($value) > 100) {
+                        $fail($attribute.' must not exceed 100 words.');
+                    }
+                },
+            ],
+        ]);
         $filepath = '';
         if ($images = $request->file('image')) {
             $destinationPath = 'image';
@@ -138,6 +144,8 @@ class StockController extends Controller
             'liscence_number' => $request->liscence_number,
             'supplier' => $request->supplier,
             'image' => $filepath,
+            'location_id'=>$request->location,
+            'sublocation_id'=>$request->sublocation,
         ]);
         TimelineHelper::logAction('Product Created', $product->id, $request->asset_type, $request->asset);
         // You might want to redirect the user somewhere after successful creation

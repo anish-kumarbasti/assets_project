@@ -12,7 +12,6 @@
 <div class="col-sm-12">
     <div class="card">
         <div class="card-header pb-0">
-            <div class="card">
                 <div class="row ">
                     <div class="col-md-6 p-4">
                         <h4>Assets Software</h4>
@@ -22,7 +21,6 @@
 
                     </div>
                 </div>
-            </div>
         </div>
         <div class="card-body">
             <div class="table-responsive theme-scrollbar">

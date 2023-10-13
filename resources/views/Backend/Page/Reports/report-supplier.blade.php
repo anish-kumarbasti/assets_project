@@ -28,9 +28,9 @@
                     <table class="display" id="basic-1">
                         <thead>
                             <tr class="text-center">
-                                <th>Picture</th>
-                                <th>Asset Tag</th>
-                                <th>Name</th>
+                                <th>SL</th>
+                                <th>Asset Code</th>
+                                <th>Asset Type</th>
                                 <th>Supplier</th>
                                 <th>Brand</th>
                                 <th>Location</th>
@@ -38,13 +38,13 @@
                         </thead>
                         <tbody>
                             @foreach ($supplier as $suppliers)
-                            <tr class="copy-content">
-                                <td><img src="{{ $suppliers->image_url ? $suppliers->image_url : '/Backend/assets/images/It-Assets/default-image.jpg' }}" alt="picture" width="50"></td>
-                                <td>{{$suppliers->product_number??''}}</td>
-                                <td>{{$suppliers->host_name??''}} </td>
-                                <td>{{$suppliers->getsupplier->name??''}} </td>
-                                <td>{{$suppliers->brand->name??''}} </td>
-                                <td>{{$suppliers->location_id??''}} </td>
+                            <tr class="copy-content text-center">
+                                <td>{{$loop->iteration}} </td>
+                                <td>{{$suppliers->product_number??'N/A'}}</td>
+                                <td>{{$suppliers->asset_type->name??'N/A'}}</td>
+                                <td>{{$suppliers->getsupplier->name??'N/A'}} </td>
+                                <td>{{$suppliers->brand->name??'N/A'}} </td>
+                                <td>{{$suppliers->location->name??'N/A'}} </td>
                             </tr>
                             @endforeach
                         </tbody>

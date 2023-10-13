@@ -38,4 +38,7 @@ class Stock extends Model
     {
         return $this->belongsTo(Status::class, 'status_available');
     }
+    public function sublocation(){
+        return $this->belongsTo(SubLocationModel::class,'sublocation_id');
+    }
 }

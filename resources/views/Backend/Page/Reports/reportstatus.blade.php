@@ -10,7 +10,7 @@
 <div class="col-sm-12">
     <div class="card">
         <div class="card-header pb-0">
-            <h4>Report Status</h4>
+            <h4>Report by Department</h4>
             <hr>
         </div>
         <div class="card-header pb-0 d-flex justify-content-between">
@@ -29,23 +29,23 @@
                     <table class="display" id="basic-1">
                         <thead>
                             <tr class="text-center">
-                                <th>Picture</th>
-                                <th>Asset Tag</th>
+                                <th>SL</th>
+                                <th>Asset Code</th>
                                 <th>Name</th>
-                                <th>Status</th>
-                                <th>Brand</th>
-                                <th>Location</th>
+                                <th>Asset Type</th>
+                                <th>Asset</th>
+                                <th>Department</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($report as $reports)
-                            <tr class="copy-content">
-                                <td><img src="{{ $reports->image_url ? $reports->image_url : '/Backend/assets/images/It-Assets/default-image.jpg' }}" alt="status" width="50"></td>
-                                <td>{{$reports->product_number}}</td>
-                                <td>{{$reports->host_name}}</td>
-                                <td>{{$reports->status}}</td>
-                                <td>{{$reports->brand_id}}</td>
-                                <td>{{$reports->location_id}}</td>
+                            <tr class="copy-content text-center">
+                                <td>{{$loop->iteration}}</td>
+                                <td>{{$reports->stock->product_number??''}}</td>
+                                <td>{{$reports->user->first_name??''}} {{$reports->user->last_name??''}}</td>
+                                <td>{{$reports->status??''}}</td>
+                                <td>{{$reports->brand_id??''}}</td>
+                                <td>{{$reports->location_id??''}}</td>
                             </tr>
                             @endforeach
                         </tbody>

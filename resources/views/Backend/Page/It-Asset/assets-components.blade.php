@@ -61,14 +61,12 @@
     </div>
     <div class="card">
         <div class="card-header pb-0">
-            <div class="card">
-                <div class="row ">
-                    <div class="col-md-6 p-4">
-                        <h4>Assets Components</h4>
-                    </div>
-                    <div class="col-md-6 text-end p-4">
-                        <button class="btn btn-primary qr_btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><img src="{{ asset('Backend/assets/images/It-Assets/veckor2.svg') }}" alt='...'></button>
-                    </div>
+            <div class="row ">
+                <div class="col-md-6 p-4">
+                    <h4>Assets Components</h4>
+                </div>
+                <div class="col-md-6 text-end p-4">
+                    <button class="btn btn-primary qr_btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><img src="{{ asset('Backend/assets/images/It-Assets/veckor2.svg') }}" alt='...'></button>
                 </div>
             </div>
         </div>
@@ -84,7 +82,6 @@
                             <th>Opening Stack</th>
                             <th>Purchased</th>
                             <th>Quantity</th>
-                            <th>Status</th>
                             <th>Balanced</th>
                             <th>Allocation</th>
                         </tr>
@@ -101,7 +98,6 @@
                             <td>
                                 <span class="badge rounded-pill badge-light-success">{{$component->quantity??''}}</span>
                             </td>
-                            <td> <span class="custom-btn {{$component->statuses->status}}">{{$component->statuses->name??''}}</span></td>
                             <td>{{$component->price??''}}</td>
                             <td>
                                 <form action="{{url('timeline',$component->id)}}" method="post">

@@ -38,18 +38,19 @@
                   <thead>
                      <tr class="text-center">
                         <th>SL</th>
-                        <th>Image</th>
+                        <th>Asset Code</th>
+                        <th>Serial Number</th>
                         <th>Product</th>
                         <th>Asset Type</th>
                         <th>Asset</th>
                         <th>Brand</th>
                         <th>Brand Model</th>
                         <th>Configuration</th>
-                        <th>Product Number</th>
                         <th>Supplier</th>
                         <th>Price</th>
-                        <th>Active/Inactive</th>
+                        <th>Active</th>
                         <th>Status</th>
+                        <th>Image</th>
                         <th>Action</th>
                      </tr>
                   </thead>
@@ -57,25 +58,25 @@
                      @foreach ($stock as $stock)
                      <tr>
                         <td>{{$loop->iteration}}</td>
+                        <td>{{$stock->product_number??'N/A'}} </td>
+                        <td>{{$stock->serial_number??'N/A'}}</td>
+                        <td>{{$stock->product_info??'N/A'}}</td>
+                        <td>{{$stock->asset_type->name??'N/A'}}</td>
+                        <td>{{$stock->assetmain->name??'N/A'}}</td>
+                        <td>{{$stock->brand->name??'N/A'}}</td>
+                        <td>{{$stock->brandmodel->name??'N/A'}}</td>
+                        <td class="ellipsis">{{$stock->configuration??'N/A'}} </td>
+                        <td>{{$stock->getsupplier->name??'N/A'}} </td>
+                        <td>{{$stock->price??'N/A'}} </td>
+                        <td class="w-20">
+                            <label class="mb-0 switch">
+                                <input type="checkbox" data-id="{{$stock->id}}" {{ $stock->status ? 'checked' : '' }}><span class="switch-state"></span>
+                            </label>
+                        </td>
+                        <td> <span class=" custom-btn {{$stock->statuses->status ??''}}">{{$stock->statuses->name??'N/A'}}</span></td>
                         <td>
                            <img src="{{ $stock->image ? $stock->image : '/Backend/assets/images/It-Assets/default-image.jpg'}}" alt="Stock Image" width="50">
                         </td>
-                        <td>{{$stock->product_info}}</td>
-                        <td>{{$stock->asset_type->name??''}}</td>
-                        {{-- @dd($stock->assetmain); --}}
-                        <td>{{$stock->assetmain->name??''}}</td>
-                        <td>{{$stock->brand->name??''}}</td>
-                        <td>{{$stock->brandmodel->name??''}}</td>
-                        <td class="ellipsis">{{$stock->configuration}} </td>
-                        <td>{{$stock->product_number}} </td>
-                        <td>{{$stock->getsupplier->name??''}} </td>
-                        <td>{{$stock->price??''}} </td>
-                        <td class="w-20">
-                           <label class="mb-0 switch">
-                              <input type="checkbox" data-id="{{$stock->id}}" {{ $stock->status ? 'checked' : '' }}><span class="switch-state"></span>
-                           </label>
-                        </td>
-                        <td> <span class=" custom-btn {{$stock->statuses->status ??''}}">{{$stock->statuses->name??''}}</span></td>
                         <td>
                            <div class="button-group d-flex justify-content-between align-items-center">
                               <a style="display: flex;" class="btn btn-primary" href="{{ url('/edit-stock/' . $stock->id) }}"><i class="fa fa-pencil"></i>&nbsp;Edit</a>&nbsp;

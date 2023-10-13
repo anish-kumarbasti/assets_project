@@ -27,8 +27,11 @@ class Issuence extends Model
     {
         return $this->belongsTo(Attribute::class,'asset_type_id');
     }
+    public function stock(){
+        return $this->hasOne(Stock::class, 'id', 'product_id');
+    }
 }
 
-//asset_type_id	
-//asset_id	
+//asset_type_id
+//asset_id
 //product_id
