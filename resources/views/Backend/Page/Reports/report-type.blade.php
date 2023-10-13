@@ -30,23 +30,23 @@
                     <table class="display" id="basic-1">
                         <thead>
                             <tr class="text-center">
-                                <th>Picture</th>
                                 <th>Asset tag</th>
                                 <th>Name</th>
                                 <th>Type</th>
                                 <th>Brand</th>
                                 <th>Location</th>
+                                <th>Picture</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($report as $reports)
                             <tr class="copy-content">
-                                <td><img src="{{ $reports->image_url ? $reports->image_url : '/Backend/assets/images/It-Assets/default-image.jpg' }}" alt="reports" width="50"></td>
                                 <td>{{$reports->product_number}}</td>
                                 <td>{{$reports->product_info}}</td>
                                 <td></td>
                                 <td>{{$reports->brand_id}} </td>
                                 <td>{{$reports->location_id}}</td>
+                                <td><img src="{{ $reports->image_url ? $reports->image_url : '/Backend/assets/images/It-Assets/default-image.jpg' }}" alt="reports" width="50"></td>
                             </tr>
                             @endforeach
                         </tbody>
