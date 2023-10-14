@@ -79,8 +79,8 @@
                         </td>
                         <td>
                            <div class="button-group d-flex justify-content-between align-items-center">
-                              <a style="display: flex;" class="btn btn-primary" href="{{ url('/edit-stock/' . $stock->id) }}"><i class="fa fa-pencil"></i>&nbsp;Edit</a>&nbsp;
-                              <button style="display: flex;" class="btn btn-danger delete-button" data-id="{{ $stock->id }}" type="button"><i class="fa fa-trash-o"></i>&nbsp;Delete</button>
+                              <a style="display: flex; align-item:center;" class="btn btn-primary" href="{{ url('/edit-stock/' . $stock->id) }}"><i class="fa fa-pencil" style="margin-top: 4px;"></i>&nbsp;Edit</a>&nbsp;
+                              <button style="display: flex;align-item:center;" class="btn btn-danger delete-button" data-id="{{ $stock->id }}" type="button"><i class="fa fa-trash-o" style="margin-top: 4px;"></i>&nbsp;Delete</button>
                            </div>
                         </td>
                      </tr>

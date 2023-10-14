@@ -36,22 +36,24 @@
     <h1 id="text">Asset Activity Report</h1>
     <table>
         <thead>
-            <tr>
+            <tr class="text-center">
+                <th>SL</th>
                 <th>Asset</th>
                 <th>Employees</th>
-                <th>Status</th>
                 <th>Location</th>
-                <th>Date</th>
+                <th>Sub Location</th>
+                <th>Due Date</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($data as $asset)
-            <tr class="copy-content">
-                <td>{{$asset->assetmain->name??''}}</td>
-                <td>{{$asset->host_name}}</td>
-                <td><span class=" custom-btn  {{$asset->statuses->status??''}}"> {{$asset->statuses->name??''}}</span></td>
-                <td>{{$asset->location??''}}</td>
-                <td>{{$asset->created_at}}</td>
+            <tr class="copy-content text-center">
+                <td>{{$loop->iteration}}</td>
+                <td>{{$asset->asset->name??'N/A'}}</td>
+                <td>{{$asset->user->first_name??'N/A'}} {{$asset->user->last_name??'N/A'}}</td>
+                <td>{{$asset->location->name??'N/A'}}</td>
+                <td>{{$asset->sublocation->name??'N/A'}}</td>
+                <td>{{$asset->due_date}}</td>
             </tr>
             @endforeach
         </tbody>

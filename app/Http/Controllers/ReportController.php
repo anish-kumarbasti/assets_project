@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Asset;
 use App\Models\Issuence;
+use App\Models\Maintenance;
 use App\Models\Stock;
 use App\Models\Timeline;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -12,18 +13,18 @@ class ReportController extends Controller
 {
     public function getPrint()
     {
-        $data = Stock::with('assetmain', 'statuses')->get();
+        $data = Issuence::all();
         return view('Backend.Page.Reports.pdf.asset-active', compact('data'));
     }
     public function getComponent()
     {
-        $id = '3';
+        $id = '4';
         $component = Stock::where('asset_type_id', $id)->get();
         return view('Backend.Page.Reports.pdf.component-activity', compact('component'));
     }
     public function getMaintenance()
     {
-        $maintenance = Stock::all();
+        $maintenance = Maintenance::all();
         return view('Backend.Page.Reports.pdf.maintenance', compact('maintenance'));
     }
     public function getSupplier()
@@ -48,20 +49,20 @@ class ReportController extends Controller
     }
     public function generatePDF()
     {
-        $data = Asset::all();
+        $data = Issuence::all();
         $pdf = Pdf::loadView('Backend.Page.Reports.pdf.asset-active', compact('data'));
         return $pdf->download('asset-active.pdf');
     }
     public function pdfcomponent()
     {
-        $id = '3';
+        $id = '4';
         $component = Stock::where('asset_type_id', $id)->get();
         $comp = Pdf::loadView('Backend.Page.Reports.pdf.component-activity', compact('component'));
         return $comp->download('report-component.pdf');
     }
     public function pdfmaintenance()
     {
-        $maintenance = Stock::all();
+        $maintenance = Maintenance::all();
         $mainten = Pdf::loadView('Backend.Page.Reports.pdf.maintenance', compact('maintenance'));
         return $mainten->download('report-mainenance.pdf');
     }
@@ -111,7 +112,8 @@ class ReportController extends Controller
     }
     public function activity_report()
     {
-        $data = Stock::with('assetmain', 'statuses')->get();
+
+        $data = Stock::all();
         return view('Backend.Page.Reports.asset-active', compact('data'));
     }
     public function report_status()
@@ -122,13 +124,13 @@ class ReportController extends Controller
     }
     public function component_reports()
     {
-        $id = '3';
+        $id = '4';
         $component = Stock::where('asset_type_id', $id)->get();
         return view('Backend.Page.Reports.component-activity-reports', compact('component'));
     }
     public function maintenance()
     {
-        $maintenance = Stock::all();
+        $maintenance = Maintenance::all();
         return view('Backend.Page.Reports.maintenance-report', compact('maintenance'));
     }
     public function report_type()

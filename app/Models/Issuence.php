@@ -30,6 +30,15 @@ class Issuence extends Model
     public function stock(){
         return $this->hasOne(Stock::class, 'id', 'product_id');
     }
+    public function location()
+    {
+        return $this->belongsTo(Location::class, 'location_id');
+    }
+    public function sublocation()
+{
+    return $this->belongsTo(SubLocationModel::class, 'sub_location_id');
+}
+
 }
 
 //asset_type_id

@@ -9,6 +9,12 @@
         line-height: 1.5;
         pointer-events: none;
     }
+    .ellipsis {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 150px;
+   }
 </style>
 @endsection
 
@@ -16,7 +22,7 @@
 <div class="col-sm-12">
     <div class="card">
         <div class="card-header pb-0">
-            <h4>Asset Activity Report</h4>
+            <h4>Asset Register Report</h4>
             <hr>
         </div>
         <div class="card-header pb-0 d-flex justify-content-between">
@@ -34,21 +40,33 @@
                     <table class="display" id="basic-1">
                         <thead>
                             <tr class="text-center">
-                                <th>Asset</th>
-                                <th>Employees</th>
-                                <th>Status</th>
+                                <th>SL</th>
+                                <th>Asset_Serial Number</th>
+                                <th>Description</th>
+                                <th>Type</th>
+                                <th>Model</th>
+                                <th>Purchase Date</th>
+                                <th>Purchase Cost</th>
+                                <th>Allocation Date</th>
                                 <th>Location</th>
-                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Warranty</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($data as $asset)
-                            <tr class="copy-content">
-                                <td>{{$asset->assetmain->name??''}}</td>
-                                <td>{{$asset->host_name}}</td>
-                                <td><span class=" custom-btn  {{$asset->statuses->status??''}}"> {{$asset->statuses->name??''}}</span></td>
-                                <td>{{$asset->location??''}}</td>
+                            <tr class="copy-content text-center">
+                                <td>{{$loop->iteration}}</td>
+                                <td>{{$asset->serial_number??'N/A'}}</td>
+                                <td class="ellipsis">{{$asset->configuration??'N/A'}}</td>
+                                <td>{{$asset->asset_type->name??'N/A'}}</td>
+                                <td>{{$asset->brandmodel->name??'N/A'}}</td>
                                 <td>{{$asset->created_at}}</td>
+                                <td>{{$asset->price??'N/A'}}</td>
+                                <td>{{$asset->assettypeid->created_at??'N/A'}}</td>
+                                <td>{{$asset->location->name??'N/A'}}</td>
+                                <td><span class=" custom-btn  {{$asset->statuses->status??''}}"> {{$asset->statuses->name??'N/A'}}</span></td>
+                                <td>{{$asset->product_warranty??'N/A'}}</td>
                             </tr>
                             @endforeach
                         </tbody>
