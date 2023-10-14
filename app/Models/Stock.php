@@ -41,4 +41,7 @@ class Stock extends Model
     public function sublocation(){
         return $this->belongsTo(SubLocationModel::class,'sublocation_id');
     }
+    public function assettypeid(){
+        return $this->belongsTo(Issuence::class,'asset_type_id');
+    }
 }

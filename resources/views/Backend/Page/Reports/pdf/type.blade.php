@@ -36,24 +36,26 @@
     <h1 id="text">Report Type</h1>
     <table>
         <thead>
-            <tr>
-                <th>Picture</th>
+            <tr class="text-center">
+                <th>SL</th>
                 <th>Asset tag</th>
-                <th>Name</th>
+                <th>Product Name</th>
                 <th>Type</th>
                 <th>Brand</th>
                 <th>Location</th>
+                <th>Picture</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($report as $reports)
-            <tr>
-                <td><img src="" alt="reports"></td>
-                <td>{{$reports->product_number}}</td>
-                <td>{{$reports->product_info}}</td>
-                <td></td>
-                <td>{{$reports->brand_id}} </td>
-                <td>{{$reports->location_id}}</td>
+            <tr class="copy-content text-center">
+                <td>{{$loop->iteration}}</td>
+                <td>{{$reports->product_number??'N/A'}}</td>
+                <td>{{$reports->product_info??'N/A'}}</td>
+                <td>{{$reports->asset_type->name??'N/A'}}</td>
+                <td>{{$reports->brand->name??'N/A'}} </td>
+                <td>{{$reports->location->name??'N/A'}}</td>
+                <td><img src="{{ $reports->image_url ? $reports->image_url : '/Backend/assets/images/It-Assets/default-image.jpg' }}" alt="reports" width="50"></td>
             </tr>
             @endforeach
         </tbody>

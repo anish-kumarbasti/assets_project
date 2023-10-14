@@ -36,7 +36,8 @@
     <h1 id="text">Component Activity Report</h1>
     <table>
         <thead>
-            <tr>
+            <tr class="text-center">
+                <th>SL</th>
                 <th>Component</th>
                 <th>Asset</th>
                 <th>Quantity</th>
@@ -47,12 +48,13 @@
         </thead>
         <tbody>
             @foreach ($component as $components)
-            <tr class="copy-content">
-                <td>{{$components->product_number}}</td>
-                <td>{{$components->product_info}}</td>
-                <td>{{$components->quantity}}</td>
-                <td>{{$components->status}}</td>
-                <td>{{$components->location_id}}</td>
+            <tr class="copy-content text-center">
+                <td>{{$loop->iteration}}</td>
+                <td>{{$components->asset_type->name??'N/A'}}</td>
+                <td>{{$components->assetmain->name??'N/A'}}</td>
+                <td>{{$components->quantity??'N/A'}}</td>
+                <td><span class=" custom-btn  {{$components->statuses->status??''}}"> {{$components->statuses->name??'N/A'}}</span></td>
+                <td>{{$components->location->name??'N/A'}}</td>
                 <td>{{$components->created_at}}</td>
             </tr>
             @endforeach

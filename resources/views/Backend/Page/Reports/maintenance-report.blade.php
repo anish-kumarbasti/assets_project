@@ -29,10 +29,11 @@
                     <table class="display" id="basic-1">
                         <thead>
                             <tr class="text-center">
+                                <th>SL</th>
                                 <th>Asset tag</th>
                                 <th>Asset</th>
                                 <th>Supplier</th>
-                                <th>Type</th>
+                                <th>Price</th>
                                 <th>Start Date</th>
                                 <th>End Date</th>
                                 <th>Completion day(s)</th>
@@ -41,13 +42,14 @@
                         <tbody>
                             @foreach ($maintenance as $maintenances)
                             <tr class="copy-content">
-                                <td>{{$maintenances->product_number}}</td>
-                                <td>{{$maintenances->product_info}}</td>
-                                <td>{{$maintenances->supplier}}</td>
-                                <td></td>
-                                <td>{{$maintenances->created_at}} </td>
-                                <td>{{$maintenances->expiry_date}}</td>
-                                <td></td>
+                                <td>{{$loop->iteration}}</td>
+                                <td>{{$maintenances->product_id??'N/A'}}</td>
+                                <td>{{$maintenances->asset_number??'N/A'}}</td>
+                                <td>{{$maintenances->supplierName->name??'N/A'}}</td>
+                                <td>{{$maintenances->asset_price??'N/A'}}</td>
+                                <td>{{$maintenances->start_date??'N/A'}} </td>
+                                <td>{{$maintenances->end_date??'N/A'}}</td>
+                                <td>{{$maintenances->updated_at??'N/A'}}</td>
                             </tr>
                             @endforeach
                         </tbody>
