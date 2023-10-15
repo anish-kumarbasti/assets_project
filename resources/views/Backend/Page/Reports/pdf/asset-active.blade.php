@@ -38,22 +38,32 @@
         <thead>
             <tr class="text-center">
                 <th>SL</th>
-                <th>Asset</th>
-                <th>Employees</th>
+                <th>Asset_Serial Number</th>
+                <th>Description</th>
+                <th>Type</th>
+                <th>Model</th>
+                <th>Purchase Date</th>
+                <th>Purchase Cost</th>
+                <th>Allocation Date</th>
                 <th>Location</th>
-                <th>Sub Location</th>
-                <th>Due Date</th>
+                <th>Status</th>
+                <th>Warranty</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($data as $asset)
             <tr class="copy-content text-center">
                 <td>{{$loop->iteration}}</td>
-                <td>{{$asset->asset->name??'N/A'}}</td>
-                <td>{{$asset->user->first_name??'N/A'}} {{$asset->user->last_name??'N/A'}}</td>
+                <td>{{$asset->serial_number??'N/A'}}</td>
+                <td class="ellipsis">{{$asset->configuration??'N/A'}}</td>
+                <td>{{$asset->asset_type->name??'N/A'}}</td>
+                <td>{{$asset->brandmodel->name??'N/A'}}</td>
+                <td>{{$asset->created_at}}</td>
+                <td>{{$asset->price??'N/A'}}</td>
+                <td>{{$asset->assettypeid->created_at??'N/A'}}</td>
                 <td>{{$asset->location->name??'N/A'}}</td>
-                <td>{{$asset->sublocation->name??'N/A'}}</td>
-                <td>{{$asset->due_date}}</td>
+                <td><span class=" custom-btn  {{$asset->statuses->status??''}}"> {{$asset->statuses->name??'N/A'}}</span></td>
+                <td>{{$asset->product_warranty??'N/A'}}</td>
             </tr>
             @endforeach
         </tbody>
