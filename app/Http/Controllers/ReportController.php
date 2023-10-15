@@ -13,7 +13,8 @@ class ReportController extends Controller
 {
     public function getPrint()
     {
-        $data = Issuence::all();
+        $data = Stock::all();
+
         return view('Backend.Page.Reports.pdf.asset-active', compact('data'));
     }
     public function getComponent()
@@ -49,7 +50,7 @@ class ReportController extends Controller
     }
     public function generatePDF()
     {
-        $data = Issuence::all();
+        $data = Stock::all();
         $pdf = Pdf::loadView('Backend.Page.Reports.pdf.asset-active', compact('data'));
         return $pdf->download('asset-active.pdf');
     }
