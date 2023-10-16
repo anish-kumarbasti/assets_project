@@ -141,25 +141,41 @@ class IssuenceController extends Controller
 
     public function markasread($id)
     {
-    if ($id) {
-        auth()->user()->unreadNotifications->where('id', $id)->markAsRead();
+        if ($id) {
+            auth()->user()->unreadNotifications->where('id', $id)->markAsRead();
         }
 
-    $user = Auth::user()->employee_id;
-    $manager = Auth::user()->id;
+        $user = Auth::user()->employee_id;
+        $manager = Auth::user()->id;
 
-    $issuedata = Issuence::where('employee_id', $user)
-        ->orWhere('employee_manager_id', $manager)->first();
+        $issuedata = Issuence::where('employee_id', $user)
+            ->orWhere('employee_manager_id', $manager)->first();
+        
+        if ($issuedata && $issuedata->product_id) {
+            $productIds = json_decode($issuedata->product_id);
+            $products = Stock::whereIn('id', $productIds)->with('brand', 'brandmodel', 'asset_type', 'getsupplier')->get();
+        } else {
+            $products = [];
+        }
 
-    if($issuedata && $issuedata->product_id){
-        $productIds = json_decode($issuedata->product_id);
-        $products = Stock::whereIn('id', $productIds)->with('brand', 'brandmodel', 'asset_type', 'getsupplier')->get();
+        return view('Backend.Page.Issuence.accept', compact('products', 'issuedata'));
     }
-    else{
-        $products = [];
-    }
-
-    return view('Backend.Page.Issuence.accept', compact('products', 'issuedata'));
+    public function markasreadTransfer($id)
+    {
+        if ($id) {
+            auth()->user()->unreadNotifications->where('id', $id)->markAsRead();
+        }
+        $user = Auth::user()->employee_id;
+        $manager = Auth::user()->id;
+        $issuedata = Transfer::where('handover_employee_id', $user)
+            ->orWhere('employee_manager_id', $manager)->first();
+        if ($issuedata && $issuedata->product_id) {
+            $productIds = json_decode($issuedata->product_id);
+            $products = Stock::whereIn('id', $productIds)->with('brand', 'brandmodel', 'asset_type', 'getsupplier')->get();
+        } else {
+            $products = [];
+        }
+        return view('Backend.Page.Issuence.accept', compact('products', 'issuedata'));
     }
 
     public function markasreadAdmin($id)
@@ -179,13 +195,26 @@ class IssuenceController extends Controller
         $issuedata = Issuence::where('employee_id', $user)
             ->orWhere('employee_manager_id', $manager)->orderByDesc('created_at')
             ->first();
-        $transferdata = Transfer::where('employee_id', $issuedata->employee_id)->first();
         $productIds = json_decode($issuedata->product_id);
         $products = Stock::whereIn('id', $productIds)->with('brand', 'brandmodel', 'asset_type', 'getsupplier')->get();
         $user = User::where('employee_id', $issuedata->employee_id)->first();
+        $users = DB::table('notifications')->Where('type', 'App\Notifications\TransferNotification')->first();
+        return view('Backend.Page.Issuence.accept', compact('products', 'issuedata', 'user', 'users'));
+    }
+    public function markasreadtransfermanager($id)
+    {
+        if ($id) {
+            auth()->user()->unreadNotifications->where('id', $id)->markAsRead();
+        }
+        $user = Auth::user()->employee_id;
+        $manager = Auth::user()->id;
+        $transferdata = Transfer::where('handover_manager_id', $manager)->orWhere('employee_manager_id', $manager)->first();
+        $transferproducts = json_decode($transferdata->product_id);
+        $products = Stock::whereIn('id', $transferproducts)->with('brand', 'brandmodel', 'asset_type', 'getsupplier')->get();
+        $user = User::where('employee_id', $transferdata->employee_id)->first();
         $transferuser = User::where('employee_id', $transferdata->handover_employee_id ?? '')->first();
         $users = DB::table('notifications')->Where('type', 'App\Notifications\TransferNotification')->first();
-        return view('Backend.Page.Issuence.accept', compact('products', 'issuedata', 'user', 'users', 'transferuser'));
+        return view('Backend.Page.Issuence.accept-transfer', compact('products', 'user', 'transferdata', 'users', 'transferuser'));
     }
     public function approvemanager($id)
     {
@@ -233,6 +262,41 @@ class IssuenceController extends Controller
         Stock::find($id)->update(['status_available' => $issuedmanager->id]);
         return back()->with('success', 'Denied.');
     }
+    public function approvetransfermanager($id)
+    {
+        $manager = Auth::user()->id;
+        $transferdata = Transfer::where('handover_manager_id', $manager)->first();
+        $user = User::where('employee_id', $transferdata->handover_employee_id)->first();
+        $products = Stock::where('id', $id)->with('brand', 'brandmodel', 'asset_type', 'getsupplier')->get();
+        // dd($products);
+        $issuedmanager = Status::where('name', 'Transferred by Manager')->first();
+        Stock::find($id)->update(['status_available' => $issuedmanager->id]);
+        foreach ($products as $products) {
+            $data = [
+                'name' => $user->first_name . ' ' . $user->last_name,
+                'company_name' => 'IT-Asset',
+                'transfer_from' => $transferdata->employee_id,
+                'email' => $user->email,
+                'product_name' => $products->product_info . ' ' . $products->assetmain->name,
+                'product_serial' => $products->serial_number,
+                'handover_employee' => $user->employee_id,
+            ];
+            $users['to'] = $user->email;
+            Mail::send('Backend.Auth.mail.transfer_mail', $data, function ($message) use ($users) {
+                $message->from('itasset@svamart.com', 'itasset@svamart.com');
+                $message->to($users['to']);
+                $message->subject('Asset Transferred Successfully.');
+            });
+        }
+        $user->notify(new TransferNotification($user));
+        return back()->with('success', 'Aprroved.');
+    }
+    public function deniedtransfermanager($id)
+    {
+        $issuedmanager = Status::where('name', 'Denied by Manager')->first();
+        Stock::find($id)->update(['status_available' => $issuedmanager->id]);
+        return back()->with('success', 'Denied.');
+    }
     public function markasreadcontroller($id)
     {
         if ($id) {
@@ -242,16 +306,19 @@ class IssuenceController extends Controller
     }
     public function AssetAccept($id)
     {
-        if (Auth::user()->role_id == 2) {
             $status = Status::where('name', 'Accepted by User')->orWhere('name', 'Rejected')->first();
             Stock::updateOrCreate(['id' => $id], ['status_available' => $status->id]);
             $user = User::where('role_id', 1)->first();
             $user->notify(new IssuenceNotification($user));
             return redirect()->route('user-dashboard')->with('success', 'Asset Alloted!');
-        } else {
+    }
+    public function TransferAssetAccept($id)
+    {
+        // dd($id);
+        if (Auth::user()->role_id == 2) {
             $status = Status::where('name', 'Transferred')->first();
             Stock::updateOrCreate(['id' => $id], ['status_available' => $status->id]);
-            return redirect()->route('user-dashboard')->with('success', 'Asset Alloted!');
+            return redirect()->route('user-dashboard')->with('success', 'Asset Transferred!');
         }
     }
     public function AssetAcceptmanager($id)

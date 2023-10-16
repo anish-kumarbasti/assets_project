@@ -35,9 +35,10 @@
         border: none !important;
         box-shadow: none !important;
     }
-    .scrolling-container{
+
+    .scrolling-container {
         height: 200px;
-        overflow-y:scroll;
+        overflow-y: scroll;
     }
 </style>
 
@@ -45,7 +46,9 @@
     <div class="header-wrapper row m-0">
         <div class="header-logo-wrapper col-auto p-0">
             <div class="toggle-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="grid"> </i></div>
-            <div class="logo-header-main"><a href="index.html"><img class="img-fluid for-light img-100" src="../assets/images/logo/logo2.png" alt=""><img class="img-fluid for-dark" src="../assets/images/logo/logo.png" alt="abc"></a></div>
+            <div class="logo-header-main"><a href="index.html"><img class="img-fluid for-light img-100"
+                        src="../assets/images/logo/logo2.png" alt=""><img class="img-fluid for-dark"
+                        src="../assets/images/logo/logo.png" alt="abc"></a></div>
         </div>
         <div class="left-header col horizontal-wrapper ps-0">
         </div>
@@ -65,7 +68,8 @@
                 </li>
                 <li>
                     <div class="search">
-                        <a href="{{ route('search-master') }}"><i class="fa fa-search"></i></a></div>
+                        <a href="{{ route('search-master') }}"><i class="fa fa-search"></i></a>
+                    </div>
                 </li>
                 <li class="onhover-dropdown">
                     <div class="notification-box"><i data-feather="bell"></i></div>
@@ -87,42 +91,74 @@
                         <li>
                             <div class="align-items-center scrolling-container">
                                 @foreach (auth()->user()->notifications as $notification)
-
-                                <div class="flex-shrink-0"><i data-feather="shopping-cart"></i></div>
-                                <div class="flex-grow-1">
-                                    @if (Auth::check() && Auth::user()->role_id == 4)
-                                    <p><b>{{ Auth::user()->first_name }}</b>&nbsp;&nbsp;<a href="{{ route('markasread-controller', $notification->id) }}">New
-                                            Product Isuue to the User!</a><span class="pull-right">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span>
-                                    </p>
-                                    @elseif (Auth::check() && Auth::user()->role_id == 3)
-                                    <p><b>{{ $notification->data['name'] ?? '' }}</b>&nbsp;&nbsp;<a href="{{ route('markasread-manager', $notification->id) }}">Manager
-                                            New Notification!</a><span class="pull-right">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span>
-                                    </p>
-                                    @elseif(Auth::check() && Auth::user()->role_id == 1)
-                                    @if ($notification->type == 'App\Notifications\IssuenceNotification')
-                                    <p><b>{{ $notification->data['name'] ?? '' }}</b>&nbsp;&nbsp;<a href="{{ route('markasread-admin', $notification->id) }}">New
-                                            Asset Accepted by Employee!</a><span class="pull-right">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span>
-                                    </p>
-                                    @endif
-                                    @else
-                                    <p><b>{{ $notification->data['name'] ?? '' }}</b>&nbsp;&nbsp;<a href="{{ route('markasread', $notification->id) }}">Employee New
-                                            Notification!</a><span class="pull-right">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span>
-                                    </p>
-                                    @endif
-                                </div>
-
+                                    <div class="flex-shrink-0"><i data-feather="shopping-cart"></i></div>
+                                    <div class="flex-grow-1">
+                                        @if (Auth::check() && Auth::user()->role_id == 4)
+                                            <p><b>{{ Auth::user()->first_name }}</b>&nbsp;&nbsp;<a
+                                                    href="{{ route('markasread-controller', $notification->id) }}">New
+                                                    Product Isuue to the User!</a><span
+                                                    class="pull-right">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span>
+                                            </p>
+                                        @elseif (Auth::check() && Auth::user()->role_id == 3)
+                                            @if ($notification->type == 'App\Notifications\TransferNotification')
+                                                <p><b>{{ $notification->data['name'] ?? '' }}</b>&nbsp;&nbsp;<a
+                                                        href="{{ route('markasread-transfer-manager', $notification->id) }}">Manager
+                                                        New Notification of Transfer!</a><span
+                                                        class="pull-right">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span>
+                                                </p>
+                                            @else
+                                                <p><b>{{ $notification->data['name'] ?? '' }}</b>&nbsp;&nbsp;<a
+                                                        href="{{ route('markasread-manager', $notification->id) }}">Manager
+                                                        New Notification!</a><span
+                                                        class="pull-right">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span>
+                                                </p>
+                                            @endif
+                                        @elseif(Auth::check() && Auth::user()->role_id == 1)
+                                            @if ($notification->type == 'App\Notifications\IssuenceNotification')
+                                                <p><b>{{ $notification->data['name'] ?? '' }}</b>&nbsp;&nbsp;<a
+                                                        href="{{ route('markasread-admin', $notification->id) }}">New
+                                                        Asset Accepted by Employee!</a><span
+                                                        class="pull-right">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span>
+                                                </p>
+                                            @endif
+                                        @else
+                                            @if ($notification->type == 'App\Notifications\TransferNotification')
+                                                <p><b>{{ $notification->data['name'] ?? '' }}</b>&nbsp;&nbsp;<a
+                                                        href="{{ route('markasread-transfer', $notification->id) }}">Employee
+                                                        New Transfer
+                                                        Notification!</a><span
+                                                        class="pull-right">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span>
+                                                </p>
+                                            @else
+                                                <p><b>{{ $notification->data['name'] ?? '' }}</b>&nbsp;&nbsp;<a
+                                                        href="{{ route('markasread', $notification->id) }}">Employee
+                                                        New
+                                                        Notification!</a><span
+                                                        class="pull-right">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span>
+                                                </p>
+                                            @endif
+                                        @endif
+                                    </div>
                                 @endforeach
                             </div>
                         </li>
                         {{-- @foreach (auth()->user()->notifications as $notification) --}}
-                        @if(Auth::check() && Auth::user()->role_id == 4 && auth()->user()->notifications)
-                        <li><a class="btn btn-primary" href="{{ route('markasread-controller', auth()->user()->notifications->first()->id ??'') }}">Check all notification</a></li>
+                        @if (Auth::check() && Auth::user()->role_id == 4 && auth()->user()->notifications)
+                            <li><a class="btn btn-primary"
+                                    href="{{ route('markasread-controller',auth()->user()->notifications->first()->id ?? '') }}">Check
+                                    all notification</a></li>
                         @elseif (Auth::check() && Auth::user()->role_id == 3 && auth()->user()->notifications)
-                        <li><a class="btn btn-primary" href="{{ route('markasread-manager', auth()->user()->notifications->first()->id??'') }}">Check all notification</a></li>
+                            <li><a class="btn btn-primary"
+                                    href="{{ route('markasread-manager',auth()->user()->notifications->first()->id ?? '') }}">Check
+                                    all notification</a></li>
                         @elseif (Auth::check() && Auth::user()->role_id == 1 && auth()->user()->notifications)
-                        <li><a class="btn btn-primary" href="{{ route('markasread-admin', auth()->user()->notifications->first()->id??'') }}">Check all notification</a></li>
+                            <li><a class="btn btn-primary"
+                                    href="{{ route('markasread-admin',auth()->user()->notifications->first()->id ?? '') }}">Check
+                                    all notification</a></li>
                         @else
-                        <li><a class="btn btn-primary" href="{{ route('markasread', auth()->user()->notifications->first()->id??'') }}">Check all notification</a></li>
+                            <li><a class="btn btn-primary"
+                                    href="{{ route('markasread',auth()->user()->notifications->first()->id ?? '') }}">Check
+                                    all notification</a></li>
                         @endif
                         {{-- @endforeach --}}
                     </ul>
@@ -171,7 +207,8 @@
                     <ul class="profile-dropdown onhover-show-div">
                         <!-- <li><a href="user-profile.html"><i data-feather="user"></i><span>Account</span></a></li>
                         <li><a href="email_inbox.html"><i data-feather="mail"></i><span>Inbox</span></a></li> -->
-                        <li><a href="{{ route('settings.user') }}"><i data-feather="settings"></i><span>Settings</span></a></li>
+                        <li><a href="{{ route('settings.user') }}"><i
+                                    data-feather="settings"></i><span>Settings</span></a></li>
                         <li><a href="{{ route('logout') }}"><i data-feather="log-in"> </i><span>Log Out</span></a>
 
                         </li>

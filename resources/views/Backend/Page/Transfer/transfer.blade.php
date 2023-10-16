@@ -113,7 +113,7 @@
                         <div class="row p-3">
                             <div class="col-md-6 mb-4">
                                 <label class="form-label" for="employeeId">Employee's ID</label>
-                                <input class="form-control" oninput="showDiv()" id="employeeId" type="search"
+                                <input class="form-control" oninput="showDiv()" id="employeesimpleId" type="search"
                                     name="employeeId" data-bs-original-title="" title=""
                                     placeholder="Enter Employee's ID" onkeydown="return event.key != 'Enter';" required>
                                     @error('employeeId')
@@ -279,7 +279,7 @@
         const form = document.querySelector(".f1");
 
         function showDiv() {
-            var inputField = document.getElementById('employeeId');
+            var inputField = document.getElementById('employeesimpleId');
             var div = document.getElementById('myDiv');
 
             if (inputField.value.trim() !== '') {
@@ -302,9 +302,9 @@
         var selectedCards = {};
 
         $(document).ready(function() {
-            $("#employeeId").on("input", function() {
+            $("#employeesimpleId").on("input", function() {
                 var employeeId = $(this).val();
-
+                // alert(employeeId);
                 // Make an AJAX request to fetch employee and product data
                 $.ajax({
                     url: "/server_asset_script",

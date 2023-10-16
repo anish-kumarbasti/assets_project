@@ -89,13 +89,18 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('user_dashboard', [ChartDashboardController::class, 'userDashboard'])->name('user-dashboard');
     Route::get('stock', [StockController::class, 'index']);
     Route::get('markasread/{id}', [IssuenceController::class, 'markasread'])->name('markasread');
+    Route::get('markasread-transfer/{id}', [IssuenceController::class, 'markasreadTransfer'])->name('markasread-transfer');
     Route::get('markasread-admin/{id}', [IssuenceController::class, 'markasreadAdmin'])->name('markasread-admin');
     Route::get('markasread-manager/{id}', [IssuenceController::class, 'markasreadmanager'])->name('markasread-manager');
+    Route::get('markasread-transfer-manager/{id}', [IssuenceController::class, 'markasreadTransfermanager'])->name('markasread-transfer-manager');
     Route::get('approve-manager/{id}', [IssuenceController::class, 'approvemanager'])->name('approve-manager');
     Route::get('denied-manager/{id}', [IssuenceController::class, 'deniedmanager'])->name('denied-manager');
+    Route::get('approve-transfer-manager/{id}', [IssuenceController::class, 'approvetransfermanager'])->name('approve-transfer-manager');
+    Route::get('denied-transfer-manager/{id}', [IssuenceController::class, 'deniedtransfermanager'])->name('denied-transfer-manager');
     Route::get('markasread-controller/{id}', [IssuenceController::class, 'markasreadcontroller'])->name('markasread-controller');
     Route::post('rejection/', [IssuenceController::class, 'rejection'])->name('rejection');
     Route::get('accept-asset/{id}', [IssuenceController::class, 'AssetAccept'])->name('accept-asset');
+    Route::get('transfer-accept/{id}', [IssuenceController::class, 'TransferAssetAccept'])->name('transfer-accept');
     Route::get('accept-asset-manager/{id}', [IssuenceController::class, 'AssetAcceptmanager'])->name('accept-asset-manager');
     Route::get('accept-asset-detail/{id}', [IssuenceController::class, 'AssetAcceptdetail'])->name('accept-detail-asset');
     // Transfer Reason

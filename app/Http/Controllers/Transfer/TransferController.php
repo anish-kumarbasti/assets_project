@@ -6,6 +6,7 @@ use App\Helpers\TimelineHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Issuence;
 use App\Models\Role;
+use App\Models\Status;
 use App\Models\Stock;
 use App\Models\Transfer;
 use App\Models\TransferReason;
@@ -55,17 +56,21 @@ class TransferController extends Controller
                 'handoverId' => 'required|exists:users,employee_id',
                 'description' => 'required',
             ]);
-
+            $user = User::where('employee_id', $request->employeeId)->first();
+            $managerUser = User::where('role_id', 3)
+                ->where('department_id', $user->department_id)->first();
+            $handover = User::where('employee_id', $request->handoverId)->first();
+            $managertoUser = User::where('role_id', 3)
+            ->where('department_id', $handover->department_id)->first();
             $transfer = Transfer::create([
                 'employee_id' => $request->employeeId,
                 'product_id' => json_encode($request->cardId),
                 'reason_id' => $request->reason,
                 'handover_employee_id' => $request->handoverId,
                 'description' => $request->description,
+                'handover_manager_id'=>$managertoUser->id,
+                'employee_manager_id'=>$managerUser->id,
             ]);
-
-            $user = User::where('employee_id', $request->employeeId)->first();
-            $handover = User::where('employee_id', $request->handoverId)->first();
             foreach ($request->cardId as $productId) {
                 $stock = Stock::find($productId);
                 // dd($stock);
@@ -75,12 +80,11 @@ class TransferController extends Controller
                 }
             }
             DB::commit();
-            $managerUser = User::where('role_id', 3)
-                ->where('department_id', $user->department_id)->first();
-
             $assetcontroller = Role::where('name', 'Asset Controller')->first();
             $assetmanager = User::where('role_id', $assetcontroller->id)
                 ->where('department_id', $user->department_id)->first() ?? null;
+            $assettomanager = User::where('role_id', $assetcontroller->id)
+                ->where('department_id', $handover->department_id)->first() ?? null;
 
             if ($managerUser != null) {
                 $managerUser->notify(new TransferNotification($managerUser));
@@ -89,27 +93,18 @@ class TransferController extends Controller
             if ($assetmanager != null) {
                 $assetmanager->notify(new TransferNotification($assetmanager));
             }
+            if ($managertoUser != null) {
+                $managertoUser->notify(new TransferNotification($managertoUser));
+            }
+
+            if ($assettomanager != null) {
+                $assettomanager->notify(new TransferNotification($assettomanager));
+            }
 
             $stock = Stock::where('id', $request->cardId)->first();
-
-            $data = [
-                'name' => $request->first_name . ' ' . $request->last_name,
-                'company_name' => 'IT-Asset',
-                'transfer_from' => $request->employee_id,
-                'email' => $request->email,
-                'product_name' => $stock->product_info . ' ' . $stock->assetmain->name,
-                'product_serial' => $stock->serial_number,
-                'handover_employee' => $request->handoverId,
-            ];
-
-            $users['to'] = $handover->email;
-
-            Mail::send('Backend.Auth.mail.transfer_mail', $data, function ($message) use ($users) {
-                $message->from('itasset@svamart.com', 'itasset@svamart.com');
-                $message->to($users['to']);
-                $message->subject('Asset Transferred Successfully.');
-            });
-
+            $stock->update([
+                'status_available' => Status::where('name', 'Transfer Pending')->first()->id,
+            ]);
             return back()->with('success', 'Asset Transferred successfully.');
         } catch (QueryException $e) {
             DB::rollback(); // Rollback the transaction in case of an error
