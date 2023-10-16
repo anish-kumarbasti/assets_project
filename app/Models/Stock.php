@@ -26,6 +26,9 @@ class Stock extends Model
     {
         return $this->belongsTo(AssetType::class, 'asset_type_id');
     }
+    public function attributes(){
+        return $this->belongsTo(Attribute::class,'attribute');
+    }
     public function brandmodel()
     {
         return $this->belongsTo(Brandmodel::class, 'brand_model_id');
@@ -42,6 +45,6 @@ class Stock extends Model
         return $this->belongsTo(SubLocationModel::class,'sublocation_id');
     }
     public function assettypeid(){
-        return $this->belongsTo(Issuence::class,'asset_type_id');
+        return $this->belongsTo(Issuence::class,'product_id');
     }
 }

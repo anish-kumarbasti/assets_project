@@ -3,11 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Asset;
+use App\Models\AssetType;
 use App\Models\Issuence;
+use App\Models\Location;
 use App\Models\Maintenance;
+use App\Models\Status;
 use App\Models\Stock;
 use App\Models\Timeline;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
 {
@@ -109,8 +114,36 @@ class ReportController extends Controller
     }
     public function allreport()
     {
-        return view('Backend.Page.Reports.all-reports');
+        $location = Location::all();
+        $status=Status::all();
+        $assettype = AssetType::all();
+        // $data = null;
+        return view('Backend.Page.Reports.all-reports',compact('location','status','assettype'));
     }
+    public function search_report(Request $request){
+        $start_date = $request->input('start_date');
+        $end_date = $request->input('end_date');
+        $location = $request->input('location');
+        $asset = $request->input('asset');
+        $status = $request->input('status');
+
+        $query = Stock::query();
+        $query->when($location, function ($query) use ($location) {
+            return $query->where('location_id', $location);
+        })->when($asset, function ($query) use ($asset) {
+            return $query->where('asset_type_id', $asset);
+        })->when($status, function ($query) use ($status) {
+            return $query->where('status_available', $status);
+        });
+
+        $query->when($start_date && $end_date, function ($query) use ($start_date, $end_date) {
+            return $query->whereBetween('created_at', [$start_date, $end_date]);
+        });
+        $data = $query->get();
+        // dd($request);
+        return view('Backend.Page.Reports.all-reports',compact('data'));
+    }
+
     public function activity_report()
     {
 

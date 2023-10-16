@@ -404,7 +404,7 @@
                         $('#quantityField, #specificationField, #showbrand, #warranty').show();
                         $('#serialnumber, #configuration').hide();
                     } else if (data.assetType === 'Software') {
-                        $('#licenseNumberField, #expiryField, #configuration').show();
+                        $('#licenseNumberField, #expiryField, #configuration, #quantityField').show();
                         $('#serialnumber,#showbrand,#warranty').hide();
                     } else {
                         $('#serialnumber, #showbrand,#configuration,#warranty').show();

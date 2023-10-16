@@ -153,7 +153,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('add-user', [UserController::class, 'user']);
     Route::get('user-details', [UserController::class, 'userCard']);
 
-    //Asset Return 
+    //Asset Return
     Route::get('/return', [ReturnController::class, 'index'])->name('return');
     Route::post('/asset-return', [ReturnController::class, 'submit'])->name('submit');
     //Assets
@@ -254,6 +254,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('/model-permanently-delete/{id}', [BrandmodelController::class, 'forceDelete']);
 
     //Reports
+    Route::get('search/report',[ReportController::class,'search_report'])->name('search-reports');
     Route::get('all-reports', [ReportController::class, 'allreport'])->name('all-reports');
     Route::get('asset-activity-report', [ReportController::class, 'activity_report'])->name('activity-reports');
     Route::get('assets-report-status', [ReportController::class, 'report_status'])->name('report-status');
