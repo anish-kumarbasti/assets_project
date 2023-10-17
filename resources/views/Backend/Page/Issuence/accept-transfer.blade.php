@@ -108,7 +108,7 @@
                         <div class="flex-grow-1">
                             <p class="square-after f-w-600 header-text-primary">Asset Requests<i class="fa fa-circle"> </i>
                             </p>
-                            <h4>Asset Requests</h4>
+                            <h4>Asset Transfers</h4>
                         </div>
                         <div class="setting-list">
                             <ul class="list-unstyled setting-option">
@@ -128,9 +128,7 @@
                     <div class="table-responsive theme-scrollbar">
                         <table class="table">
                             <tbody>
-                                @foreach (auth()->user()->notifications as $notification)
                                 @foreach ($products as $product)
-                                    <form action="{{ Auth::check() && Auth::user()->role_id == 2 ? route('accept-asset', $product->id) : route('accept-asset-manager', $product->id) }}">
                                         <tr>
                                             <td>
                                                 <div class="d-flex"><img class="img-fluid align-top circle"
@@ -138,72 +136,33 @@
                                                     <div class="flex-grow-1"><a
                                                             href="{{ route('accept-detail-asset', $product->id) }}"><span>{{ $product->product_info }}</span></a>
                                                         <p class="mb-0">
-                                                            {{ Carbon\Carbon::parse($issuedata->created_at)->diffForHumans() }}
+                                                            {{ Carbon\Carbon::parse($transferdata->created_at)->diffForHumans() }}
                                                         </p>
                                                     </div>
                                                 </div>
                                             </td>
-                                            @if (Auth::check() && Auth::user()->role_id == 2)
-                                            @if ($notification->type == 'App\Notifications\TransferNotification')
-                                                <td>Hello User A new Asset ({{ $product->product_info }}) has been Transfred to you.
-                                                    please
-                                                    accept to the
-                                                    request!</td>
-                                                <td class="text-end">
-                                                    @if ($product->status_available == 5)
-                                                        <button class="btn btn-success" type="button">Accepted</button>
-                                                    @elseif ($product->status_available == 4)
-                                                        <button class="btn btn-danger" type="button">Rejected</button>
-                                                    @else
-                                                        <a class="btn btn-primary" href="{{route('transfer-accept',$product->id)}}">Accept</a>&nbsp;
-                                                        <button class="btn btn-danger" type="button" data-toggle="modal"
-                                                            data-target="#rejectionModal"
-                                                            onclick="setProductIdToReject('{{ $product->id }}')">Reject</button>
-                                                    @endif
+                                            @if (Auth::user()->department_id == $transferuser->department_id)
+                                                <td>Hello A new Asset ({{ $product->product_info }}) has been
+                                                    Transferred to your Employee ({{ $transferuser->first_name }}
+                                                    {{ $transferuser->last_name }})
                                                 </td>
-                                            @else
-                                            <td>Hello User A new Asset ({{ $product->product_info }}) has been issued
-                                                please
-                                                accept to the
-                                                request!</td>
-                                            <td class="text-end">
-                                                @if ($product->status_available == 3)
-                                                    <button class="btn btn-success" type="button">Accepted</button>
-                                                @elseif ($product->status_available == 4)
-                                                    <button class="btn btn-danger" type="button">Rejected</button>
-                                                @else
-                                                    <button class="btn btn-primary" type="submit">Accept</button>&nbsp;
-                                                    <button class="btn btn-danger" type="button" data-toggle="modal"
-                                                        data-target="#rejectionModal"
-                                                        onclick="setProductIdToReject('{{ $product->id }}')">Reject</button>
-                                                @endif
-                                            </td>
-                                            @endif
-                                            @elseif (Auth::check() && Auth::user()->role_id == 3)
-                                                @if ($notification->type == 'App\Notifications\ReturnNotification')
-                                                <td>Hello A Asset ({{ $product->product_info }}) is Returned by
-                                                    this ({{ $user->first_name }} {{ $user->last_name }})</td>
                                                 <td class="text-end">
-                                                    <button class="btn btn-info" type="button">Returned by User</button>
-                                                </td>
-                                                @else
-                                                <td>Hello A new Asset ({{ $product->product_info }}) has been issued. to
-                                                    the ({{ $user->first_name }} {{ $user->last_name }})</td>
-                                                <td class="text-end">
-                                                    @if ($product->status_available == 13)
+                                                    @if ($product->status_available == 8)
                                                     <a class="btn btn-success" type="button">Approved.</a>
                                                     @elseif ($product->status_available == 14)
                                                     <a class="btn btn-danger" type="button">Denied.</a>
                                                     @else  
-                                                    <a class="btn btn-success" href="{{route('approve-manager',$product->id)}}">Approve</a>
-                                                    <a class="btn btn-danger" href="{{route('denied-manager',$product->id)}}">Denied</a>
+                                                    <a class="btn btn-success" href="{{route('approve-transfer-manager',$product->id)}}">Approve</a>
+                                                    <a class="btn btn-danger" href="{{route('denied-transfer-manager',$product->id)}}">Denied</a>
                                                     @endif
                                                 </td>
-                                                @endif
+                                            @else
+                                                <td>Hello A new Asset ({{ $product->product_info }}) has been
+                                                    Transferred to Employee ({{ $transferuser->first_name }}
+                                                    {{ $transferuser->last_name }})
+                                                </td>
                                             @endif
                                         </tr>
-                                    </form>
-                                @endforeach
                                 @endforeach
                             </tbody>
                         </table>
