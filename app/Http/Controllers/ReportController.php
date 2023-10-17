@@ -16,12 +16,13 @@ use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
 {
-    public function getPrint()
-    {
-        $data = Stock::all();
 
-        return view('Backend.Page.Reports.pdf.asset-active', compact('data'));
+    public function getPrint(Request $request)
+    {
+        $datas = json_decode($request->getContent(), true);
+        return view('Backend.Page.Reports.pdf.asset-active', compact('datas'));
     }
+
     public function getComponent()
     {
         $id = '4';
@@ -53,12 +54,14 @@ class ReportController extends Controller
         $report = Stock::all();
         return view('Backend.Page.Reports.pdf.status', compact('report'));
     }
-    public function generatePDF()
+    public function generatePDF(Request $request)
     {
-        $data = Stock::all();
+        $data = json_decode($request->data, true);
+
         $pdf = Pdf::loadView('Backend.Page.Reports.pdf.asset-active', compact('data'));
         return $pdf->download('asset-active.pdf');
     }
+
     public function pdfcomponent()
     {
         $id = '4';
@@ -117,31 +120,77 @@ class ReportController extends Controller
         $location = Location::all();
         $status=Status::all();
         $assettype = AssetType::all();
-        // $data = null;
-        return view('Backend.Page.Reports.all-reports',compact('location','status','assettype'));
+        $asset = Asset::all();
+        return view('Backend.Page.Reports.all-reports',compact('location','status','assettype','asset'));
     }
     public function search_report(Request $request){
         $start_date = $request->input('start_date');
         $end_date = $request->input('end_date');
         $location = $request->input('location');
-        $asset = $request->input('asset');
+        $assettype = $request->input('assettype');
         $status = $request->input('status');
+        $asset = $request->input('asset');
 
         $query = Stock::query();
-        $query->when($location, function ($query) use ($location) {
-            return $query->where('location_id', $location);
-        })->when($asset, function ($query) use ($asset) {
-            return $query->where('asset_type_id', $asset);
-        })->when($status, function ($query) use ($status) {
-            return $query->where('status_available', $status);
-        });
+        if ($start_date && $location) {
+            $query->where('location_id', $location)
+                ->whereBetween('created_at', [$start_date, $end_date]);
+        }
+        if($start_date && $location && $assettype){
+            $query->where('location_id', $location)->where('asset_type_id', $assettype)
+            ->whereBetween('created_at', [$start_date, $end_date]);
+         }
+         if($start_date && $location && $assettype && $asset && $status){
+            $query->where('location_id', $location)->where('asset_type_id', $assettype)->where('status_available', $status)
+            ->where('asset', $asset)
+            ->whereBetween('created_at', [$start_date, $end_date]);
+         }
+         if($status===null && $start_date && $location && $assettype && $asset){
+            $query->where('location_id', $location)->where('asset_type_id', $assettype)
+            ->where('asset', $asset)
+            ->whereBetween('created_at', [$start_date, $end_date]);
+         }
+         if($start_date && $location && $assettype && $asset){
+            $query->where('location_id', $location)->where('asset_type_id', $assettype)
+            ->where('asset', $asset)
+            ->whereBetween('created_at', [$start_date, $end_date]);
+         }
+        if ($asset && $location && $assettype && $status) {
+            $query->where('asset', $asset)
+                ->where('asset_type_id', $assettype)
+                ->where('status_available', $status)
+                ->where('location_id', $location);
+        }
+        if ($asset===null && $location && $assettype && $status) {
+            $query->where('asset_type_id', $assettype)
+                ->where('status_available', $status)
+                ->where('location_id', $location);
+        }
+        if ($status === null && $start_date && $location && $asset===null && $assettype) {
+            $query->where('location_id', $location)
+            ->where('asset_type_id', $assettype)
+                ->whereBetween('created_at', [$start_date, $end_date]);
+        }
 
-        $query->when($start_date && $end_date, function ($query) use ($start_date, $end_date) {
-            return $query->whereBetween('created_at', [$start_date, $end_date]);
-        });
+        if ($status && $location) {
+            $query->where('location_id',$location)->where('status_available', $status);
+        }
+        if($status===null && $location){
+            $query->where('location_id',$location);
+        }
+
+        if ($status === null && $start_date && $location && $asset && $assettype) {
+            $query->where('location_id', $location)->where('asset', $asset)
+            ->where('asset_type_id', $assettype)
+                ->whereBetween('created_at', [$start_date, $end_date]);
+        }
+
         $data = $query->get();
-        // dd($request);
-        return view('Backend.Page.Reports.all-reports',compact('data'));
+        // dd($data);
+
+        return view('Backend.Page.Reports.asset-active', compact('data'));
+
+
     }
 
     public function activity_report()

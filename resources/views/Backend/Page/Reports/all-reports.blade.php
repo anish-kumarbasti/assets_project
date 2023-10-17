@@ -1,7 +1,6 @@
 @extends('Backend.Layouts.panel')
 
 @section('Style-Area')
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
 <style>
     .status-tab {
         text-align: center;
@@ -21,6 +20,10 @@
       text-overflow: ellipsis;
       max-width: 150px;
    }
+   #basic {
+    display: none;
+}
+
 </style>
 @endsection
 
@@ -28,7 +31,7 @@
 <div class="col-sm-12">
 <div class="card">
     <div class="card-header pb-0">
-        <h4>All Reports</h4>
+        <h4>Reports</h4>
         <hr>
     </div>
     <div class="card-body">
@@ -57,75 +60,86 @@
                 <div class="col-sm-6 mb-3">
                     <label for="location">Select Location</label>
                     <select id="location" class="form-select" name="location" aria-label="Default select example">
+                        <option value="">All Location</option>
                         @foreach ($location as $locations)
                         <option value="{{$locations->id}}">{{$locations->name}}</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="col-sm-6 mb-3">
-                    <label for="status">Select Status</label>
-                    <select id="status" class="form-select" name="status" aria-label="Default select example">
-                        {{-- <option value="">All Status</option> --}}
-                        @foreach ($status as $status)
-                        <option value="{{$status->id}}">{{$status->name}}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-sm-6 mb-3">
-                    <label for="asset">Select Asset</label>
-                    <select id="asset" class="form-select" name="asset" aria-label="Default select example">
+                    <label for="asset">Select Asset Category</label>
+                    <select id="assettype" class="form-select" name="assettype" aria-label="Default select example">
+                        <option value="">All Asset Category</option>
                         @foreach ($assettype as $assettypes)
                         <option value="{{$assettypes->id}}">{{$assettypes->name}}</option>
                         @endforeach
                     </select>
                 </div>
+                <div class="col-sm-6 mb-3">
+                    <label for="asset">Select Asset </label>
+                    <select id="asset" class="form-select" name="asset" aria-label="Default select example">
+                        <option value="">All Asset</option>
+                        @foreach ($asset as $assets)
+                        <option value="{{$assets->id}}">{{$assets->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-sm-6 mb-3">
+                    <label for="status">Select Status</label>
+                    <select id="status" class="form-select" name="status" aria-label="Default select example">
+                        <option value="">All Status</option>
+                        @foreach ($status as $status)
+                        <option value="{{$status->id}}">{{$status->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+
             </div>
             <div class="col-sm-12 text-end mb-3">
                 <button class="btn btn-warning">Search</button>
             </div>
         </form>
-
-        {{-- <div class="col-sm-12">
-            <div class="table-responsive theme-scrollbar">
-                <table class="display" id="basic-1">
-                    <thead>
-                        <tr class="text-center">
-                            <th>SL</th>
-                            <th>Asset Code</th>
-                            <th>Serial Number</th>
-                            <th>Configuration</th>
-                            <th>Type</th>
-                            <th>Model</th>
-                            <th>Purchase Date</th>
-                            <th>Purchase Cost</th>
-                            <th>Location</th>
-                            <th>Sub-Location</th>
-                            <th>Status</th>
-                            <th>Warranty</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($data as $asset)
-                        <tr class="copy-content text-center">
-                            <td>{{$loop->iteration}}</td>
-                            <td>{{$asset->product_number??'N/A'}}</td>
-                            <td>{{$asset->serial_number??'N/A'}}</td>
-                            <td class="ellipsis">{{$asset->configuration??'N/A'}} <p>{{$asset->attributes->name??'N/A'}}</p></td>
-                            <td>{{$asset->asset_type->name??'N/A'}}</td>
-                            <td>{{$asset->brandmodel->name??'N/A'}}</td>
-                            <td>{{\Carbon\Carbon::parse($asset->created_at)->format('d-m-y')??'N/A'}}</td>
-                            <td>{{$asset->price??'N/A'}}</td>
-                            <td>{{$asset->location->name??'N/A'}}</td>
-                            <td>{{$asset->sublocation->name??'N/A'}}</td>
-                            <td><span class=" custom-btn  {{$asset->statuses->status??''}}"> {{$asset->statuses->name??'N/A'}}</span></td>
-                            <td>{{$asset->product_warranty??'N/A'}}</td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div> --}}
     </div>
+    {{-- <div class="col-sm-12 basic">
+       <div class="table-responsive theme-scrollbar">
+           <table class="display" id="basic-1">
+               <thead>
+                   <tr class="text-center">
+                       <th>SL</th>
+                       <th>Asset Code</th>
+                       <th>Serial Number</th>
+                       <th>Configuration</th>
+                       <th>Type</th>
+                       <th>Model</th>
+                       <th>Purchase Date</th>
+                       <th>Purchase Cost</th>
+                       <th>Location</th>
+                       <th>Sub-Location</th>
+                       <th>Status</th>
+                       <th>Warranty</th>
+                   </tr>
+               </thead>
+               <tbody>
+                   @foreach ($data as $asset)
+                   <tr class="copy-content text-center">
+                       <td>{{$loop->iteration}}</td>
+                       <td>{{$asset->product_number??'N/A'}}</td>
+                       <td>{{$asset->serial_number??'N/A'}}</td>
+                       <td class="ellipsis">{{$asset->configuration??'N/A'}} <p>{{$asset->attributes->name??'N/A'}}</p></td>
+                       <td>{{$asset->asset_type->name??'N/A'}}</td>
+                       <td>{{$asset->brandmodel->name??'N/A'}}</td>
+                       <td>{{\Carbon\Carbon::parse($asset->created_at)->format('d-m-y')??'N/A'}}</td>
+                       <td>{{$asset->price??'N/A'}}</td>
+                       <td>{{$asset->location->name??'N/A'}}</td>
+                       <td>{{$asset->sublocation->name??'N/A'}}</td>
+                       <td><span class=" custom-btn  {{$asset->statuses->status??''}}"> {{$asset->statuses->name??'N/A'}}</span></td>
+                       <td>{{$asset->product_warranty??'N/A'}}</td>
+                   </tr>
+                   @endforeach
+               </tbody>
+           </table>
+       </div>
+   </div> --}}
 </div>
 </div>
 @endsection
@@ -138,4 +152,13 @@
         }
     };
 </script>
+<script>
+    function showTable() {
+        document.getElementById('basic-1').style.display = 'table';
+    }
+    document.querySelector('.search-form').addEventListener('submit', function() {
+        showTable();
+    });
+</script>
+
 @endsection
