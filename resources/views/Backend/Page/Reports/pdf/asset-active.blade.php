@@ -33,7 +33,7 @@
 </head>
 
 <body>
-    <h1 id="text">Asset Register Report</h1>
+    <h1 id="text">Asset Report</h1>
     <table>
         <thead>
             <tr class="text-center">
@@ -41,7 +41,7 @@
                 <th>Asset Code</th>
                 <th>Serial Number</th>
                 <th>Configuration</th>
-                <th>Type</th>
+                <th>Asset Type</th>
                 <th>Model</th>
                 <th>Purchase Date</th>
                 <th>Purchase Cost</th>
@@ -53,7 +53,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($data as $asset)
+            @foreach ($datas as $asset)
             <tr class="copy-content text-center">
                 <td>{{$loop->iteration}}</td>
                 <td>{{$asset->product_number??'N/A'}}</td>

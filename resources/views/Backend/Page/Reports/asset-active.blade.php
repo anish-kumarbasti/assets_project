@@ -2,6 +2,7 @@
 
 @section('Style-Area')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <style>
     .custom-btn {
         font-size: 11px;
@@ -26,16 +27,17 @@
 <div class="col-sm-12">
     <div class="card">
         <div class="card-header pb-0">
-            <h4>Asset Register Report</h4>
+            <h4>Asset Report</h4>
             <hr>
         </div>
         <div class="card-header pb-0 d-flex justify-content-between">
             <div class="btn btn-group">
                 <button class="btn btn-primary" id="copy-button"><i class="far fa-copy"></i> Copy</button>
                 <button class="btn btn-secondary" id="csvButton"><i class="fas fa-file-csv"></i> CSV</button>
-                <a href="{{url('/getPDF')}}" class="btn btn-success" id="pdfButton"><i class="fas fa-file-pdf"></i> PDF</a>
-                <a href="{{url('/getPrint')}}" class="btn btn-info"><i class="fas fa-print"></i> Print</a>
-
+                <a class="btn btn-success" id="pdfButton">
+                    <i class="fas fa-file-pdf"></i> PDF
+                </a>
+                <a class="btn btn-info" id="printbutton"><i class="fas fa-print"></i> Print</a>
             </div>
         </div>
         <div class="card">
@@ -48,7 +50,7 @@
                                 <th>Asset Code</th>
                                 <th>Serial Number</th>
                                 <th>Configuration</th>
-                                <th>Type</th>
+                                <th>Asset Type</th>
                                 <th>Model</th>
                                 <th>Purchase Date</th>
                                 <th>Purchase Cost</th>
@@ -85,14 +87,7 @@
 @endsection
 
 @section('Script-Area')
-<!-- <script>
-    function redirectToPrint() {
-        window.location.href = "{{url('/getPrint')}}";
-        setTimeout(function() {
-            window.print();
-        }, 1000);
-    }
-</script> -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const copyButton = document.getElementById("copy-button");
@@ -146,5 +141,50 @@
     });
 </script>
 
+<script>
+    $(document).ready(function() {
+        $('#pdfButton').click(function() {
+            var dataToSend = <?php echo json_encode($data); ?>;
+            var csrfToken = window.Laravel = {!! json_encode([
+        'csrfToken' => csrf_token(),
+    ]) !!};
+            $.ajax({
+                type: 'POST',
+                url: '{{ url('/getPDF') }}',
+                data: JSON.stringify(dataToSend),
+                contentType: 'application/json',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                },
+                success: function(response) {
+                },
+                error: function(error) {
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $('#printbutton').click(function() {
+            var dataToSend = <?php echo json_encode($data); ?>;
 
+            $.ajax({
+                type: 'POST',
+                url: '{{ url('/getPrint') }}',
+                data: JSON.stringify(dataToSend),
+                contentType: 'application/json',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                },
+                success: function(response) {
+                },
+                error: function(error) {
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>
 @endsection
