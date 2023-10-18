@@ -34,10 +34,10 @@
             <div class="btn btn-group">
                 <button class="btn btn-primary" id="copy-button"><i class="far fa-copy"></i> Copy</button>
                 <button class="btn btn-secondary" id="csvButton"><i class="fas fa-file-csv"></i> CSV</button>
-                <a class="btn btn-success" id="pdfButton">
+                <a class="btn btn-success" href="{{route('getPDF',['data'=>session('data')])}}">
                     <i class="fas fa-file-pdf"></i> PDF
                 </a>
-                <a class="btn btn-info" id="printbutton"><i class="fas fa-print"></i> Print</a>
+                <a class="btn btn-info" href="{{route('getPrint',['data'=>session('data')])}}"><i class="fas fa-print"></i> Print</a>
             </div>
         </div>
         <div class="card">
@@ -49,8 +49,9 @@
                                 <th>SL</th>
                                 <th>Asset Code</th>
                                 <th>Serial Number</th>
-                                <th>Configuration</th>
+                                <th>Description</th>
                                 <th>Asset Type</th>
+                                <th>Asset </th>
                                 <th>Model</th>
                                 <th>Purchase Date</th>
                                 <th>Purchase Cost</th>
@@ -68,6 +69,7 @@
                                 <td>{{$asset->serial_number??'N/A'}}</td>
                                 <td class="ellipsis">{{$asset->configuration??'N/A'}} <p>{{$asset->attributes->name??'N/A'}}</p></td>
                                 <td>{{$asset->asset_type->name??'N/A'}}</td>
+                                <td>{{$asset->assetmain->name??'N/A'}}</td>
                                 <td>{{$asset->brandmodel->name??'N/A'}}</td>
                                 <td>{{\Carbon\Carbon::parse($asset->created_at)->format('d-m-y')??'N/A'}}</td>
                                 <td>{{$asset->price??'N/A'}}</td>
@@ -138,53 +140,6 @@
         link.setAttribute('download', 'asset_activity_report.csv');
         document.body.appendChild(link);
         link.click();
-    });
-</script>
-
-<script>
-    $(document).ready(function() {
-        $('#pdfButton').click(function() {
-            var dataToSend = <?php echo json_encode($data); ?>;
-            var csrfToken = window.Laravel = {!! json_encode([
-        'csrfToken' => csrf_token(),
-    ]) !!};
-            $.ajax({
-                type: 'POST',
-                url: '{{ url('/getPDF') }}',
-                data: JSON.stringify(dataToSend),
-                contentType: 'application/json',
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken,
-                },
-                success: function(response) {
-                },
-                error: function(error) {
-                    console.error(error);
-                }
-            });
-        });
-    });
-</script>
-<script>
-    $(document).ready(function() {
-        $('#printbutton').click(function() {
-            var dataToSend = <?php echo json_encode($data); ?>;
-
-            $.ajax({
-                type: 'POST',
-                url: '{{ url('/getPrint') }}',
-                data: JSON.stringify(dataToSend),
-                contentType: 'application/json',
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken,
-                },
-                success: function(response) {
-                },
-                error: function(error) {
-                    console.error(error);
-                }
-            });
-        });
     });
 </script>
 @endsection

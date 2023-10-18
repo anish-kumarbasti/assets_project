@@ -40,8 +40,9 @@
                 <th>SL</th>
                 <th>Asset Code</th>
                 <th>Serial Number</th>
-                <th>Configuration</th>
+                <th>Description</th>
                 <th>Asset Type</th>
+                <th>Asset </th>
                 <th>Model</th>
                 <th>Purchase Date</th>
                 <th>Purchase Cost</th>
@@ -60,6 +61,7 @@
                 <td>{{$asset->serial_number??'N/A'}}</td>
                 <td class="ellipsis">{{$asset->configuration??'N/A'}} {{$asset->attributes->name??'N/A'}}</td>
                 <td>{{$asset->asset_type->name??'N/A'}}</td>
+                <td>{{$asset->assetmain->name??'N/A'}}</td>
                 <td>{{$asset->brandmodel->name??'N/A'}}</td>
                 <td>{{\Carbon\Carbon::parse($asset->created_at)->format('d-m-y')??'N/A'}}</td>
                 <td>{{$asset->price??'N/A'}}</td>

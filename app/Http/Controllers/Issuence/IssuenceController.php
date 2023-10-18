@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Issuence;
-
+use Illuminate\Support\Facades\Notification;
 use App\Helpers\TimelineHelper;
 use App\Http\Controllers\Controller;
 use App\Models\AssetRejection;
@@ -105,10 +105,12 @@ class IssuenceController extends Controller
                 ->where('department_id', $user->department_id)
                 ->first();
             if ($managerUser) {
-                $managerUser->notify(new IssuenceNotification($managerUser));
+                // $managerUser->notify(new IssuenceNotification($managerUser));
+                Notification::send($managerUser, new IssuenceNotification($managerUser));
             }
             if ($assetmanager) {
-                $assetmanager->notify(new IssuenceNotification($assetmanager));
+                // $assetmanager->notify(new IssuenceNotification($assetmanager));
+                Notification::send($assetmanager, new IssuenceNotification($assetmanager));
             }
             $stock = Stock::where('id', $request->cardId)->first();
             if ($stock) {
@@ -150,7 +152,6 @@ class IssuenceController extends Controller
 
         $issuedata = Issuence::where('employee_id', $user)
             ->orWhere('employee_manager_id', $manager)->first();
-        
         if ($issuedata && $issuedata->product_id) {
             $productIds = json_decode($issuedata->product_id);
             $products = Stock::whereIn('id', $productIds)->with('brand', 'brandmodel', 'asset_type', 'getsupplier')->get();
@@ -169,6 +170,7 @@ class IssuenceController extends Controller
         $manager = Auth::user()->id;
         $issuedata = Transfer::where('handover_employee_id', $user)
             ->orWhere('employee_manager_id', $manager)->first();
+
         if ($issuedata && $issuedata->product_id) {
             $productIds = json_decode($issuedata->product_id);
             $products = Stock::whereIn('id', $productIds)->with('brand', 'brandmodel', 'asset_type', 'getsupplier')->get();
@@ -190,17 +192,28 @@ class IssuenceController extends Controller
         if ($id) {
             auth()->user()->unreadNotifications->where('id', $id)->markAsRead();
         }
+
         $user = Auth::user()->employee_id;
         $manager = Auth::user()->id;
         $issuedata = Issuence::where('employee_id', $user)
-            ->orWhere('employee_manager_id', $manager)->orderByDesc('created_at')
-            ->first();
-        $productIds = json_decode($issuedata->product_id);
+            ->orWhere('employee_manager_id', $manager)
+            ->orderByDesc('created_at')
+            ->get();
+
+        $productIds = [];
+        $createdDates = [];
+
+        foreach ($issuedata as $issuedatas) {
+            $productIds[] = json_decode($issuedatas->product_id);
+            $createdDates[] = $issuedatas->created_at;
+        }
+        // dd($createdDates);
         $products = Stock::whereIn('id', $productIds)->with('brand', 'brandmodel', 'asset_type', 'getsupplier')->get();
-        $user = User::where('employee_id', $issuedata->employee_id)->first();
-        $users = DB::table('notifications')->Where('type', 'App\Notifications\TransferNotification')->first();
-        return view('Backend.Page.Issuence.accept', compact('products', 'issuedata', 'user', 'users'));
+        $user = User::where('employee_id', Auth::user()->employee_id)->first();
+        $users = DB::table('notifications')->where('type', 'App\Notifications\TransferNotification')->first();
+        return view('Backend.Page.Issuence.accept', compact('products','createdDates',  'user', 'users'));
     }
+
     public function markasreadtransfermanager($id)
     {
         if ($id) {
@@ -335,7 +348,7 @@ class IssuenceController extends Controller
     public function showAll()
     {
         $issuences = DB::table('issuences')
-            ->select('issuences.*', 'stocks.*')
+            ->select('issuences.', 'stocks.')
             ->join('stocks', 'issuences.product_id', 'like', DB::raw('CONCAT("%", stocks.id, "%")'))
             ->get();
         return view('Backend.Page.Issuence.all-issuence', compact('issuences'));
