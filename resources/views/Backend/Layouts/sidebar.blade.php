@@ -29,26 +29,16 @@ background-color:#1d0950!important;
                     <h6>Pinned</h6>
                 </li>
                 <hr>
-                <li class="sidebar-list {{ request()->is('home*') ? 'active' : '' }}">
+                <li class="sidebar-list">
                     <a class="sidebar-link sidebar-title" href="javascript:void(0)">
                         <i data-feather="home"></i><span class="lan-3">Dashboard</span>
                     </a>
                     <ul class="sidebar-submenu">
-                        @if (Auth::check())
                             @if (Auth::user()->role_id == 1)
                                 <li class="{{ request()->is(['home*']) ? 'active' : '' }}"><a href="{{ url('home') }}">Admin Dashboard</a></li>
-                            @elseif (Auth::user()->role_id == 2)
-                                <li class="{{ request()->is(['user_dashboard*']) ? 'active' : '' }}"><a href="{{ url('user_dashboard') }}">User Dashboard</a></li>
-                            @elseif(Auth::user()->role_id == 3)
-                                <li class="{{ request()->is(['user_dashboard*']) ? 'active' : '' }}"><a href="{{url('user_dashboard')}}">User Dashboard</a></li>
-                            @elseif(Auth::user()->role_id == 4)
-                                <li class="{{ request()->is(['user_dashboard*']) ? 'active' : '' }}"><a href="{{url('user_dashboard')}}">User Dashboard</a></li>
                             @else
-                                <li>No Dashboard</li>
+                                <li class="{{ request()->is(['user_dashboard*']) ? 'active' : '' }}"><a href="{{ url('user_dashboard') }}">User Dashboard</a></li>
                             @endif
-                        @else
-                            <li>No Dashboard</li>
-                        @endif
                     </ul>
                 </li>
                 @can('view_asset')

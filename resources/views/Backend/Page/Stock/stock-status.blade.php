@@ -137,10 +137,10 @@
                         <thead>
                             <tr>
                                 <th>SL</th>
-                                <th>Code</th>
+                                <th>Asset Code</th>
                                 <th>Asset</th>
                                 <th>Brand</th>
-                                <th>Model</th>
+                                <th>Brand Model</th>
                                 <th>Serial Number</th>
                                 <th>Configuration</th>
                                 <th>Price</th>

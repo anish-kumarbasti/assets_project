@@ -274,7 +274,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/load-disposal', [DisposalController::class, 'load_disposal'])->name('load-disposal-report');
     Route::get('/maintenance-reports', [MaintenanceController::class, 'maintenance_reports'])->name('maintenance-reports');
     Route::get('/maintenance-repo', [MaintenanceController::class, 'maintenance_rep'])->name('maintenance-repo');
-    Route::post('/getPDF', [ReportController::class, 'generatePDF']);
+    Route::get('/getPDF', [ReportController::class, 'generatePDF'])->name('getPDF');
     Route::get('/gettimelinePDF/{id}', [ReportController::class, 'PDFtimeline']);
     Route::get('/component', [ReportController::class, 'pdfcomponent']);
     Route::get('/maintenance', [ReportController::class, 'pdfmaintenance']);
@@ -284,7 +284,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/status', [ReportController::class, 'pdfstatus']);
     Route::get('/export-data', [ReportController::class, 'exportData'])->name('exports.data');
     //Print
-    Route::post('/getPrint', [ReportController::class, 'getPrint']);
+    Route::get('/getPrint', [ReportController::class, 'getPrint'])->name('getPrint');
     Route::get('/getComponent', [ReportController::class, 'getComponent']);
     Route::get('/getMaintenance', [ReportController::class, 'getMaintenance']);
     Route::get('/getSupplier', [ReportController::class, 'getSupplier']);

@@ -129,6 +129,7 @@
                         <table class="table">
                             <tbody>
                                 @foreach (auth()->user()->notifications as $notification)
+
                                 @foreach ($products as $product)
                                     <form action="{{ Auth::check() && Auth::user()->role_id == 2 ? route('accept-asset', $product->id) : route('accept-asset-manager', $product->id) }}">
                                         <tr>
@@ -137,9 +138,12 @@
                                                         src="../assets/images/dashboard/default/01.png" alt="">
                                                     <div class="flex-grow-1"><a
                                                             href="{{ route('accept-detail-asset', $product->id) }}"><span>{{ $product->product_info }}</span></a>
-                                                        <p class="mb-0">
-                                                            {{ Carbon\Carbon::parse($issuedata->created_at)->diffForHumans() }}
+                                                            <p class="mb-0">
+                                                            @foreach ($createdDates as $issuedata)
+                                                            {{ Carbon\Carbon::parse($issuedata)->diffForHumans() }}
+                                                            @endforeach
                                                         </p>
+
                                                     </div>
                                                 </div>
                                             </td>
@@ -194,7 +198,7 @@
                                                     <a class="btn btn-success" type="button">Approved.</a>
                                                     @elseif ($product->status_available == 14)
                                                     <a class="btn btn-danger" type="button">Denied.</a>
-                                                    @else  
+                                                    @else
                                                     <a class="btn btn-success" href="{{route('approve-manager',$product->id)}}">Approve</a>
                                                     <a class="btn btn-danger" href="{{route('denied-manager',$product->id)}}">Denied</a>
                                                     @endif
