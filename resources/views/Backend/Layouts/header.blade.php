@@ -106,6 +106,12 @@
                                                         New Notification of Transfer!</a><span
                                                         class="pull-right">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span>
                                                 </p>
+                                            @elseif ($notification->type == 'App\Notifications\ReturnNotification')
+                                                <p><b>{{ $notification->data['name'] ?? '' }}</b>&nbsp;&nbsp;<a
+                                                        href="{{ route('markasread-manager-return', $notification->id) }}">Manager
+                                                        New Notification for Return!</a><span
+                                                        class="pull-right">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span>
+                                                </p>
                                             @else
                                                 <p><b>{{ $notification->data['name'] ?? '' }}</b>&nbsp;&nbsp;<a
                                                         href="{{ route('markasread-manager', $notification->id) }}">Manager
