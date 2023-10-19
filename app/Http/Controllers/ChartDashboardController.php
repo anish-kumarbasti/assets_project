@@ -8,6 +8,7 @@ use App\Models\AssetType;
 use App\Models\Disposal;
 use App\Models\Issuence;
 use App\Models\Maintenance;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -88,19 +89,20 @@ class ChartDashboardController extends Controller
 
             $issuedata = Issuence::where('employee_id', $userEmployeeId)
                 ->orWhere('employee_manager_id', $managerId)
-                ->first();
+                ->get();
 
-            $productIds = json_decode($issuedata->product_id ?? '');
+                $productIds = [];
+                $createdDates = [];
+                $userdetail = [];
+                foreach ($issuedata as $issuedatas) {
+                    $productIds[] = json_decode($issuedatas->product_id);
+                    $createdDates[] = $issuedatas->created_at;
+                    $userdetail[] = $issuedatas->employee_id;
+                }
+                $products = Stock::whereIn('id', $productIds)->with('brand', 'brandmodel', 'asset_type', 'getsupplier')->get();
+                $user = User::where('employee_id', $userdetail)->first();
 
-            if ($productIds) {
-                $products = Stock::whereIn('id', $productIds)
-                    ->with('brand', 'brandmodel', 'asset_type', 'getsupplier')
-                    ->get();
-            } else {
-                $products = [];
-            }
-
-            return view('Backend.Page.user_dashboard', compact('products', 'issuedata'));
+            return view('Backend.Page.user_dashboard', compact('products', 'issuedata', 'createdDates', 'user'));
         } else {
             return redirect('/');
         }

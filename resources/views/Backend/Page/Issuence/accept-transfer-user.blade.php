@@ -129,61 +129,41 @@
                         <table class="table">
                             <tbody>
                                 @foreach ($products as $product)
-
-                                <form action="{{ Auth::check() && Auth::user()->role_id == 2 ? route('accept-asset', $product->id) : route('accept-asset-manager', $product->id) }}">
-
+                                    <form
+                                        action="{{ Auth::check() && Auth::user()->role_id == 2 ? route('accept-asset', $product->id) : route('accept-asset-manager', $product->id) }}">
                                         <tr>
                                             <td>
                                                 <div class="d-flex"><img class="img-fluid align-top circle"
                                                         src="../assets/images/dashboard/default/01.png" alt="">
                                                     <div class="flex-grow-1"><a
                                                             href="{{ route('accept-detail-asset', $product->id) }}"><span>{{ $product->product_info }}</span></a>
-
-                                                            <p class="mb-0">
-                                                            {{-- @foreach ($createdDates as $issuedata)
-                                                            {{ Carbon\Carbon::parse($issuedata)->diffForHumans() }}
-                                                            @endforeach --}}
-
+                                                        <p class="mb-0">
+                                                            @foreach ($createdDates as $issuedata)
+                                                                {{ Carbon\Carbon::parse($issuedata)->diffForHumans() }}
+                                                            @endforeach
                                                         </p>
 
                                                     </div>
                                                 </div>
                                             </td>
-                                            @if (Auth::check() && Auth::user()->role_id == 2)
-                                                <td>Hello User A new Asset ({{ $product->product_info }}) has been
-                                                    issued
-                                                    please
-                                                    accept to the
-                                                    request!</td>
-                                                <td class="text-end">
-                                                    @if ($product->status_available == 3)
-                                                        <button class="btn btn-success" type="button">Accepted</button>
-                                                    @elseif ($product->status_available == 4)
-                                                        <button class="btn btn-danger" type="button">Rejected</button>
-                                                    @else
-                                                        <button class="btn btn-primary" type="submit">Accept</button>&nbsp;
-                                                        <button class="btn btn-danger" type="button" data-toggle="modal"
-                                                            data-target="#rejectionModal"
-                                                            onclick="setProductIdToReject('{{ $product->id }}')">Reject</button>
-                                                    @endif
-                                                </td>
-                                            @elseif (Auth::check() && Auth::user()->role_id == 3)
-                                                <td>Hello A new Asset ({{ $product->product_info }}) has been
-                                                    issued. to
-                                                    the ({{ $user->first_name }} {{ $user->last_name }})</td>
-                                                <td class="text-end">
-                                                    @if ($product->status_available == 13)
-                                                        <a class="btn btn-success" type="button">Approved.</a>
-                                                    @elseif ($product->status_available == 14)
-                                                        <a class="btn btn-danger" type="button">Denied.</a>
-                                                    @else
-                                                        <a class="btn btn-success"
-                                                            href="{{ route('approve-manager', $product->id) }}">Approve</a>
-                                                        <a class="btn btn-danger"
-                                                            href="{{ route('denied-manager', $product->id) }}">Denied</a>
-                                                    @endif
-                                                </td>
-                                            @endif
+                                            <td>Hello User A new Asset ({{ $product->product_info }}) has been
+                                                Transfred to you.
+                                                please
+                                                accept to the
+                                                request!</td>
+                                            <td class="text-end">
+                                                @if ($product->status_available == 5)
+                                                    <button class="btn btn-success" type="button">Accepted</button>
+                                                @elseif ($product->status_available == 4)
+                                                    <button class="btn btn-danger" type="button">Rejected</button>
+                                                @else
+                                                    <a class="btn btn-primary"
+                                                        href="{{ route('transfer-accept', $product->id) }}">Accept</a>&nbsp;
+                                                    <button class="btn btn-danger" type="button" data-toggle="modal"
+                                                        data-target="#rejectionModal"
+                                                        onclick="setProductIdToReject('{{ $product->id }}')">Reject</button>
+                                                @endif
+                                            </td>
                                         </tr>
                                     </form>
                                 @endforeach
