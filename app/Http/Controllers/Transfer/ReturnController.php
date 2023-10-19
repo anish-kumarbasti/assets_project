@@ -23,20 +23,22 @@ class ReturnController extends Controller
         $issue = Issuence::where('employee_id', $auth)->distinct()->pluck('product_id');
         $Issuestatus = Status::where('name', 'Accepted by User')->first();
         $Transferstatus = Status::where('name', 'Transferred by Manager')->first();
-        $data = []; // Define $data as an empty array
+        $data=collect([]);
 
-        if ($issue != '') {
+        if ($issue !='') {
             foreach ($issue as $issue) {
                 $product_id = json_decode($issue);
-                $data = Stock::whereIn('id', $product_id)
+                $datas = Stock::whereIn('id', $product_id)
                     ->where(function ($query) use ($Issuestatus, $Transferstatus) {
                         $query->where('status_available', $Issuestatus->id)
                             ->orWhere('status_available', $Transferstatus->id);
                     })
                     ->get();
-            }
-            return view('Backend.Page.Transfer.return', compact('data'));
-        } else {
+                    $data = $data->concat($datas);
+                }
+                return view('Backend.Page.Transfer.return', compact('data'));
+        }
+         else {
             return view('Backend.Page.Transfer.return');
         }
     }
@@ -47,10 +49,11 @@ class ReturnController extends Controller
             $request->validate([
                 'cardId' => 'required', // Ensure that cardId is an array
                 'description' => 'required',
-                'status'=>'required',
             ]);
             $auth = Auth::user();
+
             $cardIds = $request->input('cardId');
+            // dd($request);
             $return = AssetReturn::create([
                 'product_id' => json_encode($cardIds),
                 'reason' => $request->description,

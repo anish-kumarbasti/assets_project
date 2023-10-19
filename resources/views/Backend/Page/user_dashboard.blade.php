@@ -228,7 +228,7 @@
                       </div>
                     </td>
                     @if (Auth::check() && Auth::user()->role_id == 2)
-                    <td>Hello User A new Asset ({{ $product->product_info }}) has been issued
+                    <td>Hello User A new Asset ({{ $product->product_info }}) has been Issued!
                       please
                       accept to the
                       request!</td>
@@ -237,6 +237,7 @@
                       <button class="btn btn-success" type="button">Accepted</button>
                       @elseif ($product->status_available == 4)
                       <button class="btn btn-danger" type="button">Rejected</button>
+                      @elseif ($product->status_available == 9)
                       @else
                       <button class="btn btn-primary" type="submit">Accept</button>&nbsp;
                       <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#rejectionModal" onclick="setProductIdToReject('{{ $product->id }}')">Reject</button>

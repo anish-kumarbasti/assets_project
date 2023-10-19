@@ -64,8 +64,8 @@
                             </td>
                             <td>
                                 <div class="d-flex justify-content-between align-item-center">
-                                    <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary custom-btn"><i class="fa fa-pencil"></i>&nbsp;Edit</a>&nbsp;
-                                    <button class="btn btn-danger custom-btn delete-button" type="button" data-id="{{ $user->id }}"><i class="fa fa-trash-o"></i>&nbsp;Delete</button>
+                                    <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary custom-btn" style="display: flex;"><i class="fa fa-pencil" style="margin-top: 4px;"></i>&nbsp;Edit</a>&nbsp;
+                                    <button class="btn btn-danger custom-btn delete-button" type="button" data-id="{{ $user->id }}" style="display: flex;"><i class="fa fa-trash" style="margin-top: 4px;"></i>&nbsp;Delete</button>
                                 </div>
                             </td>
                         </tr>
