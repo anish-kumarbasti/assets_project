@@ -211,6 +211,11 @@ class IssuenceController extends Controller
         $products = Stock::whereIn('id', $productIds)->with('brand', 'brandmodel', 'asset_type', 'getsupplier')->get();
         $user = User::where('employee_id', Auth::user()->employee_id)->first();
         $users = DB::table('notifications')->where('type', 'App\Notifications\TransferNotification')->first();
+        
+        if($users == null) {
+        return redirect()->back()->with('error', 'No TransferNotification found');
+        }
+
         return view('Backend.Page.Issuence.accept', compact('products','createdDates',  'user', 'users'));
     }
 

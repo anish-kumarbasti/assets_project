@@ -4,7 +4,7 @@
 <div class="col-sm-12">
     <div class="card">
         <div class="card-header pb-0">
-            <h3>All Transfer</h3>
+            <h3>All Return</h3>
         </div>
         <div class="card">
             <div class="card-body">
@@ -22,7 +22,7 @@
                             @foreach ($return as $returns)
                             <tr>
                                 <td>{{$loop->iteration}}</td>
-                                <td>{{$returns->products->serial_number??''}}</td>
+                                <td>{{ is_string($returns->product_id) ? (json_decode($returns->product_id, true)[0] ?? 'N/A') : 'N/A' }}</td>
                                 <td>{{ $returns->username->first_name??'N/A'}} {{ $returns->username->last_name??''}}</td>
                                 <td>{{ $returns->reason ??'N/A' }}</td>
                             </tr>

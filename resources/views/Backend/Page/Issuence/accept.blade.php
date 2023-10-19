@@ -131,7 +131,7 @@
                                 @foreach (auth()->user()->notifications as $notification)
 
                                 @foreach ($products as $product)
-                                    <form action="{{ Auth::check() && Auth::user()->role_id == 2 ? route('accept-asset', $product->id) : route('accept-asset-manager', $product->id) }}">
+                                <form action="{{ Auth::check() && Auth::user()->role_id == 2 ? route('accept-asset', $product->id) : route('accept-asset-manager', $product->id) }}">
                                         <tr>
                                             <td>
                                                 <div class="d-flex"><img class="img-fluid align-top circle"
@@ -139,9 +139,9 @@
                                                     <div class="flex-grow-1"><a
                                                             href="{{ route('accept-detail-asset', $product->id) }}"><span>{{ $product->product_info }}</span></a>
                                                             <p class="mb-0">
-                                                            @foreach ($createdDates as $issuedata)
+                                                            {{-- @foreach ($createdDates as $issuedata)
                                                             {{ Carbon\Carbon::parse($issuedata)->diffForHumans() }}
-                                                            @endforeach
+                                                            @endforeach --}}
                                                         </p>
 
                                                     </div>

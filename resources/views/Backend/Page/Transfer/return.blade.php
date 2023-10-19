@@ -43,6 +43,7 @@
                     <div class="col-md-12 text-center">
                         <h5>No Asset for Returning</h5>
                     </div>
+                    {{-- {{dd($data)}} --}}
                     @isset($data)
                     @foreach ($data as $asset)
                     <div class="col-md-3">
@@ -69,7 +70,7 @@
                 </div>
             </div>
             <div class="card-footer d-flex text-end">
-                <button class="btn btn-primary" id="next" style="display: none;" type="button">Next</button>
+                <button class="btn btn-primary" id="next" style="display: none; margin-left: auto;" type="button">Next</button>
             </div>
         </div>
         <div class="card mt-3" id="step2" style="display: none;">
