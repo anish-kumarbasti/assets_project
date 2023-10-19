@@ -175,7 +175,7 @@
                         <thead>
                             <tr>
                                 <th>SL</th>
-                                <th>Code</th>
+                                <th>Asset Code</th>
                                 <th>Asset</th>
                                 <th>Brand</th>
                                 <th>Model</th>
@@ -221,7 +221,7 @@
                         <thead>
                             <tr>
                                 <th>SL</th>
-                                <th>Code</th>
+                                <th>Asset Code</th>
                                 <th>Asset</th>
                                 <th>Brand</th>
                                 <th>Model</th>
@@ -259,7 +259,7 @@
                         <thead>
                             <tr>
                                 <th>SL</th>
-                                <th>Code</th>
+                                <th>Asset Code</th>
                                 <th>Asset</th>
                                 <th>Model</th>
                                 <th>Brand</th>
@@ -297,7 +297,7 @@
                         <thead>
                             <tr>
                                 <th>SL</th>
-                                <th>Code</th>
+                                <th>Asset Code</th>
                                 <th>Asset</th>
                                 <th>Model</th>
                                 <th>Brand</th>
@@ -334,7 +334,7 @@
                         <thead>
                             <tr>
                                 <th>SL</th>
-                                <th>Code</th>
+                                <th>Asset Code</th>
                                 <th>Asset</th>
                                 <th>Brand</th>
                                 <th>Model</th>

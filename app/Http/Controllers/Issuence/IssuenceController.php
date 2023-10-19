@@ -249,7 +249,9 @@ class IssuenceController extends Controller
         $products = Stock::whereIn('id', $productIds)->with('brand', 'brandmodel', 'asset_type', 'getsupplier')->get();
         $user = User::where('employee_id', $userdetail)->first();
         $users = DB::table('notifications')->where('type', 'App\Notifications\TransferNotification')->first();
+
         return view('Backend.Page.Issuence.accept-return', compact('products', 'createdDates', 'user', 'users'));
+
     }
 
     public function markasreadtransfermanager($id)
