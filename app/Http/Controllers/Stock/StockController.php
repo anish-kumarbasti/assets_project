@@ -107,6 +107,14 @@ class StockController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'asset_type'=>'required',
+            'asset' =>'required',
+            'price'=>'required',
+            'product_info'=>'required',
+            'generate_number'=>'required',
+            'location'=>'required',
+            'sublocation'=>'required',
+            'supplier'=>'required',
             'specification' => [
                 'max:255',
                 function ($attribute, $value, $fail) {
@@ -202,8 +210,8 @@ class StockController extends Controller
             'asset' => $request->asset,
             'brand_id' => $request->brand ?? '0',
             'brand_model_id' => $request->brand_model ?? '0',
-            // 'location_id' => $request->location,
-            // 'sublocation_id' => $request->sublocation,
+            'location_id' => $request->location,
+            'sublocation_id' => $request->sublocation,
             'configuration' => $request->configuration,
             'serial_number' => $request->serial_number,
             'price' => $request->price,
@@ -233,7 +241,7 @@ class StockController extends Controller
     {
         $stock = Stock::findOrFail($id);
         $stock->delete();
-        return redirect()->route('all.stock');
+        return response()->json(['success'=>true]);
     }
     public function filter(Request $request)
     {

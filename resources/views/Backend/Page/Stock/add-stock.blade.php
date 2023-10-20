@@ -82,12 +82,12 @@
                             <select class="form-select" id="assettype" name="asset_type" aria-label="Default select example">
                                 <option>--Select Asset Category--</option>
                                 @foreach ($asset_type as $asset_type)
-                                <option value="{{ $asset_type->id }}"
-                                {{ old('asset_type') == $asset_type->id ? 'selected' : '' }}>
-                                    {{ $asset_type->name }}
-                                </option>
+                                <option value="{{ $asset_type->id }}"{{ isset($stockedit)&& $stockedit->asset_type_id == $asset_type->id ? 'selected' : '' }}> {{ $asset_type->name }}</option>
                                 @endforeach
                             </select>
+                            @error('asset_type')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="col-md-6">
                             <label class="form-label" for="validationCustom01">Asset</label>
@@ -97,6 +97,9 @@
                                     <option value="{{ old('asset') }}" selected>{{ old('asset') }}</option>
                                 @endif
                             </select>
+                            @error('asset')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
                     <div class="row p-3" id="showbrand">
@@ -143,12 +146,15 @@
                         </div>
                         <div class="col-md-4 mb-4" id="quantityField">
                             <label class="form-label" for="validationCustom01">Quantity</label>
-                            <input class="form-control" id="validationCustom01" type="text" value="{{old('quantity')}}" name="quantity" data-bs-original-title="" title="" placeholder="Enter Quantity">
+                            <input class="form-control" id="validationCustom01" type="text" value="{{isset($stockedit)?$stockedit->quantity:''}}" name="quantity" data-bs-original-title="" title="" placeholder="Enter Quantity">
                         </div>
                         <div class="col-md-4">
                             <label class="form-label" style="float: left;">Asset Code :</label>
                             <a href="#" id="generateNumber" style="float: left;">Generate Number</a>
-                            <input class="form-control" type="text" id="generateNumberInput" name="generate_number" placeholder="Generate Number" readonly>
+                            <input class="form-control" type="text" id="generateNumberInput" name="generate_number" value="{{isset($stockedit)?$stockedit->product_number:''}}" placeholder="Generate Number" readonly>
+                            @error('generate_number')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
                             {{-- <img id="" src="{{ asset('Backend/assets/images/IT-Assets/Vector_qr.png')}}" alt="QR Code"> --}}
                         </div>
                         <div class="col-md-4 mb-4">
@@ -167,19 +173,25 @@
                                 <option value="{{$location->id}}" {{ isset($stockedit) && $stockedit->location_id == $location->id ? 'selected' : '' }}>{{$location->name}}</option>
                                 @endforeach
                             </select>
+                            @error('location')
+                            <span class="text-danger">{{$message}}</span>
+                            @enderror
                         </div>
                         <div class="col-md-4 mb-4">
                             <label class="form-label" for="validationCustom01">Sub Location</label>
                             <select id="slocation" class="form-select" name="sublocation" aria-label="Default select example">
                                 <option value="">--Select Sub Location--</option>
                             </select>
+                            @error('sublocation')
+                            <span class="text-danger">{{$message}}</span>
+                            @enderror
                         </div>
                         <div class="col-md-4 mb-4">
                             <label class="form-label" for="validationCustom01">Host Name</label>
-                            <input class="form-control" id="validationCustom01" name="host_name" value="{{old('host_name')}}" type="text" data-bs-original-title="" title="" placeholder="Enter Host Name">
+                            <input class="form-control" id="validationCustom01" value="{{isset($stockedit)?$stockedit->host_name:''}}" name="host_name" value="{{old('host_name')}}" type="text" data-bs-original-title="" title="" placeholder="Enter Host Name">
                         </div>
                         <div class="col-md-4 mb-4">
-                            <label for="image" class="form-label">Image</label>
+                            <label for="image" class="form-label">Image(Optional)</label>
                             <input type="file" class="form-control" name="image" id="image">
                         </div>
 
@@ -189,7 +201,7 @@
                     <div class="row p-3" id="configuration">
                         <div class="col-md-12 mb-4">
                             <label class="form-label" for="validationCustom01"> Configuration</label>
-                            <textarea class="form-control" name="configuration" value="{{ isset($stockedit) ? $stockedit->configuration : '' }}" id="exampleFormControlTextarea1" placeholder="configuration" rows="3">{{old('configuration')}}</textarea>
+                            <textarea class="form-control" name="configuration"  id="exampleFormControlTextarea1" placeholder="configuration" rows="3">{{old('configuration')}} {{ isset($stockedit) ? $stockedit->configuration : '' }}</textarea>
                         </div>
                     </div>
                     <div class="row p-3">
@@ -213,11 +225,14 @@
                         <select class="form-select" id="supplier" name="supplier" aria-label="Default select example">
                             <option value="">--Select Supplier --</option>
                             @foreach ($supplier as $supplier)
-                            <option value="{{ $supplier->id }}" {{ isset($stockedit) && $stockedit->supplier_id == $supplier->id ? 'selected' : '' }}>
+                            <option value="{{ $supplier->id }}" {{ isset($stockedit) && $stockedit->supplier == $supplier->id ? 'selected' : '' }}>
                                 {{ $supplier->name }}
                             </option>
                             @endforeach
                         </select>
+                        @error('supplier')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
                     </div>
                     <div class="col-md-4 mb-4">
                         <label class="form-label" for="validationCustom01">Price</label>
@@ -229,13 +244,16 @@
                     <div class="col-md-4 mb-4" id="warranty">
                         <label class="form-label" for="warrantyDateInput">Warranty</label>
                         <div class="input-group">
-                            <input class="form-control digits" id="warrantyDateInput" value="{{old('product_warranty')}}" name="product_warranty" type="date" data-language="en">
+                            <input class="form-control digits" id="warrantyDateInput" value="{{isset($stockedit)? $stockedit->product_warranty:''}}" name="product_warranty" type="date" data-language="en">
                         </div>
+                        @error('product_warranty')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
                     </div>
                     <div class="col-md-4 mb-4" id="expiryField">
                         <label class="col-form-label" for="expiryDateInput">Expiry</label>
                         <div class="input-group">
-                            <input class="form-control" id="expiryDateInput" name="expiry" type="date" data-language="en" value="{{old('expiry')}}">
+                            <input class="form-control" id="expiryDateInput" name="expiry" type="date" data-language="en" value="{{isset($stockedit)? $stockedit->expiry:''}}">
                             <input type="hidden" value="1" name="status">
                         </div>
                     </div>
@@ -289,112 +307,84 @@
 </script>
 <script>
     $(document).ready(function() {
-        $('#attribute').on('change', function() {
-            // alert('hi');
-            $('#dynamicFields').empty();
-
-            $('#attribute option:selected').each(function() {
-                var optionValue = $(this).val();
-                var optionText = $(this).text();
-
-                var dynamicField = `
-                   <div class="dynamic-field">
-                       <input type="" readonly value="${optionText}">
-                       <input type="text" name="attribute_value" placeholder="Enter input">
-                   </div>
-               `;
-                $('#dynamicFields').append(dynamicField);
-            });
+        $('#addAttribute').click(function() {
+            var dynamicField = `
+                <div class="form-group">
+                    <input type="text" name="attribute_value" placeholder="Enter input">
+                </div>
+            `;
+            $('#dynamicFields').append(dynamicField);
         });
-    });
-</script>
-<script>
-    jQuery(document).ready(function() {
-        jQuery('#brand').change(function() {
-            var brandId = jQuery(this).val();
-            jQuery('#brand_model').empty();
+
+        $('#brand').change(function() {
+            var brandId = $(this).val();
+            $('#brand_model').empty();
 
             if (brandId) {
-                jQuery.ajax({
+                $.ajax({
                     url: '/get-brand-models/' + brandId,
                     type: 'POST',
-                    data: 'brandId' + brandId + '&_token={{ csrf_token() }}',
+                    data: {_token: '{{ csrf_token() }}'},
                     success: function(data) {
-                        jQuery('#brand_model').append(
-                            '<option value="">--Select Model--</option>');
-                        jQuery.each(data.models, function(key, value) {
-                            jQuery('#brand_model').append('<option value="' + value
-                                .id + '">' + value.name + '</option>');
+                        $('#brand_model').append('<option value="">--Select Model--</option>');
+                        $.each(data.models, function(key, value) {
+                            $('#brand_model').append('<option value="' + value.id + '">' + value.name + '</option>');
                         });
                     }
                 });
             }
         });
-    });
 
-    //location
-    jQuery(document).ready(function() {
-        jQuery('#location').change(function() {
-            let locationId = jQuery(this).val();
-            jQuery('#slocation').empty();
+        $('#location').change(function() {
+            let locationId = $(this).val();
+            $('#slocation').empty();
 
             if (locationId) {
-                jQuery.ajax({
+                $.ajax({
                     url: '/get-slocation/' + locationId,
                     type: 'POST',
-                    data: 'locationId' + locationId + '&_token={{ csrf_token() }}',
+                    data: {_token: '{{ csrf_token() }}'},
                     success: function(data) {
-                        jQuery('#slocation').append(
-                            '<option value="">--Select Sub-location--</option>');
-                        jQuery.each(data.locations, function(key, value) {
-                            jQuery('#slocation').append('<option value="' + value
-                                .id + '">' + value.name + '</option>');
+                        $('#slocation').append('<option value="">--Select Sub-location--</option>');
+                        $.each(data.locations, function(key, value) {
+                            $('#slocation').append('<option value="' + value.id + '">' + value.name + '</option>');
                         });
                     }
                 });
             }
         });
-    });
 
-    jQuery(document).ready(function() {
-        jQuery('#assettype').change(function() {
-            let assettypeId = jQuery(this).val();
-            jQuery('#asset').empty();
+        $('#assettype').change(function() {
+            let assettypeId = $(this).val();
+            $('#asset').empty();
 
             if (assettypeId) {
-                jQuery.ajax({
+                $.ajax({
                     url: '/get-asset-type/' + assettypeId,
                     type: 'POST',
-                    data: 'assettypeId' + assettypeId + '&_token={{csrf_token()}}',
-                    _cache: new Date().getTime(),
+                    data: {_token: '{{csrf_token()}}'},
                     success: function(data) {
-                        jQuery('#asset').append('<option value="">--Select Asset--</option>');
-                        jQuery.each(data.assets, function(key, value) {
-                            jQuery('#asset').append('<option value="' + value.id + '">' + value.name + '</option>');
+                        $('#asset').append('<option value="">--Select Asset--</option>');
+                        $.each(data.assets, function(key, value) {
+                            $('#asset').append('<option value="' + value.id + '">' + value.name + '</option>');
                         });
-                        jQuery('#attribute').append('<option value="">--Select Attribute--</option>');
-                        jQuery.each(data.attribute, function(key, value) {
-                            jQuery('#attribute').append('<option value="' + value.id + '">' + value.name + '</option>');
+                        $('#attribute').append('<option value="">--Select Attribute--</option>');
+                        $.each(data.attribute, function(key, value) {
+                            $('#attribute').append('<option value="' + value.id + '">' + value.name + '</option>');
                         });
                     }
                 });
             }
         });
-    });
-</script>
-<script>
-    $(document).ready(function() {
-        $('#quantityField, #specificationField, #licenseNumberField, #expiryField').hide();
 
         $('#assettype').change(function() {
             var selectedAssetTypeId = $(this).val();
 
             $.ajax({
-                url: '/get-asset-details/' + selectedAssetTypeId, // Replace with your actual route
+                url: '/get-asset-details/' + selectedAssetTypeId,
                 method: 'POST',
-                data: 'selectedAssetTypeId' + selectedAssetTypeId + '&_token={{csrf_token()}}',
+                data: {_token: '{{csrf_token()}}'},
                 success: function(data) {
-
                     $('#quantityField, #specificationField, #licenseNumberField, #expiryField').hide();
 
                     if (data.assetType === 'IT Asset Component') {
@@ -415,4 +405,5 @@
         });
     });
 </script>
+
 @endsection
