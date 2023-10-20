@@ -40,6 +40,19 @@
         height: 200px;
         overflow-y: scroll;
     }
+    .notification-box {
+        position: relative;
+    }
+
+    .notification-count {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        color: white;
+        border-radius: 50%;
+        padding: 5px 10px;
+        font-size: 12px;
+    }
 </style>
 
 <div class="page-header">
@@ -72,22 +85,15 @@
                     </div>
                 </li>
                 <li class="onhover-dropdown">
-                    <div class="notification-box"><i data-feather="bell"></i></div>
+                    <div class="notification-box">
+                        <i data-feather="bell"></i>
+                        <span id="notification-count"
+                            class="notification-count">{{ count(auth()->user()->unreadNotifications) }}</span>
+                    </div>
                     <ul class="notification-dropdown onhover-show-div">
                         <li><i data-feather="bell"> </i>
                             <h6 class="f-18 mb-0">Notitications</h6>
                         </li>
-                        {{-- <li>
-                            <div class="d-flex align-items-center">
-
-
-                                <div class="flex-grow-1">
-                                    <p><a href="#">Asset alloted! </a><span class="pull-right">6
-
-                                            hr</span></p>
-                                </div> -->
-                            </div>
-                        </li> --}}
                         <li>
                             <div class="align-items-center scrolling-container">
                                 @foreach (auth()->user()->notifications as $notification)
@@ -149,23 +155,8 @@
                             </div>
                         </li>
                         {{-- @foreach (auth()->user()->notifications as $notification) --}}
-                        @if (Auth::check() && Auth::user()->role_id == 4 && auth()->user()->notifications)
-                            <li><a class="btn btn-primary"
-                                    href="{{ route('markasread-controller',auth()->user()->notifications->first()->id ?? '') }}">Check
-                                    all notification</a></li>
-                        @elseif (Auth::check() && Auth::user()->role_id == 3 && auth()->user()->notifications)
-                            <li><a class="btn btn-primary"
-                                    href="{{ route('markasread-manager',auth()->user()->notifications->first()->id ?? '') }}">Check
-                                    all notification</a></li>
-                        @elseif (Auth::check() && Auth::user()->role_id == 1 && auth()->user()->notifications)
-                            <li><a class="btn btn-primary"
-                                    href="{{ route('markasread-admin',auth()->user()->notifications->first()->id ?? '') }}">Check
-                                    all notification</a></li>
-                        @else
-                            <li><a class="btn btn-primary"
-                                    href="{{ route('markasread',auth()->user()->notifications->first()->id ?? '') }}">Check
-                                    all notification</a></li>
-                        @endif
+                        <li><a class="btn btn-primary" href="{{ route('check-all-notification') }}">Check
+                                all notification</a></li>
                         {{-- @endforeach --}}
                     </ul>
                 </li>
@@ -223,6 +214,17 @@
             </ul>
         </div>
         <script src="https://translate.google.com/translate_a/element.js?cb=loadGoogleTranslate"></script>
+        <script>
+            function receiveNewNotification() {
+                const notificationCountElement = document.getElementById("notification-count");
+                const currentCount = parseInt(notificationCountElement.innerText, 10);
+                notificationCountElement.innerText = (currentCount + 1).toString();
+            }
+            function resetNotificationCount() {
+                const notificationCountElement = document.getElementById("notification-count");
+                notificationCountElement.innerText = "0";
+            }
+        </script>
         <script>
             function loadGoogleTranslate() {
                 var translator = new google.translate.TranslateElement({

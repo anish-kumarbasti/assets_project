@@ -9,14 +9,12 @@ use App\Models\AssetType;
 use App\Models\Attribute;
 use App\Models\Brand;
 use App\Models\Brandmodel;
-use App\Models\Issuence;
 use App\Models\Location;
 use App\Models\Status;
 use App\Models\Stock;
 use App\Models\SubLocationModel;
 use App\Models\Supplier;
 use App\Models\Timeline;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -86,12 +84,28 @@ class StockController extends Controller
 
     public function stockStatus()
     {
-        $stock = Stock::where('status_available', 1)->orWhere('status_available', 9)->get();
-        $allocated = Stock::where('status_available', 2)->orWhere('status_available', 3)->get();
-        $stolen = Stock::where('status_available', 11)->get();
-        $scrapped = Stock::where('status_available', 12)->get();
-        $unrepair = Stock::where('status_available', 6)->orWhere('status_available',10)->get();
-        $transfer = Stock::where('status_available', 5)->orWhere('status_available', 8)->get();
+        $itAssetType = AssetType::where('name', 'IT Asset')->first(); 
+        if (!$itAssetType) {
+            return abort(404);
+        }
+        $stock = Stock::where(function ($query) {
+            $query->where('status_available', 1)
+                ->orWhere('status_available', 9);
+        })->where('asset_type_id', $itAssetType->id)->get();
+        $allocated = Stock::where(function ($query) {
+            $query->where('status_available', 2)
+                ->orWhere('status_available', 3);
+        })->where('asset_type_id', $itAssetType->id)->get();
+        $stolen = Stock::where('status_available', 11)->where('asset_type_id', $itAssetType->id)->get();
+        $scrapped = Stock::where('status_available', 11)->where('asset_type_id', $itAssetType->id)->get();
+        $unrepair = Stock::where(function ($query) {
+            $query->where('status_available', 6)
+                ->orWhere('status_available', 12);
+        })->where('asset_type_id', $itAssetType->id)->get();
+        $transfer = Stock::where(function ($query) {
+            $query->where('status_available', 5)
+                ->orWhere('status_available', 8);
+        })->where('asset_type_id', $itAssetType->id)->get();
         return view('Backend.Page.Stock.stock-status', compact('stock', 'allocated', 'unrepair', 'transfer', 'stolen', 'scrapped'));
     }
 
@@ -110,7 +124,7 @@ class StockController extends Controller
                 'max:255',
                 function ($attribute, $value, $fail) {
                     if (str_word_count($value) > 100) {
-                        $fail($attribute.' must not exceed 100 words.');
+                        $fail($attribute . ' must not exceed 100 words.');
                     }
                 },
             ],
@@ -144,8 +158,8 @@ class StockController extends Controller
             'liscence_number' => $request->liscence_number,
             'supplier' => $request->supplier,
             'image' => $filepath,
-            'location_id'=>$request->location,
-            'sublocation_id'=>$request->sublocation,
+            'location_id' => $request->location,
+            'sublocation_id' => $request->sublocation,
         ]);
         TimelineHelper::logAction('Product Created', $product->id, $request->asset_type, $request->asset);
         // You might want to redirect the user somewhere after successful creation

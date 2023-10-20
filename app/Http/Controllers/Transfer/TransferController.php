@@ -15,25 +15,26 @@ use App\Notifications\TransferNotification;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
 
 class TransferController extends Controller
 {
     public function index(Request $request)
     {
         if ($request->ajax()) {
+            $result = [];
+            $products = [];
+            $productid = [];
             $employee = User::with('department', 'designation')
                 ->where('employee_id', 'LIKE', '%' . $request->employeeId . '%')
                 ->first() ?? null;
             $issue = Issuence::where('employee_id', 'LIKE', '%' . $request->employeeId . '%')
                 ->get() ?? null;
-            $result = [];
+            foreach ($issue as $product) {
+                $productid = json_decode($product->product_id);
+                $products = Stock::where('id', $productid)->with('brand', 'brandmodel', 'asset_type', 'getsupplier')->get();
+            }
             if ($employee && $issue) {
                 $result['employee'] = $employee;
-                foreach($issue as $product){
-                $productid = json_decode($product->product_id);
-                $products = Stock::whereIn('id', $productid)->with('brand', 'brandmodel', 'asset_type', 'getsupplier')->get();
-                }
                 $result['products'] = $products;
             } else {
                 $result['employee'] = null;
@@ -43,7 +44,7 @@ class TransferController extends Controller
             return response()->json($result);
         }
         $reason = TransferReason::all();
-   return view('Backend.Page.Transfer.transfer', compact('reason'));
+        return view('Backend.Page.Transfer.transfer', compact('reason'));
     }
 
     public function store(Request $request)
@@ -61,22 +62,22 @@ class TransferController extends Controller
                 ->where('department_id', $user->department_id)->first();
             $handover = User::where('employee_id', $request->handoverId)->first();
             $managertoUser = User::where('role_id', 3)
-            ->where('department_id', $handover->department_id)->first();
+                ->where('department_id', $handover->department_id)->first();
             $transfer = Transfer::create([
                 'employee_id' => $request->employeeId,
                 'product_id' => json_encode($request->cardId),
                 'reason_id' => $request->reason,
                 'handover_employee_id' => $request->handoverId,
                 'description' => $request->description,
-                'handover_manager_id'=>$managertoUser->id,
-                'employee_manager_id'=>$managerUser->id,
+                'handover_manager_id' => $managertoUser->id,
+                'employee_manager_id' => $managerUser->id,
             ]);
             foreach ($request->cardId as $productId) {
                 $stock = Stock::find($productId);
                 // dd($stock);
-                $transferId=$transfer->id;
+                $transferId = $transfer->id;
                 if ($stock) {
-                    TimelineHelper::logAction('Product Transferred', $productId, $stock->asset_type_id, $stock->asset, null,null,$transferId, $user->id);
+                    TimelineHelper::logAction('Product Transferred', $productId, $stock->asset_type_id, $stock->asset, null, null, $transferId, $user->id);
                 }
             }
             DB::commit();
@@ -85,7 +86,6 @@ class TransferController extends Controller
                 ->where('department_id', $user->department_id)->first() ?? null;
             $assettomanager = User::where('role_id', $assetcontroller->id)
                 ->where('department_id', $handover->department_id)->first() ?? null;
-
             if ($managerUser != null) {
                 $managerUser->notify(new TransferNotification($managerUser));
             }

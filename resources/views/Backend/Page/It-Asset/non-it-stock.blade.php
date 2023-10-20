@@ -51,12 +51,16 @@
                <thead>
                   <tr>
                      <th>SL</th>
-                     <th>Code</th>
+                     <th>Asset Code</th>
                      <th>Asset</th>
                      <th>Specification</th>
-                     <th>Quantity</th>
                      <th>Balanced</th>
-                     <th>Allocation</th>
+                     <th>Quantity</th>
+                     {{-- <th>Allocation</th> --}}
+                     <th>Scrapped</th>
+                     <th>Under Repair</th>
+                     <th>Transferred</th>
+                     <th>Allotted</th>
                   </tr>
                </thead>
                <tbody>
@@ -66,15 +70,27 @@
                      <td>{{$nonit->product_number??''}}</td>
                      <td>{{$nonit->product_info??'' }}</td>
                      <td>{{$nonit->specification??''}}</td>
+                     <td>{{$nonit->price??''}}</td>
                      <td>
                         <span class="badge rounded-pill badge-light-success">{{$nonit->quantity??''}}</span>
                      </td>
-                     <td>{{$nonit->price??''}}</td>
-                     <td>
+                     {{-- <td>
                         <form action="{{url('timeline',$nonit->id)}}" method="post">
                            @csrf
                            <button class="btn btn-primary btn-view" type="submit" data-bs-original-title="" title="">View</button>
                         </form>
+                     </td> --}}
+                     <td>
+                        <span class="badge rounded-pill badge-light-success">{{$scrappedCount}}</span>
+                     </td>
+                     <td>
+                        <span class="badge rounded-pill badge-light-success">{{$underRepairCount}}</span>
+                     </td>
+                     <td>
+                        <span class="badge rounded-pill badge-light-success">{{$transferredCount}}</span>
+                     </td>
+                     <td>
+                        <span class="badge rounded-pill badge-light-success">{{$allottedCount}}</span>
                      </td>
                   </tr>
                   @endforeach
