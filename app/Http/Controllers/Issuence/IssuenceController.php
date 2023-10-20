@@ -43,7 +43,7 @@ class IssuenceController extends Controller
             $statusinstock = Status::where('name', 'Pending')->first();
             $statuspending = Status::where('name', 'Instock')->first();
             // dd($request);
-            $response = Stock::with('brand', 'brandmodel', 'asset_type')
+            $response = Stock::with('brand', 'brandmodel', 'assetmain', 'asset_type','getsupplier')
                 ->where('product_number', $request->serialNumber)
                 ->orWhere('product_number', $request->serialNumber)
                 ->where(function ($query) use ($statusinstock, $statuspending) {

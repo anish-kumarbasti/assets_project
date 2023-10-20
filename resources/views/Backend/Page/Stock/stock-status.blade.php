@@ -376,10 +376,11 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
 @endsection
 @section('Script-Area')
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
     ('.mbtn').on('click', function() {
@@ -387,55 +388,63 @@
     })
 </script>
 <script>
-    $(document).ready(function() {
-        $("#openModalBtn").click(function() {
-            $("#calendarModal").modal("show");
-        });
-
-        $("#applyFilterBtn").click(function() {
-            const startDate = $("#modal_start_date").val();
-            const endDate = $("#modal_end_date").val();
-
-            var csrfToken = $('meta[name="csrf-token"]').attr('content');
-
-            $.ajax({
-                type: "POST",
-                url: "{{ route('filter.data') }}",
-                data: {
-                    start_date: startDate,
-                    end_date: endDate,
-                    _token: csrfToken
-                },
-
-                success: function(response) {
-                    $("#calendarModal").modal("hide");
-                    if (response.length > 0) {
-                        $("#table-body").empty();
-
-                        $.each(response, function(index, data) {
-                            var newRow = '<tr>' +
-                                '<td>' + (index + 1) + '</td>' +
-                                '<td>' + data.product_number + '</td>' +
-                                '<td>' + data.assetmain.name + '</td>' +
-                                '<td>' + data.brand.name + '</td>' +
-                                '<td>' + data.brandmodel.name + '</td>' +
-                                '<td>' + data.serial_number + '</td>' +
-                                '<td class="ellipsis">' + data.configuration +
-                                '</td>' +
-                                '<td> ₹' + data.price + '</td>' +
-                                '<td><a class="btn btn-primary btn-view" href="' + window.location.origin + '/timeline/' + data.id + '" data-bs-original-title="" title="">View</a></td>' +
-
-                                $("#table-body").append(newRow);
-                        });
-                    }
-                },
-                error: function(error) {
-                    console.error(error, xhr, status, );
-
-                }
-            });
-        });
+$(document).ready(function() {
+    $("#openModalBtn").click(function() {
+        $("#calendarModal").modal("show");
     });
+
+    $("#applyFilterBtn").click(function() {
+        const startDate = $("#modal_start_date").val();
+    const endDate = $("#modal_end_date").val();
+
+    var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+    $.ajax({
+        type: "POST",
+        url: "{{ route('filter.data') }}",
+        data: {
+            start_date: startDate,
+            end_date: endDate,
+            _token: csrfToken
+        },
+
+        success: function(response) {
+            $("#calendarModal").modal("hide");
+
+            // Destroy the existing DataTable
+            $('#table-instock').DataTable().destroy();
+
+            // Clear the table body
+            $('#table-body').empty();
+
+            if (response.length > 0) {
+                $.each(response, function(index, data) {
+                    var newRow = '<tr>' +
+                        '<td>' + (index + 1) + '</td>' +
+                        '<td>' + data.product_number + '</td>' +
+                        '<td>' + data.assetmain.name + '</td>' +
+                        '<td>' + data.brand.name + '</td>' +
+                        '<td>' + data.brandmodel.name + '</td>' +
+                        '<td>' + data.serial_number + '</td>' +
+                        '<td class="ellipsis">' + data.configuration +
+                        '</td>' +
+                        '<td> ₹' + data.price + '</td>' +
+                        '<td><a class="btn btn-primary btn-view" href="' + window.location.origin + '/timeline/' + data.id + '" data-bs-original-title="" title="">View</a></td>';
+
+                    $("#table-body").append(newRow);
+                });
+
+                // Reinitialize the DataTable
+                $('#table-instock').DataTable();
+            }
+        },
+        error: function(error) {
+            console.error(error);
+        }
+    });
+    });
+});
+
 </script>
 <script>
     $(document).ready(function() {
