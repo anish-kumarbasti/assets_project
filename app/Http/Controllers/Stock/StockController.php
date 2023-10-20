@@ -86,12 +86,13 @@ class StockController extends Controller
 
     public function stockStatus()
     {
-        $stock = Stock::where('status_available', 1)->orWhere('status_available', 9)->get();
-        $allocated = Stock::where('status_available', 2)->orWhere('status_available', 3)->get();
-        $stolen = Stock::where('status_available', 11)->get();
-        $scrapped = Stock::where('status_available', 12)->get();
-        $unrepair = Stock::where('status_available', 6)->orWhere('status_available',10)->get();
-        $transfer = Stock::where('status_available', 5)->orWhere('status_available', 8)->get();
+        $stock = Stock::where('status_available', 1)->where('asset_type_id', 1)->orWhere('status_available', 9)->get();
+        // dd($stock);
+        $allocated = Stock::where('status_available', 2)->where('asset_type_id', 1)->orWhere('status_available', 3)->get();
+        $stolen = Stock::where('status_available', 11)->where('asset_type_id', 1)->get();
+        $scrapped = Stock::where('status_available', 12)->where('asset_type_id', 1)->get();
+        $unrepair = Stock::where('status_available', 6)->where('asset_type_id', 1)->orWhere('status_available',10)->get();
+        $transfer = Stock::where('status_available', 5)->where('asset_type_id', 1)->orWhere('status_available', 8)->get();
         return view('Backend.Page.Stock.stock-status', compact('stock', 'allocated', 'unrepair', 'transfer', 'stolen', 'scrapped'));
     }
 
