@@ -188,7 +188,7 @@ class IssuenceController extends Controller
         // dd($createdDates);
         $products = Stock::whereIn('id', $productIds)->with('brand', 'brandmodel', 'asset_type', 'getsupplier')->get();
         $user = User::where('employee_id', $userdetail)->first();
-        return view('Backend.Page.Issuence.accept-transfer-user', compact('products', 'createdDates', 'user', 'users'));
+        return view('Backend.Page.Issuence.accept-transfer-user', compact('products', 'createdDates', 'user'));
     }
 
     public function markasreadAdmin($id)

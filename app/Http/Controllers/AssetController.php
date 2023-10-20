@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Asset;
 use App\Models\AssetType;
+use App\Models\Disposal;
 use App\Models\Issuence;
 use App\Models\Stock;
 use App\Models\Transfer;
@@ -44,7 +45,6 @@ class AssetController extends Controller
         return response()->json(['success' => true]);
     }
 
-
     public function create()
     {
         $assettype = AssetType::all();
@@ -67,17 +67,16 @@ class AssetController extends Controller
     }
 
     public function assetStatus(Request $request, $assetId)
-
     {
         $asset = Asset::findOrFail($assetId);
 
         if ($asset->status == true) {
             Asset::where('id', $assetId)->update([
-                'status' => 0
+                'status' => 0,
             ]);
         } else {
             Asset::where('id', $assetId)->update([
-                'status' => 1
+                'status' => 1,
             ]);
         }
 
@@ -117,7 +116,6 @@ class AssetController extends Controller
         return redirect()->route('assets.index');
     }
 
-
     public function destroy($id)
     {
         $asset = Asset::find($id);
@@ -127,25 +125,48 @@ class AssetController extends Controller
         return response()->json(['success' => true]);
     }
 
-
     public function nonitasset()
     {
         $id = '2';
         $matchingData = Stock::where('asset_type_id', $id)->with('statuses')->get();
-
-        return view('Backend.Page.It-Asset.non-it-stock', compact('matchingData'));
+        $scrappedCount = [];
+        foreach ($matchingData as $data) {
+            $scrappedCount = Disposal::where('product_info', $data->id)->count();
+        }
+        // dd($matchingData);
+        $allottedCount = $this->countStatus($matchingData, [2, 3]);
+        $underRepairCount = $this->countStatus($matchingData, [12]);
+        $transferredCount = $this->countStatus($matchingData, [5, 8]);
+        return view('Backend.Page.It-Asset.non-it-stock', compact('matchingData', 'allottedCount', 'underRepairCount', 'scrappedCount', 'transferredCount'));
+    }
+    private function countStatus($data, $statusValues)
+    {
+        return $data->filter(function ($item) use ($statusValues) {
+            return in_array($item->status_available, $statusValues);
+        })->count();
     }
     public function assetscomponent()
     {
         $id = '4';
         $assteComponent = Stock::where('asset_type_id', $id)->with('statuses')->get();
-        return view('Backend.Page.It-Asset.assets-components', compact('assteComponent'));
+        // dd($assteComponent);
+        $scrappedCount = [];
+        foreach ($assteComponent as $data) {
+            $scrappedCount = Disposal::where('product_info', $data->id)->count();
+        }
+        // dd($scrappedCount);
+        $allottedCount = $this->countStatus($assteComponent, [2, 3]);
+        $underRepairCount = $this->countStatus($assteComponent, [12]);
+        $transferredCount = $this->countStatus($assteComponent, [5, 8]);
+        return view('Backend.Page.It-Asset.assets-components', compact('assteComponent', 'allottedCount', 'underRepairCount', 'scrappedCount', 'transferredCount'));
     }
     public function assetsoftware()
     {
         $id = '3';
         $softwareData = Stock::where('asset_type_id', $id)->get();
-        return view('Backend.Page.It-Asset.assets-software', compact('softwareData'));
+        $allottedCount = $this->countStatus($softwareData, [2, 3]);
+        $transferredCount = $this->countStatus($softwareData, [5, 8]);
+        return view('Backend.Page.It-Asset.assets-software', compact('softwareData', 'allottedCount', 'transferredCount'));
     }
     public function getAssetDetails($assetTypeId)
     {
