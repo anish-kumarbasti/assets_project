@@ -160,9 +160,11 @@
                 <table class="table table-bordered" id="selectedAssetTable">
                     <thead>
                         <tr>
+                            <th>Asset Code</th>
+                            <th>Product</th>
+                            <th>Asset Type</th>
                             <th>Asset</th>
-                            <th>Brand</th>
-                            <th>Serial Number</th>
+                            <th>Price</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -170,7 +172,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="footer-item p-5">
+            <div class="footer-footer d-flex justify-content-between ">
                 <button class="btn btn-secondary" id="prev-third" data-prev="select-asset-step" type="button">Previous</button>
                 <button class="btn btn-primary" id="next-third" data-next="additional-detail-step" type="button">Next</button>
             </div>
@@ -292,7 +294,9 @@
                 <div class="card change-card ${isSelected ? 'selected' : ''}" data-card-id="${asset.id}">
                     <div class="card-body">
                         <h5 class="card-title card-text p-2">${asset.product_info}</h5>
-                        <p class="card-subtitle mb-2">Type: <span class="text-muted">${asset.asset_type.name}</span></p>
+                        <p class="card-subtitle mb-2">Product Number: <span class="text-muted">${asset.product_number}</span></p>
+                        <p class="card-subtitle mb-2">Asset Type: <span class="text-muted">${asset.asset_type.name}</span></p>
+                        <p class="card-subtitle mb-2">Asset: <span class="text-muted">${asset.assetmain.name}</span></p>
                         <p class="card-subtitle mb-2">${allbrand ? 'Brand: <span class="text-muted">' + allbrand.name + '</span>' : 'License Number: <span class="text-muted">' + (asset.license_number || 'N/A')}</span></p>
                         <p class="card-subtitle mb-2">${allbrand ? 'Brand Model: <span class="text-muted">' + (asset.brandmodel.name || 'N/A') + '</span>' : 'Configuration: <span class="text-muted">' + (asset.configuration || 'N/A')}</span></p>
                         <p class="card-subtitle mb-2">Brand Model: <span class="text-muted">${asset.supplier}</p>
@@ -374,14 +378,18 @@
                         const assetCard = $(`.change-card[data-card-id="${cardId}"]`);
                         if (assetCard.length) { // Check if the card still exists
                             const assetName = assetCard.find('.card-title').text();
-                            const brand = assetCard.find('.card-subtitle:eq(0) span').text();
-                            const serialNumber = assetCard.find('.card-subtitle:eq(1) span').text();
+                            const ProuctNumber = assetCard.find('.card-subtitle:eq(1) span').text();
+                            const Price = assetCard.find('.card-subtitle:eq(6) span').text();
+                            const AssetCode = assetCard.find('.card-subtitle:eq(0) span').text();
+                            const serialNumber = assetCard.find('.card-subtitle:eq(2) span').text();
 
                             const tableRow = `
                             <tr>
+                                <td>${AssetCode}</td>
                                 <td>${assetName}</td>
-                                <td>${brand}</td>
+                                <td>${ProuctNumber}</td>
                                 <td>${serialNumber}</td>
+                                <td>${Price}</td>
                                 <td>
                                     <button class="btn btn-danger btn-sm remove-asset" data-card-id="${cardId}">
                                         Remove
