@@ -129,8 +129,8 @@
                         <table class="table">
                             <tbody>
                                 @foreach ($products as $product)
-
-                                <form action="{{ Auth::check() && Auth::user()->role_id == 2 ? route('accept-asset', $product->id) : route('accept-asset-manager', $product->id) }}">
+                                    <form
+                                        action="{{ Auth::check() && Auth::user()->role_id == 2 ? route('accept-asset', $product->id) : route('accept-asset-manager', $product->id) }}">
 
                                         <tr>
                                             <td>
@@ -139,7 +139,7 @@
                                                     <div class="flex-grow-1"><a
                                                             href="{{ route('accept-detail-asset', $product->id) }}"><span>{{ $product->product_info }}</span></a>
 
-                                                            <p class="mb-0">
+                                                        <p class="mb-0">
                                                             {{-- @foreach ($createdDates as $issuedata)
                                                             {{ Carbon\Carbon::parse($issuedata)->diffForHumans() }}
                                                             @endforeach --}}
@@ -156,15 +156,15 @@
                                                     accept to the
                                                     request!</td>
                                                 <td class="text-end">
-                                                    @if ($product->status_available == 3)
-                                                        <button class="btn btn-success" type="button">Accepted</button>
-                                                    @elseif ($product->status_available == 4)
-                                                        <button class="btn btn-danger" type="button">Rejected</button>
-                                                    @else
+                                                    @if ($product->status_available == 13)
                                                         <button class="btn btn-primary" type="submit">Accept</button>&nbsp;
                                                         <button class="btn btn-danger" type="button" data-toggle="modal"
                                                             data-target="#rejectionModal"
                                                             onclick="setProductIdToReject('{{ $product->id }}')">Reject</button>
+                                                    @elseif ($product->status_available == 4)
+                                                        <button class="btn btn-danger" type="button">Rejected</button>
+                                                    @else
+                                                        <button class="btn btn-success" type="button">Accepted</button>
                                                     @endif
                                                 </td>
                                             @elseif (Auth::check() && Auth::user()->role_id == 3)
@@ -172,15 +172,15 @@
                                                     issued. to
                                                     the ({{ $user->first_name }} {{ $user->last_name }})</td>
                                                 <td class="text-end">
-                                                    @if ($product->status_available == 13)
-                                                        <a class="btn btn-success" type="button">Approved.</a>
-                                                    @elseif ($product->status_available == 14)
-                                                        <a class="btn btn-danger" type="button">Denied.</a>
-                                                    @else
+                                                    @if ($product->status_available == 15)
                                                         <a class="btn btn-success"
                                                             href="{{ route('approve-manager', $product->id) }}">Approve</a>
                                                         <a class="btn btn-danger"
                                                             href="{{ route('denied-manager', $product->id) }}">Denied</a>
+                                                    @elseif ($product->status_available == 14)
+                                                        <a class="btn btn-danger" type="button">Denied.</a>
+                                                    @else
+                                                        <a class="btn btn-success" type="button">Approved.</a>
                                                     @endif
                                                 </td>
                                             @endif

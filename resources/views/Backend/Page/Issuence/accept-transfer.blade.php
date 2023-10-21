@@ -147,13 +147,13 @@
                                                     {{ $transferuser->last_name }})
                                                 </td>
                                                 <td class="text-end">
-                                                    @if ($product->status_available == 8)
-                                                    <a class="btn btn-success" type="button">Approved.</a>
+                                                    @if ($product->status_available == 16)
+                                                    <a class="btn btn-success" href="{{route('approve-transfer-manager',$product->id)}}">Approve</a>
+                                                    <a class="btn btn-danger" href="{{route('denied-transfer-manager',$product->id)}}">Denied</a>
                                                     @elseif ($product->status_available == 14)
                                                     <a class="btn btn-danger" type="button">Denied.</a>
                                                     @else  
-                                                    <a class="btn btn-success" href="{{route('approve-transfer-manager',$product->id)}}">Approve</a>
-                                                    <a class="btn btn-danger" href="{{route('denied-transfer-manager',$product->id)}}">Denied</a>
+                                                    <a class="btn btn-success" type="button">Approved.</a>
                                                     @endif
                                                 </td>
                                             @else

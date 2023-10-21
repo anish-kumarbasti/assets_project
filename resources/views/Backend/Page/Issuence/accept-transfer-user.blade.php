@@ -152,16 +152,16 @@
                                                 accept to the
                                                 request!</td>
                                             <td class="text-end">
-                                                @if ($product->status_available == 5)
-                                                    <button class="btn btn-success" type="button">Accepted</button>
-                                                @elseif ($product->status_available == 4)
-                                                    <button class="btn btn-danger" type="button">Rejected</button>
-                                                @else
+                                                @if ($product->status_available == 8)
                                                     <a class="btn btn-primary"
                                                         href="{{ route('transfer-accept', $product->id) }}">Accept</a>&nbsp;
                                                     <button class="btn btn-danger" type="button" data-toggle="modal"
                                                         data-target="#rejectionModal"
                                                         onclick="setProductIdToReject('{{ $product->id }}')">Reject</button>
+                                                @elseif ($product->status_available == 4)
+                                                    <button class="btn btn-danger" type="button">Rejected</button>
+                                                @else
+                                                    <button class="btn btn-success" type="button">Accepted</button>
                                                 @endif
                                             </td>
                                         </tr>
