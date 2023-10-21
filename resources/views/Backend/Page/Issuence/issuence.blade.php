@@ -17,7 +17,7 @@
 
     .selected {
         background-color: #e6ffe8;
-        border: 2px solid green;
+        border: 2px solid rgb(161, 218, 161);
     }
 
     .locked {
@@ -134,7 +134,10 @@
                     <div class="row p-3">
                         <div class="col-md-12 mb-4">
                             <label class="form-label" for="serialNumber">Asset code:</label>
-                            <input class="form-control" id="serialNumber" name="serialNumber" type="text" data-bs-original-title="" title="" placeholder="Enter Asset Number">
+                            <input class="form-control" id="serialNumber" value="{{old('serialNumber')}}" name="serialNumber" type="text" data-bs-original-title="" title="" placeholder="Enter Asset Number">
+                            @error('serialNumber')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
                 </div>
@@ -185,16 +188,25 @@
                     <div class="row p-3">
                         <div class="col-md-4 mb-4">
                             <label class="form-label" for="timePickerInput">Issuing Time:</label>
-                            <input class="form-control" name="time" id="timePickerInput" type="time" data-bs-original-title="" title="">
+                            <input class="form-control" name="time" value="{{old('time')}}" id="timePickerInput" type="time" data-bs-original-title="" title="" required>
+                            @error('time')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="col-md-4 mb-4">
                             <label class="form-label" for="validationCustom01">Date of Issuing</label>
-                            <input class="form-control" name="date" id="datePickerInput" type="date" data-bs-original-title="" title="">
+                            <input class="form-control" name="date" id="datePickerInput" type="date" value="{{old('date')}}" data-bs-original-title="" title="" required>
+                            @error('date')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="col-md-4 mb-4">
                             <label class="form-label" for="validationCustom01">Due Date</label>
-                            <input class="form-control" name="due_date" id="dueDatePickerInput" type="date" data-bs-original-title="" title="">
+                            <input class="form-control" name="due_date" id="dueDatePickerInput" value="{{old('due_date')}}" type="date" data-bs-original-title="" title="" required>
+                            @error('due_date')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="col-md-4 mb-4">
                             <label class="form-label" for="validationCustom01">Location</label>
@@ -204,19 +216,28 @@
                                 <option value="{{ $locations->id }}">{{ $locations->name }}</option>
                                 @endforeach
                             </select>
+                            @error('location_id')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="col-md-4 mb-4">
                             <label class="form-label" for="validationCustom01">Sub Location</label>
                             <select name="sublocation_id" class="form-control" id="sublocation">
                                 <option value="">Select Sub-Location</option>
                             </select>
+                            @error('sublocation_id')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
                 </div>
                 <div class="card-item border">
                     <div class="row p-3">
                         <div class="col-md-12 mb-4">
-                            <textarea class="form-control" name="description" id="exampleFormControlTextarea1" placeholder="IT Assets" rows="3"></textarea>
+                            <textarea class="form-control" name="description" id="exampleFormControlTextarea1" placeholder="Issuance Description" rows="3" value="{{old('description')}}"></textarea>
+                            @error('description')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
                 </div>
@@ -231,7 +252,7 @@
 @endsection
 @section('Script-Area')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+{{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script> --}}
 <script>
     $(document).ready(function() {
         var alert = $('#issue');
@@ -317,14 +338,13 @@
                 assetDetailsContainer.html(empty);
             }
         }
-
-
     });
     $(document).ready(function() {
         $('#draggableMultiple,#CardChange').hide();
 
 
         function updateSelectedCards(cardId, isSelected) {
+            selectedCards[cardId] = isSelected;
             if (isSelected) {
                 selectedCards[cardId] = true;
             } else {
@@ -332,28 +352,30 @@
             }
         }
         $(document).on("click", ".change-card", function() {
-            var card = $(this);
-            var cardId = card.data("card-id");
+            const card = $(this);
+            const cardId = card.data("card-id");
+            const isSelected = selectedCards[cardId];
 
-            if (selectedCards[cardId]) {
-                updateSelectedCards(cardId, false);
+            updateSelectedCards(cardId, !isSelected);
+
+            if (isSelected) {
                 card.removeClass("selected");
                 card.find(".deselect-button").remove();
             } else {
-                updateSelectedCards(cardId, true);
                 card.addClass("selected");
                 card.find(".card-body").append('<div class="deselect-button"></div>');
             }
         });
-
         $(document).on("click", ".deselect-button", function() {
-            var card = $(this).closest(".change-card");
-            var cardId = card.data("card-id");
+            const card = $(this).closest(".change-card");
+            const cardId = card.data("card-id");
 
             updateSelectedCards(cardId, false);
+
             card.removeClass("selected");
             $(this).remove();
         });
+
         const selectedAssetCards = {};
 
         function updateSelectedAssetCards(cardId, isSelected) {
@@ -419,6 +441,7 @@
                 renderSelectedAssetCards();
             }
         });
+
         $(document).on("click", ".change-card", function() {
             const cardId = $(this).data("card-id");
             const isSelected = selectedAssetCards[cardId];
@@ -520,7 +543,20 @@
     //     form.submit();
     // });
     $('#allocate-assets-btn').click(function(event) {
-        event.preventDefault();
+        var employeeId = $('#employeeId').val().trim();
+        var serialNumber = $('#serialNumber').val().trim();
+        var time = $('#timePickerInput').val().trim();
+        var date = $('#datePickerInput').val().trim();
+        var dueDate = $('#dueDatePickerInput').val().trim();
+        var locationId = $('#locationchange').val();
+        var subLocationId = $('#sublocation').val();
+        var exampleFormControlTextarea1 = $('#exampleFormControlTextarea1').val()
+
+        if (employeeId === '' || serialNumber === '' || time === '' || date === '' || dueDate === '' || locationId === '' || subLocationId === '' || exampleFormControlTextarea1 === '') {
+            alert('Please fill in all required fields.');
+            return;
+        }
+
         $.ajax({
             url: 'update/stock/status',
             method: 'POST',

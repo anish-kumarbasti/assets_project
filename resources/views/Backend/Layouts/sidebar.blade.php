@@ -36,8 +36,12 @@ background-color:#1d0950!important;
                     <ul class="sidebar-submenu">
                             @if (Auth::user()->role_id == 1)
                                 <li class="{{ request()->is(['home*']) ? 'active' : '' }}"><a href="{{ url('home') }}">Admin Dashboard</a></li>
+                            @elseif (Auth::user()->role_id ==3)
+                                <li class="{{ request()->is(['user_dashboard*']) ? 'active' : '' }}"><a href="{{ url('user_dashboard') }}">Manager Dashboard</a></li>
+                            @elseif (Auth::user()->role_id ==4)
+                            <li class="{{ request()->is(['user_dashboard*']) ? 'active' : '' }}"><a href="{{ url('user_dashboard') }}">Controller Dashboard</a></li>
                             @else
-                                <li class="{{ request()->is(['user_dashboard*']) ? 'active' : '' }}"><a href="{{ url('user_dashboard') }}">User Dashboard</a></li>
+                            <li class="{{ request()->is(['user_dashboard*']) ? 'active' : '' }}"><a href="{{ url('user_dashboard') }}">User Dashboard</a></li>
                             @endif
                     </ul>
                 </li>
@@ -108,13 +112,13 @@ background-color:#1d0950!important;
                 <li class="sidebar-list {{ request()->is(['manage-stocks*', 'all-stock*', 'stock*']) ? 'active' : '' }}">
                     <a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="home"></i><span>Stocks</span></a>
                     <ul class="sidebar-submenu">
-                        <li class="{{ request()->is(['manage-stocks*']) ? 'active' : '' }}"><a href="{{ url('manage-stocks') }}">Manage Stocks</a></li>
-                        @can('manage_stock')
-                        <li class="{{ request()->is(['all-stock*']) ? 'active' : '' }}"><a href="{{ url('all-stock') }}">All Stocks</a></li>
-                        @endcan
                         @can('create_stock')
                         <li class="{{ request()->is(['stock*']) ? 'active' : '' }}"><a href="{{ url('stock') }}">Add Stocks</a></li>
                         @endcan
+                        @can('manage_stock')
+                        <li class="{{ request()->is(['all-stock*']) ? 'active' : '' }}"><a href="{{ url('all-stock') }}">All Stocks</a></li>
+                        @endcan
+                        <li class="{{ request()->is(['manage-stocks*']) ? 'active' : '' }}"><a href="{{ url('manage-stocks') }}">Stocks Inventory</a></li>
                     </ul>
                 </li>
                 @endcan
