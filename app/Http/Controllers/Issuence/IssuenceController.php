@@ -464,7 +464,7 @@ class IssuenceController extends Controller
             $updateResult = $asset->update(['status_available' => $newStatus]);
 
             if ($updateResult) {
-                sleep(3);
+                sleep(1);
                 return response()->json(['success' => true, 'message' => 'Status updated successfully']);
             } else {
                 return response()->json(['success' => false, 'message' => 'Failed to update status']);
@@ -475,7 +475,7 @@ class IssuenceController extends Controller
             $updateResult = $product->update(['status_available' => $newStatus]);
 
             if ($updateResult) {
-                sleep(3);
+                sleep(1);
                 return response()->json(['success' => true, 'message' => 'Status updated successfully']);
             } else {
                 return response()->json(['success' => false, 'message' => 'Failed to update status']);

@@ -9,6 +9,7 @@ use App\Models\AssetType;
 use App\Models\Attribute;
 use App\Models\Brand;
 use App\Models\Brandmodel;
+use App\Models\Disposal;
 use App\Models\Location;
 use App\Models\Status;
 use App\Models\Stock;
@@ -71,21 +72,37 @@ class StockController extends Controller
         $brandId = Brandmodel::where('brand_id', $brandId)->get();
         return response()->json(['models' => $brandId]);
     }
+    private function countStatus($data, $statusValues)
+    {
+        return $data->filter(function ($item) use ($statusValues) {
+            return in_array($item->status_available, $statusValues);
+        })->count();
+    }
 
     public function manage()
     {
-        // Retrieve the status counts
-        $groupedStocks = Stock::select('product_info', 'asset_type_id', 'asset', DB::raw('COUNT(*) as count'))
-            ->groupBy('product_info', 'asset_type_id', 'asset')
-            ->get();
-        //
+        $stocks = Stock::all();
+        $groupedStocks = [];
+
+        foreach ($stocks as $stock) {
+            $groupedStocks[] = [
+                'product_info' => $stock->product_info,
+                'asset_type' => $stock->asset_type->name,
+                'assetmain' => $stock->assetmain->name??'',
+                'instocks' => $this->countStatus(collect([$stock]),[1]),
+                'allottedCount' => $this->countStatus(collect([$stock]), [2, 3]),
+                'scrappedCount' => Disposal::where('product_info', $stock->id)->count(),
+                'underRepairCount' => $this->countStatus(collect([$stock]), [12]),
+            ];
+        }
+
         return view('Backend.Page.Stock.manage-stock', compact('groupedStocks'));
     }
 
     public function stockStatus()
     {
 
-        $itAssetType = AssetType::where('name', 'IT Asset')->first(); 
+        $itAssetType = AssetType::where('name', 'IT Asset')->first();
         if (!$itAssetType) {
             return abort(404);
         }
@@ -216,7 +233,14 @@ class StockController extends Controller
         // dd($request);
         $request->validate([
             'price' => 'required|integer|min:1',
-            'product_info' => 'required|string|max:50',
+            'product_info' => 'required',
+            'asset_type'=>'required',
+            'asset' =>'required',
+            'price'=>'required',
+            'generate_number'=>'required',
+            'location'=>'required',
+            'sublocation'=>'required',
+            'supplier'=>'required',
         ]);
 
         $data = Stock::find($id)->update([

@@ -61,7 +61,9 @@
                                 </p>
                                 <p class="card-subtitle mb-2">Brand Model: <span class="text-muted">{{ $asset->supplier }}</p>
                                 <p class="card-subtitle mb-2">Price: <span class="text-muted">{{ $asset->price }}</span></p>
-                                <input type="hidden" value="{{ $asset->id }}" name="cardId[]">
+                                @if (isset($selectedCardIds) && in_array($asset->id, $selectedCardIds))
+                                    <input type="hidden" value="{{ $asset->id }}" name="cardId[{{ $asset->id }}]">
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -104,26 +106,48 @@
     });
 </script>
 <script>
-    $(document).ready(function() {
-        $('#next').click(function() {
-            $('#step1').hide();
-            $('#step2').show();
-        });
-        $('#previous').click(function() {
-            $('#step1').show();
-            $('#step2').hide();
-        });
+ function selectDeselect(card) {
+    $(card).toggleClass('selected');
+    checkSelection(card);
+}
+
+function checkSelection(card) {
+    if ($(card).hasClass('selected')) {
+        $(card).append('<input type="hidden" value="' + $(card).data('card-id') + '" name="cardId[' + $(card).data('card-id') + ']">');
+    } else {
+        $(card).find('input[name^="cardId"]').remove();
+    }
+
+    if ($('.change-card.selected').length > 0) {
+        $('#next').show();
+    } else {
+        $('#next').hide();
+    }
+}
+
+$('#next').click(function() {
+    if ($('.change-card.selected').length > 0) {
+        $('#step1').hide();
+        $('#step2').show();
+    }
+});
+
+$('#previous').click(function() {
+        $('#step1').show();
+        $('#step2').hide();
     });
 
-    function selectDeselect(card) {
-        card.classList.toggle('selected');
 
-        // Check if at least one card is selected, then show the Next button
-        if ($('.change-card.selected').length > 0) {
-            $('#next').show();
-        } else {
-            $('#next').hide();
-        }
-    }
+
+    // function selectDeselect(card) {
+    //     card.classList.toggle('selected');
+
+    //     // Check if at least one card is selected, then show the Next button
+    //     if ($('.change-card.selected').length > 0) {
+    //         $('#next').show();
+    //     } else {
+    //         $('#next').hide();
+    //     }
+    // }
 </script>
 @endsection

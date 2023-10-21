@@ -34,7 +34,8 @@
 
 <body>
     <h1 id="text">Asset Report</h1>
-    <table>
+    <div class="table-responsive theme-scrollbar">
+    <table class="display" id="basic-1">
         <thead>
             <tr class="text-center">
                 <th>SL</th>
@@ -74,7 +75,7 @@
             @endforeach
         </tbody>
     </table>
-
+</div>
     <script>
         window.onload = function() {
             window.print();
