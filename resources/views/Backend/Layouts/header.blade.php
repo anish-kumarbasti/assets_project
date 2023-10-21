@@ -40,18 +40,43 @@
         height: 200px;
         overflow-y: scroll;
     }
+
     .notification-box {
         position: relative;
     }
 
     .notification-count {
         position: absolute;
-        top: -5px;
-        right: -5px;
+        top: -8px;
+        /* Adjust the top position as needed */
+        right: -8px;
+        /* Adjust the right position as needed */
         color: white;
+        background-color: #1d0950;
+        /* Background color */
         border-radius: 50%;
-        padding: 5px 10px;
-        font-size: 12px;
+        padding: 3px 6px;
+        /* Smaller padding */
+        font-size: 10px;
+        /* Smaller font size */
+        transform: translate(50%, -50%);
+        /* Center the count within the bell icon */
+        animation: pulse 1s infinite;
+        /* Simple pulse animation */
+    }
+
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.1);
+        }
+
+        100% {
+            transform: scale(1);
+        }
     }
 </style>
 
@@ -220,6 +245,7 @@
                 const currentCount = parseInt(notificationCountElement.innerText, 10);
                 notificationCountElement.innerText = (currentCount + 1).toString();
             }
+
             function resetNotificationCount() {
                 const notificationCountElement = document.getElementById("notification-count");
                 notificationCountElement.innerText = "0";
