@@ -387,12 +387,15 @@ class IssuenceController extends Controller
     }
     public function showAll()
     {
-        $issuences = DB::table('issuences')
-            ->select('issuences.', 'stocks.')
-            ->join('stocks', 'issuences.product_id', 'like', DB::raw('CONCAT("%", stocks.id, "%")'))
+        $issuences = Issuence::with(['assetType', 'asset', 'stock'])
             ->get();
+// dd($issuances);
         return view('Backend.Page.Issuence.all-issuence', compact('issuences'));
     }
+
+
+
+
     public function AssetAcceptdetail($id)
     {
         $data = Stock::find($id);
