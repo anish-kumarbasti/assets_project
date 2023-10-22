@@ -19,6 +19,7 @@ class Issuence extends Model
     {
         return $this->belongsTo(AssetType::class,'asset_type_id');
     }
+    
     public function asset()
     {
         return $this->belongsTo(Asset::class,'asset_type_id');
