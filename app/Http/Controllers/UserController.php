@@ -43,6 +43,7 @@ class UserController extends Controller
     }
     public function userProfile()
     {
+
         return view('Backend.Page.User.user-profile');
     }
     public function index()
@@ -250,9 +251,83 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $issueproduct = Issuence::where('employee_id', $user->employee_id)->count();
+        $itasset=Issuence::where('employee_id', $user->employee_id)->where('asset_type_id',1)->count();
+        $nonitasset=Issuence::where('employee_id', $user->employee_id)->where('asset_type_id',2)->count();
+        $component=Issuence::where('employee_id', $user->employee_id)->where('asset_type_id',4)->count();
+        $software=Issuence::where('employee_id', $user->employee_id)->where('asset_type_id',3)->count();
         $transfer = Transfer::where('employee_id', $user->employee_id)->count();
         $returns = AssetReturn::where('return_by_user', $user->id)->count();
-        return view('Backend.Page.User.user-profile', compact('user', 'issueproduct', 'transfer', 'returns'));
+        $returnproducts = json_decode(AssetReturn::where('return_by_user', $user->id)->pluck('product_id'));
+        $ittransfer=0;
+        $nonittransfer=0;
+        $componenttransfer=0;
+        $softwaretransfer=0;
+
+        $transferProducts = Transfer::where('employee_id', $user->employee_id)->pluck('product_id');
+
+                $ittransfer = 0;
+                $nonittransfer = 0;
+                $componenttransfer = 0;
+                $softwaretransfer = 0;
+
+                if ($transferProducts) {
+                    foreach ($transferProducts as $product) {
+                        $decodedProducts= json_decode($product);
+                        $transferProduct = Stock::find($decodedProducts[0]);
+
+                        if ($transferProduct) {
+                            if ($transferProduct->asset_type_id == 1) {
+                                $ittransfer = $ittransfer + 1;
+                            }
+                            if ($transferProduct->asset_type_id == 2) {
+                                $nonittransfer = $nonittransfer + 1;
+                            }
+                            if ($transferProduct->asset_type_id == 4) {
+                                $componenttransfer = $componenttransfer + 1;
+                            }
+                            if ($transferProduct->asset_type_id == 3) {
+                                $softwaretransfer = $softwaretransfer + 1;
+                            }
+                        }
+                    }
+
+
+                }
+
+        $itreturns = 0;
+        $nonitreturns = 0;
+        $softwarereturns = 0;
+        $compnentreturns = 0;
+
+        if ($returnproducts) {
+            $productIDs = implode(',', $returnproducts);
+            $productID = json_decode($productIDs);
+
+            foreach ($productID as $return) {
+                $returnProducts = Stock::find($return);
+                if ($returnProducts->asset_type_id == 1) {
+                    $itreturns = $itreturns + 1;
+                }
+                if ($returnProducts->asset_type_id == 2) {
+                    $nonitreturns = $nonitreturns + 1;
+                }
+                if ($returnProducts->asset_type_id == 4) {
+                    $compnentreturns = $compnentreturns + 1;
+                }
+                if ($returnProducts->asset_type_id == 3) {
+                    $softwarereturns = $softwarereturns + 1;
+                }
+            }
+        }
+
+        
+        $totalitasset=($itasset-$itreturns)-$ittransfer;
+        $totalnonitasset=($nonitasset-$nonitreturns)-$nonittransfer;
+        $totalcomponent=($component-$compnentreturns)-$componenttransfer;
+        $totalsoftware=($software-$softwarereturns)-$softwaretransfer;
+
+
+        return view('Backend.Page.User.user-profile', compact('user', 'issueproduct', 'transfer', 'returns','totalitasset','totalnonitasset','totalcomponent','totalsoftware'));
     }
     public function usersprofile()
     {

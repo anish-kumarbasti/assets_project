@@ -50,15 +50,15 @@
                   </ul>
                   <div class="card-footer row">
                      <div class="col-4 col-sm-4">
-                        <p class="text-it">Issue</p>
+                        <p class="text-it">Total Issuance</p>
                         <h3 class="counter">{{$issueproduct??''}}</h3>
                      </div>
                      <div class="col-4 col-sm-4">
-                        <p class="text-it">Transfer</p>
+                        <p class="text-it">Total Transferd</p>
                         <h3><span class="counter">{{$transfer??''}}</span></h3>
                      </div>
                      <div class="col-4 col-sm-4">
-                        <p class="text-it">Return</p>
+                        <p class="text-it">Total Returned</p>
                         <h3><span class="counter">{{$returns??''}}</span></h3>
                      </div>
                   </div>
@@ -82,32 +82,42 @@
                      <div class="col-md-3">
                         <div class="card card-item">
                            <div class="card-body">
-                              <h3 class="text-center first-heading">0</h3>
-                              <h6 class="text-center">IT Assets</h6>
+                            <span class="badge badge-light-success done-badge">Currently Holding</span>
+                              <h3 class="text-center first-heading">{{$totalitasset}}</h3>
+                              <h6 class="text-center"> IT Assets</h6>
                            </div>
                         </div>
                      </div>
                      <div class="col-md-3">
                         <div class="card card-item">
                            <div class="card-body">
-                              <h3 class="text-center first-heading">0</h3>
+                            <span class="badge badge-light-success done-badge">Currently Holding</span>
+
+                              <h3 class="text-center first-heading">{{$totalnonitasset}}</h3>
                               <h6 class="text-center">Non IT Assets</h6>
+
+
                            </div>
                         </div>
                      </div>
                      <div class="col-md-3">
                         <div class="card card-item">
                            <div class="card-body">
-                              <h3 class="text-center first-heading">0</h3>
+                            <span class="badge badge-light-success done-badge">Currently Holding</span>
+                              <h3 class="text-center first-heading">{{$totalcomponent}}</h3>
                               <h6 class="text-center">Asset Component</h6>
+
                            </div>
                         </div>
                      </div>
                      <div class="col-md-3">
                         <div class="card card-item">
                            <div class="card-body">
-                              <h3 class="text-center first-heading">0</h3>
+                            <span class="badge badge-light-success done-badge">Currently Holding</span>
+                              <h3 class="text-center first-heading">{{$totalsoftware}}</h3>
                               <h6 class="text-center">Software</h6>
+
+
                            </div>
                         </div>
                      </div>

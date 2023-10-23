@@ -389,7 +389,7 @@ class IssuenceController extends Controller
     {
         $issuences = Issuence::with(['assetType', 'asset', 'stock'])
             ->get();
-// dd($issuances);
+
         return view('Backend.Page.Issuence.all-issuence', compact('issuences'));
     }
 
