@@ -24,6 +24,7 @@ class TransferController extends Controller
             $result = [];
             $products = [];
             $productid = [];
+            $allproducts = [];
             $employee = User::with('department', 'designation')
                 ->where('employee_id', 'LIKE', '%' . $request->employeeId . '%')
                 ->first() ?? null;
@@ -33,9 +34,14 @@ class TransferController extends Controller
                 $productid = json_decode($product->product_id);
                 $products = Stock::where('id', $productid)->with('brand', 'brandmodel', 'asset_type', 'getsupplier')->get();
             }
+            foreach($products as $data){
+                if($data->status_available == 3 or $data->status_available == 2){
+                    $allproducts = $data;
+                }
+            }
             if ($employee && $issue) {
                 $result['employee'] = $employee;
-                $result['products'] = $products;
+                $result['products'] = $allproducts;
             } else {
                 $result['employee'] = null;
                 $result['products'] = [];
