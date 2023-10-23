@@ -50,11 +50,11 @@
             @csrf
             <div class="row p-3">
                 <div class="col-sm-6 mb-3">
-                    <label for="start_date">Start Date</label>
+                    <label for="start_date">Transaction from</label>
                     <input type="date" class="form-control" name="start_date" id="start_date">
                 </div>
                 <div class="col-sm-6 mb-3">
-                    <label for="end_date">End Date</label>
+                    <label for="end_date">To Transaction</label>
                     <input type="date" class="form-control" name="end_date" id="end_date">
                 </div>
                 <div class="col-sm-6 mb-3">
@@ -92,6 +92,14 @@
                         <option value="{{$status->id}}">{{$status->name}}</option>
                         @endforeach
                     </select>
+                </div>
+                <div class="col-sm-6 mb-3">
+                    <label for="employee_id">Employee Code</label>
+                    <input type="text" class="form-control" name="employee_id" id="employee_id">
+                </div>
+                <div class="col-sm-6 mb-3">
+                    <label for="product_number">Asset Code</label>
+                    <input type="text" name="product_number" class="form-control" id="product_number">
                 </div>
 
             </div>

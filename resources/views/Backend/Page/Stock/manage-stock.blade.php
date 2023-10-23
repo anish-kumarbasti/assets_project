@@ -22,6 +22,8 @@
                <thead>
                   <tr>
                      <th>SL</th>
+                     <th>Asset Code</th>
+                     <th>Serial Number</th>
                      <th>Product Name</th>
                      <th>Asset Type</th>
                      <th>Asset</th>
@@ -29,12 +31,15 @@
                      <th>Allocated</th>
                      <th>Scrapped</th>
                      <th>Under Repair</th>
+                     <th>Stolen</th>
                   </tr>
                </thead>
                <tbody>
                   @foreach ($groupedStocks as $stock)
                   <tr>
                      <td>{{ $loop->iteration??''}}</td>
+                     <td>{{$stock['product_number']}}</td>
+                     <td>{{$stock['serial_number']?? 'N/A'}}</td>
                      <td>{{ $stock['product_info']??''}}</td>
                      <td>{{ $stock['asset_type']??''}}</td>
                      <td>{{ $stock['assetmain']??''}}</td>
@@ -42,13 +47,16 @@
                         <span class="badge rounded-pill badge-light-success">{{$stock['instocks']}}</span>
                      </td>
                      <td class="text-center">
-                        <span class="badge rounded-pill badge-light-success">{{$stock['allottedCount']}}</span>
+                        <span class="badge rounded-pill badge-light-secondary">{{$stock['allottedCount']}}</span>
                      </td>
                      <td class="text-center">
-                        <span class="badge rounded-pill badge-light-success">{{$stock['scrappedCount'] }}</span>
+                        <span class="badge rounded-pill badge-light-danger">{{$stock['scrappedCount'] }}</span>
                      </td>
                      <td class="text-center">
-                        <span class="badge rounded-pill badge-light-success">{{$stock['underRepairCount'] }}</span>
+                        <span class="badge rounded-pill badge-light-warning">{{$stock['underRepairCount'] }}</span>
+                     </td>
+                     <td class="text-center">
+                        <span class="badge rounded-pill badge-light-primary">{{$stock['stolen']}}</span>
                      </td>
                   </tr>
                   @endforeach

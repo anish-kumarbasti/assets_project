@@ -42,6 +42,7 @@
         </div>
         <div class="card">
             <div class="card-body">
+                @if(isset($data))
                 <div class="table-responsive theme-scrollbar">
                     <table class="display" id="basic-1">
                         <thead>
@@ -49,7 +50,7 @@
                                 <th>SL</th>
                                 <th>Asset Code</th>
                                 <th>Serial Number</th>
-                                <th>Description</th>
+                                <th>Specification</th>
                                 <th>Asset Type</th>
                                 <th>Asset </th>
                                 <th>Model</th>
@@ -67,7 +68,7 @@
                                 <td>{{$loop->iteration}}</td>
                                 <td>{{$asset->product_number??'N/A'}}</td>
                                 <td>{{$asset->serial_number??'N/A'}}</td>
-                                <td class="ellipsis">{{$asset->configuration??'N/A'}} <p>{{$asset->attributes->name??'N/A'}}</p></td>
+                                <td class="ellipsis">{{$asset->specification??'N/A'}} <p>{{$asset->attributes->name??'N/A'}}</p></td>
                                 <td>{{$asset->asset_type->name??'N/A'}}</td>
                                 <td>{{$asset->assetmain->name??'N/A'}}</td>
                                 <td>{{$asset->brandmodel->name??'N/A'}}</td>
@@ -82,6 +83,27 @@
                         </tbody>
                     </table>
                 </div>
+                @endif
+                {{-- @if(isset($data1))
+                <div class="table-responsive theme-scrollbar">
+                    <table class="display" id="basic-1">
+                        <thead>
+                            <tr class="text-center">
+                                <th>SL</th>
+                                <th>Asset Code</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($data1 as $asset)
+                            <tr class="copy-content text-center">
+                                <td>{{$loop->iteration}}</td>
+                                <td>{{$asset->product_number??'N/A'}}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                @endif --}}
             </div>
         </div>
     </div>

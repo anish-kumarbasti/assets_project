@@ -86,6 +86,8 @@ class StockController extends Controller
 
         foreach ($stocks as $stock) {
             $groupedStocks[] = [
+                'product_number'=>$stock->product_number,
+                'serial_number'=>$stock->serial_number,
                 'product_info' => $stock->product_info,
                 'asset_type' => $stock->asset_type->name,
                 'assetmain' => $stock->assetmain->name??'',
@@ -93,6 +95,7 @@ class StockController extends Controller
                 'allottedCount' => $this->countStatus(collect([$stock]), [2, 3]),
                 'scrappedCount' => Disposal::where('product_info', $stock->id)->count(),
                 'underRepairCount' => $this->countStatus(collect([$stock]), [12]),
+                'stolen'=>$this->countStatus(collect([$stock]),[11]),
             ];
         }
 
