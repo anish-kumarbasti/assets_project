@@ -315,7 +315,7 @@
                 <div class="card change-card ${isSelected ? 'selected' : ''}" data-card-id="${asset.id}">
                     <div class="card-body">
                         <h5 class="card-title card-text p-2">${asset.product_info}</h5>
-                        <p class="card-subtitle mb-2">Product Number: <span class="text-muted">${asset.product_number}</span></p>
+                        <p class="card-subtitle mb-2">Asset Code: <span class="text-muted">${asset.product_number}</span></p>
                         <p class="card-subtitle mb-2">Asset Type: <span class="text-muted">${asset.asset_type.name}</span></p>
                         <p class="card-subtitle mb-2">Asset: <span class="text-muted">${asset.assetmain.name}</span></p>
                         <p class="card-subtitle mb-2">${allbrand ? 'Brand: <span class="text-muted">' + allbrand.name + '</span>' : 'License Number: <span class="text-muted">' + (asset.license_number || 'N/A')}</span></p>
