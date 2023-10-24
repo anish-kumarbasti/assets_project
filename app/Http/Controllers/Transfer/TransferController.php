@@ -22,23 +22,25 @@ class TransferController extends Controller
     {
         if ($request->ajax()) {
             $result = [];
-            $products = [];
-            $productid = [];
             $allproducts = [];
             $employee = User::with('department', 'designation')
                 ->where('employee_id', 'LIKE', '%' . $request->employeeId . '%')
                 ->first() ?? null;
             $issue = Issuence::where('employee_id', 'LIKE', '%' . $request->employeeId . '%')
                 ->get() ?? null;
+
             foreach ($issue as $product) {
-                $productid = json_decode($product->product_id);
-                $products = Stock::where('id', $productid)->with('brand', 'brandmodel', 'asset_type', 'getsupplier')->get();
+                $productids = json_decode($product->product_id);
+                $products = Stock::whereIn('id', $productids)
+                    ->where(function ($query) {
+                        $query->where('status_available', 2)
+                            ->orWhere('status_available', 3);
+                    })
+                    ->with('brand', 'brandmodel', 'asset_type', 'getsupplier')
+                    ->get();
+                $allproducts = array_merge($allproducts, $products->all());
             }
-            foreach($products as $data){
-                if($data->status_available == 3 or $data->status_available == 2){
-                    $allproducts = $data;
-                }
-            }
+
             if ($employee && $issue) {
                 $result['employee'] = $employee;
                 $result['products'] = $allproducts;
@@ -46,15 +48,17 @@ class TransferController extends Controller
                 $result['employee'] = null;
                 $result['products'] = [];
             }
-            // Now, $result contains both the employee and associated products.
+
             return response()->json($result);
         }
+
         $reason = TransferReason::all();
         return view('Backend.Page.Transfer.transfer', compact('reason'));
     }
 
     public function store(Request $request)
     {
+        // dd($request);
         DB::beginTransaction(); // Start a database transaction
         try {
             $request->validate([
@@ -125,10 +129,10 @@ class TransferController extends Controller
     {
         $transfers = Transfer::with('user')->get();
         $product = '';
-        foreach($transfers as $data){
+        foreach ($transfers as $data) {
             $id = json_decode($data->product_id);
-            $product = Stock::where('id',$id)->get();
+            $product = Stock::where('id', $id)->get();
         }
-        return view('Backend.Page.Transfer.all-transfer', compact('transfers','product'));
+        return view('Backend.Page.Transfer.all-transfer', compact('transfers', 'product'));
     }
 }
