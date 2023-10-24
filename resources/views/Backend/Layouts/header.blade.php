@@ -125,11 +125,19 @@
                                     <div class="flex-shrink-0"><i data-feather="shopping-cart"></i></div>
                                     <div class="flex-grow-1">
                                         @if (Auth::check() && Auth::user()->role_id == 4)
-                                            <p><b>{{ Auth::user()->first_name }}</b>&nbsp;&nbsp;<a
-                                                    href="{{ route('markasread-controller', $notification->id) }}">New
-                                                    Product Isuue to the User!</a><span
-                                                    class="pull-right">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span>
-                                            </p>
+                                            @if ($notification->type == 'App\Notifications\TransferAcceptNotification')
+                                                <p><b>{{ $notification->data['name'] ?? '' }}</b>&nbsp;&nbsp;<a
+                                                        href="{{ route('markasread-manager-transferaccept', $notification->id) }}">
+                                                        New Notification of Transfer Accept by the Employee !</a><span
+                                                        class="pull-right">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span>
+                                                </p>
+                                            @else
+                                                <p><b>{{ Auth::user()->first_name }}</b>&nbsp;&nbsp;<a
+                                                        href="{{ route('markasread-controller', $notification->id) }}">New
+                                                        Product Isuue to the User!</a><span
+                                                        class="pull-right">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span>
+                                                </p>
+                                            @endif
                                         @elseif (Auth::check() && Auth::user()->role_id == 3)
                                             @if ($notification->type == 'App\Notifications\TransferNotification')
                                                 <p><b>{{ $notification->data['name'] ?? '' }}</b>&nbsp;&nbsp;<a
@@ -141,6 +149,12 @@
                                                 <p><b>{{ $notification->data['name'] ?? '' }}</b>&nbsp;&nbsp;<a
                                                         href="{{ route('markasread-manager-return', $notification->id) }}">Manager
                                                         New Notification for Return!</a><span
+                                                        class="pull-right">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span>
+                                                </p>
+                                            @elseif ($notification->type == 'App\Notifications\TransferAcceptNotification')
+                                                <p><b>{{ $notification->data['name'] ?? '' }}</b>&nbsp;&nbsp;<a
+                                                        href="{{ route('markasread-manager-transferaccept', $notification->id) }}">
+                                                        New Notification of Transfer Accept by the Employee !</a><span
                                                         class="pull-right">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span>
                                                 </p>
                                             @else

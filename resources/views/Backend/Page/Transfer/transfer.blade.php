@@ -58,46 +58,47 @@
 @endsection
 
 @section('Content-Area')
-@if (session('success'))
-<div class="alert alert-success inverse alert-dismissible fade show" role="alert"><i
-        class="icon-thumb-up alert-center"></i>
-    <p>{{ session('success') }}</b>
-        <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-@endif
-@if (session('error'))
-<div class="alert alert-danger inverse alert-dismissible fade show" role="alert">
-    <p>{{ session('error') }}</b>
-        <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-@endif
-@if ($errors->any())
-<div class="alert alert-danger outline" role="alert">
-    @foreach ($errors->all() as $error)
-    <p>{{ $error }}</p>
-    @endforeach
-</div>
-@endif
-  <!-- Modal -->
-  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="staticBackdropLabel">Employee Id</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    @if (session('success'))
+        <div class="alert alert-success inverse alert-dismissible fade show" role="alert"><i
+                class="icon-thumb-up alert-center"></i>
+            <p>{{ session('success') }}</b>
+                <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
-            <label class="form-label" for="employeeId">Employee's ID</label>
-            <input class="form-control" type="search" name="employeeId" id="employeeId">
+    @endif
+    @if (session('error'))
+        <div class="alert alert-danger inverse alert-dismissible fade show" role="alert">
+            <p>{{ session('error') }}</b>
+                <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+    @if ($errors->any())
+        <div class="alert alert-danger outline" role="alert">
+            @foreach ($errors->all() as $error)
+                <p>{{ $error }}</p>
+            @endforeach
+        </div>
+    @endif
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Employee Id</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label class="form-label" for="employeeId">Employee's ID</label>
+                    <input class="form-control" type="search" name="employeeId" id="employeeId">
 
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Understood</button>
+                </div>
+            </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Understood</button>
-        </div>
-      </div>
     </div>
-  </div>
     <div class="col-sm-12">
         <form class="needs-validation" method="post" action="{{ route('transfer-store') }}" novalidate="">
             @csrf
@@ -116,11 +117,11 @@
                                 <input class="form-control" oninput="showDiv()" id="employeesimpleId" type="search"
                                     name="employeeId" data-bs-original-title="" title=""
                                     placeholder="Enter Employee's ID" onkeydown="return event.key != 'Enter';" required>
-                                    @error('employeeId')
+                                @error('employeeId')
                                     <span class="text-danger">
                                         {{ $message }}
                                     </span>
-                                    @enderror
+                                @enderror
                             </div>
                             <div class="col-md-6 mb-4">
                                 <div class="mb-3 row">
@@ -157,11 +158,11 @@
                             </div>
                         </div>
                         <div class="card-item mt-3">
-                           <input type="hidden" name="cardId[]" id="selectedCardIds" value="fsfs">
+                            <input type="hidden" name="cardId[]" id="selectedCardIds" value="fsfs">
                             <div class="row py-3" id="assetdetail">
                                 <h2>Assets</h2>
                                 <ul>
-                                 <!-- Products will be displayed here dynamically in the success callback -->
+                                    <!-- Products will be displayed here dynamically in the success callback -->
                                 </ul>
                             </div>
                             <div class="card-footer d-flex justify-content-between float-end">
@@ -188,42 +189,43 @@
                                 @endforeach
                             </select>
                             @error('reason')
-                            <span class="text-danger">
-                                {{ $message }}
-                            </span>
+                                <span class="text-danger">
+                                    {{ $message }}
+                                </span>
                             @enderror
 
                         </div>
                         <div class="col-md-12 mb-4">
-                           <label class="form-label" for="employeeId">Handover to Employee's</label>
-                           <input class="form-control"name="handoverId" data-bs-original-title="" title=""
-                               placeholder="Enter Employee's ID" id="handoveremployeeId" oninput="handover()" onkeydown="return event.key != 'Enter';" required>
-                               @error('handoverId')
-                               <span class="text-danger">
-                                   {{ $message }}
-                               </span>
-                               @enderror
-                       </div>
+                            <label class="form-label" for="employeeId">Handover to Employee's</label>
+                            <input class="form-control"name="handoverId" data-bs-original-title="" title=""
+                                placeholder="Enter Employee's ID" id="handoveremployeeId" oninput="handover()"
+                                onkeydown="return event.key != 'Enter';" required>
+                            @error('handoverId')
+                                <span class="text-danger">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+                        </div>
                     </div>
                     <div class="card-item border mt-3 card mx-4" id="handoveremployee" style="display: none;">
-                     <div class="row p-3">
-                         <div class="col-md-4 mb-4">
-                             <label class="form-label" for="validationCustom01">Name:</label>
-                             <input class="form-control" id="employeename" type="text" data-bs-original-title=""
-                                 title="" placeholder="Abhi" readonly>
-                         </div>
-                         <div class="col-md-4 mb-4">
-                             <label class="form-label" for="validationCustom01">Department:</label>
-                             <input class="form-control" id="department" type="text" data-bs-original-title=""
-                                 title="" placeholder="IT Department" readonly>
-                         </div>
-                         <div class="col-md-4 mb-4">
-                             <label class="form-label" for="validationCustom01">Designation:</label>
-                             <input class="form-control" id="designation" type="text" data-bs-original-title=""
-                                 title="" placeholder="HR" readonly>
-                         </div>
-                     </div>
-                 </div>
+                        <div class="row p-3">
+                            <div class="col-md-4 mb-4">
+                                <label class="form-label" for="validationCustom01">Name:</label>
+                                <input class="form-control" id="employeename" type="text" data-bs-original-title=""
+                                    title="" placeholder="Abhi" readonly>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <label class="form-label" for="validationCustom01">Department:</label>
+                                <input class="form-control" id="department" type="text" data-bs-original-title=""
+                                    title="" placeholder="IT Department" readonly>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <label class="form-label" for="validationCustom01">Designation:</label>
+                                <input class="form-control" id="designation" type="text" data-bs-original-title=""
+                                    title="" placeholder="HR" readonly>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-footer d-flex justify-content-between">
                     <button class="btn btn-secondary prev-step" id="prev-asset" data-step="employee-step"
@@ -233,7 +235,9 @@
                 </div>
             </div>
             <div class="card mt-3" id="additional-details-step" style="display: none;">
-               <div class="card-header"><h4>Description</h4></div>
+                <div class="card-header">
+                    <h4>Description</h4>
+                </div>
                 <div class="row px-5">
                     <div class="col-md-12 mb-4">
                         <label class="form-label" for="validationCustom01">Description</label>
@@ -288,6 +292,7 @@
                 div.style.display = 'none';
             }
         }
+
         function handover() {
             var inputField = document.getElementById('handoveremployeeId');
             var div = document.getElementById('handoveremployee');
@@ -324,18 +329,17 @@
                             $("#depart").val('');
                             $("#location").val('');
                         }
-
                         // Populate the products list
+                        var products = Array.isArray(data.products) ? data.products : (data
+                            .products ? [data.products] : []);
                         var productList = $("#assetdetail ul");
                         productList.empty();
-
-                        if (data.products && data.products.length > 0) {
-                            // Create a row div to contain the products
+                        console.log(data.products);
+                        if (products.length > 0) {
                             var productRow = $("<div>", {
                                 class: "row",
                             });
-
-                            data.products.forEach(function(product) {
+                            products.forEach(function(product) {
                                 var colDiv = $("<div>", {
                                     class: "col-sm-3",
                                 });
@@ -429,11 +433,11 @@
             var selectedCardIds = []; // Array to store selected card IDs
             for (var cardId in selectedCards) {
                 if (selectedCards.hasOwnProperty(cardId)) {
-                   selectedCardIds.push(cardId); // Add the selected card ID to the array
-                  }
-               }
-               var type = $("#selectedCardIds").val(selectedCardIds.join(',')); // Join the IDs with a comma
-               console.log(type);
+                    selectedCardIds.push(cardId); // Add the selected card ID to the array
+                }
+            }
+            var type = $("#selectedCardIds").val(selectedCardIds.join(',')); // Join the IDs with a comma
+            console.log(type);
             // Update the hidden input field with the selected card IDs
         }
         $(document).ready(function() {

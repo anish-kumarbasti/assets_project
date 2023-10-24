@@ -136,7 +136,7 @@
                                                     <div class="flex-grow-1"><a
                                                             href="{{ route('accept-detail-asset', $product->id) }}"><span>{{ $product->product_info }}</span></a>
                                                         <p class="mb-0">
-                                                            {{ Carbon\Carbon::parse($transferdata->created_at)->diffForHumans() }}
+                                                            {{-- {{ Carbon\Carbon::parse($transferdata->created_at)->diffForHumans() }} --}}
                                                         </p>
                                                     </div>
                                                 </div>

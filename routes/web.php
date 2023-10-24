@@ -95,6 +95,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('markasread-admin/{id}', [IssuenceController::class, 'markasreadAdmin'])->name('markasread-admin');
     Route::get('markasread-manager/{id}', [IssuenceController::class, 'markasreadmanager'])->name('markasread-manager');
     Route::get('markasread-manager-return/{id}', [IssuenceController::class, 'markasreadmanagerreturn'])->name('markasread-manager-return');
+    Route::get('markasread-manager-transferaccept/{id}', [IssuenceController::class, 'markasreadmanagertransferaccept'])->name('markasread-manager-transferaccept');
     Route::get('markasread-transfer-manager/{id}', [IssuenceController::class, 'markasreadTransfermanager'])->name('markasread-transfer-manager');
     Route::get('approve-manager/{id}', [IssuenceController::class, 'approvemanager'])->name('approve-manager');
     Route::get('denied-manager/{id}', [IssuenceController::class, 'deniedmanager'])->name('denied-manager');
