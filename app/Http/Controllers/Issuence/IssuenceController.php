@@ -70,25 +70,28 @@ class IssuenceController extends Controller
         try {
             $request->validate([
                 'employeeId' => 'required',
-                'cardId' => 'required',
+                'selectedAssets' => 'required',
                 'due_date' => 'required',
                 'description' => 'nullable',
                 'location_id' => 'required',
                 'sublocation_id' => 'required',
             ]);
-            $stock = Stock::where('id', $request->cardId)->first();
-            // dd($stock->asset_type_id);
+
             $user = User::where('employee_id', $request->employeeId)->first();
             if (!$user) {
                 return back()->with('error', 'User not found.');
             }
+
             $managerUser = User::where('role_id', 3)->where('department_id', $user->department_id)->first();
             $dateTime = Carbon::createFromFormat('Y-m-d H:i', $request->date . ' ' . $request->time);
+
+            $selectedStocks = Stock::whereIn('id', $request->selectedAssets)->get();
+
             $issuance = Issuence::create([
                 'employee_id' => $request->employeeId,
-                'asset_type_id' => $stock->asset_type_id,
-                'asset_id' => $stock->asset,
-                'product_id' => json_encode($request->cardId),
+                'asset_type_id' => $selectedStocks->first()->asset_type_id, // Fill in the asset_type_id
+                'asset_id' => $selectedStocks->first()->asset, // Fil-l in the asset_id
+                'product_id' => json_encode($request->selectedAssets),
                 'description' => $request->description,
                 'issuing_time_date' => $dateTime,
                 'due_date' => $request->due_date,
@@ -96,10 +99,21 @@ class IssuenceController extends Controller
                 'sub_location_id' => $request->sublocation_id,
                 'employee_manager_id' => $managerUser ? $managerUser->id : null,
             ]);
-            $productId = $request->cardId;
-            foreach ($productId as $product) {
-                TimelineHelper::logAction('Product Issued', $product, $stock->asset_type_id, $stock->asset, $issuance->id, $user->id);
+            $selectedAssets = explode(',', $request->selectedAssets[0]);
+
+            foreach ($selectedAssets as $selectedAsset) {
+                $value = Stock::find($selectedAsset);
+                TimelineHelper::logAction('Product Issued', $selectedAsset, $value->asset_type_id, $value->asset, $issuance->id, $user->id);
             }
+            
+
+            // Update the stock status
+            $selectedStocks->each(function ($stock) {
+                $stock->update(['status_available' => Status::where('name', 'Issue Pending')->first()->id]);
+            });
+
+            // Send notifications, emails, or perform other actions as needed
+
             DB::commit(); // Commit the transaction
 
             $assetcontroller = Role::where('name', 'Asset Controller')->first();
@@ -107,32 +121,29 @@ class IssuenceController extends Controller
                 ->where('department_id', $user->department_id)
                 ->first();
             if ($managerUser) {
-                // $managerUser->notify(new IssuenceNotification($managerUser));
                 Notification::send($managerUser, new IssuenceNotification($managerUser));
             }
             if ($assetmanager) {
-                // $assetmanager->notify(new IssuenceNotification($assetmanager));
                 Notification::send($assetmanager, new IssuenceNotification($assetmanager));
             }
-            $stock = Stock::where('id', $request->cardId)->first();
-            if ($stock) {
-                $stock->update(['status_available' => Status::where('name', 'Issue Pending')->first()->id]);
-            }
+
             $data = [
                 'receiver_name' => $user->first_name . ' ' . $user->last_name,
                 'company_name' => 'IT-Asset',
                 'issuer_name' => Auth::user()->first_name . ' ' . Auth::user()->last_name,
                 'email' => $request->email,
-                'product_name' => $stock->product_info . ' ' . $stock->assetmain->name,
-                'product_serial' => $stock->serial_number,
+                'product_name' => $selectedStocks->first()->product_info . ' ' . $selectedStocks->first()->assetmain->name,
+                'product_serial' => $selectedStocks->first()->serial_number,
                 'product_time' => $issuance->created_at,
             ];
             $users['to'] = $managerUser->email;
+
             Mail::send('Backend.Auth.mail.issuance_manager', $data, function ($message) use ($users) {
                 $message->from('itasset@svamart.com', 'itasset@svamart.com');
                 $message->to($users['to']);
                 $message->subject('Asset Issued Successfully.');
             });
+
             return back()->with('success', 'Asset Issued!');
         } catch (QueryException $e) {
             DB::rollback(); // Rollback the transaction in case of an error
