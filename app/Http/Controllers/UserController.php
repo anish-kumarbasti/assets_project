@@ -21,6 +21,17 @@ use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
+    public function trash(){
+        $users = User::onlyTrashed(['department', 'designation'])->get();
+        return view('Backend.Page.User.trash',compact('users'));
+    }
+    public function restore($id){
+        $user = User::withTrashed()->findOrFail($id);
+        if(!empty($user)){
+            $user->restore();
+        }
+        return redirect()->route('users.index')->with('success','User Restore Successfully');
+    }
     public function assignRoles(User $user)
     {
         $roles = Role::all();

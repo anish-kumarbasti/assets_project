@@ -18,6 +18,7 @@ use App\Models\Supplier;
 use App\Models\Timeline;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PhpParser\Node\Stmt\Return_;
 
 class StockController extends Controller
 {
@@ -198,6 +199,17 @@ class StockController extends Controller
     public function ShowStock()
     {
         $stock = Stock::with('statuses')->get();
+        foreach($stock as $product){
+            $createdDate = $product->created_at;
+            $currentDate = $product->product_warranty;
+            // $software = $product->expiry_date;
+            // $software = !empty($currentDate) ? $currentDate : $product->expiry_date;
+            $ageInYears = $createdDate->diffInYears($currentDate);
+            $ageInMonths = $createdDate->diffInMonths($currentDate);
+
+            $product -> ageInYears =$ageInYears;
+            $product -> ageInMonths =$ageInMonths;
+        }
         return view('Backend.Page.Stock.all-stock', compact('stock'));
     }
     public function ChangeStockStatus(Request $request, $stockId)
@@ -291,5 +303,16 @@ class StockController extends Controller
         $endDate = $request->input('end_date');
         $data = Stock::with('assetmain', 'brandmodel', 'brand')->whereBetween('created_at', [$startdate, $endDate])->get();
         return response()->json($data);
+    }
+    public function trash(){
+        $stock = Stock::onlyTrashed()->get();
+        return view('Backend.Page.Stock.trash',compact('stock'));
+    }
+    public function restore($id){
+        $restore=Stock::withTrashed()->findOrFail($id);
+        if(!empty($restore)){
+            $restore->restore();
+        }
+        return redirect()->route('all.stock')->with('success','Stock Restore Successfully');
     }
 }

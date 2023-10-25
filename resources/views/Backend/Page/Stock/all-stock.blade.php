@@ -27,10 +27,14 @@
 @endif
 <div class="col-sm-12">
    <div class="card">
-      <div class="card-header pb-0">
-         <h4>All Stocks</h4>
-         <hr>
-      </div>
+      <div class="card-header pb-0 d-flex">
+         <div class="float-left col-sm-6">
+             <h4>All Stocks</h4>
+         </div>
+         <div class="col-sm-6">
+             <a href="{{route('stocks.trash')}}" class="btn btn-danger float-end" style="margin-left: 5px;">Trash</a>
+         </div>
+     </div>
       <div class="card">
          <div class="card-body">
             <div class="table-responsive theme-scrollbar">
@@ -47,6 +51,7 @@
                         <th>Brand Model</th>
                         <th>Configuration</th>
                         <th>Supplier</th>
+                        <th>Age</th>
                         <th>Price</th>
                         <th>Active</th>
                         <th>Status</th>
@@ -67,6 +72,7 @@
                         <td>{{$stock->brandmodel->name??'N/A'}}</td>
                         <td class="ellipsis">{{$stock->configuration??'N/A'}} </td>
                         <td>{{$stock->getsupplier->name??'N/A'}} </td>
+                        <td>{{ $stock->ageInYears }} years and {{ $stock->ageInMonths }} months</td>
                         <td>{{$stock->price??'N/A'}} </td>
                         <td class="w-20">
                             <label class="mb-0 switch">
@@ -80,7 +86,7 @@
                         <td>
                            <div class="button-group d-flex justify-content-between align-items-center">
                               <a style="display: flex; align-item:center;" class="btn btn-primary" href="{{ url('/edit-stock/' . $stock->id) }}"><i class="fa fa-pencil" style="margin-top: 4px;"></i>&nbsp;Edit</a>&nbsp;
-                              <button style="display: flex;align-item:center;" class="btn btn-danger delete-button" data-id="{{ $stock->id }}" type="button"><i class="fa fa-trash-o" style="margin-top: 4px;"></i>&nbsp;Delete</button>
+                              <button style="display: flex;align-item:center;" class="btn btn-danger delete-button" data-id="{{ $stock->id }}" type="button"><i class="fa fa-trash-o" style="margin-top: 4px;"></i>&nbsp;Trash</button>
                            </div>
                         </td>
                      </tr>
@@ -145,7 +151,7 @@
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
+            confirmButtonText: 'Yes, trash it!'
          }).then((result) => {
             if (result.isConfirmed) {
                fetch('delete-stock/' + Id, {
@@ -163,8 +169,8 @@
 
                      if ('success' in data && data.success) {
                         Swal.fire(
-                           'Deleted!',
-                           'Your file has been deleted.',
+                           'Trashed!',
+                           'Your file has been trashed.',
                            'success'
                         ).then(() => {
                            location.reload();
@@ -172,7 +178,7 @@
                      } else {
                         Swal.fire(
                            'Error',
-                           'Failed to delete the file.',
+                           'Failed to trash the file.',
                            'error'
                         );
                      }
@@ -180,7 +186,7 @@
                   .catch(error => {
                      Swal.fire(
                         'Error',
-                        'An error occurred while deleting the file.',
+                        'An error occurred while trashing the file.',
                         'error'
                      );
                   });

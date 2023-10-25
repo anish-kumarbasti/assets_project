@@ -74,6 +74,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::delete('permissions/{id}', [PermissionController::class, 'destroy']);
 
+    Route::get('users/trash',[UserController::class,'trash'])->name('users.trash');
+    Route::get('users/restore{id}',[UserController::class,'restore'])->name('users.restore');
     Route::get('users', [UserController::class, 'index'])->name('users.index');
     Route::get('show', [UserController::class, 'showUsers'])->name('users.show');
     Route::get('users/create', [UserController::class, 'create'])->name('users.create');
@@ -119,6 +121,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('transfer-reasons/{transferReason}', [TransferReasonController::class, 'destroy'])->name('transfer-reasons.destroy');
     Route::post('/reason-status/{reason}', [TransferReasonController::class, 'updateStatus'])->name('transfer.updateStatus');
     //Stock
+    Route::get('stocks/trash',[StockController::class,'trash'])->name('stocks.trash');
+    Route::get('restore/stocks{id}',[StockController::class,'restore'])->name('restore.stocks');
     Route::post('/filter-data', [StockController::class, 'filter'])->name('filter.data');
     Route::get('/generate/number', [StockController::class, 'generateNumber']);
     Route::post('/get-brand-models/{brandId}', [StockController::class, 'getBrandModels']);
