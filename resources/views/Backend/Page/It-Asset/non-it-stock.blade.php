@@ -52,8 +52,10 @@
                   <tr>
                      <th>SL</th>
                      <th>Asset Code</th>
+                     <th>Serial Number</th>
                      <th>Asset</th>
                      <th>Specification</th>
+                     <th>Age</th>
                      <th>Balanced</th>
                      <th>Quantity</th>
                      {{-- <th>Allocation</th> --}}
@@ -70,6 +72,7 @@
                      <td>{{$nonit->product_number??''}}</td>
                      <td>{{$nonit->product_info??'' }}</td>
                      <td>{{$nonit->specification??''}}</td>
+                     <td>{{ $nonit->ageInYears }} years and {{ $nonit->ageInMonths }} months</td>
                      <td>{{$nonit->price??''}}</td>
                      <td>
                         <span class="badge rounded-pill badge-light-success">{{$nonit->quantity??''}}</span>

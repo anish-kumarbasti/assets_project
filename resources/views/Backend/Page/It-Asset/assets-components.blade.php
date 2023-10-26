@@ -81,6 +81,7 @@
                                 <th>Asset Code</th>
                                 <th>Asset</th>
                                 <th>Specification</th>
+                                <th>Age</th>
                                 <th>Quantity</th>
                                 <th>Allotted</th>
                                 <th>Under Repair</th>
@@ -95,6 +96,7 @@
                                     <td>{{ $component->product_number ?? '' }}</td>
                                     <td>{{ $component->product_info ?? '' }}</td>
                                     <td class="ellipsis">{{ $component->specification ?? '' }}</td>
+                                    <td>{{ $component->ageInYears }} years and {{ $component->ageInMonths }} months</td>
                                     <td>
                                         <span
                                             class="badge rounded-pill badge-light-success">{{ $component->quantity ?? '' }}</span>

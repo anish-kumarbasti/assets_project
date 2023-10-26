@@ -138,11 +138,12 @@
                             <tr>
                                 <th>SL</th>
                                 <th>Asset Code</th>
+                                <th>Serial Number</th>
                                 <th>Asset</th>
                                 <th>Brand</th>
                                 <th>Brand Model</th>
-                                <th>Serial Number</th>
                                 <th>Configuration</th>
+                                <th>Age</th>
                                 <th>Price</th>
                                 <th>Timeline</th>
                             </tr>
@@ -152,11 +153,12 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $stock->product_number ?? 'N/A' }}</td>
+                                <td>{{ $stock->serial_number ?? 'N/A' }}</td>
                                 <td>{{ $stock->assetmain->name ?? 'N/A' }}</td>
                                 <td>{{ $stock->brand->name ?? 'N/A' }}</td>
                                 <td>{{ $stock->brandmodel->name ?? 'N/A' }}</td>
-                                <td>{{ $stock->serial_number ?? 'N/A' }}</td>
                                 <td class="ellipsis">{{ $stock->configuration ?? 'N/A' }}</td>
+                                <td>{{ $stock->ageInYears }} years and {{ $stock->ageInMonths }} months</td>
                                 <td> ₹{{ $stock->price ?? 'N/A' }}</td>
                                 <td>
                                     <form action="{{ url('timeline', $stock->id) }}" method="post">
@@ -176,11 +178,12 @@
                             <tr>
                                 <th>SL</th>
                                 <th>Asset Code</th>
+                                <th>Serial Number</th>
                                 <th>Asset</th>
                                 <th>Brand</th>
                                 <th>Model</th>
-                                <th>Serial Number</th>
                                 <th>Configuration</th>
+                                <th>Age</th>
                                 <!-- <th>User ID</th>
                                     <th>User</th>
                                     <th>Deparment</th>
@@ -194,11 +197,12 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $allocateds->product_number ?? 'N/A' }}</td>
+                                <td>{{ $allocateds->serial_number ?? 'N/A' }}</td>
                                 <td>{{ $allocateds->assetmain->name ?? 'N/A' }}</td>
                                 <td>{{ $allocateds->brand->name ?? 'N/A' }}</td>
                                 <td>{{ $allocateds->brandmodel->name ?? 'N/A' }}</td>
-                                <td>{{ $allocateds->serial_number ?? 'N/A' }}</td>
                                 <td class="ellipsis">{{ $allocateds->configuration ?? 'N/A' }}</td>
+                                <td>{{ $allocateds->ageInYears }} years and {{ $allocateds->ageInMonths }} months</td>
                                 {{-- <td>{{$allocateds->serial_number??''}}</td>
                                 <td>{{$allocateds->serial_number??''}}</td>
                                 <td>{{$allocateds->serial_number??''}}</td>
@@ -222,11 +226,12 @@
                             <tr>
                                 <th>SL</th>
                                 <th>Asset Code</th>
+                                <th>Serial Number</th>
                                 <th>Asset</th>
                                 <th>Brand</th>
                                 <th>Model</th>
-                                <th>Serial Number</th>
                                 <th>Configuration</th>
+                                <th>Age</th>
                                 <th>Price</th>
                                 <th>Timeline</th>
                             </tr>
@@ -236,11 +241,12 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $unrepairs->product_number ?? 'N/A' }}</td>
+                                <td>{{ $unrepairs->serial_number ?? 'N/A' }}</td>
                                 <td>{{ $unrepairs->assetmain->name ?? 'N/A' }}</td>
                                 <td>{{ $unrepairs->brand->name ?? 'N/A' }}</td>
                                 <td>{{ $unrepairs->brandmodel->name ?? 'N/A' }}</td>
-                                <td>{{ $unrepairs->serial_number ?? 'N/A' }}</td>
                                 <td class="ellipsis">{{ $unrepairs->configuration ?? 'N/A' }}</td>
+                                <td>{{ $unrepairs->ageInYears }} years and {{ $unrepairs->ageInMonths }} months</td>
                                 <td> ₹{{ $unrepairs->price ?? 'N/A' }}</td>
                                 <td>
                                     <form action="{{ url('timeline', $unrepairs->id) }}" method="post">
@@ -260,11 +266,12 @@
                             <tr>
                                 <th>SL</th>
                                 <th>Asset Code</th>
+                                <th>Serial Number</th>
                                 <th>Asset</th>
                                 <th>Model</th>
                                 <th>Brand</th>
-                                <th>Serial Number</th>
                                 <th>Configuration</th>
+                                <th>Age</th>
                                 <th>Price</th>
                                 <th>Timeline</th>
                             </tr>
@@ -274,11 +281,12 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $scrappeds->product_number ?? 'N/A' }}</td>
+                                <td>{{ $scrappeds->serial_number ?? 'N/A' }}</td>
                                 <td>{{ $scrappeds->assetmain->name ?? 'N/A' }}</td>
                                 <td>{{ $scrappeds->brand->name ?? 'N/A' }}</td>
                                 <td>{{ $scrappeds->brandmodel->name ?? 'N/A' }}</td>
-                                <td>{{ $scrappeds->serial_number ?? 'N/A' }}</td>
                                 <td class="ellipsis">{{ $scrappeds->configuration ?? '' }}</td>
+                                <td>{{ $scrappeds->ageInYears }} years and {{ $scrappeds->ageInMonths }} months</td>
                                 <td> ₹{{ $scrappeds->price ?? 'N/A' }}</td>
                                 <td>
                                     <form action="{{url('timeline',$scrappeds->id)}}" method="post">
@@ -298,11 +306,12 @@
                             <tr>
                                 <th>SL</th>
                                 <th>Asset Code</th>
+                                <th>Serial Number</th>
                                 <th>Asset</th>
                                 <th>Model</th>
                                 <th>Brand</th>
-                                <th>Serial Number</th>
                                 <th>Configuration</th>
+                                <th>Age</th>
                                 <th>Price</th>
                                 <th>Timeline</th>
                             </tr>
@@ -312,11 +321,12 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $stolens->product_number ?? 'N/A' }}</td>
+                                <td>{{ $stolens->serial_number ?? 'N/A' }}</td>
                                 <td>{{ $stolens->assetmain->name ?? 'N/A' }}</td>
                                 <td>{{ $stolens->brand->name ?? 'N/A' }}</td>
                                 <td>{{ $stolens->brandmodel->name ?? 'N/A' }}</td>
-                                <td>{{ $stolens->serial_number ?? 'N/A' }}</td>
                                 <td class="ellipsis">{{ $stolens->configuration ?? 'N/A' }}</td>
+                                <td>{{ $stolens->ageInYears }} years and {{ $stolens->ageInMonths }} months</td>
                                 <td> ₹{{ $stolens->price ?? 'N/A' }}</td>
                                 <td>
                                     <form action="{{url('timeline',$stolens->id)}}" method="post">
@@ -335,11 +345,12 @@
                             <tr>
                                 <th>SL</th>
                                 <th>Asset Code</th>
+                                <th>Serial Number</th>
                                 <th>Asset</th>
                                 <th>Brand</th>
                                 <th>Model</th>
-                                <th>Serial Number</th>
                                 <th>Configuration</th>
+                                <th>Age</th>
                                 <th>Price</th>
                                 <th>Timeline</th>
                             </tr>
@@ -349,11 +360,12 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $transfers->product_number ?? 'N/A' }}</td>
+                                <td>{{ $transfers->serial_number ?? 'N/A' }}</td>
                                 <td>{{ $transfers->assetmain->name ?? 'N/A' }}</td>
                                 <td>{{ $transfers->brand->name ?? 'N/A' }}</td>
                                 <td>{{ $transfers->brandmodel->name ?? 'N/A' }}</td>
-                                <td>{{ $transfers->serial_number ?? 'N/A' }}</td>
                                 <td class="ellipsis">{{ $allocateds->configuration ?? 'N/A' }}</td>
+                                <td>{{ $transfers->ageInYears }} years and {{ $transfers->ageInMonths }} months</td>
                                 <td> ₹{{ $transfers->price ?? 'N/A' }}</td>
                                 <td>
                                     <form action="{{url('timeline',$transfers->id)}}" method="post">

@@ -164,7 +164,7 @@
                                 <option value="">--Select Attribute--</option>
                             </select>
                         </div>
-                        <div id="dynamicFields" class="col-md-12 p-3"></div>
+                        <div id="dynamicFields" class="col-md-12 p-2"></div>
                         <div class="col-md-4 mb-4">
                             <label class="form-label" for="validationCustom01">Location</label>
                             <select class="form-select" id="location" name="location" aria-label="Default select example">
@@ -194,7 +194,6 @@
                             <label for="image" class="form-label">Image(Optional)</label>
                             <input type="file" class="form-control" name="image" id="image">
                         </div>
-
                     </div>
                 </div>
                 <div class="card-item border">
@@ -288,6 +287,24 @@
     });
 </script>
 <script>
+    $(document).ready(function(){
+        $('#attribute').on('change',function(){
+            $('#dynamicFields').empty();
+            $('#attribute option:selected').each(function(){
+                var optionValue=$(this).val();
+                var optionText = $(this).text();
+                var dynamicField = `
+                <div class="dynamic-field">
+                    <input type="" readonly value="${optionText}">
+                    <input type="text" name="attribute_value" placeholder="Enter input">
+                </div>
+            `;
+            $('#dynamicFields').append(dynamicField);
+            });
+        });
+    });
+</script>
+<script>
     $(document).ready(function() {
         $("#generateNumber").click(function(e) {
             e.preventDefault();
@@ -307,14 +324,14 @@
 </script>
 <script>
     $(document).ready(function() {
-        $('#addAttribute').click(function() {
-            var dynamicField = `
-                <div class="form-group">
-                    <input type="text" name="attribute_value" placeholder="Enter input">
-                </div>
-            `;
-            $('#dynamicFields').append(dynamicField);
-        });
+        // $('#addAttribute').click(function() {
+        //     var dynamicField = `
+        //         <div class="form-group">
+        //             <input type="text" name="attribute_value" placeholder="Enter input">
+        //         </div>
+        //     `;
+        //     $('#dynamicFields').append(dynamicField);
+        // });
 
         $('#brand').change(function() {
             var brandId = $(this).val();

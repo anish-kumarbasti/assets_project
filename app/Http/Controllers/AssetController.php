@@ -129,6 +129,17 @@ class AssetController extends Controller
     {
         $id = '2';
         $matchingData = Stock::where('asset_type_id', $id)->with('statuses')->get();
+        foreach($matchingData as $product){
+            $createdDate = $product->created_at;
+            $currentDate = $product->product_warranty;
+            // $currentDate = $product->expiry_date;
+            // $software = !empty($currentDate) ? $currentDate : $product->expiry_date;
+            $ageInYears = $createdDate->diffInYears($currentDate);
+            $ageInMonths = $createdDate->diffInMonths($currentDate);
+
+            $product -> ageInYears =$ageInYears;
+            $product -> ageInMonths =$ageInMonths;
+        }
         $scrappedCount = [];
         foreach ($matchingData as $data) {
             $scrappedCount = Disposal::where('product_info', $data->id)->count();
@@ -150,6 +161,17 @@ class AssetController extends Controller
         $id = '4';
         $assteComponent = Stock::where('asset_type_id', $id)->with('statuses')->get();
         // dd($assteComponent);
+        foreach($assteComponent as $product){
+            $createdDate = $product->created_at;
+            $currentDate = $product->product_warranty;
+            // $software = $product->expiry_date;
+            // $software = !empty($currentDate) ? $currentDate : $product->expiry_date;
+            $ageInYears = $createdDate->diffInYears($currentDate);
+            $ageInMonths = $createdDate->diffInMonths($currentDate);
+
+            $product -> ageInYears =$ageInYears;
+            $product -> ageInMonths =$ageInMonths;
+        }
         $scrappedCount = [];
         foreach ($assteComponent as $data) {
             $scrappedCount = Disposal::where('product_info', $data->id)->count();
@@ -164,6 +186,17 @@ class AssetController extends Controller
     {
         $id = '3';
         $softwareData = Stock::where('asset_type_id', $id)->get();
+        foreach($softwareData as $product){
+            $createdDate = $product->created_at;
+            // $currentDate = $product->product_warranty;
+            $currentDate = $product->expiry_date;
+            // $software = !empty($currentDate) ? $currentDate : $product->expiry_date;
+            $ageInYears = $createdDate->diffInYears($currentDate);
+            $ageInMonths = $createdDate->diffInMonths($currentDate);
+
+            $product -> ageInYears =$ageInYears;
+            $product -> ageInMonths =$ageInMonths;
+        }
         $allottedCount = $this->countStatus($softwareData, [2, 3]);
         $transferredCount = $this->countStatus($softwareData, [5, 8]);
         return view('Backend.Page.It-Asset.assets-software', compact('softwareData', 'allottedCount', 'transferredCount'));

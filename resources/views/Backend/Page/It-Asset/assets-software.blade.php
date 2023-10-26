@@ -31,6 +31,7 @@
                                 <th>Asset Code</th>
                                 <th>Asset</th>
                                 <th>Liscence Number</th>
+                                <th>Age</th>
                                 <th>Balance</th>
                                 <th>Quantity</th>
                                 {{-- <th>Allocation</th> --}}
@@ -45,6 +46,7 @@
                                     <td>{{ $software->product_number ?? '' }}</td>
                                     <td>{{ $software->product_info ?? '' }}</td>
                                     <td>{{ $software->liscence_number ?? '' }}</td>
+                                    <td>{{ $software->ageInYears }} years and {{ $software->ageInMonths }} months</td>
                                     <td>{{ $software->price ?? '' }}</td>
                                     <td>
                                         <span

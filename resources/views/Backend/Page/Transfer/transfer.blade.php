@@ -94,7 +94,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Understood</button>
+                    <button type="button" class="btn btn-primary">Understood</button>
                 </div>
             </div>
         </div>
@@ -173,7 +173,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card mt-3" id="select-asset-step" style="display: none;">
+            <div class="card mt-3" id="select-asset-step">
                 <div class="card-body">
                     <div class="card-head">
                         <h4>Transfer Reason</h4>
@@ -227,14 +227,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-footer d-flex justify-content-between">
+                {{-- <div class="card-footer d-flex justify-content-between">
                     <button class="btn btn-secondary prev-step" id="prev-asset" data-step="employee-step"
                         type="button">Previous</button>
                     <button class="btn btn-primary next-step" id="next-assets" data-step="additional-details-step"
                         type="button">Next</button>
-                </div>
+                </div> --}}
             </div>
-            <div class="card mt-3" id="additional-details-step" style="display: none;">
+            <div class="card mt-3" id="additional-details-step">
                 <div class="card-header">
                     <h4>Description</h4>
                 </div>
@@ -250,8 +250,8 @@
                     </div>
                 </div>
                 <div class="footer-item mt-3 mb-3 d-flex justify-content-end">
-                    <button class="btn btn-secondary prev-step" id="prev-asset" data-step="select-asset-step"
-                        type="button">Previous</button>&nbsp;
+                    {{-- <button class="btn btn-secondary prev-step" id="prev-asset" data-step="select-asset-step"
+                        type="button">Previous</button>&nbsp; --}}
                     <button class="btn btn-primary mt-2" type="submit" data-bs-original-title="" title="">Proceed
                         Request</button>
                 </div>
