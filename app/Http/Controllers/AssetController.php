@@ -129,7 +129,7 @@ class AssetController extends Controller
     {
         $id = '2';
         $matchingData = Stock::where('asset_type_id', $id)->with('statuses')->get();
-        foreach($matchingData as $product){
+        foreach ($matchingData as $product) {
             $createdDate = $product->created_at;
             $currentDate = $product->product_warranty;
             // $currentDate = $product->expiry_date;
@@ -137,8 +137,8 @@ class AssetController extends Controller
             $ageInYears = $createdDate->diffInYears($currentDate);
             $ageInMonths = $createdDate->diffInMonths($currentDate);
 
-            $product -> ageInYears =$ageInYears;
-            $product -> ageInMonths =$ageInMonths;
+            $product->ageInYears = $ageInYears;
+            $product->ageInMonths = $ageInMonths;
         }
         $scrappedCount = [];
         foreach ($matchingData as $data) {
@@ -161,7 +161,7 @@ class AssetController extends Controller
         $id = '4';
         $assteComponent = Stock::where('asset_type_id', $id)->with('statuses')->get();
         // dd($assteComponent);
-        foreach($assteComponent as $product){
+        foreach ($assteComponent as $product) {
             $createdDate = $product->created_at;
             $currentDate = $product->product_warranty;
             // $software = $product->expiry_date;
@@ -169,8 +169,8 @@ class AssetController extends Controller
             $ageInYears = $createdDate->diffInYears($currentDate);
             $ageInMonths = $createdDate->diffInMonths($currentDate);
 
-            $product -> ageInYears =$ageInYears;
-            $product -> ageInMonths =$ageInMonths;
+            $product->ageInYears = $ageInYears;
+            $product->ageInMonths = $ageInMonths;
         }
         $scrappedCount = [];
         foreach ($assteComponent as $data) {
@@ -182,11 +182,18 @@ class AssetController extends Controller
         $transferredCount = $this->countStatus($assteComponent, [5, 8]);
         return view('Backend.Page.It-Asset.assets-components', compact('assteComponent', 'allottedCount', 'underRepairCount', 'scrappedCount', 'transferredCount'));
     }
+    public function getAssetsByType(Request $request,$id)
+    {
+        $assetTypeId = $request->input('assetTypeId');
+        $assets = Asset::where('asset_type_id', $assetTypeId)->get();
+        return response()->json($assets);
+    }
+
     public function assetsoftware()
     {
         $id = '3';
         $softwareData = Stock::where('asset_type_id', $id)->get();
-        foreach($softwareData as $product){
+        foreach ($softwareData as $product) {
             $createdDate = $product->created_at;
             // $currentDate = $product->product_warranty;
             $currentDate = $product->expiry_date;
@@ -194,8 +201,8 @@ class AssetController extends Controller
             $ageInYears = $createdDate->diffInYears($currentDate);
             $ageInMonths = $createdDate->diffInMonths($currentDate);
 
-            $product -> ageInYears =$ageInYears;
-            $product -> ageInMonths =$ageInMonths;
+            $product->ageInYears = $ageInYears;
+            $product->ageInMonths = $ageInMonths;
         }
         $allottedCount = $this->countStatus($softwareData, [2, 3]);
         $transferredCount = $this->countStatus($softwareData, [5, 8]);
@@ -207,6 +214,18 @@ class AssetController extends Controller
         return response()->json([
             'assetType' => $assetType->name,
         ]);
+    }
+    public function getAssetDetailsonStock($id) {
+        // Fetch asset details from your database based on the $id
+        $asset = Stock::where('asset',$id)->with('assetmain','asset_type')->get();
+        // dd  ($asset);
+        if ($asset) {
+            // Return the asset details as JSON
+            return response()->json($asset);
+        } else {
+            // Handle the case when the asset is not found
+            return response()->json(['error' => 'Asset not found'], 404);
+        }
     }
     public function compotimeline($id)
     {

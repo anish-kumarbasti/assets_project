@@ -156,7 +156,7 @@
                                                     accept to the
                                                     request!</td>
                                                 <td class="text-end">
-                                                    @if ($product->status_available == 13)
+                                                    @if ($product->status_available == 15)
                                                         <button class="btn btn-primary" type="submit">Accept</button>&nbsp;
                                                         <button class="btn btn-danger" type="button" data-toggle="modal"
                                                             data-target="#rejectionModal"

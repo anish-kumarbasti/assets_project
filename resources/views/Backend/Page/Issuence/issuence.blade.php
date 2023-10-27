@@ -1,6 +1,31 @@
 @extends('Backend.Layouts.panel')
 @section('Style-Area')
     <style>
+        .add-more-field {
+            display: inline-block;
+            margin-right: -10px;
+            padding-top: 20px;
+        }
+
+        .add-category-button {
+            cursor: pointer;
+            padding: 10px 10px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .add-category-button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        .button-text {
+            font-weight: bold;
+        }
+
         #myDiv {
             display: none;
         }
@@ -15,6 +40,15 @@
             cursor: pointer;
         }
 
+        .added-row {
+            background-color: #e6ffe8;
+        }
+
+        .added-button {
+            background-color: #a1daa1;
+            pointer-events: none;
+        }
+
         .selected {
             background-color: #e6ffe8;
             border: 2px solid rgb(161, 218, 161);
@@ -23,20 +57,17 @@
         .locked {
             pointer-events: none;
             opacity: 0.7;
-
         }
 
         .card-footer {
             background-color: white;
             border-top: none;
             padding: 1rem;
-
         }
 
         .card-footer button {
             margin: 0;
         }
-
 
         .d-flex.justify-content-between {
             display: flex;
@@ -78,7 +109,7 @@
         </div>
     @endif
     <div class="col-sm-12">
-        <form class="needs-validation f1" action="{{ route('issuence.store') }}" method="POST" novalidate="">
+        <form action="{{ route('issuence.store') }}" method="POST">
             @csrf
             <div class="card" id="employee-step">
                 <div class="card-header pb-0">
@@ -94,7 +125,7 @@
                                 <label class="form-label" for="employeeId">Employee's ID</label>
                                 <input class="form-control" oninput="showDiv()" id="employeeId" type="search"
                                     name="employeeId" data-bs-original-title="" title=""
-                                    placeholder="Enter Employee's ID" onkeydown="return event.key != 'Enter';" required>
+                                    placeholder="Enter Employee's ID" onkeydown="return event.key != 'Enter';">
                             </div>
                             <div class="col-md-6 mb-4">
                                 <div class="mb-3 row">
@@ -136,9 +167,9 @@
                     <h4>Select Product</h4>
                 </div>
                 <div class="card-body pb-0">
-                    <div class="card-item border card" style="transform: translateY(-2.5rem);">
+                    <div class="card-item card" style="transform: translateY(-2.5rem);">
                         <div class="row p-3">
-                            <div class="col-md-12 mb-4">
+                            <div class="col-md-5 mb-4">
                                 <label class="form-label" for="serialNumber">Asset code:</label>
                                 <input class="form-control" id="serialNumber" value="{{ old('serialNumber') }}"
                                     name="serialNumber" type="text" data-bs-original-title="" title=""
@@ -147,8 +178,44 @@
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
+                            <div class="col-md-5 mb-4">
+                                <div class="mb-3 row">
+                                    <label class="col-sm-3 col-form-label pt-5 scan-text">Scan Barcode :</label>
+                                    <div class="col-sm-9 pt-4">
+                                        <input class="form-control qr" type="file" accept="image/*"
+                                            capture="environment" id="qrInput">
+                                        <img id="qrImage"
+                                            src="{{ asset('Backend/assets/images/IT-Assets/Vector_qr.png') }}"
+                                            alt="QR Code">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 mb-4 add-more-field">
+                                <button id="showAssetCategory" type="button" class="add-category-button btn btn-primary"
+                                    data-toggle="tooltip" data-placement="top" title="Add Asset Category">
+                                    <span class="button-text">Choose Asset Category</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row p-4" id="additionalFields" style="display: none;">
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label" for="assetType">Choose Asset Type:</label>
+                                <select name="assetType" class="form-control" id="assetType">
+                                    <option value="">Select Asset Type</option>
+                                    @foreach ($assettype as $data)
+                                        <option value="{{ $data->id }}">{{ $data->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label" for="assetCategory">Choose Asset:</label>
+                                <select name="assetCategory" class="form-control" id="assetCategory">
+                                    <option value="" data-asset-id="">Select Asset</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
+
                     <div class="card-item" id="assetSelect">
                         <div class="card-item ui-sortable" id="draggableMultiple">
                             <div class="row p-3" id="assetdetails">
@@ -192,26 +259,25 @@
                             <div class="col-md-4 mb-4">
                                 <label class="form-label" for="timePickerInput">Issuing Time:</label>
                                 <input class="form-control" name="time" value="{{ old('time') }}"
-                                    id="timePickerInput" type="time" data-bs-original-title="" title=""
-                                    required>
+                                    id="timePickerInput" type="time" data-bs-original-title="" title="">
                                 @error('time')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="col-md-4 mb-4">
-                                <label class="form-label" for="validationCustom01">Date of Issuing</label>
+                                <label class="form-label">Date of Issuing</label>
                                 <input class="form-control" name="date" id="datePickerInput" type="date"
-                                    value="{{ old('date') }}" data-bs-original-title="" title="" required>
+                                    value="{{ old('date') }}" data-bs-original-title="" title="">
                                 @error('date')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
 
                             <div class="col-md-4 mb-4">
-                                <label class="form-label" for="validationCustom01">Due Date</label>
+                                <label class="form-label">Due Date</label>
                                 <input class="form-control" name="due_date" id="dueDatePickerInput"
                                     value="{{ old('due_date') }}" type="date" data-bs-original-title=""
-                                    title="" required>
+                                    title="">
                                 @error('due_date')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
@@ -239,11 +305,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-item border">
+                    <div class="card-item">
                         <div class="row p-3">
                             <div class="col-md-12 mb-4">
-                                <textarea class="form-control" name="description" id="exampleFormControlTextarea1"
-                                    placeholder="Issuance Description" rows="3" value="{{ old('description') }}"></textarea>
+                                <textarea class="form-control" name="description" placeholder="Issuance Description" rows="3"
+                                    value="{{ old('description') }}"></textarea>
                                 @error('description')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
@@ -252,7 +318,7 @@
                     </div>
                 </div>
                 <div class="card-footer text-end">
-                    <button class="btn btn-primary" id="allocate-assets-btn" type="button">Allocate Assets</button>
+                    <button class="btn btn-primary" type="submit">Allocate Assets</button>
                 </div>
             </div>
         </form>
@@ -263,22 +329,19 @@
     {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script> --}}
     <script>
         $(document).ready(function() {
+            // Initialize Bootstrap tooltip
+            $('[data-toggle="tooltip"]').tooltip();
+
+            $('#showAssetCategory').click(function() {
+                $('#additionalFields').toggle();
+            });
+        });
+        $(document).ready(function() {
             var alert = $('#issue');
             setTimeout(function() {
                 alert.alert('close');
             }, 3000);
         });
-    </script>
-    <script>
-        function storeStepData(step) {
-            const inputs = step.querySelectorAll("input, select, textarea");
-            const data = {};
-
-            inputs.forEach(input => {
-                data[input.name] = input.value;
-            });
-            sessionStorage.setItem(step.id, JSON.stringify(data));
-        }
 
         function getCurrentTime() {
             const now = new Date();
@@ -286,11 +349,178 @@
             const minutes = now.getMinutes().toString().padStart(2, '0');
             return `${hours}:${minutes}`;
         }
-
-        // Set the current time in #timePickerInput
         document.getElementById('timePickerInput').value = getCurrentTime();
-    </script>
-    <script>
+        $(document).ready(function() {
+            $('#assetType').change(function() {
+                var assetTypeId = $(this).val();
+                if (assetTypeId) {
+                    $.ajax({
+                        type: "POST",
+                        url: 'get-assets-by-type/' + assetTypeId,
+                        data: {
+                            assetTypeId: assetTypeId,
+                            _token: "{{ csrf_token() }}",
+                        },
+                        success: function(response) {
+                            // Handle the response and update the asset category select element
+                            var assetCategorySelect = $('#assetCategory');
+                            assetCategorySelect.empty();
+                            assetCategorySelect.append(
+                                '<option value="" data-asset-id="">Select Asset</option>');
+
+                            $.each(response, function(key, asset) {
+                                assetCategorySelect.append('<option value="' + asset
+                                    .id + '" data-asset-id="' + asset
+                                    .id + '">' + asset.name + '</option>');
+                            });
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('AJAX error:', status, error);
+                        }
+                    });
+                }
+            });
+        });
+        $(document).ready(function() {
+            $('#assetCategory').change(function() {
+                var assetId = $(this).find('option:selected').data('asset-id');
+                if (assetId) {
+                    $.ajax({
+                        type: "POST",
+                        url: '/get-asset-details-on-stock/' + assetId,
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                        },
+                        success: function(response) {
+                            updateAssetDetails(response);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('AJAX error:', status, error);
+                        }
+                    });
+                }
+            });
+
+            function updateAssetDetails(asset) {
+                $('#assetSelect').show();
+                $('#draggableMultiple').show();
+                var assetDetailsContainer = $('#assetdetails');
+                assetDetailsContainer.show();
+                assetDetailsContainer.empty();
+
+                if (asset) {
+                    // Assuming asset is an array of assets
+                    if (Array.isArray(asset) && asset.length > 0) {
+                        var assetTable = `
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Asset Code</th>
+                    <th>Product</th>
+                    <th>Asset Type</th>
+                    <th>Asset</th>
+                    <th>Price</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>`;
+
+                        asset.forEach(function(singleAsset) {
+                            assetTable += `
+                <tr>
+                    <td>${singleAsset.product_number??'N/A'}</td>
+                    <td>${singleAsset.product_info}</td>
+                    <td>${singleAsset.asset_type.name}</td>
+                    <td>${singleAsset.assetmain.name}</td>
+                    <td>${singleAsset.price}</td>
+                    <td class="add">
+                        <button class="btn btn-success btn-sm add-assets" type="button" data-card-id="${singleAsset.id}">
+                            Add
+                        </button>
+                    </td>
+                </tr>`;
+                        });
+
+                        assetTable += `</tbody>
+        </table>`;
+                        assetDetailsContainer.html(assetTable);
+                    } else {
+                        // Handle the case when no assets are found
+                        assetDetailsContainer.html('<p>No assets found for this asset type.</p>');
+                    }
+                } else {
+                    // Handle the case when no asset is found (response is not an array)
+                    assetDetailsContainer.html('<p>No asset found for this serial number.</p>');
+                }
+
+            }
+        });
+        $(document).on("click", ".add-assets", function() {
+            const addButton = $(this);
+            if (!addButton.hasClass("added-button")) {
+                addButton.hide(); // Hide the "Add" button
+                const addedButton = $(
+                    "<button class='btn btn-success btn-sm added-button' type='button' data-card-id='" +
+                    addButton.data(
+                        "card-id") + "'>Added</button>"
+                );
+                const assetDetails = addButton.closest("tr").find("td"); // Get all <td> elements in the clicked row
+                const tableBody = $("#selectedAssetTable tbody");
+                const assetRow = $("<tr class='added-row'></tr>"); // Add the "added-row" class
+                assetDetails.each(function() {
+                    const clonedTd = $(this).clone();
+                    assetRow.append(clonedTd);
+                });
+                const removeButton = $(
+                    "<td><button class='btn btn-danger btn-sm remove-asset' type='button'>Remove</button></td>");
+                assetRow.append(removeButton);
+                assetRow.append("<td></td>"); // Placeholder for the "Added" button
+                tableBody.append(assetRow);
+
+                addedButton.click(function() {
+                    removeAddedAsset(addedButton);
+                });
+                assetRow.find("td:last").append(addedButton);
+
+                const assetId = addButton.data("card-id"); // Get asset.id from the "Add" button's data
+                const hiddenInput = $("#selectedAssetCard input[name='selectedAssets[]']");
+                const currentAssetIds = hiddenInput.val().split(',').filter(
+                    Boolean); // Retrieve current asset.ids as an array
+                currentAssetIds.push(assetId); // Add the new asset.id to the array
+                hiddenInput.val(currentAssetIds.join(',')); // Update the hidden input field value
+            }
+        });
+
+        $(document).on("click", ".remove-asset", function() {
+            const removedAssetId = $(this).closest("tr").find("td:first").text(); // Get the asset.id to be removed
+
+            const hiddenInput = $("#selectedAssetCard input[name='selectedAssets[]']");
+            const currentAssetIds = hiddenInput.val().split(',').filter(
+                Boolean); // Retrieve current asset.ids as an array
+            const indexToRemove = currentAssetIds.indexOf(removedAssetId);
+            if (indexToRemove !== -1) {
+                currentAssetIds.splice(indexToRemove, 1); // Remove the asset.id from the array
+                hiddenInput.val(currentAssetIds.join(',')); // Update the hidden input field value
+            }
+
+            $(this).closest("tr").remove(); // Remove the row from the table
+        });
+
+        function removeAddedAsset(addedButton) {
+            const assetId = addedButton.data("card-id");
+            const addButton = $(".add-assets[data-card-id='" + assetId + "']");
+            addButton.show(); // Show the "Add" button
+            addedButton.closest("tr").remove(); // Remove the row from the table
+
+            const hiddenInput = $("#selectedAssetCard input[name='selectedAssets[]']");
+            const currentAssetIds = hiddenInput.val().split(',').filter(
+                Boolean); // Retrieve current asset.ids as an array
+            const indexToRemove = currentAssetIds.indexOf(assetId);
+            if (indexToRemove !== -1) {
+                currentAssetIds.splice(indexToRemove, 1); // Remove the asset.id from the array
+                hiddenInput.val(currentAssetIds.join(',')); // Update the hidden input field value
+            }
+        }
         var selectedCards = {};
         $(document).ready(function() {
             $('#assetSelect').hide();
@@ -323,7 +553,6 @@
                 $('#draggableMultiple').show();
                 var assetDetailsContainer = $('#assetdetails');
                 assetDetailsContainer.show();
-
                 if (asset != null) {
                     var allbrand = asset.brand;
                     var isSelected = selectedCards[asset.id];
@@ -347,7 +576,7 @@
                                 <td>${asset.assetmain.name}</td>
                                 <td>${asset.price}</td>
                                 <td class="add">
-                                    <button class="btn btn-success btn-sm add-asset" data-card-id="${asset.id}">
+                                    <button class="btn btn-success btn-sm add-asset" type="button" data-card-id="${asset.id}">
                                         Add
                                     </button>
                                 </td>
@@ -369,24 +598,18 @@
         $(document).on("click", ".add-asset", function() {
             const assetDetails = $("#assetdetails").find("td"); // Get all <td> elements
             const addassetDetails = $("#assetdetails").find(".add"); // Get all <td> elements
-
             if (assetDetails.length > 0) {
                 const tableBody = $("#selectedAssetTable tbody");
                 const assetRow = $("<tr></tr>");
-
                 assetDetails.each(function() {
                     const clonedTd = $(this).clone();
                     addassetDetails.hide();
                     assetRow.append(clonedTd);
                 });
-
                 const removeButton = $(
-                    "<td><button class='btn btn-danger btn-sm remove-asset'>Remove</button></td>");
+                    "<td><button class='btn btn-danger btn-sm remove-asset' type='button'>Remove</button></td>");
                 assetRow.append(removeButton);
-
                 tableBody.append(assetRow);
-
-                // Store asset.id in the hidden input field
                 const assetId = $(this).data("card-id"); // Get asset.id from the "Add" button's data
                 const hiddenInput = $("#selectedAssetCard input[name='selectedAssets[]']");
                 const currentAssetIds = hiddenInput.val().split(',').filter(
@@ -395,8 +618,6 @@
                 hiddenInput.val(currentAssetIds.join(',')); // Update the hidden input field value
             }
         });
-
-        // Add event handler for the "Remove" button in the selected assets table
         $(document).on("click", ".remove-asset", function() {
             const removedAssetId = $(this).closest("tr").find("td:first").text(); // Get the asset.id to be removed
             const hiddenInput = $("#selectedAssetCard input[name='selectedAssets[]']");
@@ -409,9 +630,6 @@
             }
             $(this).closest("tr").remove(); // Remove the row from the table
         });
-    </script>
-    <script>
-        const form = document.querySelector(".f1");
 
         function showDiv() {
             var inputField = document.getElementById('employeeId');
@@ -470,63 +688,14 @@
                 });
             }
         });
-        // $('#allocate-assets-btn').click(function() {
-        //     form.submit();
+        // $('#datePickerInput, #dueDatePickerInput').click(function(event) {
+        //     event.stopPropagation();
         // });
-        $('#allocate-assets-btn').click(function(event) {
-            var employeeId = $('#employeeId').val().trim();
-            var serialNumber = $('#serialNumber').val().trim();
-            var time = $('#timePickerInput').val().trim();
-            var date = $('#datePickerInput').val().trim();
-            var dueDate = $('#dueDatePickerInput').val().trim();
-            var locationId = $('#locationchange').val();
-            var subLocationId = $('#sublocation').val();
-            var exampleFormControlTextarea1 = $('#exampleFormControlTextarea1').val()
-
-            if (employeeId === '' || serialNumber === '' || time === '' || date === '' || dueDate === '' ||
-                locationId === '' || subLocationId === '' || exampleFormControlTextarea1 === '') {
-                alert('Please fill in all required fields.');
-                return;
-            }
-
-            $.ajax({
-                url: 'update/stock/status',
-                method: 'POST',
-                data: {
-                    asset_id: $('#serialNumber').val(),
-                    new_status: '2',
-                    _token: '{{ csrf_token() }}',
-                },
-                success: function(response) {
-                    if (response.success) {
-                        form.submit();
-                    } else {
-                        console.log('Status update failed:', response.message);
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error('AJAX error:', status, error);
-                }
-            });
-        });
-
-        form.addEventListener("submit", function(event) {
-            event.preventDefault();
-            storeStepData(steps[steps.length - 1]);
-            form.submit();
-        });
-    </script>
-    <script>
-        $('#datePickerInput, #dueDatePickerInput').click(function(event) {
-            event.stopPropagation();
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
-            $('#timePickerDiv').click(function() {
-                // Trigger a click on the time input element to open the time picker
-                $('#validationCustom01').click();
-            });
-        });
+        // $(document).ready(function() {
+        //     $('#timePickerDiv').click(function() {
+        //         // Trigger a click on the time input element to open the time picker
+        //         $('#validationCustom01').click();
+        //     });
+        // });
     </script>
 @endsection

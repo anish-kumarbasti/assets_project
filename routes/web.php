@@ -310,7 +310,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('maintainans-update/{id}', [MaintenanceController::class, 'update'])->name('maintainans-Update');
     Route::get('maintenance/edit/{id}', [MaintenanceController::class, 'maintenance_edit'])->name('maintenance.edit');
     Route::post('/maintainans/update/{productId}', [MaintenanceController::class, 'statusupdate'])->name('maintenance.update.status');
-
     //Receive Maintenance
     Route::get('receive-maintenance', [MaintenanceController::class, 'receive'])->name('receive-maintenance');
     Route::get('maintenance-print/{id}', [MaintenanceController::class, 'download'])->name('maintenance-print');
@@ -380,4 +379,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/issuences/all', [IssuenceController::class, 'showAll'])->name('issuances.all');
     Route::get('/fetch-Card-info', [IssuenceController::class, 'CardInfo'])->name('fetch-Card-info');
     Route::post('update/stock/status', [IssuenceController::class, 'updatestockstatus'])->name('update.stock.status');
+    Route::post('/get-assets-by-type/{id}', [AssetController::class,'getAssetsByType'])->name('get-assets-by-type');
+    Route::post('/get-asset-details-on-stock/{id}', [AssetController::class,'getAssetDetailsonStock']);
 });

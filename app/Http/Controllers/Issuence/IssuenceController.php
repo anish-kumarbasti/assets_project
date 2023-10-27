@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Issuence;
 
 use App\Helpers\TimelineHelper;
 use App\Http\Controllers\Controller;
+use App\Models\Asset;
 use App\Models\AssetRejection;
 use App\Models\AssetReturn;
 use App\Models\AssetType;
@@ -35,7 +36,8 @@ class IssuenceController extends Controller
         }
         $assettype = AssetType::all();
         $location = Location::all();
-        return view('Backend.Page.Issuence.issuence', compact('assettype', 'location'));
+        $asset = Asset::all();
+        return view('Backend.Page.Issuence.issuence', compact('assettype', 'location', 'asset'));
     }
     public function getassetdetail(Request $request)
     {
@@ -66,6 +68,7 @@ class IssuenceController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request);
         DB::beginTransaction(); // Start a database transaction
         try {
             $request->validate([
@@ -81,12 +84,9 @@ class IssuenceController extends Controller
             if (!$user) {
                 return back()->with('error', 'User not found.');
             }
-
             $managerUser = User::where('role_id', 3)->where('department_id', $user->department_id)->first();
             $dateTime = Carbon::createFromFormat('Y-m-d H:i', $request->date . ' ' . $request->time);
-
             $selectedStocks = Stock::whereIn('id', $request->selectedAssets)->get();
-
             $issuance = Issuence::create([
                 'employee_id' => $request->employeeId,
                 'asset_type_id' => $selectedStocks->first()->asset_type_id, // Fill in the asset_type_id
@@ -100,12 +100,11 @@ class IssuenceController extends Controller
                 'employee_manager_id' => $managerUser ? $managerUser->id : null,
             ]);
             $selectedAssets = explode(',', $request->selectedAssets[0]);
-
+            $value= [];
             foreach ($selectedAssets as $selectedAsset) {
                 $value = Stock::find($selectedAsset);
                 TimelineHelper::logAction('Product Issued', $selectedAsset, $value->asset_type_id, $value->asset, $issuance->id, $user->id);
             }
-            
 
             // Update the stock status
             $selectedStocks->each(function ($stock) {
@@ -120,29 +119,28 @@ class IssuenceController extends Controller
             $assetmanager = User::where('role_id', $assetcontroller->id)
                 ->where('department_id', $user->department_id)
                 ->first();
-            if ($managerUser) {
-                Notification::send($managerUser, new IssuenceNotification($managerUser));
-            }
+
             if ($assetmanager) {
                 Notification::send($assetmanager, new IssuenceNotification($assetmanager));
             }
-
-            $data = [
-                'receiver_name' => $user->first_name . ' ' . $user->last_name,
-                'company_name' => 'IT-Asset',
-                'issuer_name' => Auth::user()->first_name . ' ' . Auth::user()->last_name,
-                'email' => $request->email,
-                'product_name' => $selectedStocks->first()->product_info . ' ' . $selectedStocks->first()->assetmain->name,
-                'product_serial' => $selectedStocks->first()->serial_number,
-                'product_time' => $issuance->created_at,
-            ];
-            $users['to'] = $managerUser->email;
-
-            Mail::send('Backend.Auth.mail.issuance_manager', $data, function ($message) use ($users) {
-                $message->from('itasset@svamart.com', 'itasset@svamart.com');
-                $message->to($users['to']);
-                $message->subject('Asset Issued Successfully.');
-            });
+            $user->notify(new IssuenceNotification($user));
+            foreach ($value as $products) {
+                $data = [
+                    'name' => $user->first_name . ' ' . $user->last_name,
+                    'company_name' => 'IT-Asset',
+                    'employee_id' => $user->employee_id,
+                    'email' => $user->email,
+                    'product_name' => $products->product_info . ' ' . $products->assetmain->name,
+                    'product_serial' => $products->serial_number,
+                    'product_time' => $issuance->created_at,
+                ];
+                $users['to'] = $user->email;
+                Mail::send('Backend.Auth.mail.issuance_mail', $data, function ($message) use ($users) {
+                    $message->from('itasset@svamart.com', 'itasset@svamart.com');
+                    $message->to($users['to']);
+                    $message->subject('Asset Issued Successfully.');
+                });
+            }
 
             return back()->with('success', 'Asset Issued!');
         } catch (QueryException $e) {
@@ -308,24 +306,7 @@ class IssuenceController extends Controller
         $user = User::where('employee_id', $issuedata->employee_id)->first();
         $issuedmanager = Status::where('name', 'Issue accept Manager')->first();
         Stock::find($id)->update(['status_available' => $issuedmanager->id]);
-        $user->notify(new IssuenceNotification($user));
-        foreach ($products as $products) {
-            $data = [
-                'name' => $user->first_name . ' ' . $user->last_name,
-                'company_name' => 'IT-Asset',
-                'employee_id' => $user->employee_id,
-                'email' => $user->email,
-                'product_name' => $products->product_info . ' ' . $products->assetmain->name,
-                'product_serial' => $products->serial_number,
-                'product_time' => $issuedata->created_at,
-            ];
-            $users['to'] = $user->email;
-            Mail::send('Backend.Auth.mail.issuance_mail', $data, function ($message) use ($users) {
-                $message->from('itasset@svamart.com', 'itasset@svamart.com');
-                $message->to($users['to']);
-                $message->subject('Asset Issued Successfully.');
-            });
-        }
+
         return back()->with('success', 'Aprroved.');
     }
     public function deniedmanager($id)
