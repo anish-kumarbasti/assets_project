@@ -243,7 +243,7 @@
                     <div class="col-md-4 mb-4" id="warranty">
                         <label class="form-label" for="warrantyDateInput">Warranty</label>
                         <div class="input-group">
-                            <input class="form-control digits" id="warrantyDateInput" value="{{isset($stockedit)? $stockedit->product_warranty:''}}" name="product_warranty" type="date" data-language="en">
+                            <input class="form-control digits" id="dateInput" value="{{isset($stockedit)? $stockedit->product_warranty:''}}" name="product_warranty" type="date" data-language="en">
                         </div>
                         @error('product_warranty')
                             <span class="text-danger">{{ $message }}</span>
@@ -278,6 +278,15 @@
 @endsection
 @section('Script-Area')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    let today = new Date();
+    let dd = String(today.getDate()).padStart(2, '0');
+    let mm = String(today.getMonth() + 1).padStart(2, '0'); 
+    let yyyy = today.getFullYear();
+    today = yyyy + '-' + mm + '-' + dd;
+    document.getElementById('dateInput').value = today;
+    document.getElementById('dateInputs').value = today;
+</script>
 <script>
     $(document).ready(function() {
         var alert = $('#alert-delete');

@@ -166,8 +166,8 @@
                                 </ul>
                             </div>
                             <div class="card-footer d-flex justify-content-between float-end">
-                                <button class="btn btn-primary next-step" id="next-assets" data-step="select-asset-step"
-                                    type="button">Next</button>
+                                {{-- <button class="btn btn-primary next-step" id="next-assets" data-step="select-asset-step"
+                                    type="button">Next</button> --}}
                             </div>
                         </div>
                     </div>

@@ -101,14 +101,14 @@
                                 </div>
                                 <div class="mb-2">
                                     <label class="form-label">Start Date</label>
-                                    <input type="date" class="form-control digits" name="start_date" type="date" id="start">
+                                    <input type="date" class="form-control digits" name="start_date" type="date" id="dateInput">
                                     @error('start_date')
                                     <span class="text-danger">{{$message}}</span>
                                     @enderror
                                 </div>
                                 <div class="mb-2">
                                     <label class="form-label">End Date</label>
-                                    <input type="date" class="form-control digits" name="end_date" id="end" type="date">
+                                    <input type="date" class="form-control digits" name="end_date" id="dateInputs" type="date">
                                     @error('end_date')
                                     <span class="text-danger">{{$message}}</span>
                                     @enderror
@@ -176,6 +176,15 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    let today = new Date();
+    let dd = String(today.getDate()).padStart(2, '0');
+    let mm = String(today.getMonth() + 1).padStart(2, '0'); 
+    let yyyy = today.getFullYear();
+    today = yyyy + '-' + mm + '-' + dd;
+    document.getElementById('dateInput').value = today;
+    document.getElementById('dateInputs').value = today;
+</script>
 <script>
     $(document).ready(function() {
         var alerts = $('#btn');

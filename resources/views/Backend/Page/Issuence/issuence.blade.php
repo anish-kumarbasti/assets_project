@@ -266,7 +266,7 @@
                             </div>
                             <div class="col-md-4 mb-4">
                                 <label class="form-label">Date of Issuing</label>
-                                <input class="form-control" name="date" id="datePickerInput" type="date"
+                                <input class="form-control" name="date" id="dateInput" type="date"
                                     value="{{ old('date') }}" data-bs-original-title="" title="">
                                 @error('date')
                                     <div class="text-danger">{{ $message }}</div>
@@ -275,7 +275,7 @@
 
                             <div class="col-md-4 mb-4">
                                 <label class="form-label">Due Date</label>
-                                <input class="form-control" name="due_date" id="dueDatePickerInput"
+                                <input class="form-control" name="due_date" id="dateInputs"
                                     value="{{ old('due_date') }}" type="date" data-bs-original-title=""
                                     title="">
                                 @error('due_date')
@@ -327,6 +327,15 @@
 @section('Script-Area')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script> --}}
+    <script>
+        let today = new Date();
+        let dd = String(today.getDate()).padStart(2, '0');
+        let mm = String(today.getMonth() + 1).padStart(2, '0'); 
+        let yyyy = today.getFullYear();
+        today = yyyy + '-' + mm + '-' + dd;
+        document.getElementById('dateInput').value = today;
+        document.getElementById('dateInputs').value = today;
+    </script>
     <script>
         $(document).ready(function() {
             // Initialize Bootstrap tooltip
@@ -412,18 +421,18 @@
                     // Assuming asset is an array of assets
                     if (Array.isArray(asset) && asset.length > 0) {
                         var assetTable = `
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Asset Code</th>
-                    <th>Product</th>
-                    <th>Asset Type</th>
-                    <th>Asset</th>
-                    <th>Price</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>`;
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Asset Code</th>
+                                <th>Product</th>
+                                <th>Asset Type</th>
+                                <th>Asset</th>
+                                <th>Price</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>`;
 
                         asset.forEach(function(singleAsset) {
                             assetTable += `
