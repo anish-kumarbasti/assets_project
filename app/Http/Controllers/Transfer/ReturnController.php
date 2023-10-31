@@ -23,9 +23,9 @@ class ReturnController extends Controller
         $issue = Issuence::where('employee_id', $auth)->distinct()->pluck('product_id');
         $Issuestatus = Status::where('name', 'Accepted by User')->first();
         $Transferstatus = Status::where('name', 'Transferred by Manager')->first();
-        $data=collect([]);
+        $data = collect([]);
 
-        if ($issue !='') {
+        if ($issue != '') {
             foreach ($issue as $issue) {
                 $product_id = json_decode($issue);
                 $datas = Stock::whereIn('id', $product_id)
@@ -34,17 +34,17 @@ class ReturnController extends Controller
                             ->orWhere('status_available', $Transferstatus->id);
                     })
                     ->get();
-                    $data = $data->concat($datas);
-                }
-                return view('Backend.Page.Transfer.return', compact('data'));
-        }
-         else {
+                $data = $data->concat($datas);
+            }
+            return view('Backend.Page.Transfer.return', compact('data'));
+        } else {
             return view('Backend.Page.Transfer.return');
         }
     }
 
     public function submit(Request $request)
     {
+        // dd($request);
         try {
             $request->validate([
                 'cardId' => 'required', // Ensure that cardId is an array
@@ -62,7 +62,7 @@ class ReturnController extends Controller
             $status = Status::where('name', 'Returned by User')->first();
             Stock::whereIn('id', $cardIds)->update(['status_available' => $status->id]);
             foreach ($cardIds as $cardId) {
-                $product = Stock::where('id',$cardId)->first();
+                $product = Stock::where('id', $cardId)->first();
                 TimelineHelper::logAction('Asset Returned', $cardId, $product->asset_type_id, $product->asset, null, null, null, null, null, null, null, null, $return->id, $auth->id);
             }
             $role = Role::where('name', 'Manager')->first();
