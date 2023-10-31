@@ -156,7 +156,7 @@ background-color:#1d0950!important;
                     <a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="list"></i><span>Transfer</span></a>
                     <ul class="sidebar-submenu">
                         <li class="{{ request()->is(['transfer*']) ? 'active' : '' }}"><a href="{{ url('transfer') }}">Add Transfer</a> </li>
-                        <li class="{{ request()->is(['return*']) ? 'active' : '' }}"><a href="{{ url('return') }}">Asset Returning</a> </li>
+                        {{-- <li class="{{ request()->is(['return*']) ? 'active' : '' }}"><a href="{{ url('return') }}">Asset Returning</a> </li> --}}
                         <li class="{{ request()->is(['transfer/all*']) ? 'active' : '' }}"><a href="{{ url('transfer/all') }}">All Transfer</a> </li>
                     </ul>
                 </li>
