@@ -9,6 +9,12 @@
     .change-card:hover {
         transform: scale(.9);
     }
+    .ellipsis {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 150px;
+   }
 </style>
 @endsection
 @section('Content-Area')
@@ -46,41 +52,57 @@
                     {{-- {{dd($data)}} --}}
                     @isset($data)
                     @foreach ($data as $asset)
-                    <div class="col-md-3">
-                        <div class="card change-card" data-card-id="{{ $asset->id }}" onclick="selectDeselect(this)">
-                            <div class="card-body">
-                                <h5 class="card-title card-text p-2">{{ $asset->product_info??'N/A'}}</h5>
-                                <p class="card-subtitle mb-2">Type: <span class="text-muted">{{ $asset->asset_type->name??'N/A'}}</span></p>
-                                <p class="card-subtitle mb-2">
-                                    Brand: <span class="text-muted">{{ $asset->brand->name??'N/A'}}</span>
-                                    License Number: <span class="text-muted">{{ $asset->license_number ?? 'N/A' }}</span>
-                                </p>
-                                <p class="card-subtitle mb-2">
-                                    Brand Model: <span class="text-muted">{{ $asset->brandmodel->name ?? 'N/A' }}</span>
-                                    Configuration: <span class="text-muted">{{ $asset->configuration ?? 'N/A' }}</span>
-                                </p>
-                                <p class="card-subtitle mb-2">Brand Model: <span class="text-muted">{{ $asset->supplier }}</p>
-                                <p class="card-subtitle mb-2">Price: <span class="text-muted">{{ $asset->price }}</span></p>
-                                @if (isset($selectedCardIds) && in_array($asset->id, $selectedCardIds))
+                    <div class="col-md-12">
+                        <table class="table table-bordered" id="selectedAssetTable">
+                            <thead>
+                                <tr>
+                                    <th>Asset Code</th>
+                                    <th>Product</th>
+                                    <th>Asset Type</th>
+                                    <th>Brand</th>
+                                    <th>License Number</th>
+                                    <th>Brand Model</th>
+                                    <th>Configuration</th>
+                                    <th>Supplier</th>
+                                    <th>Price</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{$asset->product_number??'N/A'}}</td>
+                                    <td>{{ $asset->product_info??'N/A'}}</td>
+                                    <td>{{ $asset->asset_type->name??'N/A'}}</td>
+                                    <td>{{ $asset->brand->name??'N/A'}}</td>
+                                    <td>{{ $asset->license_number ?? 'N/A' }}</td>
+                                    <td>{{ $asset->brandmodel->name ?? 'N/A' }}</td>
+                                    <td class="ellipsis">{{ $asset->configuration ?? 'N/A' }}</td>
+                                    <td>{{ $asset->getsupplier->name??'N/A' }}</td>
+                                    <td>{{ $asset->price }}</td>
+                                    <td class="add">
+                                    <button onclick="selectDeselect(this)" class="btn btn-success" type="button" data-card-id="{{ $asset->id}}">
+                                        Add
+                                    </button>
+                                    @if (isset($selectedCardIds) && in_array($asset->id, $selectedCardIds))
                                     <input type="hidden" value="{{ $asset->id }}" name="cardId[{{ $asset->id }}]">
-                                @endif
-                            </div>
-                        </div>
+                                    @endif
+                                    </td>
+                                    
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                     @endforeach
                     @endisset
                 </div>
             </div>
-            <div class="card-footer d-flex text-end">
-                <button class="btn btn-primary" id="next" style="display: none; margin-left: auto;" type="button">Next</button>
-            </div>
         </div>
-        <div class="card mt-3" id="step2" style="display: none;">
+        <div class="card mt-3" id="step2">
             <div class="card-body">
                 <div class="card-head">
                     <h4>Asset Return</h4>
                 </div>
-                <div class="card-item border mt-3 card">
+                <div class="card-item border mt-3">
                     <div class="row p-3">
                         <div class="col-md-12 p-3">
                             <label for="text">Reason for Return</label>
@@ -89,14 +111,18 @@
                     </div>
                 </div>
             </div>
-            <div class="card-footer d-flex justify-content-between">
-                <button class="btn btn-secondary" id="previous" type="button">Previous</button>
-                <button class="btn btn-primary" type="submit">Next</button>
+            <div class="card-footer d-flex justify-content-end">
+                {{-- <button class="btn btn-secondary" id="previous" type="button">Previous</button> --}}
+                <button class="btn btn-primary" type="submit">Rturn</button>
             </div>
         </div>
     </form>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+</script>
+
+
 <script>
     $(document).ready(function() {
         var alerts = $('#alerts');
@@ -106,10 +132,31 @@
     });
 </script>
 <script>
- function selectDeselect(card) {
-    $(card).toggleClass('selected');
-    checkSelection(card);
+function selectDeselect(card) {
+    var $card = $(card);
+    if ($card.hasClass('selected')) {
+        $card.removeClass('selected').text('Add');
+        removeCardId(card);
+    } else {
+        $card.addClass('selected').text('Selected');
+        addCardId(card);
+    }
 }
+
+// function addCardId(card) {
+//     var cardId = $(card).data('card-id');
+//     var input = $('<input>')
+//         .attr('type', 'hidden')
+//         .attr('name', 'cardId[' + cardId + ']')
+//         .val(cardId);
+//     $('#selectedAssetTable form').append(input);
+// }
+
+// function removeCardId(card) {
+//     var cardId = $(card).data('card-id');
+//     $('#selectedAssetTable form input[name="cardId[' + cardId + ']"]').remove();
+// }
+
 
 function checkSelection(card) {
     if ($(card).hasClass('selected')) {
