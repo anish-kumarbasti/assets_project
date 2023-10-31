@@ -1,21 +1,6 @@
 @extends('Backend.Layouts.panel')
 @section('Style-Area')
-<style>
-    .change-card.selected {
-        border: 2px solid #1774f7 !important;
-        background-color: #d1f6fe !important;
-    }
-
-    .change-card:hover {
-        transform: scale(.9);
-    }
-    .ellipsis {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 150px;
-   }
-
+    <style>
         .change-card.selected {
             border: 2px solid #1774f7 !important;
             background-color: #d1f6fe !important;
@@ -111,68 +96,6 @@
     <div class="col-sm-12">
         <div class="card text-center switch-button-container">
             <div class="card-body">
-                <div class="row">
-                    <div class="col-md-12 text-center">
-                        <h5>No Asset for Returning</h5>
-                    </div>
-                    {{-- {{dd($data)}} --}}
-                    @isset($data)
-                    @foreach ($data as $asset)
-                    <div class="col-md-12">
-                        <table class="table table-bordered" id="selectedAssetTable">
-                            <thead>
-                                <tr>
-                                    <th>Asset Code</th>
-                                    <th>Product</th>
-                                    <th>Asset Type</th>
-                                    <th>Brand</th>
-                                    <th>License Number</th>
-                                    <th>Brand Model</th>
-                                    <th>Configuration</th>
-                                    <th>Supplier</th>
-                                    <th>Price</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>{{$asset->product_number??'N/A'}}</td>
-                                    <td>{{ $asset->product_info??'N/A'}}</td>
-                                    <td>{{ $asset->asset_type->name??'N/A'}}</td>
-                                    <td>{{ $asset->brand->name??'N/A'}}</td>
-                                    <td>{{ $asset->license_number ?? 'N/A' }}</td>
-                                    <td>{{ $asset->brandmodel->name ?? 'N/A' }}</td>
-                                    <td class="ellipsis">{{ $asset->configuration ?? 'N/A' }}</td>
-                                    <td>{{ $asset->getsupplier->name??'N/A' }}</td>
-                                    <td>{{ $asset->price }}</td>
-                                    <td class="add">
-                                    <button onclick="selectDeselect(this)" class="btn btn-success" type="button" data-card-id="{{ $asset->id}}">
-                                        Add
-                                    </button>
-                                    @if (isset($selectedCardIds) && in_array($asset->id, $selectedCardIds))
-                                    <input type="hidden" value="{{ $asset->id }}" name="cardId[{{ $asset->id }}]">
-                                    @endif
-                                    </td>
-                                    
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    @endforeach
-                    @endisset
-                </div>
-            </div>
-        </div>
-        <div class="card mt-3" id="step2">
-            <div class="card-body">
-                <div class="card-head">
-                    <h4>Asset Return</h4>
-                </div>
-                <div class="card-item border mt-3">
-                    <div class="row p-3">
-                        <div class="col-md-12 p-3">
-                            <label for="text">Reason for Return</label>
-                            <textarea name="description" id="text" placeholder="reason.." class="form-control" cols="20" rows="5"></textarea>
                 <b>Choose Type:</b>
                 <a href="{{ url('transfer') }}" class="btna">
                     <input type="radio" class="toggle toggle-left" name="transfer-return" value="transfer"
@@ -233,99 +156,12 @@
                         @endisset
                     </div>
                 </div>
-                <div class="card-footer d-flex text-end">
+                {{-- <div class="card-footer d-flex text-end">
                     <button class="btn btn-primary" id="next" style="display: none; margin-left: auto;"
                         type="button">Next</button>
-                </div>
+                </div> --}}
             </div>
-            <div class="card-footer d-flex justify-content-end">
-                {{-- <button class="btn btn-secondary" id="previous" type="button">Previous</button> --}}
-                <button class="btn btn-primary" type="submit">Rturn</button>
-            </div>
-        </div>
-    </form>
-</div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script>
-</script>
-
-
-<script>
-    $(document).ready(function() {
-        var alerts = $('#alerts');
-        setTimeout(function() {
-            alerts.alert('close');
-        }, 3000);
-    });
-</script>
-<script>
-function selectDeselect(card) {
-    var $card = $(card);
-    if ($card.hasClass('selected')) {
-        $card.removeClass('selected').text('Add');
-        removeCardId(card);
-    } else {
-        $card.addClass('selected').text('Selected');
-        addCardId(card);
-    }
-}
-
-// function addCardId(card) {
-//     var cardId = $(card).data('card-id');
-//     var input = $('<input>')
-//         .attr('type', 'hidden')
-//         .attr('name', 'cardId[' + cardId + ']')
-//         .val(cardId);
-//     $('#selectedAssetTable form').append(input);
-// }
-
-// function removeCardId(card) {
-//     var cardId = $(card).data('card-id');
-//     $('#selectedAssetTable form input[name="cardId[' + cardId + ']"]').remove();
-// }
-
-
-function checkSelection(card) {
-    if ($(card).hasClass('selected')) {
-        $(card).append('<input type="hidden" value="' + $(card).data('card-id') + '" name="cardId[' + $(card).data('card-id') + ']">');
-    } else {
-        $(card).find('input[name^="cardId"]').remove();
-    }
-
-    if ($('.change-card.selected').length > 0) {
-        $('#next').show();
-    } else {
-        $('#next').hide();
-    }
-}
-
-$('#next').click(function() {
-    if ($('.change-card.selected').length > 0) {
-        $('#step1').hide();
-        $('#step2').show();
-    }
-});
-
-$('#previous').click(function() {
-        $('#step1').show();
-        $('#step2').hide();
-    });
-
-
-
-    // function selectDeselect(card) {
-    //     card.classList.toggle('selected');
-
-    //     // Check if at least one card is selected, then show the Next button
-    //     if ($('.change-card.selected').length > 0) {
-    //         $('#next').show();
-    //     } else {
-    //         $('#next').hide();
-    //     }
-    // }
-</script>
-=======
-            <div class="card mt-3" id="step2" style="display: none;">
+            <div class="card mt-3" id="step2">
                 <div class="card-body">
                     <div class="card-head">
                         <h4>Asset Return</h4>
@@ -339,8 +175,8 @@ $('#previous').click(function() {
                         </div>
                     </div>
                 </div>
-                <div class="card-footer d-flex justify-content-between">
-                    <button class="btn btn-secondary" id="previous" type="button">Previous</button>
+                <div class="card-footer d-flex justify-content-end">
+                    {{-- <button class="btn btn-secondary" id="previous" type="button">Previous</button> --}}
                     <button class="btn btn-primary" type="submit">Next</button>
                 </div>
             </div>
