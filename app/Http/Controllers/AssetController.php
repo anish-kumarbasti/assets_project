@@ -6,6 +6,7 @@ use App\Models\Asset;
 use App\Models\AssetType;
 use App\Models\Disposal;
 use App\Models\Issuence;
+use App\Models\Maintenance;
 use App\Models\Stock;
 use App\Models\Transfer;
 use Illuminate\Http\Request;
@@ -129,14 +130,18 @@ class AssetController extends Controller
     {
         $id = '2';
         $matchingData = Stock::where('asset_type_id', $id)->with('statuses')->get();
+        // dd($matchingData);
         foreach ($matchingData as $product) {
+            $issuanceCount = Issuence::whereJsonContains('product_id', $product->id)->count();
+            $transferCount = Transfer::whereJsonContains('product_id', $product->id)->count();
+            $maintenanceCount = Maintenance::where('product_id', $product->product_number)->count();
+            $disposalCount = Disposal::where('product_info', $product->id)->count();
+            $totalCount = $issuanceCount + $transferCount + $maintenanceCount + $disposalCount;
+            $product->availableQuantity = $product->quantity - $totalCount;
             $createdDate = $product->created_at;
             $currentDate = $product->product_warranty;
-            // $currentDate = $product->expiry_date;
-            // $software = !empty($currentDate) ? $currentDate : $product->expiry_date;
             $ageInYears = $createdDate->diffInYears($currentDate);
             $ageInMonths = $createdDate->diffInMonths($currentDate);
-
             $product->ageInYears = $ageInYears;
             $product->ageInMonths = $ageInMonths;
         }
@@ -144,17 +149,26 @@ class AssetController extends Controller
         foreach ($matchingData as $data) {
             $scrappedCount = Disposal::where('product_info', $data->id)->count();
         }
-        // dd($matchingData);
+        $availableQuantity = $matchingData->pluck('availableQuantity');
         $allottedCount = $this->countStatus($matchingData, [2, 3]);
         $underRepairCount = $this->countStatus($matchingData, [12]);
         $transferredCount = $this->countStatus($matchingData, [5, 8]);
-        return view('Backend.Page.It-Asset.non-it-stock', compact('matchingData', 'allottedCount', 'underRepairCount', 'scrappedCount', 'transferredCount'));
+        $columns = ['SL', 'Asset Code', 'Asset', 'Brand', 'Brand Model', 'Specification', 'Age', 'Quantity', 'In-stock', 'Allocated', 'Under Repair', 'Stolen', 'Scraped', 'Allocations'];
+        return view('Backend.Page.It-Asset.non-it-stock', compact('matchingData', 'availableQuantity', 'allottedCount', 'underRepairCount', 'scrappedCount', 'transferredCount','columns'));
     }
     private function countStatus($data, $statusValues)
     {
         return $data->filter(function ($item) use ($statusValues) {
             return in_array($item->status_available, $statusValues);
         })->count();
+    }
+    public function allocation($id){
+        $issuedata = Issuence::whereJsonContains('id', $id)->with('user')->get();
+        $product = '';
+        foreach ($issuedata as $data) {
+            $product = Stock::where('id', $data->id)->get();
+        }
+        return view('Backend.Page.It-Asset.view-allocation-non-it', compact('issuedata','product'));
     }
     public function assetscomponent()
     {
@@ -182,7 +196,7 @@ class AssetController extends Controller
         $transferredCount = $this->countStatus($assteComponent, [5, 8]);
         return view('Backend.Page.It-Asset.assets-components', compact('assteComponent', 'allottedCount', 'underRepairCount', 'scrappedCount', 'transferredCount'));
     }
-    public function getAssetsByType(Request $request,$id)
+    public function getAssetsByType(Request $request, $id)
     {
         $assetTypeId = $request->input('assetTypeId');
         $assets = Asset::where('asset_type_id', $assetTypeId)->get();
@@ -215,9 +229,10 @@ class AssetController extends Controller
             'assetType' => $assetType->name,
         ]);
     }
-    public function getAssetDetailsonStock($id) {
+    public function getAssetDetailsonStock($id)
+    {
         // Fetch asset details from your database based on the $id
-        $asset = Stock::where('asset',$id)->with('assetmain','asset_type')->get();
+        $asset = Stock::where('asset', $id)->with('assetmain', 'asset_type')->get();
         // dd  ($asset);
         if ($asset) {
             // Return the asset details as JSON

@@ -2,14 +2,13 @@
 
 namespace App\Models;
 
-use App\Http\Controllers\Stock\StockController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Issuence extends Model
 {
     use HasFactory;
-    protected $guarded=[];
+    protected $guarded = [];
 
     public function user()
     {
@@ -17,18 +16,19 @@ class Issuence extends Model
     }
     public function assettype()
     {
-        return $this->belongsTo(AssetType::class,'asset_type_id');
+        return $this->belongsTo(AssetType::class, 'asset_type_id');
     }
-    
+
     public function asset()
     {
-        return $this->belongsTo(Asset::class,'asset_type_id');
+        return $this->belongsTo(Asset::class, 'asset_type_id');
     }
     public function product()
     {
-        return $this->belongsTo(Attribute::class,'asset_type_id');
+        return $this->belongsTo(Attribute::class, 'asset_type_id');
     }
-    public function stock(){
+    public function stock()
+    {
         return $this->hasOne(Stock::class, 'id', 'product_id');
     }
     public function location()
@@ -36,10 +36,13 @@ class Issuence extends Model
         return $this->belongsTo(Location::class, 'location_id');
     }
     public function sublocation()
-{
-    return $this->belongsTo(SubLocationModel::class, 'sub_location_id');
-}
-
+    {
+        return $this->belongsTo(SubLocationModel::class, 'sub_location_id');
+    }
+    public function manager()
+    {
+        return $this->belongsTo(User::class, 'employee_manager_id');
+    }
 }
 
 //asset_type_id
