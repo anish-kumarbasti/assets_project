@@ -70,7 +70,8 @@
                   <tr>
                      <td>{{$nonit->id}}</td>
                      <td>{{$nonit->product_number??''}}</td>
-                     <td>{{$nonit->product_info??'' }}</td>
+                     <td>{{$nonit->serial_number??'N/A' }}</td>
+                     <td>{{ $nonit->assetmain->name??'' }}</td>
                      <td>{{$nonit->specification??''}}</td>
                      <td>{{ $nonit->ageInYears }} years and {{ $nonit->ageInMonths }} months</td>
                      <td>{{$nonit->price??''}}</td>

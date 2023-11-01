@@ -94,7 +94,7 @@
                                 <tr>
                                     <td>{{ $component->id }}</td>
                                     <td>{{ $component->product_number ?? '' }}</td>
-                                    <td>{{ $component->product_info ?? '' }}</td>
+                                    <td>{{ $component->assetmain->name ?? '' }}</td>
                                     <td class="ellipsis">{{ $component->specification ?? '' }}</td>
                                     <td>{{ $component->ageInYears }} years and {{ $component->ageInMonths }} months</td>
                                     <td>

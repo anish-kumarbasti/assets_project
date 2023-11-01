@@ -118,7 +118,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12 text-center">
-                            <h5>No Asset for Returning</h5>
+                            <h5 class="text-center">No Asset for Returning</h5>
                         </div>
                         {{-- {{dd($data)}} --}}
                         @isset($data)
@@ -141,8 +141,8 @@
                                                 Configuration: <span
                                                     class="text-muted">{{ $asset->configuration ?? 'N/A' }}</span>
                                             </p>
-                                            <p class="card-subtitle mb-2">Brand Model: <span
-                                                    class="text-muted">{{ $asset->supplier }}</p>
+                                            <p class="card-subtitle mb-2">Supplier: <span
+                                                    class="text-muted">{{ $asset->getsupplier->name }}</p>
                                             <p class="card-subtitle mb-2">Price: <span
                                                     class="text-muted">{{ $asset->price }}</span></p>
                                             @if (isset($selectedCardIds) && in_array($asset->id, $selectedCardIds))

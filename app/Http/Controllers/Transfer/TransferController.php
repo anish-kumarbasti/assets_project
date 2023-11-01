@@ -14,51 +14,70 @@ use App\Models\User;
 use App\Notifications\TransferNotification;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class TransferController extends Controller
 {
     public function index(Request $request)
     {
-        if ($request->ajax()) {
-            $result = [];
-            $allproducts = [];
-            $employee = User::with('department', 'designation')
-                ->where('employee_id', 'LIKE', '%' . $request->employeeId . '%')
-                ->first() ?? null;
-            $issue = Issuence::where('employee_id', 'LIKE', '%' . $request->employeeId . '%')
-                ->get() ?? null;
+        // if ($request->ajax()) {
+        //     $result = [];
+        //     $allproducts = [];
+        //     $employee = User::with('department', 'designation')
+        //         ->where('employee_id', 'LIKE', '%' . $request->employeeId . '%')
+        //         ->first() ?? null;
+        //     $issue = Issuence::where('employee_id', 'LIKE', '%' . $request->employeeId . '%')
+        //         ->get() ?? null;
 
-            foreach ($issue as $product) {
-                $productids = json_decode($product->product_id);
-                $products = Stock::whereIn('id', $productids)
-                    ->where(function ($query) {
-                        $query->where('status_available', 2)
-                            ->orWhere('status_available', 3);
-                    })
-                    ->with('brand', 'brandmodel', 'asset_type', 'getsupplier')
-                    ->get();
-                $allproducts = array_merge($allproducts, $products->all());
-            }
+        //     foreach ($issue as $product) {
+        //         $productids = json_decode($product->product_id);
+        //         $products = Stock::whereIn('id', $productids)
+        //             ->where(function ($query) {
+        //                 $query->where('status_available', 2)
+        //                     ->orWhere('status_available', 3);
+        //             })
+        //             ->with('brand', 'brandmodel', 'asset_type', 'getsupplier')
+        //             ->get();
+        //         $allproducts = array_merge($allproducts, $products->all());
+        //     }
 
-            if ($employee && $issue) {
-                $result['employee'] = $employee;
-                $result['products'] = $allproducts;
-            } else {
-                $result['employee'] = null;
-                $result['products'] = [];
-            }
+        //     if ($employee && $issue) {
+        //         $result['employee'] = $employee;
+        //         $result['products'] = $allproducts;
+        //     } else {
+        //         $result['employee'] = null;
+        //         $result['products'] = [];
+        //     }
 
-            return response()->json($result);
-        }
-
+        //     return response()->json($result);
+        // }
+        $auth = Auth::user()->employee_id;
         $reason = TransferReason::all();
-        return view('Backend.Page.Transfer.transfer', compact('reason'));
+        $issue = Issuence::where('employee_id', $auth)->distinct()->pluck('product_id');
+        $Issuestatus = Status::where('name', 'Accepted by User')->first();
+        $Transferstatus = Status::where('name', 'Transferred by Manager')->first();
+        $data = collect([]);
+
+        if ($issue != '') {
+            foreach ($issue as $issue) {
+                $product_id = json_decode($issue);
+                $datas = Stock::whereIn('id', $product_id)
+                    ->where(function ($query) use ($Issuestatus, $Transferstatus) {
+                        $query->where('status_available', $Issuestatus->id)
+                            ->orWhere('status_available', $Transferstatus->id);
+                    })
+                    ->get();
+                $data = $data->concat($datas);
+            }
+            return view('Backend.Page.Transfer.transfer', compact('data','reason','auth'));
+        } 
+
+        return view('Backend.Page.Transfer.transfer', compact('reason','data','auth'));
     }
 
     public function store(Request $request)
     {
-        // dd($request);
         DB::beginTransaction(); // Start a database transaction
         try {
             $request->validate([
@@ -67,6 +86,7 @@ class TransferController extends Controller
                 'handoverId' => 'required|exists:users,employee_id',
                 'description' => 'required',
             ]);
+            // dd($request);
             $user = User::where('employee_id', $request->employeeId)->first();
             $managerUser = User::where('role_id', 3)
                 ->where('department_id', $user->department_id)->first();

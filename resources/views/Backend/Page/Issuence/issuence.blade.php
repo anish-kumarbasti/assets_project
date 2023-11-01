@@ -11,14 +11,14 @@
             cursor: pointer;
             padding: 10px 10px;
             border: none;
-            background-color: #007bff;
-            color: #fff;
+            /* background-color: #007bff; */
+            /* color: #fff; */
             border-radius: 5px;
-            transition: background-color 0.3s, transform 0.3s;
+            /* transition: background-color 0.3s, transform 0.3s; */
         }
 
         .add-category-button:hover {
-            background-color: #0056b3;
+            /* background-color: #0056b3; */
             transform: scale(1.05);
         }
 
@@ -178,10 +178,10 @@
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-                            <div class="col-md-5 mb-4">
+                            <div class="col-md-4 mb-4">
                                 <div class="mb-3 row">
-                                    <label class="col-sm-3 col-form-label pt-5 scan-text">Scan Barcode :</label>
-                                    <div class="col-sm-9 pt-4">
+                                    <label class="col-sm-4 col-form-label pt-5 scan-text">Scan Barcode :</label>
+                                    <div class="col-sm-8 pt-4">
                                         <input class="form-control qr" type="file" accept="image/*"
                                             capture="environment" id="qrInput">
                                         <img id="qrImage"
@@ -190,8 +190,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-2 mb-4 add-more-field">
-                                <button id="showAssetCategory" type="button" class="add-category-button btn btn-primary"
+                            <div class="col-md-3 mb-4 add-more-field">
+                                <button id="showAssetCategory" type="button" class="add-category-button btn btn-outline-success"
                                     data-toggle="tooltip" data-placement="top" title="Add Asset Category">
                                     <span class="button-text">Choose Asset Category</span>
                                 </button>
