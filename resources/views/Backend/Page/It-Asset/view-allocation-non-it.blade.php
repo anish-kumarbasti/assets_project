@@ -22,9 +22,12 @@
                                     <th>SL</th>
                                     <th>Products</th>
                                     <th>Employee Name</th>
+                                    <th>Employee Email</th>
+                                    <th>Allocation Date</th>
                                     <th>Employee Manager</th>
                                     <th>Description</th>
-                                    <th>Created At</th>
+                                    <th>Location</th>
+                                    <th>Sub Location</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -38,10 +41,13 @@
                                             @endforeach
                                         </td>
                                         <td>{{ $data->user->first_name ?? '' }} ({{ $data->employee_id ?? '' }})</td>
+                                        <td>{{ $data->user->email ?? '' }}</td>
+                                        <td>{{ $data->due_date ?? '' }}</td>
                                         <td>{{ $data->manager->first_name ?? '' }}({{ $data->manager->employee_id ?? '' }})
                                         </td>
                                         <td>{{ $data->description ?? '' }}</td>
-                                        <td>{{ $data->created_at ?? '' }}</td>
+                                        <td>{{ $data->location->name ?? '' }}</td>
+                                        <td>{{ $data->sublocation->name ?? '' }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
