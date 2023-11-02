@@ -229,6 +229,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('designations/{id}', [DesignationController::class, 'update'])->name('designations.update');
     Route::delete('designations/{id}', [DesignationController::class, 'destroy'])->name('designations.destroy');
     //assets
+    Route::post('show-allocation/{id}', [AssetController::class, 'allocation'])->name('show.allocation');
     Route::get('assets/trash', [AssetController::class, 'trash'])->name('assets.trash');
     Route::get('assets/restore/{id}', [AssetController::class, 'restore'])->name('assets.restore');
     Route::delete('/assets-permanently-delete/{id}', [AssetController::class, 'forceDelete']);
