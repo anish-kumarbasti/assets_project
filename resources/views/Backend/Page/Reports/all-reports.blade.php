@@ -39,12 +39,18 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <button class="btn btn-outline-dark p-2" id="showAssetCategory">Select Location</button>&nbsp;
-            <button class="btn btn-outline-dark" id="showAssetC">Select Asset Category</button>&nbsp;
-            <button class="btn btn-outline-dark" id="showAsset">Select Asset</button>&nbsp;
-            <button class="btn btn-outline-dark" style="margin-top: 2px;" id="showStatus">Select Status</button>&nbsp;
-            <button class="btn btn-outline-dark" style="margin-top: 2px;" id="showEmp">Employee Code</button>&nbsp;
-            <button class="btn btn-outline-dark" style="margin-top: 2px;" id="showAssetCode">Asset Code</button>&nbsp;
+            <div class="row">
+            <div class="col-sm-6">
+                <button class="btn btn-outline-dark" style="margin-top: 2px;" id="showStatus">Select Status</button>&nbsp;
+                <button class="btn btn-outline-dark" style="margin-top: 2px;" id="showEmp">Employee Code</button>&nbsp;
+                <button class="btn btn-outline-dark" style="margin-top: 2px;" id="showAssetCode">Asset Code</button>&nbsp;
+            </div>
+            <div class="col-sm-6">
+                <button class="btn btn-outline-dark" style="margin-top: 2px;" id="showAssetCategory">Select Location</button>&nbsp;
+                <button class="btn btn-outline-dark" style="margin-top: 2px;" id="showAssetC">Select Asset Category</button>&nbsp;
+                <button class="btn btn-outline-dark" style="margin-top: 2px;" id="showAsset">Select Asset</button>&nbsp;
+            </div>
+        </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
