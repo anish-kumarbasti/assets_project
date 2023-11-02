@@ -24,7 +24,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Notification;
 
 class IssuenceController extends Controller
 {
@@ -68,7 +67,6 @@ class IssuenceController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request);
         DB::beginTransaction(); // Start a database transaction
         try {
             $request->validate([
@@ -79,19 +77,19 @@ class IssuenceController extends Controller
                 'location_id' => 'required',
                 'sublocation_id' => 'required',
             ]);
-            
+
             $user = User::where('employee_id', $request->employeeId)->first();
             if (!$user) {
                 return back()->with('error', 'User not found.');
             }
+            // dd($request);
             $managerUser = User::where('role_id', 3)->where('department_id', $user->department_id)->first();
             $dateTime = Carbon::createFromFormat('Y-m-d H:i', $request->date . ' ' . $request->time);
             $selectedStocks = Stock::whereIn('id', $request->selectedAssets)->get();
-            // dd($selectedStocks);
             $issuance = Issuence::create([
                 'employee_id' => $request->employeeId,
-                'asset_type_id' => $selectedStocks->first()->asset_type_id, // Fill in the asset_type_id
-                'asset_id' => $selectedStocks->first()->asset, // Fil-l in the asset_id
+                'asset_type_id' => $selectedStocks->first()->asset_type_id,
+                'asset_id' => $selectedStocks->first()->asset,
                 'product_id' => json_encode($request->selectedAssets),
                 'description' => $request->description,
                 'issuing_time_date' => $dateTime,
@@ -101,29 +99,22 @@ class IssuenceController extends Controller
                 'employee_manager_id' => $managerUser ? $managerUser->id : null,
             ]);
             $selectedAssets = explode(',', $request->selectedAssets[0]);
-            $value= [];
+            $value = [];
             foreach ($selectedAssets as $selectedAsset) {
-                $value = Stock::find($selectedAsset);
-                TimelineHelper::logAction('Product Issued', $selectedAsset, $value->asset_type_id, $value->asset, $issuance->id, $user->id);
+                $value = Stock::where("id", $selectedAsset)->get();
+                foreach ($value as $values) {
+                    TimelineHelper::logAction('Product Issued', $selectedAsset, $values->asset_type_id, $values->asset, $issuance->id, $user->id);
+                }
             }
-
-            // Update the stock status
+            // dd($value);
             $selectedStocks->each(function ($stock) {
                 $stock->update(['status_available' => Status::where('name', 'Issue Pending')->first()->id]);
             });
-
-            // Send notifications, emails, or perform other actions as needed
-
-            DB::commit(); // Commit the transaction
-
+            DB::commit();
             $assetcontroller = Role::where('name', 'Asset Controller')->first();
             $assetmanager = User::where('role_id', $assetcontroller->id)
                 ->where('department_id', $user->department_id)
                 ->first();
-
-            // if ($assetmanager) {
-            //     Notification::send($assetmanager, new IssuenceNotification($assetmanager));
-            // }
             $user->notify(new IssuenceNotification($user));
             foreach ($value as $products) {
                 $data = [
