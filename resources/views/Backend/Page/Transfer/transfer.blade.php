@@ -114,6 +114,36 @@
             font-weight: bold;
             transform: translateX(0);
         }
+
+        /* Style for unselected rows */
+        /* Style for unselected rows */
+        /* Style for unselected rows */
+        tr.unselected {
+            background-color: #fff;
+            transition: background-color 0.3s, border 0.3s;
+            border: 2px solid transparent;
+        }
+
+        /* Style for selected rows with animation */
+        tr.selected {
+            background-color: #e6f7ff;
+            border: 2px solid #007bff;
+            animation: selectAnimation 0.5s ease;
+        }
+
+        @keyframes selectAnimation {
+            0% {
+                background-color: #e6f7ff;
+            }
+
+            50% {
+                background-color: #ccebff;
+            }
+
+            100% {
+                background-color: #e6f7ff;
+            }
+        }
     </style>
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 @endsection
@@ -183,48 +213,46 @@
                     <div class="card-header pb-0">
                         <h4>Product Details</h4>
                     </div>
+                    <input type="hidden" name="selectedCardIds[]" id="selectedCardIds" value="">
                     <div class="card-body">
                         <div class="card-item mt-3">
                             <div class="row py-3" id="assetdetail">
-                                <h5 class="text-center">No Assets for Transfer</h2>
-                                @isset($data)
-                                    @foreach ($data as $asset)
-                                        <div class="col-md-3">
-                                            <div class="card change-card" data-card-id="{{ $asset->id }}"
-                                                onclick="selectDeselect(this)">
-                                                <div class="card-body">
-                                                    <h5 class="card-title card-text p-2">{{ $asset->product_info ?? 'N/A' }}
-                                                    </h5>
-                                                    <p class="card-subtitle mb-2">Type: <span
-                                                            class="text-muted">{{ $asset->asset_type->name ?? 'N/A' }}</span>
-                                                    </p>
-                                                    <p class="card-subtitle mb-2">
-                                                        Brand: <span
-                                                            class="text-muted">{{ $asset->brand->name ?? 'N/A' }}</span>
-                                                    </p>
-                                                    <p>
-                                                        License Number: <span
-                                                            class="text-muted">{{ $asset->license_number ?? 'N/A' }}</span>
-                                                    </p>
-                                                    <p class="card-subtitle mb-2">
-                                                        Brand Model: <span
-                                                            class="text-muted">{{ $asset->brandmodel->name ?? 'N/A' }}</span>
-                                                        Configuration: <span
-                                                            class="text-muted">{{ $asset->configuration ?? 'N/A' }}</span>
-                                                    </p>
-                                                    <p class="card-subtitle mb-2">Supplier: <span
-                                                            class="text-muted">{{ $asset->getsupplier->name }}</p>
-                                                    <p class="card-subtitle mb-2">Price: <span
-                                                            class="text-muted">{{ $asset->price }}</span></p>
-                                                    @if (isset($selectedCardIds) && in_array($asset->id, $selectedCardIds))
-                                                        <input type="hidden" name="cardId[]" id="selectedCardIds"
-                                                            value="fsfs">
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                @endisset
+                                <table class="table" id="assetTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Product Info</th>
+                                            <th>Type</th>
+                                            <th>Brand</th>
+                                            <th>License Number</th>
+                                            <th>Brand Model</th>
+                                            <th>Configuration</th>
+                                            <th>Supplier</th>
+                                            <th>Price</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @isset($data)
+                                            @foreach ($data as $asset)
+                                                <tr data-card-id="{{ $asset->id }}">
+                                                    <td>{{ $asset->product_info ?? 'N/A' }}</td>
+                                                    <td>{{ $asset->asset_type->name ?? 'N/A' }}</td>
+                                                    <td>{{ $asset->brand->name ?? 'N/A' }}</td>
+                                                    <td>{{ $asset->license_number ?? 'N/A' }}</td>
+                                                    <td>{{ $asset->brandmodel->name ?? 'N/A' }}</td>
+                                                    <td>{{ $asset->configuration ?? 'N/A' }}</td>
+                                                    <td>{{ $asset->getsupplier->name ?? 'N/A' }}</td>
+                                                    <td>{{ $asset->price }}</td>
+                                                    <td>
+                                                        <button class="btn btn-primary add-button" type="button">Add</button>
+                                                        <button class="btn btn-danger remove-button" style="display: none;"
+                                                            type="button">Remove</button>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @endisset
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -279,7 +307,7 @@
                                     <label class="form-label" for="validationCustom01">Designation:</label>
                                     <input class="form-control" id="designation" type="text"
                                         data-bs-original-title="" title="" placeholder="HR" readonly>
-                                        <input type="hidden" name="employeeId" value="{{ $auth }}">
+                                    <input type="hidden" name="employeeId" value="{{ $auth }}">
                                 </div>
                             </div>
                         </div>
@@ -351,39 +379,39 @@
                 div.style.display = 'none';
             }
         }
-        function selectDeselect(card) {
-            $(card).toggleClass('selected');
-            checkSelection(card);
-        }
+        $(document).ready(function() {
+            var selectedCardIds = [];
 
-        function checkSelection(card) {
-            if ($(card).hasClass('selected')) {
-                $(card).append('<input type="hidden" value="' + $(card).data('card-id') + '" name="cardId[' + $(card).data(
-                    'card-id') + ']">');
-            } else {
-                $(card).find('input[name^="cardId"]').remove();
+            function updateSelectedCardsList() {
+                $("#selectedCardIds").val(selectedCardIds.join(','));
             }
 
-            if ($('.change-card.selected').length > 0) {
-                $('#next').show();
-            } else {
-                $('#next').hide();
-            }
-        }
+            // Add button click event
+            $("#assetTable").on("click", ".add-button", function() {
+                var cardId = $(this).closest('tr').data('card-id');
+                selectedCardIds.push(cardId);
+                updateSelectedCardsList();
 
+                $(this).hide();
+                $(this).siblings(".remove-button").show();
+                $(this).closest('tr').addClass('selected');
+            });
 
-        function updateSelectedCardsList() {
-            var listContainer = $("#assetdetail");
-            var selectedCardIds = []; // Array to store selected card IDs
-            for (var cardId in selectedCards) {
-                if (selectedCards.hasOwnProperty(cardId)) {
-                    selectedCardIds.push(cardId); // Add the selected card ID to the array
+            // Remove button click event
+            $("#assetTable").on("click", ".remove-button", function() {
+                var cardId = $(this).closest('tr').data('card-id');
+                var index = selectedCardIds.indexOf(cardId);
+                if (index > -1) {
+                    selectedCardIds.splice(index, 1);
                 }
-            }
-            var type = $("#selectedCardIds").val(selectedCardIds.join(',')); // Join the IDs with a comma
-            console.log(type);
-            // Update the hidden input field with the selected card IDs
-        }
+                updateSelectedCardsList();
+
+                $(this).hide();
+                $(this).siblings(".add-button").show();
+                $(this).closest('tr').removeClass('selected');
+            });
+        });
+
         $(document).ready(function() {
             $("#handoveremployeeId").on("input", function() {
                 var employeeId = $(this).val();

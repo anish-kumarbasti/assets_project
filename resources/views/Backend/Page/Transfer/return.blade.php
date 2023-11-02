@@ -1,15 +1,7 @@
 @extends('Backend.Layouts.panel')
+
 @section('Style-Area')
     <style>
-        .change-card.selected {
-            border: 1px solid #37236B !important;
-            background-color: #d1f6fe !important;
-        }
-
-        .change-card:hover {
-            transform: scale(.9);
-        }
-
         .btna {
             position: relative;
             padding: 10px;
@@ -71,20 +63,41 @@
             font-weight: bold;
             transform: translateX(0);
         }
+
+        .selected {
+            background-color: #d1f6fe !important;
+        }
+
+        .btn-add {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .btn-remove {
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
     </style>
 @endsection
+
 @section('Content-Area')
     @if (session('success'))
-        <div id="alerts" class="alert alert-success inverse alert-dismissible fade show" role="alert"><i
-                class="icon-thumb-up alert-center"></i>
-            <p>{{ session('success') }}</b>
-                <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+        <div id="alerts" class="alert alert-success inverse alert-dismissible fade show" role="alert">
+            <i class="icon-thumb-up alert-center"></i>
+            <p>{{ session('success') }}</p>
+            <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
     @if (session('error'))
         <div id="alerts" class="alert alert-danger inverse alert-dismissible fade show" role="alert">
-            <p>{{ session('error') }}</b>
-                <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+            <p>{{ session('error') }}</p>
+            <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
     @if ($errors->any())
@@ -117,50 +130,44 @@
                     <h4>Product Details</h4>
                 </div>
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12 text-center">
-                            <h5 class="text-center">No Asset for Returning</h5>
-                        </div>
-                        {{-- {{dd($data)}} --}}
-                        @isset($data)
-                            @foreach ($data as $asset)
-                                <div class="col-md-3">
-                                    <div class="card change-card" data-card-id="{{ $asset->id }}"
-                                        onclick="selectDeselect(this)">
-                                        <div class="card-body">
-                                            <h5 class="card-title card-text p-2">{{ $asset->product_info ?? 'N/A' }}</h5>
-                                            <p class="card-subtitle mb-2">Type: <span
-                                                    class="text-muted">{{ $asset->asset_type->name ?? 'N/A' }}</span></p>
-                                            <p class="card-subtitle mb-2">
-                                                Brand: <span class="text-muted">{{ $asset->brand->name ?? 'N/A' }}</span>
-                                                License Number: <span
-                                                    class="text-muted">{{ $asset->license_number ?? 'N/A' }}</span>
-                                            </p>
-                                            <p class="card-subtitle mb-2">
-                                                Brand Model: <span
-                                                    class="text-muted">{{ $asset->brandmodel->name ?? 'N/A' }}</span>
-                                                Configuration: <span
-                                                    class="text-muted">{{ $asset->configuration ?? 'N/A' }}</span>
-                                            </p>
-                                            <p class="card-subtitle mb-2">Supplier: <span
-                                                    class="text-muted">{{ $asset->getsupplier->name }}</p>
-                                            <p class="card-subtitle mb-2">Price: <span
-                                                    class="text-muted">{{ $asset->price }}</span></p>
-                                            @if (isset($selectedCardIds) && in_array($asset->id, $selectedCardIds))
-                                                <input type="hidden" value="{{ $asset->id }}"
-                                                    name="cardId[{{ $asset->id }}]">
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        @endisset
-                    </div>
+                    <table class="table" id="assetTable">
+                        <thead>
+                            <tr>
+                                <th>Product Info</th>
+                                <th>Type</th>
+                                <th>Brand</th>
+                                <th>License Number</th>
+                                <th>Brand Model</th>
+                                <th>Configuration</th>
+                                <th>Supplier</th>
+                                <th>Price</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @isset($data)
+                                @foreach ($data as $asset)
+                                    <tr class="unselected" data-card-id="{{ $asset->id }}">
+                                        <td>{{ $asset->product_info ?? 'N/A' }}</td>
+                                        <td>{{ $asset->asset_type->name ?? 'N/A' }}</td>
+                                        <td>{{ $asset->brand->name ?? 'N/A' }}</td>
+                                        <td>{{ $asset->license_number ?? 'N/A' }}</td>
+                                        <td>{{ $asset->brandmodel->name ?? 'N/A' }}</td>
+                                        <td>{{ $asset->configuration ?? 'N/A' }}</td>
+                                        <td>{{ $asset->getsupplier->name }}</td>
+                                        <td>{{ $asset->price }}</td>
+                                        <td>
+                                            <button type="button" class="btn-add" onclick="addRow(this)">Add</button>
+                                            <button type="button" class="btn-remove" onclick="removeRow(this)"
+                                                style="display: none;">Remove</button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endisset
+                        </tbody>
+                    </table>
                 </div>
-                {{-- <div class="card-footer d-flex text-end">
-                    <button class="btn btn-primary" id="next" style="display: none; margin-left: auto;"
-                        type="button">Next</button>
-                </div> --}}
+                <input type="hidden" name="selectedCardIds[]">
             </div>
             <div class="card mt-3" id="step2">
                 <div class="card-body">
@@ -177,7 +184,6 @@
                     </div>
                 </div>
                 <div class="card-footer d-flex justify-content-end">
-                    {{-- <button class="btn btn-secondary" id="previous" type="button">Previous</button> --}}
                     <button class="btn btn-primary" type="submit">Next</button>
                 </div>
             </div>
@@ -191,37 +197,52 @@
                 alerts.alert('close');
             }, 3000);
         });
+
         const transferButton = document.querySelector('#transfer-radio');
         const returnButton = document.querySelector('#return-radio');
+
         transferButton.addEventListener('click', function() {
             window.location.href = "{{ url('transfer') }}";
         });
+
         returnButton.addEventListener('click', function() {
             window.location.href = "{{ route('return') }}";
         });
 
-        function selectDeselect(card) {
-            $(card).toggleClass('selected');
-            checkSelection(card);
+        function addRow(button) {
+            const row = button.closest('tr');
+            $(row).toggleClass('selected');
+            $(button).hide();
+            $(row).find('.btn-remove').show();
+            updateSelectedCardIds();
         }
 
-        function checkSelection(card) {
-            if ($(card).hasClass('selected')) {
-                $(card).append('<input type="hidden" value="' + $(card).data('card-id') + '" name="cardId[' + $(card).data(
-                    'card-id') + ']">');
-            } else {
-                $(card).find('input[name^="cardId"]').remove();
-            }
-
-            if ($('.change-card.selected').length > 0) {
-                $('#next').show();
-            } else {
-                $('#next').hide();
-            }
+        function removeRow(button) {
+            const row = button.closest('tr');
+            $(row).toggleClass('selected');
+            $(button).hide();
+            $(row).find('.btn-add').show();
+            updateSelectedCardIds();
         }
+
+        function updateSelectedCardIds() {
+            const selectedIds = $('.selected').map(function() {
+                return $(this).data('card-id');
+            }).get();
+            $('input[name="selectedCardIds[]"]').val(selectedIds.join(','));
+        }
+
+        $('.select-checkbox').change(function() {
+            const row = $(this).closest('tr');
+            if (this.checked) {
+                addRow(row.find('.btn-add'));
+            } else {
+                removeRow(row.find('.btn-remove'));
+            }
+        });
 
         $('#next').click(function() {
-            if ($('.change-card.selected').length > 0) {
+            if ($('.selected').length > 0) {
                 $('#step1').hide();
                 $('#step2').show();
             }
@@ -231,6 +252,5 @@
             $('#step1').show();
             $('#step2').hide();
         });
-
     </script>
 @endsection

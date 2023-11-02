@@ -78,6 +78,7 @@ class TransferController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request->all());
         DB::beginTransaction(); // Start a database transaction
         try {
             $request->validate([
@@ -95,14 +96,14 @@ class TransferController extends Controller
                 ->where('department_id', $handover->department_id)->first();
             $transfer = Transfer::create([
                 'employee_id' => $request->employeeId,
-                'product_id' => json_encode($request->cardId),
+                'product_id' => json_encode($request->selectedCardIds),
                 'reason_id' => $request->reason,
                 'handover_employee_id' => $request->handoverId,
                 'description' => $request->description,
                 'handover_manager_id' => $managertoUser->id,
                 'employee_manager_id' => $managerUser->id,
             ]);
-            foreach ($request->cardId as $productId) {
+            foreach ($request->selectedCardIds as $productId) {
                 $stock = Stock::find($productId);
                 // dd($stock);
                 $transferId = $transfer->id;
