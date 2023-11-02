@@ -47,21 +47,18 @@ class ReturnController extends Controller
         // dd($request);
         try {
             $request->validate([
-                'cardId' => 'required', // Ensure that cardId is an array
+                'selectedCardIds' => 'required', // Ensure that cardId is an array
                 'description' => 'required',
             ]);
             $auth = Auth::user();
-
-            $cardIds = $request->input('cardId');
-            // dd($request);
             $return = AssetReturn::create([
-                'product_id' => json_encode($cardIds),
+                'product_id' => json_encode($request->selectedCardIds),
                 'reason' => $request->description,
                 'return_by_user' => $auth->id
             ]);
             $status = Status::where('name', 'Returned by User')->first();
-            Stock::whereIn('id', $cardIds)->update(['status_available' => $status->id]);
-            foreach ($cardIds as $cardId) {
+            Stock::whereIn('id', $request->selectedCardIds)->update(['status_available' => $status->id]);
+            foreach ($request->selectedCardIds as $cardId) {
                 $product = Stock::where('id', $cardId)->first();
                 TimelineHelper::logAction('Asset Returned', $cardId, $product->asset_type_id, $product->asset, null, null, null, null, null, null, null, null, $return->id, $auth->id);
             }
