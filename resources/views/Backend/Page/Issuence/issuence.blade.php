@@ -8,18 +8,18 @@
         }
 
         .add-category-button {
-            cursor: pointer;
+            background-color: transparent; 
+            border: 1px solid #37236B; 
+            color: #37236B; 
             padding: 10px 10px;
-            border: none;
-            /* background-color: #007bff; */
-            /* color: #fff; */
-            border-radius: 5px;
-            /* transition: background-color 0.3s, transform 0.3s; */
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s; 
+            border-radius: 20px;
         }
 
         .add-category-button:hover {
-            /* background-color: #0056b3; */
-            transform: scale(1.05);
+            background-color: #37236B; 
+            color: #fff;
         }
 
         .button-text {
@@ -127,17 +127,15 @@
                                     name="employeeId" data-bs-original-title="" title=""
                                     placeholder="Enter Employee's ID" onkeydown="return event.key != 'Enter';">
                             </div>
-                            <div class="col-md-6 mb-4">
-                                <div class="mb-3 row">
-                                    <label class="col-sm-3 col-form-label pt-5 scan-text">Scan Barcode :</label>
-                                    <div class="col-sm-9 pt-4">
-                                        <input class="form-control qr" type="file" accept="image/*" capture="environment"
-                                            id="qrInput">
-                                        <img id="qrImage"
-                                            src="{{ asset('Backend/assets/images/IT-Assets/Vector_qr.png') }}"
-                                            alt="QR Code">
-                                    </div>
-                                </div>
+                            <div class="col-md-2 mb-4">
+                                <label class="col-form-label pt-5 scan-text">Scan Barcode :</label>
+                            </div>
+                            <div class="col-sm-2 pt-4">
+                                <input class="form-control qr" type="file" accept="image/*" capture="environment"
+                                    id="qrInput">
+                                <img id="qrImage"
+                                    src="{{ asset('Backend/assets/images/IT-Assets/Vector_qr.png') }}"
+                                    alt="QR Code">
                             </div>
                         </div>
                     </div>
@@ -178,20 +176,18 @@
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-                            <div class="col-md-4 mb-4">
-                                <div class="mb-3 row">
-                                    <label class="col-sm-4 col-form-label pt-5 scan-text">Scan Barcode :</label>
-                                    <div class="col-sm-8 pt-4">
-                                        <input class="form-control qr" type="file" accept="image/*"
-                                            capture="environment" id="qrInput">
-                                        <img id="qrImage"
-                                            src="{{ asset('Backend/assets/images/IT-Assets/Vector_qr.png') }}"
-                                            alt="QR Code">
-                                    </div>
+                            <div class="col-md-2 mb-4">
+                                <label class="col-form-label pt-5 scan-text">Scan Barcode :</label>
+                            </div>
+                            <div class="col-md-2 mb-2">
+                                <div class="pt-4">
+                                    <input class="form-control qr" type="file" accept="image/*"capture="environment" id="qrInput">
+                                    <img id="qrImage"src="{{ asset('Backend/assets/images/IT-Assets/Vector_qr.png') }}"
+                                        alt="QR Code">
                                 </div>
                             </div>
-                            <div class="col-md-3 mb-4 add-more-field">
-                                <button id="showAssetCategory" type="button" class="add-category-button btn btn-outline-success"
+                            <div class="col-md-3 pt-4 add-more-field">
+                                <button id="showAssetCategory" type="button" class="add-category-button"
                                     data-toggle="tooltip" data-placement="top" title="Add Asset Category">
                                     <span class="button-text">Choose Asset Category</span>
                                 </button>
@@ -304,19 +300,19 @@
                                 @enderror
                             </div>
                         </div>
-                    </div>
-                    <div class="card-item">
-                        <div class="row p-3">
-                            <div class="col-md-12 mb-4">
-                                <textarea class="form-control" name="description" placeholder="Issuance Description" rows="3"
-                                    value="{{ old('description') }}"></textarea>
-                                @error('description')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
+                        <div class="card-item">
+                            <div class="row p-3">
+                                <div class="col-md-12 mb-4">
+                                    <textarea class="form-control" name="description" placeholder="Issuance Description" rows="3"
+                                        value="{{ old('description') }}"></textarea>
+                                        @error('description')
+                                        <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 <div class="card-footer text-end">
                     <button class="btn btn-primary" type="submit">Allocate Assets</button>
                 </div>
@@ -468,11 +464,11 @@
             const addButton = $(this);
             if (!addButton.hasClass("added-button")) {
                 addButton.hide(); // Hide the "Add" button
-                const addedButton = $(
-                    "<button class='btn btn-success btn-sm added-button' type='button' data-card-id='" +
-                    addButton.data(
-                        "card-id") + "'>Added</button>"
-                );
+                // const addedButton = $(
+                //     "<button class='btn btn-success btn-sm added-button' type='button' data-card-id='" +
+                //     addButton.data(
+                //         "card-id") + "'>Added</button>"
+                // );
                 const assetDetails = addButton.closest("tr").find("td"); // Get all <td> elements in the clicked row
                 const tableBody = $("#selectedAssetTable tbody");
                 const assetRow = $("<tr class='added-row'></tr>"); // Add the "added-row" class
@@ -697,14 +693,5 @@
                 });
             }
         });
-        // $('#datePickerInput, #dueDatePickerInput').click(function(event) {
-        //     event.stopPropagation();
-        // });
-        // $(document).ready(function() {
-        //     $('#timePickerDiv').click(function() {
-        //         // Trigger a click on the time input element to open the time picker
-        //         $('#validationCustom01').click();
-        //     });
-        // });
     </script>
 @endsection

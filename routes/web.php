@@ -109,6 +109,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('transfer-accept/{id}', [IssuenceController::class, 'TransferAssetAccept'])->name('transfer-accept');
     Route::get('accept-asset-manager/{id}', [IssuenceController::class, 'AssetAcceptmanager'])->name('accept-asset-manager');
     Route::get('accept-asset-detail/{id}', [IssuenceController::class, 'AssetAcceptdetail'])->name('accept-detail-asset');
+    //return by user and approve by manager
+    Route::get('approve/return/manager/{id}',[IssuenceController::class,'approvereturnmanager'])->name('approve.return.manager');
+    Route::get('denied/return/manager/{id}',[IssuenceController::class,'deniedreturnmanager'])->name('denied.return.manager');
     // Transfer Reason
     Route::get('trash/transfer-reasons', [TransferReasonController::class, 'trash'])->name('trash.transfer-reasons');
     Route::get('restore/transfer-reasons/{id}', [TransferReasonController::class, 'restore'])->name('restore.transfer-reasons');

@@ -126,23 +126,34 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive theme-scrollbar">
-                        <table class="table">
+                        <table class="table table-bordered">
+                            <thead>
+                                <th>Asset Code</th>
+                                <th>Product</th>
+                                <th>Description</th>
+                                <th>Action</th>
+                            </thead>
                             <tbody>
                                 @foreach ($products as $product)
                                     <form
                                         action="{{ Auth::check() && Auth::user()->role_id == 2 ? route('accept-asset', $product->id) : route('accept-asset-manager', $product->id) }}">
                                         <tr>
                                             <td>
+                                                {{ $product->product_number??'N/A' }}
+                                            </td>
+                                            <td>
                                                 <div class="d-flex"><img class="img-fluid align-top circle"
                                                         src="../assets/images/dashboard/default/01.png" alt="">
                                                     <div class="flex-grow-1"><a
                                                             href="{{ route('accept-detail-asset', $product->id) }}"><span>{{ $product->product_info }}</span></a>
-                                                        <p class="mb-0">
+                                                        {{-- <p class="mb-0">
                                                             @foreach ($createdDates as $issuedata)
                                                                 {{ Carbon\Carbon::parse($issuedata)->diffForHumans() }}
                                                             @endforeach
+                                                        </p> --}}
+                                                        <p class="mb-0">
+                                                            {{ Carbon\Carbon::parse($product->created_at)->diffForHumans() }}
                                                         </p>
-
                                                     </div>
                                                 </div>
                                             </td>

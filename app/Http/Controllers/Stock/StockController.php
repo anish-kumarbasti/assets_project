@@ -112,7 +112,7 @@ class StockController extends Controller
         }
         $stock = Stock::where(function ($query) {
             $query->where('status_available', 1)
-            ->orWhere('status_available', 9);
+            ->orWhere('status_available', 1);
         })->where('asset_type_id', $itAssetType->id)->get();
         foreach($stock as $product){
             $createdDate = $product->created_at;

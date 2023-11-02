@@ -2,7 +2,7 @@
 @section('Style-Area')
     <style>
         .change-card.selected {
-            border: 2px solid #1774f7 !important;
+            border: 1px solid #37236B !important;
             background-color: #d1f6fe !important;
         }
 
@@ -16,9 +16,10 @@
             display: inline-block;
             cursor: pointer;
             transition: all 0.3s ease;
-            border: 2px solid #ccc;
+            border: 1px solid #ccc;
             background: #fff;
             color: #333;
+            /* border-radius: 25px; */
         }
 
         .btna label {
@@ -231,17 +232,5 @@
             $('#step2').hide();
         });
 
-
-
-        // function selectDeselect(card) {
-        //     card.classList.toggle('selected');
-
-        //     // Check if at least one card is selected, then show the Next button
-        //     if ($('.change-card.selected').length > 0) {
-        //         $('#next').show();
-        //     } else {
-        //         $('#next').hide();
-        //     }
-        // }
     </script>
 @endsection

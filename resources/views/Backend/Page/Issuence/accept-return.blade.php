@@ -126,21 +126,28 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive theme-scrollbar">
-                        <table class="table">
+                        <table class="table table-bordered">
+                            <thead>
+                                <th>Asset Code</th>
+                                <th>Product</th>
+                                <th>Description</th>
+                                <th>Action</th>
+                            </thead>
                             <tbody>
                                 @foreach ($products as $product)
                                     <form
                                         action="{{ Auth::check() && Auth::user()->role_id == 2 ? route('accept-asset', $product->id) : route('accept-asset-manager', $product->id) }}">
                                         <tr>
+                                            <td>{{ $product->product_number??'N/A' }}</td>
                                             <td>
                                                 <div class="d-flex"><img class="img-fluid align-top circle"
                                                         src="../assets/images/dashboard/default/01.png" alt="">
                                                     <div class="flex-grow-1"><a
                                                             href="{{ route('accept-detail-asset', $product->id) }}"><span>{{ $product->product_info }}</span></a>
                                                         <p class="mb-0">
-                                                            @foreach ($createdDates as $issuedata)
-                                                                {{ Carbon\Carbon::parse($issuedata)->diffForHumans() }}
-                                                            @endforeach
+                                                            {{-- @foreach ($createdDates as $issuedata) --}}
+                                                                {{ Carbon\Carbon::parse($product->created_at)->diffForHumans() }}
+                                                            {{-- @endforeach --}}
                                                         </p>
 
                                                     </div>
@@ -149,8 +156,17 @@
                                             <td>Hello A Asset ({{ $product->product_info }}) is Returned by
                                                 this ({{ $user->first_name }} {{ $user->last_name }})</td>
                                             <td class="text-end">
-                                                <button class="btn btn-info" type="button">Returned by
-                                                    User</button>
+                                                {{-- <button class="btn btn-info" type="button">Returned by
+                                                    User</button> --}}
+                                                    {{-- {{ dd($product) }} --}}
+                                                    @if ($product->status_available == 9)
+                                                    <a class="btn btn-success" href="{{route('approve.return.manager',$product->id)}}">Approve</a>
+                                                    <a class="btn btn-danger" href="{{route('denied.return.manager',$product->id)}}">Denied</a>
+                                                    @elseif ($product->status_available == 14)
+                                                    <button class="btn btn-danger" type="button">Denied</button>
+                                                     @else
+                                                    <button class="btn btn-success" type="button">Approved</button>
+                                                    @endif
                                             </td>
                                         </tr>
                                     </form>

@@ -180,10 +180,13 @@
             <form class="needs-validation" method="post" action="{{ route('transfer-store') }}" novalidate="">
                 @csrf
                 <div class="card" id="employee-step">
+                    <div class="card-header pb-0">
+                        <h4>Product Details</h4>
+                    </div>
                     <div class="card-body">
                         <div class="card-item mt-3">
                             <div class="row py-3" id="assetdetail">
-                                <h5>No Assets for Return</h2>
+                                <h5 class="text-center">No Assets for Transfer</h2>
                                 @isset($data)
                                     @foreach ($data as $asset)
                                         <div class="col-md-3">
@@ -229,7 +232,7 @@
                 <div class="card mt-3" id="select-asset-step">
                     <div class="card-body">
                         <div class="card-head">
-                            <h4>Transfer Reason</h4>
+                            <h4>Transfer Details</h4>
                         </div>
                         <div class="row mx-4">
                             <div class="col-md-12 mt-2 mb-4">

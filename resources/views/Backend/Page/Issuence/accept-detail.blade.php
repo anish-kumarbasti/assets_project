@@ -11,6 +11,7 @@
           <h6>Configuration : {{$data->configuration}}</h6>
        </div>
        <ul class="list-group">
+            <li class="list-group-item">Asset Code : {{ $data->product_number??'N/A' }}</li>
            <li class="list-group-item">Type : {{$data->asset_type->name??'N/A'}}</li>
            <li class="list-group-item">Asset : {{$data->assetmain->name??'N/A'}}</li>
            <li class="list-group-item">Brand : {{$data->brand->name??'N/A'}}</li>

@@ -324,6 +324,25 @@ class IssuenceController extends Controller
         Stock::find($id)->update(['status_available' => $issuedmanager->id]);
         return back()->with('success', 'Denied.');
     }
+    public function approvereturnmanager($id){
+        $manager = Auth::user()->id;
+        $issuedmanager = Status::where('name', 'Instock')->first();
+        Stock::find($id)->update(['status_available' => $issuedmanager->id]);
+        return back()->with('success', 'Aprroved.');
+    }
+    public function deniedreturnmanager($id){
+        $user = Auth::user()->employee_id;
+        $manager = Auth::user()->id;
+        $issuedata = Issuence::where('employee_id', $user)
+            ->orWhere('employee_manager_id', $manager)->orderByDesc('created_at')
+            ->first();
+        $productIds = json_decode($issuedata->product_id);
+        $products = Stock::whereIn('id', $productIds)->with('brand', 'brandmodel', 'asset_type', 'getsupplier')->get();
+        $user = User::where('employee_id', $issuedata->employee_id)->first();
+        $issuedmanager = Status::where('name', 'Denied by Manager')->first();
+        Stock::find($id)->update(['status_available' => $issuedmanager->id]);
+        return back()->with('success', 'Denied.');
+    }
     public function approvetransfermanager($id)
     {
         $manager = Auth::user()->id;
