@@ -158,7 +158,7 @@
                                 <td>{{ $stock->assetmain->name ?? 'N/A' }}</td>
                                 <td>{{ $stock->brand->name ?? 'N/A' }}</td>
                                 <td>{{ $stock->brandmodel->name ?? 'N/A' }}</td>
-                                <td>{{ $stock->attributes->name??'N/A' }}</td>
+                                <td>{{ $stock->attributes->name??'N/A' }} {{ $stock->atribute_value??'' }}</td>
                                 <td class="ellipsis">{{ $stock->configuration ?? 'N/A' }}</td>
                                 <td>{{ $stock->ageInYears }} years and {{ $stock->ageInMonths }} months</td>
                                 <td> ₹{{ $stock->price ?? 'N/A' }}</td>
@@ -204,7 +204,7 @@
                                 <td>{{ $allocateds->assetmain->name ?? 'N/A' }}</td>
                                 <td>{{ $allocateds->brand->name ?? 'N/A' }}</td>
                                 <td>{{ $allocateds->brandmodel->name ?? 'N/A' }}</td>
-                                <td>{{ $allocateds->attributes->name??'N/A' }}</td>
+                                <td>{{ $allocateds->attributes->name??'N/A' }} {{ $allocateds->atribute_value??'' }}</td>
                                 <td class="ellipsis">{{ $allocateds->configuration ?? 'N/A' }}</td>
                                 <td>{{ $allocateds->ageInYears }} years and {{ $allocateds->ageInMonths }} months</td>
                                 {{-- <td>{{$allocateds->serial_number??''}}</td>
@@ -250,7 +250,7 @@
                                 <td>{{ $unrepairs->assetmain->name ?? 'N/A' }}</td>
                                 <td>{{ $unrepairs->brand->name ?? 'N/A' }}</td>
                                 <td>{{ $unrepairs->brandmodel->name ?? 'N/A' }}</td>
-                                <td>{{ $unrepairs->attributes->name??'N/A' }}</td>
+                                <td>{{ $unrepairs->attributes->name??'N/A' }} {{ $unrepairs->atribute_value??'' }}</td>
                                 <td class="ellipsis">{{ $unrepairs->configuration ?? 'N/A' }}</td>
                                 <td>{{ $unrepairs->ageInYears }} years and {{ $unrepairs->ageInMonths }} months</td>
                                 <td> ₹{{ $unrepairs->price ?? 'N/A' }}</td>
@@ -292,7 +292,7 @@
                                 <td>{{ $scrappeds->assetmain->name ?? 'N/A' }}</td>
                                 <td>{{ $scrappeds->brand->name ?? 'N/A' }}</td>
                                 <td>{{ $scrappeds->brandmodel->name ?? 'N/A' }}</td>
-                                <td>{{ $scrappeds->attributes->name??'N/A' }}</td>
+                                <td>{{ $scrappeds->attributes->name??'N/A' }} {{ $scrappeds->atribute_value??'' }}</td>
                                 <td class="ellipsis">{{ $scrappeds->configuration ?? '' }}</td>
                                 <td>{{ $scrappeds->ageInYears }} years and {{ $scrappeds->ageInMonths }} months</td>
                                 <td> ₹{{ $scrappeds->price ?? 'N/A' }}</td>
@@ -334,7 +334,7 @@
                                 <td>{{ $stolens->assetmain->name ?? 'N/A' }}</td>
                                 <td>{{ $stolens->brand->name ?? 'N/A' }}</td>
                                 <td>{{ $stolens->brandmodel->name ?? 'N/A' }}</td>
-                                <td>{{ $stolens->attributes->name??'N/A' }}</td>
+                                <td>{{ $stolens->attributes->name??'N/A' }} {{ $stolens->atribute_value??'' }}</td>
                                 <td class="ellipsis">{{ $stolens->configuration ?? 'N/A' }}</td>
                                 <td>{{ $stolens->ageInYears }} years and {{ $stolens->ageInMonths }} months</td>
                                 <td> ₹{{ $stolens->price ?? 'N/A' }}</td>
@@ -375,7 +375,7 @@
                                 <td>{{ $transfers->assetmain->name ?? 'N/A' }}</td>
                                 <td>{{ $transfers->brand->name ?? 'N/A' }}</td>
                                 <td>{{ $transfers->brandmodel->name ?? 'N/A' }}</td>
-                                <td>{{ $transfers->attributes->name??'N/A' }}</td>
+                                <td>{{ $transfers->attributes->name??'N/A' }} {{ $transfers->atribute_value??'' }}</td>
                                 <td class="ellipsis">{{ $allocateds->configuration ?? 'N/A' }}</td>
                                 <td>{{ $transfers->ageInYears }} years and {{ $transfers->ageInMonths }} months</td>
                                 <td> ₹{{ $transfers->price ?? 'N/A' }}</td>

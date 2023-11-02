@@ -180,72 +180,48 @@
             <form class="needs-validation" method="post" action="{{ route('transfer-store') }}" novalidate="">
                 @csrf
                 <div class="card" id="employee-step">
-                    <div class="card-header pb-0">
-                        <h4>Employee Details</h4>
-                    </div>
                     <div class="card-body">
-                        <div class="card-item border card">
-                            <div class="f1-progress">
-                                <div class="f1-progress-line" data-now-value="16.66" data-number-of-steps="3"></div>
-                            </div>
-                            <div class="row p-3">
-                                <div class="col-md-6 mb-4">
-                                    <label class="form-label" for="employeeId">Employee's ID</label>
-                                    <input class="form-control" oninput="showDiv()" id="employeesimpleId" type="search"
-                                        name="employeeId" data-bs-original-title="" title=""
-                                        placeholder="Enter Employee's ID" onkeydown="return event.key != 'Enter';" required>
-                                    @error('employeeId')
-                                        <span class="text-danger">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
-                                </div>
-                                <div class="col-md-6 mb-4">
-                                    <div class="mb-3 row">
-                                        <label class="col-sm-3 col-form-label pt-5 scan-text">Scan Barcode :</label>
-                                        <div class="col-sm-9 pt-4">
-                                            <input class="form-control qr" type="file" accept="image/*"
-                                                capture="environment" id="qrInput">
-                                            <img id="qrImage"
-                                                src="{{ asset('Backend/assets/images/IT-Assets/Vector_qr.png') }}"
-                                                alt="QR Code" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                        <div class="card-item mt-3">
+                            <div class="row py-3" id="assetdetail">
+                                <h5>No Assets for Return</h2>
+                                @isset($data)
+                                    @foreach ($data as $asset)
+                                        <div class="col-md-3">
+                                            <div class="card change-card" data-card-id="{{ $asset->id }}"
+                                                onclick="selectDeselect(this)">
+                                                <div class="card-body">
+                                                    <h5 class="card-title card-text p-2">{{ $asset->product_info ?? 'N/A' }}
+                                                    </h5>
+                                                    <p class="card-subtitle mb-2">Type: <span
+                                                            class="text-muted">{{ $asset->asset_type->name ?? 'N/A' }}</span>
+                                                    </p>
+                                                    <p class="card-subtitle mb-2">
+                                                        Brand: <span
+                                                            class="text-muted">{{ $asset->brand->name ?? 'N/A' }}</span>
+                                                    </p>
+                                                    <p>
+                                                        License Number: <span
+                                                            class="text-muted">{{ $asset->license_number ?? 'N/A' }}</span>
+                                                    </p>
+                                                    <p class="card-subtitle mb-2">
+                                                        Brand Model: <span
+                                                            class="text-muted">{{ $asset->brandmodel->name ?? 'N/A' }}</span>
+                                                        Configuration: <span
+                                                            class="text-muted">{{ $asset->configuration ?? 'N/A' }}</span>
+                                                    </p>
+                                                    <p class="card-subtitle mb-2">Supplier: <span
+                                                            class="text-muted">{{ $asset->getsupplier->name }}</p>
+                                                    <p class="card-subtitle mb-2">Price: <span
+                                                            class="text-muted">{{ $asset->price }}</span></p>
+                                                    @if (isset($selectedCardIds) && in_array($asset->id, $selectedCardIds))
+                                                        <input type="hidden" name="cardId[]" id="selectedCardIds"
+                                                            value="fsfs">
+                                                    @endif
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="myDiv" style="display: none;">
-                            <div class="card-item border mt-3 card">
-                                <div class="row p-3">
-                                    <div class="col-md-4 mb-4">
-                                        <label class="form-label" for="validationCustom01">Name:</label>
-                                        <input class="form-control" id="name" type="text"
-                                            data-bs-original-title="" title="" placeholder="" readonly>
-                                    </div>
-                                    <div class="col-md-4 mb-4">
-                                        <label class="form-label" for="validationCustom01">Department:</label>
-                                        <input class="form-control" id="depart" type="text"
-                                            data-bs-original-title="" title="" placeholder="" readonly>
-                                    </div>
-                                    <div class="col-md-4 mb-4">
-                                        <label class="form-label" for="validationCustom01">Designation:</label>
-                                        <input class="form-control" id="location" type="text"
-                                            data-bs-original-title="" title="" placeholder="" readonly>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-item mt-3">
-                                <input type="hidden" name="cardId[]" id="selectedCardIds" value="fsfs">
-                                <div class="row py-3" id="assetdetail">
-                                    <h2>Assets</h2>
-                                    <ul>
-                                        <!-- Products will be displayed here dynamically in the success callback -->
-                                    </ul>
-                                </div>
-                                <div class="card-footer d-flex justify-content-between float-end">
-                                    {{-- <button class="btn btn-primary next-step" id="next-assets" data-step="select-asset-step"
-                                    type="button">Next</button> --}}
-                                </div>
+                                    @endforeach
+                                @endisset
                             </div>
                         </div>
                     </div>
@@ -300,16 +276,11 @@
                                     <label class="form-label" for="validationCustom01">Designation:</label>
                                     <input class="form-control" id="designation" type="text"
                                         data-bs-original-title="" title="" placeholder="HR" readonly>
+                                        <input type="hidden" name="employeeId" value="{{ $auth }}">
                                 </div>
                             </div>
                         </div>
                     </div>
-                    {{-- <div class="card-footer d-flex justify-content-between">
-                    <button class="btn btn-secondary prev-step" id="prev-asset" data-step="employee-step"
-                        type="button">Previous</button>
-                    <button class="btn btn-primary next-step" id="next-assets" data-step="additional-details-step"
-                        type="button">Next</button>
-                </div> --}}
                 </div>
                 <div class="card mt-3" id="additional-details-step">
                     <div class="card-header">
@@ -327,8 +298,6 @@
                         </div>
                     </div>
                     <div class="footer-item mt-3 mb-3 d-flex justify-content-end">
-                        {{-- <button class="btn btn-secondary prev-step" id="prev-asset" data-step="select-asset-step"
-                        type="button">Previous</button>&nbsp; --}}
                         <button class="btn btn-primary mt-2" type="submit" data-bs-original-title=""
                             title="">Proceed
                             Request</button>
@@ -336,222 +305,108 @@
                 </div>
             </form>
         </div>
-    @endsection
+    </div>
+@endsection
 
-    @section('Script-Area')
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-        <script>
-            const transferButton = document.querySelector('#transfer-radio');
-            const returnButton = document.querySelector('#return-radio');
-            transferButton.addEventListener('click', function() {
-                window.location.href = "{{ url('transfer') }}";
+@section('Script-Area')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script>
+        const transferButton = document.querySelector('#transfer-radio');
+        const returnButton = document.querySelector('#return-radio');
+        transferButton.addEventListener('click', function() {
+            window.location.href = "{{ url('transfer') }}";
+        });
+        returnButton.addEventListener('click', function() {
+            window.location.href = "{{ route('return') }}";
+        });
+        $(document).ready(function() {
+            const steps = ["employee-step", "select-asset-step", "additional-details-step"];
+            let currentStep = 0;
+
+            $(".next-step").click(function() {
+                $("#" + steps[currentStep]).hide();
+                currentStep++;
+                $("#" + steps[currentStep]).show();
             });
-            returnButton.addEventListener('click', function() {
-                window.location.href = "{{ route('return') }}";
+
+            $(".prev-step").click(function() {
+                $("#" + steps[currentStep]).hide();
+                currentStep--;
+                $("#" + steps[currentStep]).show();
             });
-            $(document).ready(function() {
-                const steps = ["employee-step", "select-asset-step", "additional-details-step"];
-                let currentStep = 0;
+        });
+        const form = document.querySelector(".f1");
 
-                $(".next-step").click(function() {
-                    $("#" + steps[currentStep]).hide();
-                    currentStep++;
-                    $("#" + steps[currentStep]).show();
-                });
+        function handover() {
+            var inputField = document.getElementById('handoveremployeeId');
+            var div = document.getElementById('handoveremployee');
 
-                $(".prev-step").click(function() {
-                    $("#" + steps[currentStep]).hide();
-                    currentStep--;
-                    $("#" + steps[currentStep]).show();
-                });
-            });
-            const form = document.querySelector(".f1");
+            if (inputField.value.trim() !== '') {
+                div.style.display = 'block';
+            } else {
+                div.style.display = 'none';
+            }
+        }
+        function selectDeselect(card) {
+            $(card).toggleClass('selected');
+            checkSelection(card);
+        }
 
-            function showDiv() {
-                var inputField = document.getElementById('employeesimpleId');
-                var div = document.getElementById('myDiv');
-
-                if (inputField.value.trim() !== '') {
-                    div.style.display = 'block';
-                } else {
-                    div.style.display = 'none';
-                }
+        function checkSelection(card) {
+            if ($(card).hasClass('selected')) {
+                $(card).append('<input type="hidden" value="' + $(card).data('card-id') + '" name="cardId[' + $(card).data(
+                    'card-id') + ']">');
+            } else {
+                $(card).find('input[name^="cardId"]').remove();
             }
 
-            function handover() {
-                var inputField = document.getElementById('handoveremployeeId');
-                var div = document.getElementById('handoveremployee');
+            if ($('.change-card.selected').length > 0) {
+                $('#next').show();
+            } else {
+                $('#next').hide();
+            }
+        }
 
-                if (inputField.value.trim() !== '') {
-                    div.style.display = 'block';
-                } else {
-                    div.style.display = 'none';
+
+        function updateSelectedCardsList() {
+            var listContainer = $("#assetdetail");
+            var selectedCardIds = []; // Array to store selected card IDs
+            for (var cardId in selectedCards) {
+                if (selectedCards.hasOwnProperty(cardId)) {
+                    selectedCardIds.push(cardId); // Add the selected card ID to the array
                 }
             }
-
-            var selectedCards = {};
-
-            $(document).ready(function() {
-                $("#employeesimpleId").on("input", function() {
-                    var employeeId = $(this).val();
-                    // alert(employeeId);
-                    // Make an AJAX request to fetch employee and product data
-                    $.ajax({
-                        url: "/server_asset_script",
-                        method: "GET",
-                        data: {
-                            employeeId: employeeId,
-                        },
-                        dataType: "json",
-                        success: function(data) {
-                            // Update the employee and product data in the UI
-                            if (data.employee) {
-                                $("#name").val(data.employee.first_name);
-                                $("#depart").val(data.employee.department.name);
-                                $("#location").val(data.employee.designation.designation);
-                            } else {
-                                $("#name").val('');
-                                $("#depart").val('');
-                                $("#location").val('');
-                            }
-                            // Populate the products list
-                            var products = Array.isArray(data.products) ? data.products : (data
-                                .products ? [data.products] : []);
-                            var productList = $("#assetdetail ul");
-                            productList.empty();
-                            console.log(data.products);
-                            if (products.length > 0) {
-                                var productRow = $("<div>", {
-                                    class: "row",
-                                });
-                                products.forEach(function(product) {
-                                    var colDiv = $("<div>", {
-                                        class: "col-sm-3",
-                                    });
-
-                                    var card = $("<div>", {
-                                        class: "card change-card",
-                                        "data-card-id": product.id,
-                                    });
-
-                                    var cardBody = $("<div>", {
-                                        class: "card-body",
-                                    });
-
-                                    cardBody.append($("<h5>", {
-                                        class: "card-title card-text p-2",
-                                        text: product.product_info,
-                                    }));
-
-                                    cardBody.append($("<p>", {
-                                        class: "card-subtitle mb-2",
-                                        text: "Type: " + product.asset_type
-                                            .name,
-                                    }));
-
-                                    var brandInfo = "Brand: " + (product.brand ? product
-                                        .brand.name : 'N/A');
-                                    brandInfo += " License Number: " + (product
-                                        .liscense_number ? product.liscense_number :
-                                        'N/A');
-                                    cardBody.append($("<p>", {
-                                        class: "card-subtitle mb-2",
-                                        html: brandInfo,
-                                    }));
-
-                                    var brandModelConfigInfo = "Brand Model: " + (product
-                                        .brandmodel ? product.brandmodel.name : 'N/A');
-                                    brandModelConfigInfo += " Configuration: " + (product
-                                        .configuration ? product.configuration : 'N/A');
-                                    cardBody.append($("<p>", {
-                                        class: "card-subtitle mb-2",
-                                        html: brandModelConfigInfo,
-                                    }));
-
-                                    cardBody.append($("<p>", {
-                                        class: "card-subtitle mb-2",
-                                        text: "Supplier: " + product.getsupplier
-                                            .name,
-                                    }));
-
-                                    cardBody.append($("<p>", {
-                                        class: "card-subtitle mb-2",
-                                        text: "Price: " + product.price,
-                                    }));
-
-                                    card.append(cardBody);
-                                    colDiv.append(card);
-                                    productRow.append(colDiv);
-                                    card.on("click", function() {
-                                        var cardId = product.id;
-                                        if (selectedCards[cardId]) {
-                                            // Deselect the card
-                                            card.removeClass("selected");
-                                            delete selectedCards[cardId];
-                                        } else {
-                                            // Select the card
-                                            card.addClass("selected");
-                                            selectedCards[cardId] = true;
-                                        }
-                                        updateSelectedCardsList();
-                                    });
-                                });
-                                productList.append(productRow);
-                                $("#next-assets").show();
-                            } else {
-                                productList.append($("<p>", {
-                                    text: "No products found for the employee.",
-                                }));
-                                $("#next-assets").hide();
-                            }
-                        },
-                        error: function() {
-                            console.error("AJAX request failed: " + error.statusText);
-                            $("#next-assets").hide();
-                        },
-                    });
-                });
-            });
-
-            function updateSelectedCardsList() {
-                var listContainer = $("#assetdetail");
-                var selectedCardIds = []; // Array to store selected card IDs
-                for (var cardId in selectedCards) {
-                    if (selectedCards.hasOwnProperty(cardId)) {
-                        selectedCardIds.push(cardId); // Add the selected card ID to the array
-                    }
-                }
-                var type = $("#selectedCardIds").val(selectedCardIds.join(',')); // Join the IDs with a comma
-                console.log(type);
-                // Update the hidden input field with the selected card IDs
-            }
-            $(document).ready(function() {
-                $("#handoveremployeeId").on("input", function() {
-                    var employeeId = $(this).val();
-                    $.ajax({
-                        url: "/server_script",
-                        method: "GET",
-                        data: {
-                            employeeId: employeeId
-                        },
-                        dataType: "json",
-                        success: function(data) {
-                            console.log(data);
-                            $("#employeename").val(data.first_name);
-                            if (data.department) {
-                                $("#department").val(data.department.name);
-                            } else {
-                                $('#department').val("");
-                            }
-                            if (data.designation) {
-                                $("#designation").val(data.designation.designation);
-                            } else {
-                                $("#designation").val("");
-                            }
+            var type = $("#selectedCardIds").val(selectedCardIds.join(',')); // Join the IDs with a comma
+            console.log(type);
+            // Update the hidden input field with the selected card IDs
+        }
+        $(document).ready(function() {
+            $("#handoveremployeeId").on("input", function() {
+                var employeeId = $(this).val();
+                $.ajax({
+                    url: "/server_script",
+                    method: "GET",
+                    data: {
+                        employeeId: employeeId
+                    },
+                    dataType: "json",
+                    success: function(data) {
+                        console.log(data);
+                        $("#employeename").val(data.first_name);
+                        if (data.department) {
+                            $("#department").val(data.department.name);
+                        } else {
+                            $('#department').val("");
                         }
-                    });
+                        if (data.designation) {
+                            $("#designation").val(data.designation.designation);
+                        } else {
+                            $("#designation").val("");
+                        }
+                    }
                 });
             });
-        </script>
-    @endsection
+        });
+    </script>
+@endsection

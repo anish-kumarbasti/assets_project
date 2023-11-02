@@ -79,7 +79,7 @@ class IssuenceController extends Controller
                 'location_id' => 'required',
                 'sublocation_id' => 'required',
             ]);
-
+            
             $user = User::where('employee_id', $request->employeeId)->first();
             if (!$user) {
                 return back()->with('error', 'User not found.');
@@ -87,6 +87,7 @@ class IssuenceController extends Controller
             $managerUser = User::where('role_id', 3)->where('department_id', $user->department_id)->first();
             $dateTime = Carbon::createFromFormat('Y-m-d H:i', $request->date . ' ' . $request->time);
             $selectedStocks = Stock::whereIn('id', $request->selectedAssets)->get();
+            // dd($selectedStocks);
             $issuance = Issuence::create([
                 'employee_id' => $request->employeeId,
                 'asset_type_id' => $selectedStocks->first()->asset_type_id, // Fill in the asset_type_id
@@ -120,9 +121,9 @@ class IssuenceController extends Controller
                 ->where('department_id', $user->department_id)
                 ->first();
 
-            if ($assetmanager) {
-                Notification::send($assetmanager, new IssuenceNotification($assetmanager));
-            }
+            // if ($assetmanager) {
+            //     Notification::send($assetmanager, new IssuenceNotification($assetmanager));
+            // }
             $user->notify(new IssuenceNotification($user));
             foreach ($value as $products) {
                 $data = [
@@ -144,10 +145,10 @@ class IssuenceController extends Controller
 
             return back()->with('success', 'Asset Issued!');
         } catch (QueryException $e) {
-            DB::rollback(); // Rollback the transaction in case of an error
+            DB::rollback();
             return back()->with('error', 'Database error: ' . $e->getMessage());
         } catch (\Exception $e) {
-            DB::rollback(); // Rollback the transaction in case of an error
+            DB::rollback();
             return back()->with('error', 'An error occurred: ' . $e->getMessage());
         }
     }

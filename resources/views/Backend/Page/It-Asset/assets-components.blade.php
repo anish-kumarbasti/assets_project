@@ -108,6 +108,7 @@
                                     <td>{{ $component->product_info ?? '' }}</td>
                                     <td>{{ $component->brand->name ?? '' }}</td>
                                     <td>{{ $component->brandmodel->name ?? '' }}</td>
+
                                     <td class="ellipsis">{{ $component->specification ?? '' }}</td>
                                     <td>{{ $component->ageInYears }} years and {{ $component->ageInMonths }} months</td>
                                     <td>
