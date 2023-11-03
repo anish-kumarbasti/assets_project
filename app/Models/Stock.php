@@ -48,4 +48,10 @@ class Stock extends Model
     public function assettypeid(){
         return $this->belongsTo(Issuence::class,'product_id');
     }
+    // Product.php model
+    public function issuances()
+    {
+        return $this->hasOne(Issuence::class, 'transaction_code', 'transaction_code');
+    }
+
 }

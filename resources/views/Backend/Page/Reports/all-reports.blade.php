@@ -2,6 +2,20 @@
 
 @section('Style-Area')
 <style>
+     .add-category-button {
+            background-color: transparent; 
+            border: 1px solid #37236B; 
+            color: #37236B; 
+            padding: 10px 10px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s; 
+            border-radius: 10px;
+        }
+
+        .add-category-button:hover {
+            background-color: #37236B; 
+            color: #fff;
+        }
     .status-tab {
         text-align: center;
         font-size: 10px;
@@ -41,14 +55,14 @@
         <div class="modal-body">
             <div class="row">
             <div class="col-sm-6">
-                <button class="btn btn-outline-dark" style="margin-top: 2px;" id="showStatus">Select Status</button>&nbsp;
-                <button class="btn btn-outline-dark" style="margin-top: 2px;" id="showEmp">Employee Code</button>&nbsp;
-                <button class="btn btn-outline-dark" style="margin-top: 2px;" id="showAssetCode">Asset Code</button>&nbsp;
+                <button class="add-category-button" style="margin-top: 2px;" id="showStatus">Select Status</button>&nbsp;
+                <button class="add-category-button" style="margin-top: 2px;" id="showEmp">Employee Code</button>&nbsp;
+                <button class="add-category-button" style="margin-top: 2px;" id="showAssetCode">Asset Code</button>&nbsp;
             </div>
             <div class="col-sm-6">
-                <button class="btn btn-outline-dark" style="margin-top: 2px;" id="showAssetCategory">Select Location</button>&nbsp;
-                <button class="btn btn-outline-dark" style="margin-top: 2px;" id="showAssetC">Select Asset Category</button>&nbsp;
-                <button class="btn btn-outline-dark" style="margin-top: 2px;" id="showAsset">Select Asset</button>&nbsp;
+                <button class="add-category-button" style="margin-top: 2px;" id="showAssetCategory">Select Location</button>&nbsp;
+                <button class="add-category-button" style="margin-top: 2px;" id="showAssetC">Select Asset Category</button>&nbsp;
+                <button class="add-category-button" style="margin-top: 2px;" id="showAsset">Select Asset</button>&nbsp;
             </div>
         </div>
         </div>
@@ -65,7 +79,7 @@
                 <h4>Reports</h4>
             </div>
             <div class="col-sm-6 p3 text-end">
-                <button class="btn btn-primary qr_btn" data-bs-toggle="modal" data-bs-target="#exampleModal">Category</button>
+                <button class="add-category-button qr_btn" data-bs-toggle="modal" data-bs-target="#exampleModal">Category</button>
             </div>
         </div>
     </div>

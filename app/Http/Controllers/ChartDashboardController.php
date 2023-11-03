@@ -99,7 +99,8 @@ class ChartDashboardController extends Controller
                     $createdDates[] = $issuedatas->created_at;
                     $userdetail[] = $issuedatas->employee_id;
                 }
-                $products = Stock::whereIn('id', $productIds)->with('brand', 'brandmodel', 'asset_type', 'getsupplier')->get();
+                $selectedAssetIds = collect($productIds)->flatten()->unique()->toArray();
+                $products = Stock::whereIn('id', $selectedAssetIds)->with('brand', 'brandmodel', 'asset_type', 'getsupplier')->get();
                 $user = User::where('employee_id', $userdetail)->first();
 
             return view('Backend.Page.user_dashboard', compact('products', 'issuedata', 'createdDates', 'user'));

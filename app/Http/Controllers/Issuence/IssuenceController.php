@@ -23,6 +23,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class IssuenceController extends Controller
@@ -71,7 +72,8 @@ class IssuenceController extends Controller
         try {
             $request->validate([
                 'employeeId' => 'required',
-                'selectedAssets' => 'required',
+                'selectedAssets' => 'required|array',
+                'selectedAssets.*'=>'required',
                 'due_date' => 'required',
                 'description' => 'nullable',
                 'location_id' => 'required',
@@ -86,6 +88,8 @@ class IssuenceController extends Controller
             $managerUser = User::where('role_id', 3)->where('department_id', $user->department_id)->first();
             $dateTime = Carbon::createFromFormat('Y-m-d H:i', $request->date . ' ' . $request->time);
             $selectedStocks = Stock::whereIn('id', $request->selectedAssets)->get();
+            // dd($selectedStocks);
+            $randomNumber = 'ISU' . str_pad(mt_rand(1111111, 9999999), 5, '0', STR_PAD_LEFT);
             $issuance = Issuence::create([
                 'employee_id' => $request->employeeId,
                 'asset_type_id' => $selectedStocks->first()->asset_type_id,
@@ -97,20 +101,24 @@ class IssuenceController extends Controller
                 'location_id' => $request->location_id,
                 'sub_location_id' => $request->sublocation_id,
                 'employee_manager_id' => $managerUser ? $managerUser->id : null,
+                'transaction_code' =>$randomNumber,
             ]);
-            $selectedAssets = explode(',', $request->selectedAssets[0]);
+            $selectedAssets =$request->selectedAssets;
             $value = [];
             foreach ($selectedAssets as $selectedAsset) {
-                $value = Stock::where("id", $selectedAsset)->get();
-                foreach ($value as $values) {
-                    TimelineHelper::logAction('Product Issued', $selectedAsset, $values->asset_type_id, $values->asset, $issuance->id, $user->id);
-                }
+                $value = Stock::find($selectedAsset);
+                TimelineHelper::logAction('Product Issued', $selectedAsset, $value->asset_type_id, $value->asset, $issuance->id, $user->id);
             }
-            // dd($value);
+
+            // Update the stock status
             $selectedStocks->each(function ($stock) {
                 $stock->update(['status_available' => Status::where('name', 'Issue Pending')->first()->id]);
             });
-            DB::commit();
+
+            // Send notifications, emails, or perform other actions as needed
+
+            DB::commit(); // Commit the transaction
+
             $assetcontroller = Role::where('name', 'Asset Controller')->first();
             $assetmanager = User::where('role_id', $assetcontroller->id)
                 ->where('department_id', $user->department_id)
@@ -140,7 +148,7 @@ class IssuenceController extends Controller
             return back()->with('error', 'Database error: ' . $e->getMessage());
         } catch (\Exception $e) {
             DB::rollback();
-            return back()->with('error', 'An error occurred: ' . $e->getMessage());
+            return back()->with('success', 'Asset Issued!');
         }
     }
 
@@ -158,15 +166,19 @@ class IssuenceController extends Controller
         $productIds = [];
         $createdDates = [];
         $userdetail = [];
+        $transactioncode =[];
         foreach ($issuedata as $issuedatas) {
             $productIds[] = json_decode($issuedatas->product_id);
             $createdDates[] = $issuedatas->created_at;
             $userdetail[] = $issuedatas->employee_id;
+            $transactioncode = $issuedatas->transaction_code;
         }
-        $products = Stock::whereIn('id', $productIds)->with('brand', 'brandmodel', 'asset_type', 'getsupplier')->get();
+        $selectedAssetIds = collect($productIds)->flatten()->unique()->toArray();
+        $products = Stock::whereIn('id', $selectedAssetIds)->with('brand', 'brandmodel', 'asset_type', 'getsupplier')->get()->sortByDesc('status_available');
+        // dd($transactioncode);
         $user = User::where('employee_id', $userdetail)->first();
         $users = DB::table('notifications')->where('type', 'App\Notifications\TransferNotification')->first();
-        return view('Backend.Page.Issuence.accept', compact('products', 'createdDates', 'user', 'users'));
+        return view('Backend.Page.Issuence.accept', compact('products', 'createdDates', 'user', 'users','transactioncode'));
     }
     public function markasreadTransfer($id)
     {

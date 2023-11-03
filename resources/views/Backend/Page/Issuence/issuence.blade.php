@@ -14,7 +14,7 @@
             padding: 10px 10px;
             cursor: pointer;
             transition: background-color 0.3s, color 0.3s; 
-            border-radius: 20px;
+            border-radius: 10px;
         }
 
         .add-category-button:hover {
@@ -127,6 +127,9 @@
                                     name="employeeId" data-bs-original-title="" title=""
                                     placeholder="Enter Employee's ID" onkeydown="return event.key != 'Enter';">
                             </div>
+                            @error('employeeId')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
                             <div class="col-md-2 mb-4">
                                 <label class="col-form-label pt-5 scan-text">Scan Barcode :</label>
                             </div>
@@ -222,7 +225,7 @@
                 </div>
             </div>
             <div class="card mt-3" id="selectedAssetCard">
-                <input type="hidden" name="selectedAssets[]" value="">
+                {{-- <input type="hidden" name="selectedAssets[]" value=""> --}}
                 <div class="card-header pb-0">
                     <h4>Selected Asset Summary</h4>
                 </div>
@@ -464,11 +467,11 @@
             const addButton = $(this);
             if (!addButton.hasClass("added-button")) {
                 addButton.hide(); // Hide the "Add" button
-                // const addedButton = $(
-                //     "<button class='btn btn-success btn-sm added-button' type='button' data-card-id='" +
-                //     addButton.data(
-                //         "card-id") + "'>Added</button>"
-                // );
+                const addedButton = $(
+                    "<input class='btn btn-success btn-sm added-button' type='hidden' data-card-id='" +
+                    addButton.data(
+                        "card-id") + "'></input>"
+                );
                 const assetDetails = addButton.closest("tr").find("td"); // Get all <td> elements in the clicked row
                 const tableBody = $("#selectedAssetTable tbody");
                 const assetRow = $("<tr class='added-row'></tr>"); // Add the "added-row" class
@@ -488,11 +491,12 @@
                 assetRow.find("td:last").append(addedButton);
 
                 const assetId = addButton.data("card-id"); // Get asset.id from the "Add" button's data
-                const hiddenInput = $("#selectedAssetCard input[name='selectedAssets[]']");
-                const currentAssetIds = hiddenInput.val().split(',').filter(
-                    Boolean); // Retrieve current asset.ids as an array
-                currentAssetIds.push(assetId); // Add the new asset.id to the array
-                hiddenInput.val(currentAssetIds.join(',')); // Update the hidden input field value
+                // const hiddenInput = $("#selectedAssetCard input[name='selectedAssets[]']");
+                // const currentAssetIds = hiddenInput.val().split(',').filter(
+                //     Boolean); // Retrieve current asset.ids as an array
+                // currentAssetIds.push(assetId); // Add the new asset.id to the array
+                // hiddenInput.val(currentAssetIds.join(',')); // Update the hidden input field value
+                $('#selectedAssetCard').append('<input type="hidden" name="selectedAssets[]" value="'+assetId+'">');
             }
         });
 

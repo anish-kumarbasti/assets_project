@@ -126,13 +126,22 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive theme-scrollbar">
-                        <table class="table">
+                        <table class="table table-bordered">
+                            <thead>
+                                <th>Transaction Code</th>
+                                <th>Asset Code</th>
+                                {{-- <th>Type</th> --}}
+                                <th>Product</th>
+                                <th>Description</th>
+                                <th>Action</th>
+                            </thead>
                             <tbody>
                                 @foreach ($products as $product)
                                     <form
                                         action="{{ Auth::check() && Auth::user()->role_id == 2 ? route('accept-asset', $product->id) : route('accept-asset-manager', $product->id) }}">
-
                                         <tr>
+                                            <td>{{$transactioncode??'N/A'  }}</td>
+                                            <td>{{ $product->product_number??'' }}</td>
                                             <td>
                                                 <div class="d-flex"><img class="img-fluid align-top circle"
                                                         src="../assets/images/dashboard/default/01.png" alt="">
