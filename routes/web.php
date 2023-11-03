@@ -91,7 +91,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('home', [ChartDashboardController::class, 'index'])->name('home');
     Route::get('user_dashboard', [ChartDashboardController::class, 'userDashboard'])->name('user-dashboard');
     Route::get('stock', [StockController::class, 'index']);
-    Route::get('markasread/{id}', [IssuenceController::class, 'markasread'])->name('markasread');
+    Route::get('markasread/{id}/{typeId}', [IssuenceController::class, 'markasread'])->name('markasread');
     Route::get('check-all-notification', [NotificationController::class, 'checkAll'])->name('check-all-notification');
     Route::get('markasread-transfer/{id}', [IssuenceController::class, 'markasreadTransfer'])->name('markasread-transfer');
     Route::get('markasread-admin/{id}', [IssuenceController::class, 'markasreadAdmin'])->name('markasread-admin');

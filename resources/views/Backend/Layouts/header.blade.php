@@ -182,7 +182,7 @@
                                                 </p>
                                             @else
                                                 <p><b>{{ $notification->data['name'] ?? '' }}</b>&nbsp;&nbsp;<a
-                                                        href="{{ route('markasread', $notification->id) }}">Employee
+                                                        href="{{ route('markasread', ['id' => $notification->id, 'typeId' => $notification->issuance_id]) }}">Employee
                                                         New
                                                         Notification!</a><span
                                                         class="pull-right">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span>

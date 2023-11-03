@@ -8,17 +8,17 @@
         }
 
         .add-category-button {
-            background-color: transparent; 
-            border: 1px solid #37236B; 
-            color: #37236B; 
+            background-color: transparent;
+            border: 1px solid #37236B;
+            color: #37236B;
             padding: 10px 10px;
             cursor: pointer;
-            transition: background-color 0.3s, color 0.3s; 
+            transition: background-color 0.3s, color 0.3s;
             border-radius: 10px;
         }
 
         .add-category-button:hover {
-            background-color: #37236B; 
+            background-color: #37236B;
             color: #fff;
         }
 
@@ -329,7 +329,7 @@
     <script>
         let today = new Date();
         let dd = String(today.getDate()).padStart(2, '0');
-        let mm = String(today.getMonth() + 1).padStart(2, '0'); 
+        let mm = String(today.getMonth() + 1).padStart(2, '0');
         let yyyy = today.getFullYear();
         today = yyyy + '-' + mm + '-' + dd;
         document.getElementById('dateInput').value = today;
@@ -482,20 +482,20 @@
                 const removeButton = $(
                     "<td><button class='btn btn-danger btn-sm remove-asset' type='button'>Remove</button></td>");
                 assetRow.append(removeButton);
-                assetRow.append("<td></td>"); // Placeholder for the "Added" button
+                assetRow.append("<td></td>");
                 tableBody.append(assetRow);
 
                 addedButton.click(function() {
                     removeAddedAsset(addedButton);
                 });
                 assetRow.find("td:last").append(addedButton);
-
                 const assetId = addButton.data("card-id"); // Get asset.id from the "Add" button's data
                 // const hiddenInput = $("#selectedAssetCard input[name='selectedAssets[]']");
                 // const currentAssetIds = hiddenInput.val().split(',').filter(
                 //     Boolean); // Retrieve current asset.ids as an array
                 // currentAssetIds.push(assetId); // Add the new asset.id to the array
                 // hiddenInput.val(currentAssetIds.join(',')); // Update the hidden input field value
+                console.log(assetId);
                 $('#selectedAssetCard').append('<input type="hidden" name="selectedAssets[]" value="'+assetId+'">');
             }
         });
@@ -619,12 +619,8 @@
                     "<td><button class='btn btn-danger btn-sm remove-asset' type='button'>Remove</button></td>");
                 assetRow.append(removeButton);
                 tableBody.append(assetRow);
-                const assetId = $(this).data("card-id"); // Get asset.id from the "Add" button's data
-                const hiddenInput = $("#selectedAssetCard input[name='selectedAssets[]']");
-                const currentAssetIds = hiddenInput.val().split(',').filter(
-                    Boolean); // Retrieve current asset.ids as an array
-                currentAssetIds.push(assetId); // Add the new asset.id to the array
-                hiddenInput.val(currentAssetIds.join(',')); // Update the hidden input field value
+                const assetId = $(this).data("card-id");
+                $('#selectedAssetCard').append('<input type="hidden" name="selectedAssets[]" value="'+assetId+'">');
             }
         });
         $(document).on("click", ".remove-asset", function() {

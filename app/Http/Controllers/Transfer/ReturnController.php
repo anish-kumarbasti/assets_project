@@ -14,6 +14,7 @@ use App\Notifications\ReturnNotification;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ReturnController extends Controller
 {
@@ -54,7 +55,7 @@ class ReturnController extends Controller
             $return = AssetReturn::create([
                 'product_id' => json_encode($request->selectedCardIds),
                 'reason' => $request->description,
-                'return_by_user' => $auth->id
+                'return_by_user' => $auth->id,
             ]);
             $status = Status::where('name', 'Returned by User')->first();
             Stock::whereIn('id', $request->selectedCardIds)->update(['status_available' => $status->id]);
@@ -72,9 +73,17 @@ class ReturnController extends Controller
                 ->first();
             if ($user) {
                 $user->notify(new ReturnNotification($user));
+                DB::table('notifications')
+                    ->orderBy('created_at', 'desc')
+                    ->limit(1)
+                    ->update(['return_id' => $return->id]);
             }
             if ($assetmanager) {
                 $assetmanager->notify(new ReturnNotification($assetmanager));
+                DB::table('notifications')
+                    ->orderBy('created_at', 'desc')
+                    ->limit(1)
+                    ->update(['return_id' => $return->id]);
             }
             return back()->with('success', 'Asset Returned.');
         } catch (Exception $e) {
