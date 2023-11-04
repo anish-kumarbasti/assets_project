@@ -84,7 +84,7 @@
             border-color: #11014d;
             color: #11014d;
             background: #e6f7ff;
-            
+
         }
 
         input[type="radio"].toggle:checked+label::before {
@@ -193,12 +193,12 @@
         </div>
     </div>
     {{-- <div class="col-sm-12"> --}}
-        <div class="col-sm-12 card">
-            <div class="card-header pb-0 d-flex text-center switch-button-container">
-                <div class="float-left col-sm-6">
-                    <b>Choose Type:</b>
-                </div>
-                <div class="col-sm-6">
+    <div class="col-sm-12 card">
+        <div class="card-header pb-0 d-flex text-center switch-button-container">
+            <div class="col-sm-6">
+                <b>Choose Type:</b>
+            </div>
+            <div class="col-sm-6">
                 <a href="{{ url('transfer') }}" class="btna">
                     <input type="radio" class="toggle toggle-left" name="transfer-return" value="transfer"
                         id="transfer-radio" checked>
@@ -210,136 +210,135 @@
                     <label for="return-radio">Return</label>
                 </a>
             </div>
+        </div>
+        <form class="needs-validation" method="post" action="{{ route('transfer-store') }}" novalidate="">
+            @csrf
+            <div class="" id="employee-step">
+                <div class="card-header pb-0">
+                    <h4>Product Details</h4>
+                </div>
+                <input type="hidden" name="selectedCardIds[]" id="selectedCardIds" value="">
+                <div class="card-body">
+                    <div class="card-item mt-3">
+                        <div class="row py-3" id="assetdetail">
+                            <table class="table" id="assetTable">
+                                <thead>
+                                    <tr>
+                                        <th>Product Info</th>
+                                        <th>Type</th>
+                                        <th>Brand</th>
+                                        <th>License Number</th>
+                                        <th>Brand Model</th>
+                                        <th>Configuration</th>
+                                        <th>Supplier</th>
+                                        <th>Price</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @isset($data)
+                                        @foreach ($data as $asset)
+                                            <tr data-card-id="{{ $asset->id }}">
+                                                <td>{{ $asset->product_info ?? 'N/A' }}</td>
+                                                <td>{{ $asset->asset_type->name ?? 'N/A' }}</td>
+                                                <td>{{ $asset->brand->name ?? 'N/A' }}</td>
+                                                <td>{{ $asset->license_number ?? 'N/A' }}</td>
+                                                <td>{{ $asset->brandmodel->name ?? 'N/A' }}</td>
+                                                <td>{{ $asset->configuration ?? 'N/A' }}</td>
+                                                <td>{{ $asset->getsupplier->name ?? 'N/A' }}</td>
+                                                <td>{{ $asset->price }}</td>
+                                                <td>
+                                                    <button class="btn btn-primary add-button" type="button">Add</button>
+                                                    <button class="btn btn-danger remove-button" style="display: none;"
+                                                        type="button">Remove</button>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @endisset
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <form class="needs-validation" method="post" action="{{ route('transfer-store') }}" novalidate="">
-                @csrf
-                <div class="" id="employee-step">
-                    <div class="card-header pb-0">
-                        <h4>Product Details</h4>
+            <div class="card mt-3" id="select-asset-step">
+                <div class="card-body">
+                    <div class="card-head">
+                        <h4>Transfer Details</h4>
                     </div>
-                    <input type="hidden" name="selectedCardIds[]" id="selectedCardIds" value="">
-                    <div class="card-body">
-                        <div class="card-item mt-3">
-                            <div class="row py-3" id="assetdetail">
-                                <table class="table" id="assetTable">
-                                    <thead>
-                                        <tr>
-                                            <th>Product Info</th>
-                                            <th>Type</th>
-                                            <th>Brand</th>
-                                            <th>License Number</th>
-                                            <th>Brand Model</th>
-                                            <th>Configuration</th>
-                                            <th>Supplier</th>
-                                            <th>Price</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @isset($data)
-                                            @foreach ($data as $asset)
-                                                <tr data-card-id="{{ $asset->id }}">
-                                                    <td>{{ $asset->product_info ?? 'N/A' }}</td>
-                                                    <td>{{ $asset->asset_type->name ?? 'N/A' }}</td>
-                                                    <td>{{ $asset->brand->name ?? 'N/A' }}</td>
-                                                    <td>{{ $asset->license_number ?? 'N/A' }}</td>
-                                                    <td>{{ $asset->brandmodel->name ?? 'N/A' }}</td>
-                                                    <td>{{ $asset->configuration ?? 'N/A' }}</td>
-                                                    <td>{{ $asset->getsupplier->name ?? 'N/A' }}</td>
-                                                    <td>{{ $asset->price }}</td>
-                                                    <td>
-                                                        <button class="btn btn-primary add-button" type="button">Add</button>
-                                                        <button class="btn btn-danger remove-button" style="display: none;"
-                                                            type="button">Remove</button>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        @endisset
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card mt-3" id="select-asset-step">
-                    <div class="card-body">
-                        <div class="card-head">
-                            <h4>Transfer Details</h4>
-                        </div>
-                        <div class="row mx-4">
-                            <div class="col-md-12 mt-2 mb-4">
-                                <label class="form-label" for="validationCustom01">Transfer Reason:</label>
-                                <select class="form-control" aria-label="Default select example" name="reason"
-                                    id="transferTypeSelect">
-                                    <option selected>Select Reason</option>
-                                    @foreach ($reason as $reasons)
-                                        <option value="{{ $reasons->id }}">{{ $reasons->reason }}</option>
-                                    @endforeach
-                                </select>
-                                @error('reason')
-                                    <span class="text-danger">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
+                    <div class="row mx-4">
+                        <div class="col-md-12 mt-2 mb-4">
+                            <label class="form-label" for="validationCustom01">Transfer Reason:</label>
+                            <select class="form-control" aria-label="Default select example" name="reason"
+                                id="transferTypeSelect">
+                                <option selected>Select Reason</option>
+                                @foreach ($reason as $reasons)
+                                    <option value="{{ $reasons->id }}">{{ $reasons->reason }}</option>
+                                @endforeach
+                            </select>
+                            @error('reason')
+                                <span class="text-danger">
+                                    {{ $message }}
+                                </span>
+                            @enderror
 
-                            </div>
-                            <div class="col-md-12 mb-4">
-                                <label class="form-label" for="employeeId">Handover to Employee's</label>
-                                <input class="form-control"name="handoverId" data-bs-original-title="" title=""
-                                    placeholder="Enter Employee's ID" id="handoveremployeeId" oninput="handover()"
-                                    onkeydown="return event.key != 'Enter';" required>
-                                @error('handoverId')
-                                    <span class="text-danger">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
                         </div>
-                        <div class="card-item border mt-3 card mx-4" id="handoveremployee" style="display: none;">
-                            <div class="row p-3">
-                                <div class="col-md-4 mb-4">
-                                    <label class="form-label" for="validationCustom01">Name:</label>
-                                    <input class="form-control" id="employeename" type="text"
-                                        data-bs-original-title="" title="" placeholder="Abhi" readonly>
-                                </div>
-                                <div class="col-md-4 mb-4">
-                                    <label class="form-label" for="validationCustom01">Department:</label>
-                                    <input class="form-control" id="department" type="text" data-bs-original-title=""
-                                        title="" placeholder="IT Department" readonly>
-                                </div>
-                                <div class="col-md-4 mb-4">
-                                    <label class="form-label" for="validationCustom01">Designation:</label>
-                                    <input class="form-control" id="designation" type="text"
-                                        data-bs-original-title="" title="" placeholder="HR" readonly>
-                                    <input type="hidden" name="employeeId" value="{{ $auth }}">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card mt-3" id="additional-details-step">
-                    <div class="card-header">
-                        <h4>Description</h4>
-                    </div>
-                    <div class="row px-5">
                         <div class="col-md-12 mb-4">
-                            <label class="form-label" for="validationCustom01">Description</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="" name="description" rows="3"></textarea>
-                            @error('description')
+                            <label class="form-label" for="employeeId">Handover to Employee's</label>
+                            <input class="form-control"name="handoverId" data-bs-original-title="" title=""
+                                placeholder="Enter Employee's ID" id="handoveremployeeId" oninput="handover()"
+                                onkeydown="return event.key != 'Enter';" required>
+                            @error('handoverId')
                                 <span class="text-danger">
                                     {{ $message }}
                                 </span>
                             @enderror
                         </div>
                     </div>
-                    <div class="footer-item mt-3 mb-3 d-flex justify-content-end">
-                        <button class="btn btn-primary mt-2" type="submit" data-bs-original-title=""
-                            title="">Proceed
-                            Request</button>
+                    <div class="card-item border mt-3 card mx-4" id="handoveremployee" style="display: none;">
+                        <div class="row p-3">
+                            <div class="col-md-4 mb-4">
+                                <label class="form-label" for="validationCustom01">Name:</label>
+                                <input class="form-control" id="employeename" type="text" data-bs-original-title=""
+                                    title="" placeholder="Abhi" readonly>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <label class="form-label" for="validationCustom01">Department:</label>
+                                <input class="form-control" id="department" type="text" data-bs-original-title=""
+                                    title="" placeholder="IT Department" readonly>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <label class="form-label" for="validationCustom01">Designation:</label>
+                                <input class="form-control" id="designation" type="text" data-bs-original-title=""
+                                    title="" placeholder="HR" readonly>
+                                <input type="hidden" name="employeeId" value="{{ $auth }}">
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </form>
-        </div>
+            </div>
+            <div class="card mt-3" id="additional-details-step">
+                <div class="card-header">
+                    <h4>Description</h4>
+                </div>
+                <div class="row px-5">
+                    <div class="col-md-12 mb-4">
+                        <label class="form-label" for="validationCustom01">Description</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="" name="description" rows="3"></textarea>
+                        @error('description')
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span>
+                        @enderror
+                    </div>
+                </div>
+                <div class="footer-item mt-3 mb-3 d-flex justify-content-end">
+                    <button class="btn btn-primary mt-2" type="submit" data-bs-original-title="" title="">Proceed
+                        Request</button>
+                </div>
+            </div>
+        </form>
+    </div>
     {{-- </div> --}}
 @endsection
 

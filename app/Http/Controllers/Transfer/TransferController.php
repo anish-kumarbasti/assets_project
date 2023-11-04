@@ -21,37 +21,6 @@ class TransferController extends Controller
 {
     public function index(Request $request)
     {
-        // if ($request->ajax()) {
-        //     $result = [];
-        //     $allproducts = [];
-        //     $employee = User::with('department', 'designation')
-        //         ->where('employee_id', 'LIKE', '%' . $request->employeeId . '%')
-        //         ->first() ?? null;
-        //     $issue = Issuence::where('employee_id', 'LIKE', '%' . $request->employeeId . '%')
-        //         ->get() ?? null;
-
-        //     foreach ($issue as $product) {
-        //         $productids = json_decode($product->product_id);
-        //         $products = Stock::whereIn('id', $productids)
-        //             ->where(function ($query) {
-        //                 $query->where('status_available', 2)
-        //                     ->orWhere('status_available', 3);
-        //             })
-        //             ->with('brand', 'brandmodel', 'asset_type', 'getsupplier')
-        //             ->get();
-        //         $allproducts = array_merge($allproducts, $products->all());
-        //     }
-
-        //     if ($employee && $issue) {
-        //         $result['employee'] = $employee;
-        //         $result['products'] = $allproducts;
-        //     } else {
-        //         $result['employee'] = null;
-        //         $result['products'] = [];
-        //     }
-
-        //     return response()->json($result);
-        // }
         $auth = Auth::user()->employee_id;
         $reason = TransferReason::all();
         $issue = Issuence::where('employee_id', $auth)->distinct()->pluck('product_id');
@@ -70,10 +39,10 @@ class TransferController extends Controller
                     ->get();
                 $data = $data->concat($datas);
             }
-            return view('Backend.Page.Transfer.transfer', compact('data','reason','auth'));
+            return view('Backend.Page.Transfer.transfer', compact('data', 'reason', 'auth'));
         }
 
-        return view('Backend.Page.Transfer.transfer', compact('reason','data','auth'));
+        return view('Backend.Page.Transfer.transfer', compact('reason', 'data', 'auth'));
     }
 
     public function store(Request $request)
@@ -94,6 +63,7 @@ class TransferController extends Controller
             $handover = User::where('employee_id', $request->handoverId)->first();
             $managertoUser = User::where('role_id', 3)
                 ->where('department_id', $handover->department_id)->first();
+            $randomNumber = 'TRAN' . str_pad(mt_rand(1111111, 9999999), 5, '0', STR_PAD_LEFT);
             $transfer = Transfer::create([
                 'employee_id' => $request->employeeId,
                 'product_id' => json_encode($request->selectedCardIds),
@@ -102,10 +72,13 @@ class TransferController extends Controller
                 'description' => $request->description,
                 'handover_manager_id' => $managertoUser->id,
                 'employee_manager_id' => $managerUser->id,
+                'transfers_transaction_code'=> $randomNumber,
             ]);
             foreach ($request->selectedCardIds as $productId) {
                 $stock = Stock::find($productId);
-                // dd($stock);
+                $stock->update([
+                    'status_available' => Status::where('name', 'Transfer Pending')->first()->id,
+                ]);
                 $transferId = $transfer->id;
                 if ($stock) {
                     TimelineHelper::logAction('Product Transferred', $productId, $stock->asset_type_id, $stock->asset, null, null, $transferId, $user->id);
@@ -117,38 +90,34 @@ class TransferController extends Controller
                 ->where('department_id', $user->department_id)->first() ?? null;
             $assettomanager = User::where('role_id', $assetcontroller->id)
                 ->where('department_id', $handover->department_id)->first() ?? null;
-            if($managerUser != null) {
+            if ($managerUser != null) {
                 $managerUser->notify(new TransferNotification($managerUser));
                 DB::table('notifications')
-            ->orderBy('created_at', 'desc')
-            ->limit(1)
-            ->update(['transfer_id' => $transfer->id]);
+                    ->orderBy('created_at', 'desc')
+                    ->limit(1)
+                    ->update(['transfer_id' => $transfer->id]);
             }
             if ($assetmanager != null) {
                 $assetmanager->notify(new TransferNotification($assetmanager));
                 DB::table('notifications')
-            ->orderBy('created_at', 'desc')
-            ->limit(1)
-            ->update(['transfer_id' => $transfer->id]);
+                    ->orderBy('created_at', 'desc')
+                    ->limit(1)
+                    ->update(['transfer_id' => $transfer->id]);
             }
             if ($managertoUser != null) {
                 $managertoUser->notify(new TransferNotification($managertoUser));
                 DB::table('notifications')
-            ->orderBy('created_at', 'desc')
-            ->limit(1)
-            ->update(['transfer_id' => $transfer->id]);
+                    ->orderBy('created_at', 'desc')
+                    ->limit(1)
+                    ->update(['transfer_id' => $transfer->id]);
             }
             if ($assettomanager != null) {
                 $assettomanager->notify(new TransferNotification($assettomanager));
                 DB::table('notifications')
-            ->orderBy('created_at', 'desc')
-            ->limit(1)
-            ->update(['transfer_id' => $transfer->id]);
+                    ->orderBy('created_at', 'desc')
+                    ->limit(1)
+                    ->update(['transfer_id' => $transfer->id]);
             }
-            $stock = Stock::where('id', $request->cardId)->first();
-            $stock->update([
-                'status_available' => Status::where('name', 'Transfer Pending')->first()->id,
-            ]);
             return back()->with('success', 'Asset Transferred successfully.');
         } catch (QueryException $e) {
             DB::rollback(); // Rollback the transaction in case of an error

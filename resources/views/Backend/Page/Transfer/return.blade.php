@@ -124,7 +124,7 @@
                         id="return-radio" checked>
                     <label for="return-radio">Return</label>
                 </a>
-        </div>
+            </div>
         </div>
         <form class="needs-validation" method="post" action="{{ route('submit') }}" novalidate="">
             @csrf
@@ -217,7 +217,8 @@
             $(row).toggleClass('selected');
             $(button).hide();
             $(row).find('.btn-remove').show();
-            updateSelectedCardIds();
+            var cardId = $(button).closest('tr').data('card-id');
+            $('#assetTable').append('<input type="hidden" name="selectedAssets[]" value="' + cardId + '">');
         }
 
         function removeRow(button) {
@@ -232,8 +233,7 @@
             const selectedIds = $('.selected').map(function() {
                 return $(this).data('card-id');
             }).get();
-            $('#assetTable').append('<input type="hidden" name="selectedAssets[]" value="'+selectedIds+'">');
-            console.log()
+            $('#assetTable').append('<input type="hidden" name="selectedAssets[]" value="' + selectedIds + '">');
         }
 
         $('.select-checkbox').change(function() {
