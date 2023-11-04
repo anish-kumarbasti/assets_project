@@ -64,6 +64,8 @@
             background: #fff;
             color: #333;
             border-radius: 10px;
+            width: 200px;
+            text-align: center;
         }
 
         .btna label {
@@ -97,6 +99,7 @@
             background-color: #11014d;
             color: white;
             transition: transform 0.3s;
+            border-radius: 10px;
         }
 
         input[type="radio"].toggle-right:checked+label::before {
@@ -193,73 +196,75 @@
         </div>
     </div>
     {{-- <div class="col-sm-12"> --}}
-    <div class="col-sm-12 card">
-        <div class="card-header pb-0 d-flex text-center switch-button-container">
-            <div class="col-sm-6">
-                <b>Choose Type:</b>
-            </div>
-            <div class="col-sm-6">
-                <a href="{{ url('transfer') }}" class="btna">
-                    <input type="radio" class="toggle toggle-left" name="transfer-return" value="transfer"
-                        id="transfer-radio" checked>
-                    <label for="transfer-radio">Transfer</label>
-                </a>&nbsp;
-                <a href="{{ route('return') }}" class="btna">
-                    <input type="radio" class="toggle toggle-right" name="transfer-return" value="return"
-                        id="return-radio">
-                    <label for="return-radio">Return</label>
-                </a>
-            </div>
-        </div>
-        <form class="needs-validation" method="post" action="{{ route('transfer-store') }}" novalidate="">
-            @csrf
-            <div class="" id="employee-step">
-                <div class="card-header pb-0">
-                    <h4>Product Details</h4>
-                </div>
-                <input type="hidden" name="selectedCardIds[]" id="selectedCardIds" value="">
-                <div class="card-body">
-                    <div class="card-item mt-3">
-                        <div class="row py-3" id="assetdetail">
-                            <table class="table" id="assetTable">
-                                <thead>
-                                    <tr>
-                                        <th>Product Info</th>
-                                        <th>Type</th>
-                                        <th>Brand</th>
-                                        <th>License Number</th>
-                                        <th>Brand Model</th>
-                                        <th>Configuration</th>
-                                        <th>Supplier</th>
-                                        <th>Price</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @isset($data)
-                                        @foreach ($data as $asset)
-                                            <tr data-card-id="{{ $asset->id }}">
-                                                <td>{{ $asset->product_info ?? 'N/A' }}</td>
-                                                <td>{{ $asset->asset_type->name ?? 'N/A' }}</td>
-                                                <td>{{ $asset->brand->name ?? 'N/A' }}</td>
-                                                <td>{{ $asset->license_number ?? 'N/A' }}</td>
-                                                <td>{{ $asset->brandmodel->name ?? 'N/A' }}</td>
-                                                <td>{{ $asset->configuration ?? 'N/A' }}</td>
-                                                <td>{{ $asset->getsupplier->name ?? 'N/A' }}</td>
-                                                <td>{{ $asset->price }}</td>
-                                                <td>
-                                                    <button class="btn btn-primary add-button" type="button">Add</button>
-                                                    <button class="btn btn-danger remove-button" style="display: none;"
-                                                        type="button">Remove</button>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    @endisset
-                                </tbody>
-                            </table>
-                        </div>
+        <div class="col-sm-12">
+            <div class="card-item border mt-3 card">
+                <div class="card-header pb-0 d-flex text-center switch-button-container">
+                    <div class="float-left col-sm-6 mt-2">
+                        <h4>Choose Type:</h4>
+                    </div>
+                    <div class="col-sm-6 mb-4 text-end">
+                        <a href="{{ url('transfer') }}" class="btna">
+                            <input type="radio" class="toggle toggle-left" name="transfer-return" value="transfer"
+                                id="transfer-radio" checked>
+                            <label for="transfer-radio">Transfer</label>
+                        </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="{{ route('return') }}" class="btna">
+                            <input type="radio" class="toggle toggle-right" name="transfer-return" value="return"
+                                id="return-radio">
+                            <label for="return-radio">Return</label>
+                        </a>
                     </div>
                 </div>
+            </div>
+            <form class="needs-validation" method="post" action="{{ route('transfer-store') }}" novalidate="">
+                @csrf
+                <div class="card" id="employee-step">
+                    <div class="card-header pb-0">
+                        <h4>Product Details</h4>
+                    </div>
+                    <input type="hidden" name="selectedCardIds[]" id="selectedCardIds" value="">
+                    <div class="card-body">
+                        <div class="card-item mt-3">
+                            <div class="row py-3" id="assetdetail">
+                                <table class="table" id="assetTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Product Info</th>
+                                            <th>Type</th>
+                                            <th>Brand</th>
+                                            <th>License Number</th>
+                                            <th>Brand Model</th>
+                                            <th>Configuration</th>
+                                            <th>Supplier</th>
+                                            <th>Price</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @isset($data)
+                                            @foreach ($data as $asset)
+                                                <tr data-card-id="{{ $asset->id }}">
+                                                    <td>{{ $asset->product_info ?? 'N/A' }}</td>
+                                                    <td>{{ $asset->asset_type->name ?? 'N/A' }}</td>
+                                                    <td>{{ $asset->brand->name ?? 'N/A' }}</td>
+                                                    <td>{{ $asset->license_number ?? 'N/A' }}</td>
+                                                    <td>{{ $asset->brandmodel->name ?? 'N/A' }}</td>
+                                                    <td>{{ $asset->configuration ?? 'N/A' }}</td>
+                                                    <td>{{ $asset->getsupplier->name ?? 'N/A' }}</td>
+                                                    <td>{{ $asset->price }}</td>
+                                                    <td>
+                                                        <button class="btn btn-primary add-button" type="button">Add</button>
+                                                        <button class="btn btn-danger remove-button" style="display: none;"
+                                                            type="button">Remove</button>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @endisset
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
             </div>
             <div class="card mt-3" id="select-asset-step">
                 <div class="card-body">

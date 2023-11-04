@@ -83,7 +83,7 @@
                                 @foreach (auth()->user()->notifications as $notification)
                                     <tr>
                                         <td id="clickfr">
-                                            @if (Auth::check() && Auth::user()->role_id == 4)
+                                            @if (Auth::check() && Auth::user()->role_id == 6)
                                                 @if ($notification->type == 'App\Notifications\TransferAcceptNotification')
                                                     <p><b>{{ $notification->data['name'] ?? '' }}</b>&nbsp;&nbsp;<a
                                                             href="{{ route('markasread-manager-transferaccept', $notification->id) }}">

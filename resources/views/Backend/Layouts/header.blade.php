@@ -124,7 +124,7 @@
                                 @foreach (auth()->user()->notifications as $notification)
                                     <div class="flex-shrink-0"><i data-feather="shopping-cart"></i></div>
                                     <div class="flex-grow-1">
-                                        @if (Auth::check() && Auth::user()->role_id == 4)
+                                        @if (Auth::check() && Auth::user()->role_id == 6)
                                             @if ($notification->type == 'App\Notifications\TransferAcceptNotification')
                                                 <p><b>{{ $notification->data['name'] ?? '' }}</b>&nbsp;&nbsp;<a
                                                         href="{{ route('markasread-manager-transferaccept', $notification->id) }}">
@@ -181,21 +181,21 @@
                                                         class="pull-right">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span>
                                                 </p>
                                             @else
-                                                @if($notification->issuance_id)
+                                                {{-- @if($notification->issuance_id) --}}
                                                 <p><b>{{ $notification->data['name'] ?? '' }}</b>&nbsp;&nbsp;<a
                                                         href="{{ route('markasread', ['id' => $notification->id, 'typeId' => $notification->issuance_id]) }}">Employee
                                                         New
                                                         Notification!</a><span
                                                         class="pull-right">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span>
                                                 </p>
-                                                @else
+                                                {{-- @else
                                                 <p><b>{{ $notification->data['name'] ?? '' }}</b>&nbsp;&nbsp;<a
                                                     href="{{ route('markasread', $notification->id) }}">Employee
                                                     New
                                                     Notification!</a><span
                                                     class="pull-right">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span>
                                                 </p>
-                                                @endif
+                                                @endif --}}
                                             @endif
                                         @endif
                                     </div>
