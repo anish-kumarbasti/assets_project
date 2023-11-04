@@ -264,7 +264,8 @@ class IssuenceController extends Controller
             $userdetail[] = $issuedatas->employee_id;
         }
         // dd($createdDates);
-        $products = Stock::whereIn('id', $productIds)->with('brand', 'brandmodel', 'asset_type', 'getsupplier')->get();
+        $selectedAssetIds = collect($productIds)->flatten()->unique()->toArray();
+        $products = Stock::whereIn('id', $selectedAssetIds)->with('brand', 'brandmodel', 'asset_type', 'getsupplier')->get();
         $user = User::where('employee_id', $userdetail)->first();
         $users = DB::table('notifications')->where('type', 'App\Notifications\TransferNotification')->first();
 
