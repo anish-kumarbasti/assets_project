@@ -146,6 +146,7 @@
                                 <th>Configuration</th>
                                 <th>Age</th>
                                 <th>Price</th>
+                                <th>Warranty</th>
                                 <th>Timeline</th>
                             </tr>
                         </thead>
@@ -162,6 +163,7 @@
                                 <td class="ellipsis">{{ $stock->configuration ?? 'N/A' }}</td>
                                 <td>{{ $stock->ageInYears }} years and {{ $stock->ageInMonths }} months</td>
                                 <td> ₹{{ $stock->price ?? 'N/A' }}</td>
+                                <td>{{$stock->product_warranty??'N/A'}}</td>
                                 <td>
                                     <form action="{{ url('timeline', $stock->id) }}" method="post">
                                         @csrf
@@ -187,11 +189,8 @@
                                 <th>Attribute</th>
                                 <th>Configuration</th>
                                 <th>Age</th>
-                                <!-- <th>User ID</th>
-                                    <th>User</th>
-                                    <th>Deparment</th>
-                                    <th>Designation</th> -->
                                 <th>Price</th>
+                                <th>Warranty</th>
                                 <th>Timeline</th>
                             </tr>
                         </thead>
@@ -212,6 +211,7 @@
                                 <td>{{$allocateds->serial_number??''}}</td>
                                 <td>{{$allocateds->serial_number??''}}</td> --}}
                                 <td> ₹{{ $allocateds->price ?? 'N/A' }}</td>
+                                <td>{{$allocateds->product_warranty??'N/A'}}</td>
                                 <td>
                                     <form action="{{ url('timeline', $allocateds->id) }}" method="post">
                                         @csrf
@@ -238,6 +238,7 @@
                                 <th>Configuration</th>
                                 <th>Age</th>
                                 <th>Price</th>
+                                <th>Warranty</th>
                                 <th>Timeline</th>
                             </tr>
                         </thead>
@@ -254,6 +255,7 @@
                                 <td class="ellipsis">{{ $unrepairs->configuration ?? 'N/A' }}</td>
                                 <td>{{ $unrepairs->ageInYears }} years and {{ $unrepairs->ageInMonths }} months</td>
                                 <td> ₹{{ $unrepairs->price ?? 'N/A' }}</td>
+                                <td>{{$unrepairs->product_warranty??'N/A'}}</td>
                                 <td>
                                     <form action="{{ url('timeline', $unrepairs->id) }}" method="post">
                                         @csrf
@@ -280,6 +282,7 @@
                                 <th>Configuration</th>
                                 <th>Age</th>
                                 <th>Price</th>
+                                <th>Warranty</th>
                                 <th>Timeline</th>
                             </tr>
                         </thead>
@@ -296,6 +299,7 @@
                                 <td class="ellipsis">{{ $scrappeds->configuration ?? '' }}</td>
                                 <td>{{ $scrappeds->ageInYears }} years and {{ $scrappeds->ageInMonths }} months</td>
                                 <td> ₹{{ $scrappeds->price ?? 'N/A' }}</td>
+                                <td>{{$scrappeds->product_warranty??'N/A'}}</td>
                                 <td>
                                     <form action="{{url('timeline',$scrappeds->id)}}" method="post">
                                         @csrf
@@ -322,6 +326,7 @@
                                 <th>Configuration</th>
                                 <th>Age</th>
                                 <th>Price</th>
+                                <th>Warranty</th>
                                 <th>Timeline</th>
                             </tr>
                         </thead>
@@ -338,6 +343,7 @@
                                 <td class="ellipsis">{{ $stolens->configuration ?? 'N/A' }}</td>
                                 <td>{{ $stolens->ageInYears }} years and {{ $stolens->ageInMonths }} months</td>
                                 <td> ₹{{ $stolens->price ?? 'N/A' }}</td>
+                                <td>{{$stolens->product_warranty??'N/A'}}</td>
                                 <td>
                                     <form action="{{url('timeline',$stolens->id)}}" method="post">
                                         @csrf
@@ -363,6 +369,7 @@
                                 <th>Configuration</th>
                                 <th>Age</th>
                                 <th>Price</th>
+                                <th>Warranty</th>
                                 <th>Timeline</th>
                             </tr>
                         </thead>
@@ -379,6 +386,7 @@
                                 <td class="ellipsis">{{ $allocateds->configuration ?? 'N/A' }}</td>
                                 <td>{{ $transfers->ageInYears }} years and {{ $transfers->ageInMonths }} months</td>
                                 <td> ₹{{ $transfers->price ?? 'N/A' }}</td>
+                                <td>{{$transfers->product_warranty??'N/A'}}</td>
                                 <td>
                                     <form action="{{url('timeline',$transfers->id)}}" method="post">
                                         @csrf
