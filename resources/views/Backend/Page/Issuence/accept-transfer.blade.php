@@ -84,6 +84,23 @@
             color: #4FAAD5 !important;
             font-size: 20px;
         }
+        input[readonly] {
+            background-color: white !important;
+        }
+
+        textarea[readonly] {
+            background-color: white !important;
+        }
+
+        .action-button {
+            margin-right: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .action-button:hover {
+            background-color: #f0f0f0 !important;
+            color: #333;
+        }
     </style>
 @endsection
 @section('Content-Area')
@@ -102,6 +119,27 @@
     @endif
     <div class="row">
         <div class="col-xl-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row p-3">
+                        <div class="col-md-5">
+                            <h4>Transaction Code:</h4>
+                            <input class="form-control mt-3" value="{{ $transactioncode }}" readonly>
+                        </div>
+                        <div class="col-md-7">
+                            <h4>Description:</h4>
+                            <textarea readonly disabled cols="30" rows="3" autofocus class="form-control mt-3">{{ $description }}</textarea>
+                        </div>
+                        <div class="col-md-12 mt-5 text-end fw-bold">
+                            <small>
+                                @foreach ($createdDates as $issuedata)
+                                    {{ Carbon\Carbon::parse($issuedata)->diffForHumans() }}
+                                @endforeach
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="card appointment-detail">
                 <div class="card-header pb-0">
                     <div class="d-flex justify-content-between">
@@ -155,12 +193,14 @@
                                                 </td>
                                                 <td class="text-end">
                                                     @if ($product->status_available == 16)
-                                                    <a class="btn btn-success" href="{{route('approve-transfer-manager',$product->id)}}">Approve</a>
-                                                    <a class="btn btn-danger" href="{{route('denied-transfer-manager',$product->id)}}">Denied</a>
+                                                    <div class="btn-group" role="group" aria-label="Action Buttons">
+                                                    <a class="btn btn-success action-button" href="{{route('approve-transfer-manager',['id'=>$product->id,'nid'=>$id])}}">Approve</a>
+                                                    <a class="btn btn-danger action-button" href="{{route('denied-transfer-manager',$product->id)}}">Denied</a>
+                                                    </div>
                                                     @elseif ($product->status_available == 14)
-                                                    <a class="btn btn-danger" type="button">Denied.</a>
-                                                    @else  
-                                                    <a class="btn btn-success" type="button">Approved.</a>
+                                                    <a class="btn btn-danger action-button" style="width: 100%;" type="button">Denied.</a>
+                                                    @else
+                                                    <a class="btn btn-success action-button" style="width: 100%;" type="button">Approved.</a>
                                                     @endif
                                                 </td>
                                             @else

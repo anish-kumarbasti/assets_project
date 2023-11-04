@@ -84,6 +84,23 @@
             color: #4FAAD5 !important;
             font-size: 20px;
         }
+        input[readonly] {
+            background-color: white !important;
+        }
+
+        textarea[readonly] {
+            background-color: white !important;
+        }
+
+        .action-button {
+            margin-right: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .action-button:hover {
+            background-color: #f0f0f0 !important;
+            color: #333;
+        }
     </style>
 @endsection
 @section('Content-Area')
@@ -102,6 +119,27 @@
     @endif
     <div class="row">
         <div class="col-xl-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row p-3">
+                        <div class="col-md-5">
+                            <h4>Transaction Code:</h4>
+                            <input class="form-control mt-3" value="{{ $transactioncode }}" readonly>
+                        </div>
+                        <div class="col-md-7">
+                            <h4>Description:</h4>
+                            <textarea readonly disabled cols="30" rows="3" autofocus class="form-control mt-3">{{ $description }}</textarea>
+                        </div>
+                        <div class="col-md-12 mt-5 text-end fw-bold">
+                            <small>
+                                @foreach ($createdDates as $issuedata)
+                                    {{ Carbon\Carbon::parse($issuedata)->diffForHumans() }}
+                                @endforeach
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="card appointment-detail">
                 <div class="card-header pb-0">
                     <div class="d-flex justify-content-between">
@@ -138,7 +176,7 @@
                                     <form
                                         action="{{ Auth::check() && Auth::user()->role_id == 2 ? route('accept-asset', $product->id) : route('accept-asset-manager', $product->id) }}">
                                         <tr>
-                                            <td>{{ $product->product_number??'N/A' }}</td>
+                                            <td>{{ $product->product_number ?? 'N/A' }}</td>
                                             <td>
                                                 <div class="d-flex"><img class="img-fluid align-top circle"
                                                         src="../assets/images/dashboard/default/01.png" alt="">
@@ -146,7 +184,7 @@
                                                             href="{{ route('accept-detail-asset', $product->id) }}"><span>{{ $product->product_info }}</span></a>
                                                         <p class="mb-0">
                                                             {{-- @foreach ($createdDates as $issuedata) --}}
-                                                                {{ Carbon\Carbon::parse($product->created_at)->diffForHumans() }}
+                                                            {{ Carbon\Carbon::parse($product->created_at)->diffForHumans() }}
                                                             {{-- @endforeach --}}
                                                         </p>
 
@@ -158,15 +196,19 @@
                                             <td class="text-end">
                                                 {{-- <button class="btn btn-info" type="button">Returned by
                                                     User</button> --}}
-                                                    {{-- {{ dd($product) }} --}}
-                                                    @if ($product->status_available == 9)
-                                                    <a class="btn btn-success" href="{{route('approve.return.manager',$product->id)}}">Approve</a>
-                                                    <a class="btn btn-danger" href="{{route('denied.return.manager',$product->id)}}">Denied</a>
-                                                    @elseif ($product->status_available == 14)
-                                                    <button class="btn btn-danger" type="button">Denied</button>
-                                                     @else
-                                                    <button class="btn btn-success" type="button">Approved</button>
-                                                    @endif
+                                                {{-- {{ dd($product) }} --}}
+                                                @if ($product->status_available == 9)
+                                                <div class="btn-group" role="group" aria-label="Action Buttons">
+                                                    <a class="btn btn-success action-button"
+                                                        href="{{ route('approve.return.manager', $product->id) }}">Approve</a>
+                                                    <a class="btn btn-danger action-button"
+                                                        href="{{ route('denied.return.manager', $product->id) }}">Denied</a>
+                                                </div>
+                                                @elseif ($product->status_available == 14)
+                                                    <button class="btn btn-danger action-button" style="width: 100%;" type="button">Denied</button>
+                                                @else
+                                                    <button class="btn btn-success action-button" style="width: 100%;" type="button">Approved</button>
+                                                @endif
                                             </td>
                                         </tr>
                                     </form>

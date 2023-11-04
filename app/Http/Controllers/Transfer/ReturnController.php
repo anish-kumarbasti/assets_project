@@ -46,27 +46,30 @@ class ReturnController extends Controller
     public function submit(Request $request)
     {
         // dd($request);
-        try {
+        // try {
             $request->validate([
-                'selectedCardIds' => 'required', // Ensure that cardId is an array
+                'selectedAssets' => 'required', // Ensure that cardId is an array
                 'description' => 'required',
             ]);
             $auth = Auth::user();
-            $return = AssetReturn::create([
-                'product_id' => json_encode($request->selectedCardIds),
-                'reason' => $request->description,
-                'return_by_user' => $auth->id,
-            ]);
-            $status = Status::where('name', 'Returned by User')->first();
-            Stock::whereIn('id', $request->selectedCardIds)->update(['status_available' => $status->id]);
-            foreach ($request->selectedCardIds as $cardId) {
-                $product = Stock::where('id', $cardId)->first();
-                TimelineHelper::logAction('Asset Returned', $cardId, $product->asset_type_id, $product->asset, null, null, null, null, null, null, null, null, $return->id, $auth->id);
-            }
             $role = Role::where('name', 'Manager')->first();
             $user = User::where('role_id', $role->id)
                 ->where('department_id', $auth->department_id)
                 ->first();
+            $randomNumber = 'RETU' . str_pad(mt_rand(1111111, 9999999), 5, '0', STR_PAD_LEFT);
+            $return = AssetReturn::create([
+                'product_id' => json_encode($request->selectedAssets),
+                'reason' => $request->description,
+                'return_by_user' => $auth->id,
+                'manager_user_id' => $user->id,
+                'return_transaction_code' => $randomNumber,
+            ]);
+            $status = Status::where('name', 'Returned by User')->first();
+            foreach ($request->selectedAssets as $cardId) {
+                $product = Stock::where('id', $cardId)->first();
+                $product->update(['status_available' => $status->id]);
+                TimelineHelper::logAction('Asset Returned', $cardId, $product->asset_type_id, $product->asset, null, null, null, null, null, null, null, null, $return->id, $auth->id);
+            }
             $assetcontroller = Role::where('name', 'Asset Controller')->first();
             $assetmanager = User::where('role_id', $assetcontroller->id)
                 ->where('department_id', $auth->department_id)
@@ -86,8 +89,8 @@ class ReturnController extends Controller
                     ->update(['return_id' => $return->id]);
             }
             return back()->with('success', 'Asset Returned.');
-        } catch (Exception $e) {
-            return back()->with('error', 'An error occurred while processing your request.');
-        }
+        // } catch (Exception $e) {
+        //     return back()->with('error', 'An error occurred while processing your request.');
+        // }
     }
 }

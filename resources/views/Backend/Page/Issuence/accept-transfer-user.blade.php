@@ -84,6 +84,24 @@
             color: #4FAAD5 !important;
             font-size: 20px;
         }
+
+        input[readonly] {
+            background-color: white !important;
+        }
+
+        textarea[readonly] {
+            background-color: white !important;
+        }
+
+        .action-button {
+            margin-right: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .action-button:hover {
+            background-color: #f0f0f0 !important;
+            color: #333;
+        }
     </style>
 @endsection
 @section('Content-Area')
@@ -102,6 +120,27 @@
     @endif
     <div class="row">
         <div class="col-xl-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row p-3">
+                        <div class="col-md-5">
+                            <h4>Transaction Code:</h4>
+                            <input class="form-control mt-3" value="{{ $transactioncode }}" readonly>
+                        </div>
+                        <div class="col-md-7">
+                            <h4>Description:</h4>
+                            <textarea readonly disabled cols="30" rows="3" autofocus class="form-control mt-3">{{ $description }}</textarea>
+                        </div>
+                        <div class="col-md-12 mt-5 text-end fw-bold">
+                            <small>
+                                @foreach ($createdDates as $issuedata)
+                                    {{ Carbon\Carbon::parse($issuedata)->diffForHumans() }}
+                                @endforeach
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="card appointment-detail">
                 <div class="card-header pb-0">
                     <div class="d-flex justify-content-between">
@@ -139,7 +178,7 @@
                                         action="{{ Auth::check() && Auth::user()->role_id == 2 ? route('accept-asset', $product->id) : route('accept-asset-manager', $product->id) }}">
                                         <tr>
                                             <td>
-                                                {{ $product->product_number??'N/A' }}
+                                                {{ $product->product_number ?? 'N/A' }}
                                             </td>
                                             <td>
                                                 <div class="d-flex"><img class="img-fluid align-top circle"
@@ -164,15 +203,17 @@
                                                 request!</td>
                                             <td class="text-end">
                                                 @if ($product->status_available == 8)
-                                                    <a class="btn btn-primary"
-                                                        href="{{ route('transfer-accept', $product->id) }}">Accept</a>&nbsp;
-                                                    <button class="btn btn-danger" type="button" data-toggle="modal"
-                                                        data-target="#rejectionModal"
-                                                        onclick="setProductIdToReject('{{ $product->id }}')">Reject</button>
+                                                    <div class="btn-group" role="group" aria-label="Action Buttons">
+                                                        <a class="btn btn-primary action-button"
+                                                            href="{{ route('transfer-accept', $product->id) }}">Accept</a>&nbsp;
+                                                        <button class="btn btn-danger action-button" type="button" data-toggle="modal"
+                                                            data-target="#rejectionModal"
+                                                            onclick="setProductIdToReject('{{ $product->id }}')">Reject</button>
+                                                    </div>
                                                 @elseif ($product->status_available == 4)
-                                                    <button class="btn btn-danger" type="button">Rejected</button>
+                                                    <button class="btn btn-danger action-button" style="width: 100%;" type="button">Rejected</button>
                                                 @else
-                                                    <button class="btn btn-success" type="button">Accepted</button>
+                                                    <button class="btn btn-success action-button" style="width: 100%;" type="button">Accepted</button>
                                                 @endif
                                             </td>
                                         </tr>
