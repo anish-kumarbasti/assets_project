@@ -71,7 +71,7 @@ class TransferController extends Controller
                 $data = $data->concat($datas);
             }
             return view('Backend.Page.Transfer.transfer', compact('data','reason','auth'));
-        } 
+        }
 
         return view('Backend.Page.Transfer.transfer', compact('reason','data','auth'));
     }
@@ -117,21 +117,34 @@ class TransferController extends Controller
                 ->where('department_id', $user->department_id)->first() ?? null;
             $assettomanager = User::where('role_id', $assetcontroller->id)
                 ->where('department_id', $handover->department_id)->first() ?? null;
-            if ($managerUser != null) {
+            if($managerUser != null) {
                 $managerUser->notify(new TransferNotification($managerUser));
+                DB::table('notifications')
+            ->orderBy('created_at', 'desc')
+            ->limit(1)
+            ->update(['transfer_id' => $transfer->id]);
             }
-
             if ($assetmanager != null) {
                 $assetmanager->notify(new TransferNotification($assetmanager));
+                DB::table('notifications')
+            ->orderBy('created_at', 'desc')
+            ->limit(1)
+            ->update(['transfer_id' => $transfer->id]);
             }
             if ($managertoUser != null) {
                 $managertoUser->notify(new TransferNotification($managertoUser));
+                DB::table('notifications')
+            ->orderBy('created_at', 'desc')
+            ->limit(1)
+            ->update(['transfer_id' => $transfer->id]);
             }
-
             if ($assettomanager != null) {
                 $assettomanager->notify(new TransferNotification($assettomanager));
+                DB::table('notifications')
+            ->orderBy('created_at', 'desc')
+            ->limit(1)
+            ->update(['transfer_id' => $transfer->id]);
             }
-
             $stock = Stock::where('id', $request->cardId)->first();
             $stock->update([
                 'status_available' => Status::where('name', 'Transfer Pending')->first()->id,
