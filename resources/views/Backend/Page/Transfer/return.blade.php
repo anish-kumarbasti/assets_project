@@ -11,6 +11,7 @@
             border: 1px solid #ccc;
             background: #fff;
             color: #333;
+            border-radius: 10px;
             /* border-radius: 25px; */
         }
 
@@ -107,10 +108,12 @@
             @endforeach
         </div>
     @endif
-    <div class="col-sm-12">
-        <div class="card text-center switch-button-container">
-            <div class="card-body">
+    <div class="col-sm-12 card">
+        <div class="card-header pb-0 d-flex text-center switch-button-container">
+            <div class="float-left col-sm-6">
                 <b>Choose Type:</b>
+            </div>
+            <div class="col-sm-6">
                 <a href="{{ url('transfer') }}" class="btna">
                     <input type="radio" class="toggle toggle-left" name="transfer-return" value="transfer"
                         id="transfer-radio">
@@ -121,11 +124,11 @@
                         id="return-radio" checked>
                     <label for="return-radio">Return</label>
                 </a>
-            </div>
+        </div>
         </div>
         <form class="needs-validation" method="post" action="{{ route('submit') }}" novalidate="">
             @csrf
-            <div class="card" id="step1">
+            <div class="" id="step1">
                 <div class="card-header pb-0">
                     <h4>Product Details</h4>
                 </div>
@@ -167,7 +170,7 @@
                         </tbody>
                     </table>
                 </div>
-                <input type="hidden" name="selectedCardIds[]">
+                {{-- <input type="hidden" name="selectedCardIds[]"> --}}
             </div>
             <div class="card mt-3" id="step2">
                 <div class="card-body">
@@ -229,7 +232,8 @@
             const selectedIds = $('.selected').map(function() {
                 return $(this).data('card-id');
             }).get();
-            $('input[name="selectedCardIds[]"]').val(selectedIds.join(','));
+            $('#assetTable').append('<input type="hidden" name="selectedAssets[]" value="'+selectedIds+'">');
+            console.log()
         }
 
         $('.select-checkbox').change(function() {
