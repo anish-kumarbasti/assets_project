@@ -12,6 +12,8 @@
             background: #fff;
             color: #333;
             border-radius: 10px;
+            width: 200px;
+            text-align: center;
             /* border-radius: 25px; */
         }
 
@@ -45,6 +47,7 @@
             background-color: #11014d;
             color: white;
             transition: transform 0.3s;
+            border-radius: 10px;
         }
 
         input[type="radio"].toggle-right:checked+label::before {
@@ -108,27 +111,29 @@
             @endforeach
         </div>
     @endif
-    <div class="col-sm-12 card">
-        <div class="card-header pb-0 d-flex text-center switch-button-container">
-            <div class="float-left col-sm-6">
-                <b>Choose Type:</b>
+    <div class="col-sm-12">
+        <div class="card-item border mt-3 card">
+            <div class="card-header pb-0 d-flex text-center switch-button-container">
+                <div class="float-left col-sm-6 mt-2">
+                    <h4>Choose Type:</h4>
+                </div>
+                <div class="col-sm-6 mb-4 text-end">
+                    <a href="{{ url('transfer') }}" class="btna">
+                        <input type="radio" class="toggle toggle-left" name="transfer-return" value="transfer"
+                            id="transfer-radio">
+                        <label for="transfer-radio">Transfer</label>
+                    </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="{{ route('return') }}" class="btna">
+                        <input type="radio" class="toggle toggle-right" name="transfer-return" value="return"
+                            id="return-radio" checked>
+                        <label for="return-radio">Return</label>
+                    </a>
+                </div>
             </div>
-            <div class="col-sm-6">
-                <a href="{{ url('transfer') }}" class="btna">
-                    <input type="radio" class="toggle toggle-left" name="transfer-return" value="transfer"
-                        id="transfer-radio">
-                    <label for="transfer-radio">Transfer</label>
-                </a>
-                <a href="{{ route('return') }}" class="btna">
-                    <input type="radio" class="toggle toggle-right" name="transfer-return" value="return"
-                        id="return-radio" checked>
-                    <label for="return-radio">Return</label>
-                </a>
-        </div>
         </div>
         <form class="needs-validation" method="post" action="{{ route('submit') }}" novalidate="">
             @csrf
-            <div class="" id="step1">
+            <div class="card" id="step1">
                 <div class="card-header pb-0">
                     <h4>Product Details</h4>
                 </div>
