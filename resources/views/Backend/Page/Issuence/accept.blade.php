@@ -138,6 +138,11 @@
                                 @endforeach
                             </small>
                         </div>
+                        <div class="col-md-12 text-end text-muted">
+                            <small>
+                                {{ $datatime }}
+                            </small>
+                        </div>
                     </div>
                 </div>
             </div>
