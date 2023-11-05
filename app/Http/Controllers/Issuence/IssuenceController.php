@@ -422,7 +422,7 @@ class IssuenceController extends Controller
             $status = Status::where('name', 'Transferred')->first();
             Stock::updateOrCreate(['id' => $id], ['status_available' => $status->id]);
             $manager = User::where('department_id', $user->department_id)->where('role_id', 3)->first();
-            $controller = User::where('department_id', $user->department_id)->where('role_id', 4)->first();
+            $controller = User::where('department_id', $user->department_id)->where('role_id', 6)->first();
             $manager->notify(new TransferAcceptNotification($manager));
             $controller->notify(new TransferAcceptNotification($controller));
             return redirect()->route('user-dashboard')->with('success', 'Asset Transferred!');
