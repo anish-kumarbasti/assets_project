@@ -124,10 +124,10 @@
                         </div>
                         <div class="col-md-6">
                             <div class="p-1">
-                                EMP ID:<input class="form-control mt-3" value="{{$mang->employee_id??''}}" readonly>
+                                Manager ID:<input class="form-control mt-3" value="{{$mang->employee_id??''}}" readonly>
                             </div>
                             <div class="p-1">
-                                EMP Name:<input class="form-control mt-3" value="{{$mang->first_name ?? 'N/A'}} {{$mang->last_name ?? 'N/A'}}" readonly>
+                                Manager Name:<input class="form-control mt-3" value="{{$mang->first_name ?? 'N/A'}} {{$mang->last_name ?? 'N/A'}}" readonly>
                             </div>
                         </div>
                     </div>
@@ -176,8 +176,8 @@
                                 <th>Product</th>
                                 <th>Action</th>
                             </thead>
-                            {{-- <tbody>
-                                @foreach ($productdata as $stock)
+                            <tbody>
+                                @foreach ($products as $stock)
                                     <tr>
                                         <td>{{$stock->product_number??''}}</td>
                                         <td>{{$stock->asset_type->name??''}}</td>
@@ -188,7 +188,7 @@
                                         </td>
                                     </tr>
                                 @endforeach
-                            </tbody> --}}
+                            </tbody>
                         </table>
                     </div>
                 </div>
