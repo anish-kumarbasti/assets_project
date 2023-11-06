@@ -155,7 +155,7 @@ background-color:#1d0950!important;
                 <li class="sidebar-list {{ request()->is(['transfer*', 'transfer/all*']) ? 'active' : '' }}">
                     <a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="list"></i><span>Transfer</span></a>
                     <ul class="sidebar-submenu">
-                        <li class="{{ request()->is(['transfer*']) ? 'active' : '' }}"><a href="{{ url('transfer') }}">Add Transfer</a> </li>
+                        <li class="{{ request()->is(['transfer*']) ? 'active' : '' }}"><a href="{{ url('transfer') }}">Application</a> </li>
                         {{-- <li class="{{ request()->is(['return*']) ? 'active' : '' }}"><a href="{{ url('return') }}">Asset Returning</a> </li> --}}
                         <li class="{{ request()->is(['transfer/all*']) ? 'active' : '' }}"><a href="{{ url('transfer/all') }}">All Transfer</a> </li>
                     </ul>
@@ -191,7 +191,7 @@ background-color:#1d0950!important;
                 <li class="sidebar-list {{ request()->is(['issuence-requests*', 'all-issuence*']) ? 'active' : '' }}">
                     <a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="plus-square"></i><span>Issuence</span></a>
                     <ul class="sidebar-submenu">
-                        <li><a href="{{url('employee/issue')}}">Issuence Requests</a></li>
+                        {{-- <li><a href="{{url('employee/issue')}}">Issuence Requests</a></li> --}}
                         <li><a href="{{url('all/issue')}}">All Issuence</a></li>
                     </ul>
                 </li>
@@ -199,7 +199,7 @@ background-color:#1d0950!important;
                 <li class="sidebar-list {{ request()->is(['transfer-requests*', 'all-transfer*']) ? 'active' : '' }}">
                     <a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="plus-square"></i><span>Transfer</span></a>
                     <ul class="sidebar-submenu">
-                        <li class="{{ request()->is(['return*']) ? 'active' : '' }}"><a href="{{ url('return') }}">Asset Returning</a> </li>
+                        <li class="{{ request()->is(['return*']) ? 'active' : '' }}"><a href="{{ url('return') }}">Application</a> </li>
                         <li><a href="{{url('employee/all/transfer')}}">All Transfer</a></li>
                     </ul>
                 </li>
