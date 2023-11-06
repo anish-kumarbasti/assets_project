@@ -463,6 +463,16 @@ class IssuenceController extends Controller
         return view('Backend.Page.Issuence.all-issuence', compact('issuences'));
     }
 
+    public function showissuence($id){
+        $issue = Issuence::find($id);
+        $data = $issue->product_id;
+        $empname = $issue->employee_id;
+        $user = User::where('employee_id',$empname)->first();
+        $issuances = json_decode($data);
+        $stock = Stock::find($issuances);
+        return view('Backend.Page.Issuence.showissuence',compact('stock','issue','user'));
+    }
+
     public function AssetAcceptdetail($id)
     {
         $data = Stock::find($id);
