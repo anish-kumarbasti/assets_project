@@ -135,10 +135,10 @@
                         <div class="col-md-4">
                             <div class="p-1">
                                 <h5>Approved By</h5>
-                                MAN ID:<input class="form-control mt-3" value="{{$user->employee_id??'N/A'}}" readonly>
+                                Manager ID:<input class="form-control mt-3" value="{{$user->employee_id??'N/A'}}" readonly>
                             </div>
                             <div class="p-1">
-                                MAN Name:
+                                Manager Name:
                                 <input class="form-control mt-3" value="{{$user->first_name??'N/A'}} {{$user->last_name??'N/A'}}" readonly>
                             </div>
                         </div>

@@ -81,31 +81,24 @@ class TransferController extends Controller
                 TimelineHelper::logAction('Product Transferred', $productId, $stock->asset_type_id, $stock->asset, null, null, $transferId, $user->id);
             }
         }
+        // dd($transferId);
         $assetcontroller = Role::where('name', 'Asset Controller')->first();
         $assetmanager = User::where('role_id', $assetcontroller->id)
             ->where('department_id', $user->department_id)->first() ?? null;
         $assettomanager = User::where('role_id', $assetcontroller->id)
             ->where('department_id', $handover->department_id)->first() ?? null;
         $managerUser->notify(new TransferNotification($managerUser));
-        DB::table('notifications')
-            ->orderBy('created_at', 'desc')
-            ->limit(1)
-            ->update(['transfer_id' => $transfer->id]);
         $assetmanager->notify(new TransferNotification($assetmanager));
-        DB::table('notifications')
-            ->orderBy('created_at', 'desc')
-            ->limit(1)
-            ->update(['transfer_id' => $transfer->id]);
         $managertoUser->notify(new TransferNotification($managertoUser));
-        DB::table('notifications')
-            ->orderBy('created_at', 'desc')
-            ->limit(1)
-            ->update(['transfer_id' => $transfer->id]);
         $assettomanager->notify(new TransferNotification($assettomanager));
-        DB::table('notifications')
+        $count=0;
+        $a=[];
+        $lastFourRecords=DB::table('notifications')
             ->orderBy('created_at', 'desc')
-            ->limit(1)
+            ->take(4)
             ->update(['transfer_id' => $transfer->id]);
+       
+
         return back()->with('success', 'Asset Transferred successfully.');
         // } catch (QueryException $e) {
         //     DB::rollback(); // Rollback the transaction in case of an error
