@@ -153,11 +153,12 @@ background-color:#1d0950!important;
                 @endcan
                 @can('view_transfer')
                 <li class="sidebar-list {{ request()->is(['transfer*', 'transfer/all*']) ? 'active' : '' }}">
-                    <a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="list"></i><span>Transfer</span></a>
+                    <a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="list"></i><span>Transfer/Return</span></a>
                     <ul class="sidebar-submenu">
-                        <li class="{{ request()->is(['transfer*']) ? 'active' : '' }}"><a href="{{ url('transfer') }}">Application</a> </li>
+                        <li class="{{ request()->is(['transfer*']) ? 'active' : '' }}"><a href="{{ url('transfer') }}">Apply</a> </li>
                         {{-- <li class="{{ request()->is(['return*']) ? 'active' : '' }}"><a href="{{ url('return') }}">Asset Returning</a> </li> --}}
                         <li class="{{ request()->is(['transfer/all*']) ? 'active' : '' }}"><a href="{{ url('transfer/all') }}">All Transfer</a> </li>
+                        <li class="{{ request()->is(['return/all*']) ? 'active' : '' }}"><a href="{{ url('return/all') }}">All Return</a> </li>
                     </ul>
                 </li>
                 @endcan
@@ -197,9 +198,9 @@ background-color:#1d0950!important;
                 </li>
                 <!-- Transfer menu -->
                 <li class="sidebar-list {{ request()->is(['transfer-requests*', 'all-transfer*']) ? 'active' : '' }}">
-                    <a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="plus-square"></i><span>Transfer</span></a>
+                    <a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="plus-square"></i><span>Transfer/Return</span></a>
                     <ul class="sidebar-submenu">
-                        <li class="{{ request()->is(['return*']) ? 'active' : '' }}"><a href="{{ url('return') }}">Application</a> </li>
+                        <li class="{{ request()->is(['return*']) ? 'active' : '' }}"><a href="{{ url('return') }}">Apply</a> </li>
                         <li><a href="{{url('employee/all/transfer')}}">All Transfer</a></li>
                     </ul>
                 </li>

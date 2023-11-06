@@ -93,4 +93,21 @@ class ReturnController extends Controller
         //     return back()->with('error', 'An error occurred while processing your request.');
         // }
     }
+    public function allreturn(){
+        $data = AssetReturn::all();
+        return view('Backend.Page.Transfer.all-return',compact('data'));
+    }
+    public function report_return($id){
+        // dd($id);
+        $data = AssetReturn::find($id);
+        $user = $data->return_by_user;
+        $manager = $data->manager_user_id;
+        $mang = User::find($manager);
+        // dd($mang);
+        $username = User::find($user);
+        // dd($username);
+
+        return view('Backend.Page.Transfer.all-return-report',compact('data','username','mang'));
+
+    }
 }

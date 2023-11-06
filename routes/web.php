@@ -388,4 +388,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/get-asset-details-on-stock/{id}', [AssetController::class,'getAssetDetailsonStock']);
     Route::get('issuence/show/product/{id}',[IssuenceController::class,'showissuence'])->name('issuence.show.product');
     Route::get('transfer/show/product/{id}',[TransferController::class,'showtransfer'])->name('transfer.show.product');
+    Route::get('print/transfer/{id}',[TransferController::class,'print_transfer'])->name('print-transfer');
+    Route::get('return/all',[ReturnController::class,'allreturn'])->name('return/all');
+    Route::get('report/return/{id}',[ReturnController::class,'report_return'])->name('report.return');
 });
