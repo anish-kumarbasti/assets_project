@@ -173,9 +173,9 @@
                         <table class="table table-bordered">
                             <thead>
                                 <th>Asset Code</th>
-                                {{-- <th>Type</th> --}}
+                                <th>Asset Type</th>
+                                <th>Asset</th>
                                 <th>Product</th>
-                                <th>Description</th>
                                 <th>Action</th>
                             </thead>
                             <tbody>
@@ -188,7 +188,7 @@
                                                 <div class="d-flex"><img class="img-fluid align-top circle"
                                                         src="../assets/images/dashboard/default/01.png" alt="">
                                                     <div class="flex-grow-1"><a
-                                                            href="{{ route('accept-detail-asset', $product->id) }}"><span>{{ $product->product_info }}</span></a>
+                                                            href="{{ route('accept-detail-asset', $product->id) }}"><span>{{  $product->asset_type->name }}</span></a>
 
                                                         <p class="mb-0">
                                                             {{-- @foreach ($createdDates as $issuedata)
@@ -201,11 +201,8 @@
                                                 </div>
                                             </td>
                                             @if (Auth::check() && Auth::user()->role_id == 2)
-                                                <td>Hello User A new Asset ({{ $product->product_info }}) has been
-                                                    issued
-                                                    please
-                                                    accept to the
-                                                    request!</td>
+                                                <td>{{ $product->assetmain->name }}</td>
+                                                <td>{{ $product->product_info}}</td>
                                                 <td class="text-end">
                                                     @if ($product->status_available == 15)
                                                         <div class="btn-group" role="group" aria-label="Action Buttons">

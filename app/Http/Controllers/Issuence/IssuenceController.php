@@ -427,7 +427,7 @@ class IssuenceController extends Controller
         Stock::updateOrCreate(['id' => $id], ['status_available' => $status->id]);
         $user = User::where('role_id', 1)->first();
         $user->notify(new IssuenceAcceptNotification($user));
-        return redirect()->route('user-dashboard')->with('success', 'Asset Alloted!');
+        return redirect()->back()->with('success', 'Asset Alloted!');
     }
     public function TransferAssetAccept($id)
     {
@@ -468,9 +468,12 @@ class IssuenceController extends Controller
         $data = $issue->product_id;
         $empname = $issue->employee_id;
         $user = User::where('employee_id',$empname)->first();
+        $rolid = $user->department_id;
+        $assetc = User:: where('department_id',$rolid)->orWhere('role_id',6)->first();
+        // dd($assetc);
         $issuances = json_decode($data);
         $stock = Stock::find($issuances);
-        return view('Backend.Page.Issuence.showissuence',compact('stock','issue','user'));
+        return view('Backend.Page.Issuence.showissuence',compact('stock','issue','user','assetc'));
     }
 
     public function AssetAcceptdetail($id)

@@ -114,10 +114,16 @@
                             <div class="p-1">
                                 {{-- <h5>Employee From</h5> --}}
                                 {{-- @dd($user) --}}
-                                EMP ID:<input class="form-control mt-3" value="{{$issue->employee_id??'N/A'}}" readonly>
+                                Asset Controller ID:<input class="form-control mt-3" value="{{$assetc->employee_id??'Other Department Controller issue Product'}}" readonly>
+                            </div>
+                            <div class="p-1">
+                                Asset Controller Name:<input class="form-control mt-3" value="{{$assetc->first_name??'N/A'}} {{$assetc->last_name??'N/A'}}" readonly>
                             </div>
                         </div>
                         <div class="col-md-6">
+                            <div class="p-1">
+                                EMP Name:<input class="form-control mt-3" value="{{$user->employee_id??'N/A'}}" readonly>
+                            </div>
                             <div class="p-1">
                                 EMP Name:<input class="form-control mt-3" value="{{$user->first_name??'N/A'}} {{$user->last_name??'N/A'}}" readonly>
                             </div>

@@ -127,7 +127,7 @@ class TransferController extends Controller
         return view('Backend.Page.Transfer.all-transfer', compact('transfers', 'product'));
     }
 
-    public function showtransfer($id){
+    public function showtransfer(Request $request,$id){
         $transfer = Transfer::find($id);
         $emp = $transfer->employee_id;
         $emptransfer = $transfer->handover_employee_id;
@@ -140,6 +140,22 @@ class TransferController extends Controller
         $product = $transfer->product_id;
         $products = json_decode($product);
         $productdata = Stock::find($products);
-        return view('Backend.Page.Transfer.showtransfer',compact('transfer','user','productdata','find2','find'));
+        $request->session()->put('id',$id);
+        return view('Backend.Page.Transfer.showtransfer',compact('transfer','user','productdata','find2','find','id'));
+    }
+    public function print_transfer($id){
+        $transfer = Transfer::find($id);
+        $emp = $transfer->employee_id;
+        $emptransfer = $transfer->handover_employee_id;
+        $find = User::where('employee_id',$emp)->first();
+        // dd($find);
+        $find2 = User::where('employee_id',$emptransfer)->first();
+        // dd($find2);
+        $handovermanager = $transfer->handover_manager_id;
+        $user = User::find($handovermanager);
+        $product = $transfer->product_id;
+        $products = json_decode($product);
+        $productdata = Stock::find($products);
+        return view('Backend.Page.Transfer.transfer-print',compact('transfer','user','productdata','find2','find'));
     }
 }

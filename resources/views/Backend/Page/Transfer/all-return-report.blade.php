@@ -114,32 +114,20 @@
                 </div>
                 <div class="card-body">
                     <div class="row p-3">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="p-1">
-                                <h5>Employee From</h5>
-                                EMP ID:<input class="form-control mt-3" value="{{$transfer->employee_id??'N/A'}}" readonly>
+                                EMP ID:<input class="form-control mt-3" value="{{$username->employee_id??''}}" readonly>
                             </div>
                             <div class="p-1">
-                                EMP Name:<input class="form-control mt-3" value="{{$find->first_name??'N/A'}} {{$find->last_name??'N/A'}}" readonly>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="p-1">
-                                <h5>Approved By</h5>
-                                MAN ID:<input class="form-control mt-3" value="{{$user->employee_id??'N/A'}}" readonly>
-                            </div>
-                            <div class="p-1">
-                                MAN Name:
-                                <input class="form-control mt-3" value="{{$user->first_name??'N/A'}} {{$user->last_name??'N/A'}}" readonly>
+                                EMP Name:<input class="form-control mt-3" value="{{$username->first_name ?? 'N/A'}} {{$username->last_name ?? 'N/A'}}" readonly>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="p-1">
-                                <h5>Handover ID</h5>
-                                EMP ID:<input class="form-control mt-3" value="{{$transfer->handover_employee_id??'N/A'}}" readonly>
+                                EMP ID:<input class="form-control mt-3" value="{{$mang->employee_id??''}}" readonly>
                             </div>
                             <div class="p-1">
-                                EMP Name:<input class="form-control mt-3" value="{{$find2->first_name??'N/A'}} {{$find2->last_name??'N/A'}}" readonly>
+                                EMP Name:<input class="form-control mt-3" value="{{$mang->first_name ?? 'N/A'}} {{$mang->last_name ?? 'N/A'}}" readonly>
                             </div>
                         </div>
                     </div>
@@ -151,12 +139,12 @@
                         <div class="col-md-5">
                             <div class="p-2">
                             <h5>Transaction Code:</h5>
-                            <input class="form-control mt-3" value="{{$transfer->transfers_transaction_code??'N/A'}}" readonly>
+                            <input class="form-control mt-3" value="{{$data->return_transaction_code??'N/A'}}" readonly>
                             </div>
                         </div>
                         <div class="col-md-7">
                             <h5>Description:</h5>
-                            <textarea readonly disabled cols="30" rows="3" autofocus class="form-control mt-3">{{$transfer->description??''}}</textarea>
+                            <textarea readonly disabled cols="30" rows="3" autofocus class="form-control mt-3">{{$data->reason??'N/A'}}</textarea>
                         </div>
                     </div>
                 </div>
@@ -188,7 +176,7 @@
                                 <th>Product</th>
                                 <th>Action</th>
                             </thead>
-                            <tbody>
+                            {{-- <tbody>
                                 @foreach ($productdata as $stock)
                                     <tr>
                                         <td>{{$stock->product_number??''}}</td>
@@ -200,7 +188,7 @@
                                         </td>
                                     </tr>
                                 @endforeach
-                            </tbody>
+                            </tbody> --}}
                         </table>
                     </div>
                 </div>
