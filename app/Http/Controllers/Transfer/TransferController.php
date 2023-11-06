@@ -126,4 +126,20 @@ class TransferController extends Controller
         }
         return view('Backend.Page.Transfer.all-transfer', compact('transfers', 'product'));
     }
+
+    public function showtransfer($id){
+        $transfer = Transfer::find($id);
+        $emp = $transfer->employee_id;
+        $emptransfer = $transfer->handover_employee_id;
+        $find = User::where('employee_id',$emp)->first();
+        // dd($find);
+        $find2 = User::where('employee_id',$emptransfer)->first();
+        // dd($find2);
+        $handovermanager = $transfer->handover_manager_id;
+        $user = User::find($handovermanager);
+        $product = $transfer->product_id;
+        $products = json_decode($product);
+        $productdata = Stock::find($products);
+        return view('Backend.Page.Transfer.showtransfer',compact('transfer','user','productdata','find2','find'));
+    }
 }

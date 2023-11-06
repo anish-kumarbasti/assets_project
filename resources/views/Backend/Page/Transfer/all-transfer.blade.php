@@ -28,6 +28,7 @@
                                     <th>Transfer Reason</th>
                                     <th>Description</th>
                                     <th>Created At</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -50,6 +51,9 @@
                                         <td>{{ $transfer->reason->reason ?? '' }}</td>
                                         <td>{{ $transfer->description ?? '' }}</td>
                                         <td>{{ $transfer->created_at ?? '' }}</td>
+                                        <td>
+                                            <a class="btn btn-primary" href="{{route('transfer.show.product',$transfer->id)}}">View</a>&nbsp;
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
