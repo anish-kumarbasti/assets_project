@@ -156,7 +156,7 @@
                                         {{-- <td>{{ $asset->brand->name ?? 'N/A' }}</td> --}}
                                         <td width="20%;">{{ $asset->product_info ?? 'N/A' }}</td>
                                         <td>{{ $asset->asset_type->name ?? 'N/A' }}</td>
-                                        <td>{{ $asset->assetmain->name ?? 'N/A' }}</td>
+                                        <td>{{ $asset->assetmain->name ?? 'N/A' }}</td>                     
                                         <td>
                                             <button type="button" class="btn-add" onclick="addRow(this)">Add</button>
                                             <button type="button" class="btn-remove" onclick="removeRow(this)"

@@ -293,7 +293,8 @@ class IssuenceController extends Controller
         // dd($manager);
         $checkdata = Transfer::where('id', $typeId)->orderBy('created_at', 'desc')->get();
         if($checkdata[0]->handover_manager_id == $checkdata[0]->employee_manager_id){
-            $transferdata = Transfer::where('id', $typeId)->orWhere('handover_manager_id', $manager)->orderBy('created_at', 'desc')->get();
+            $transferdata = Transfer::where('id', $typeId)->where('handover_manager_id', $manager)->orderBy('created_at', 'desc')->get();
+            // dd($transferdata);
         }else{
             $transferdata = Transfer::where('id', $typeId)->orderBy('created_at', 'desc')->get();
         }
