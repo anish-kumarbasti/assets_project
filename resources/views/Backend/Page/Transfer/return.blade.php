@@ -162,7 +162,7 @@
                                         <td>{{ $asset->license_number ?? 'N/A' }}</td>
                                         <td>{{ $asset->brandmodel->name ?? 'N/A' }}</td>
                                         <td>{{ $asset->configuration ?? 'N/A' }}</td>
-                                        <td>{{ $asset->getsupplier->name }}</td>
+                                        <td>{{ $asset->getsupplier->name ?? 'N/A' }}</td>
                                         <td>{{ $asset->price }}</td>
                                         <td>
                                             <button type="button" class="btn-add" onclick="addRow(this)">Add</button>
