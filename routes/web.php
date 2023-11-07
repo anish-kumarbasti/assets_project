@@ -391,4 +391,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('print/transfer/{id}',[TransferController::class,'print_transfer'])->name('print-transfer');
     Route::get('return/all',[ReturnController::class,'allreturn'])->name('return/all');
     Route::get('report/return/{id}',[ReturnController::class,'report_return'])->name('report.return');
+    Route::get('employee/all/return',[ReturnController::class,'employee_all_return'])->name('employee.all.return');
 });

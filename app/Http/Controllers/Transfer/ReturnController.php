@@ -110,4 +110,16 @@ class ReturnController extends Controller
         return view('Backend.Page.Transfer.all-return-report',compact('data','username','mang','products'));
 
     }
+    public function employee_all_return(){
+        if(Auth::check()){
+            $user = Auth::user();
+            $userid = $user->id;
+            $returndata = AssetReturn::where('return_by_user',$userid)->get();
+            // dd($returndata);
+            return view('Backend.Page.Transfer.employee-return',compact('returndata'));
+        }
+        else{
+            return redirect()->back();
+        }
+    }
 }

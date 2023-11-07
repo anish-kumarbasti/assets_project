@@ -202,6 +202,7 @@ background-color:#1d0950!important;
                     <ul class="sidebar-submenu">
                         <li class="{{ request()->is(['return*']) ? 'active' : '' }}"><a href="{{ url('return') }}">Apply</a> </li>
                         <li><a href="{{url('employee/all/transfer')}}">All Transfer</a></li>
+                        <li><a href="{{url('employee/all/return')}}">All Return</a></li>
                     </ul>
                 </li>
                 @endif

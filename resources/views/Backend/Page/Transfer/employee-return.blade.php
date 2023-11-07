@@ -29,7 +29,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($data as $return)
+                                @foreach ($returndata as $return)
                                     <tr class="text-center">
                                         @php
                                         $product=json_decode($return->product_id);

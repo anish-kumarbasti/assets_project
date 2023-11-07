@@ -132,9 +132,9 @@
                         </div>
                         <div class="col-md-12 mt-5 text-end fw-bold">
                             <small>
-                                @foreach ($createdDates as $issuedata)
+                                {{-- @foreach ($createdDates as $issuedata)
                                     {{ Carbon\Carbon::parse($issuedata)->diffForHumans() }}
-                                @endforeach
+                                @endforeach --}}
                             </small>
                         </div>
                     </div>
@@ -168,7 +168,9 @@
                             <thead>
                                 <th>Asset Code</th>
                                 <th>Product</th>
-                                <th>Description</th>
+                                <th>Asset Type</th>
+                                <th>Asset</th>
+                                <th>Price</th>
                                 <th>Action</th>
                             </thead>
                             <tbody>
@@ -187,10 +189,10 @@
                                                 </div>
                                             </td>
                                             @if (Auth::user()->department_id == $transferuser->department_id)
-                                                <td>Hello A new Asset ({{ $product->product_info }}) has been
-                                                    Transferred to your Employee ({{ $transferuser->first_name }}
-                                                    {{ $transferuser->last_name }})
-                                                </td>
+                                                <td>{{ $product->product_info }}</td>
+                                                <td>{{$product->asset_type->name??'N/A'}}</td>
+                                                <td>{{$product->assetmain->name??'N/A'}}</td>
+                                                <td>{{$product->price??'N/A'}}</td>
                                                 <td class="text-end">
                                                     @if ($product->status_available == 16)
                                                     <div class="btn-group" role="group" aria-label="Action Buttons">
@@ -204,10 +206,9 @@
                                                     @endif
                                                 </td>
                                             @else
-                                                <td>Hello A new Asset ({{ $product->product_info }}) has been
-                                                    Transferred to Employee ({{ $transferuser->first_name }}
-                                                    {{ $transferuser->last_name }})
-                                                </td>
+                                            <td>{{$product->asset_type->name??'N/A'}}</td>
+                                            <td>{{$product->assetmain->name??'N/A'}}</td>
+                                            <td>{{$product->price??'N/A'}}</td>
                                             @endif
                                         </tr>
                                 @endforeach
