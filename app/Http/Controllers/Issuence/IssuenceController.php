@@ -317,7 +317,7 @@ class IssuenceController extends Controller
         $user = User::where('employee_id', $userdetail)->first();
         $transferuser = User::where('employee_id', $handoveruserdetail)->first();
         $users = DB::table('notifications')->Where('type', 'App\Notifications\TransferNotification')->first();
-        dd($users);
+        // dd($users);
         return view('Backend.Page.Issuence.accept-transfer', compact('products', 'user', 'transferdata', 'users', 'transferuser', 'description', 'transactioncode', 'createdDates', 'id'));
     }
     public function approvemanager($id)
