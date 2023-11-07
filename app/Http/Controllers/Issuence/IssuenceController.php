@@ -380,16 +380,14 @@ class IssuenceController extends Controller
     public function approvetransfermanager($id, $nid)
     {
         $manager = Auth::user()->id;
-        // dd($manager);
-        $transferdata = Transfer::where('handover_manager_id', $manager)->first();
-        // dd($transferdata);
-        $user = User::where('employee_id', $transferdata->handover_employee_id)->first();
-        $products = Stock::where('id', $id)->with('brand', 'brandmodel', 'asset_type', 'getsupplier')->get();
         $updatenotification = DB::select('select * from notifications where id = ?', [$nid]);
         $transfer_id = '';
         foreach ($updatenotification as $value) {
             $transfer_id .= $value->transfer_id;
         }
+        $transferdata = Transfer::where('id',$transfer_id)->where('handover_manager_id', $manager)->first();
+        $user = User::where('employee_id', $transferdata->handover_employee_id)->first();
+        $products = Stock::where('id', $id)->with('brand', 'brandmodel', 'asset_type', 'getsupplier')->get();
         $issuedmanager = Status::where('name', 'Transferred by Manager')->first();
         Stock::find($id)->update(['status_available' => $issuedmanager->id]);
         foreach ($products as $products) {
