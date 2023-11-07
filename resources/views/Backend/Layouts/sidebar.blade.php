@@ -151,6 +151,7 @@ background-color:#1d0950!important;
                     </ul>
                 </li>
                 @endcan
+
                 @can('view_transfer')
                 <li class="sidebar-list {{ request()->is(['transfer*', 'transfer/all*']) ? 'active' : '' }}">
                     <a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="list"></i><span>Transfer/Return</span></a>
@@ -187,7 +188,7 @@ background-color:#1d0950!important;
                     </ul>
                 </li>
                 @endcan
-                @if (Auth::check() && Auth::user()->role_id == 2 )
+                @if (Auth::check() && Auth::user()->role_id == 2 || Auth::user()->role_id == 3)
                 <!-- Issuence menu -->
                 <li class="sidebar-list {{ request()->is(['issuence-requests*', 'all-issuence*']) ? 'active' : '' }}">
                     <a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="plus-square"></i><span>Issuence</span></a>

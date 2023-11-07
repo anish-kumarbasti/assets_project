@@ -303,6 +303,8 @@ class IssuenceController extends Controller
         $userdetail = [];
         $transactioncode = [];
         $description = [];
+        $employee =[];
+        $handempl=[];
         foreach ($transferdata as $issuedatas) {
             $productIds[] = json_decode($issuedatas->product_id);
             $createdDates[] = $issuedatas->created_at;
@@ -310,6 +312,8 @@ class IssuenceController extends Controller
             $handoveruserdetail[] = $issuedatas->handover_employee_id;
             $transactioncode = $issuedatas->transfers_transaction_code;
             $description = $issuedatas->description;
+            $handempl = $issuedatas->handover_employee_id;
+            $employee = $issuedatas->employee_id;
         }
         $products = [];
         foreach ($productIds as $productId) {
@@ -318,8 +322,10 @@ class IssuenceController extends Controller
         $user = User::where('employee_id', $userdetail)->first();
         $transferuser = User::where('employee_id', $handoveruserdetail)->first();
         $users = DB::table('notifications')->Where('type', 'App\Notifications\TransferNotification')->first();
-        // dd($users);
-        return view('Backend.Page.Issuence.accept-transfer', compact('products', 'user', 'transferdata', 'users', 'transferuser', 'description', 'transactioncode', 'createdDates', 'id'));
+        // dd($user);
+        $name = User::where('employee_id',$handempl)->first();
+        $namehand = User::where('employee_id',$employee)->first();
+        return view('Backend.Page.Issuence.accept-transfer', compact('products', 'user', 'transferdata', 'users', 'transferuser', 'description', 'transactioncode', 'createdDates', 'id','name','namehand'));
     }
     public function approvemanager($id)
     {

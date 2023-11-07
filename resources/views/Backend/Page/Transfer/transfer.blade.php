@@ -229,14 +229,10 @@
                             <table class="table" id="assetTable">
                                 <thead>
                                     <tr>
-                                        <th>Product Info</th>
-                                        <th>Type</th>
-                                        <th>Brand</th>
-                                        <th>License Number</th>
-                                        <th>Brand Model</th>
-                                        <th>Configuration</th>
-                                        <th>Supplier</th>
-                                        <th>Price</th>
+                                        <th>Asset Code</th>
+                                        <th>Product</th>
+                                        <th>Asset Type</th>
+                                        <th>Asset</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -244,14 +240,10 @@
                                     @isset($data)
                                         @foreach ($data as $asset)
                                             <tr data-card-id="{{ $asset->id }}">
-                                                <td>{{ $asset->product_info ?? 'N/A' }}</td>
+                                                <td>{{ $asset->product_number ?? 'N/A' }}</td>
+                                                <td width="20%;">{{ $asset->product_info ?? 'N/A' }}</td>
                                                 <td>{{ $asset->asset_type->name ?? 'N/A' }}</td>
-                                                <td>{{ $asset->brand->name ?? 'N/A' }}</td>
-                                                <td>{{ $asset->license_number ?? 'N/A' }}</td>
-                                                <td>{{ $asset->brandmodel->name ?? 'N/A' }}</td>
-                                                <td>{{ $asset->configuration ?? 'N/A' }}</td>
-                                                <td>{{ $asset->getsupplier->name ?? 'N/A' }}</td>
-                                                <td>{{ $asset->price }}</td>
+                                                <td>{{ $asset->assetmain->name ?? 'N/A' }}</td>
                                                 <td>
                                                     <button class="btn btn-primary add-button" type="button">Add</button>
                                                     <button class="btn btn-danger remove-button" style="display: none;"
