@@ -21,7 +21,7 @@
                                 <tr>
                                     <th>SL</th>
                                     <th>Transaction Code</th>
-                                    <th>Products</th>
+                                    {{-- <th>Products</th> --}}
                                     <th>Employee Name</th>
                                     <th>Employee Manager</th>
                                     <th>Handover Employee</th>
@@ -37,12 +37,6 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{$transfer->transfers_transaction_code??''}}</td>
-                                        <td>
-                                            @foreach ($product as $value)
-                                                <a id="detail"
-                                                    href="{{ route('accept-detail-asset', $value->id) }}"><span>{{ $value->product_info }}</span></a>
-                                            @endforeach
-                                        </td>
                                         <td>{{ $transfer->user->first_name ?? '' }} ({{ $transfer->employee_id ?? '' }})</td>
                                         <td>{{ $transfer->manager->first_name ?? '' }}({{ $transfer->manager->employee_id ?? '' }})
                                         </td>

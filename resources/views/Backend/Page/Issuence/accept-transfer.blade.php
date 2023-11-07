@@ -123,11 +123,12 @@
                 <div class="card-body">
                     <div class="row p-3">
                         <div class="col-md-5">
-                            <h4>Transaction Code:</h4>
+                            <h5>Transaction Code:</h5>
                             <input class="form-control mt-3" value="{{ $transactioncode }}" readonly>
-                        </div>
+                            </div>
+
                         <div class="col-md-7">
-                            <h4>Description:</h4>
+                            <h5>Description:</h5>
                             <textarea readonly disabled cols="30" rows="3" autofocus class="form-control mt-3">{{ $description }}</textarea>
                         </div>
                         <div class="col-md-12 mt-5 text-end fw-bold">
@@ -136,6 +137,27 @@
                                     {{ Carbon\Carbon::parse($issuedata)->diffForHumans() }}
                                 @endforeach --}}
                             </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row p-3">
+                        <div class="col-md-5">
+                            <h5>Employee From</h5>
+                            EMP ID:
+                            <input class="form-control mt-3" value="{{ $namehand->employee_id??'' }}" readonly>
+                            EMP Name:
+                            <input class="form-control mt-3" value="{{ $namehand ? $namehand->first_name : 'N/A' }} {{ $namehand ? $namehand->last_name : 'N/A' }}" readonly>
+                        </div>
+
+                        <div class="col-md-7">
+                            <h5>Handover ID</h5>
+                            EMP ID:
+                            <input class="form-control mt-3" value="{{ $name->employee_id??''}}" readonly>
+                            EMP Name:
+                            <input class="form-control mt-3" value="{{ $name ? $name->first_name : 'N/A' }} {{ $name ? $name->last_name : 'N/A' }}" readonly>
                         </div>
                     </div>
                 </div>
@@ -189,7 +211,6 @@
                                                 </div>
                                             </td>
                                             @if (Auth::user()->department_id == $transferuser->department_id)
-                                                <td>{{ $product->product_info }}</td>
                                                 <td>{{$product->asset_type->name??'N/A'}}</td>
                                                 <td>{{$product->assetmain->name??'N/A'}}</td>
                                                 <td>{{$product->price??'N/A'}}</td>
