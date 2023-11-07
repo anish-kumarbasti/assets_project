@@ -290,11 +290,12 @@ class IssuenceController extends Controller
         $user = Auth::user()->employee_id;
         $manager = Auth::user()->id;
         $transferdata = [];
+        // dd($manager);
         $checkdata = Transfer::where('id', $typeId)->orderBy('created_at', 'desc')->get();
         if($checkdata[0]->handover_manager_id == $checkdata[0]->employee_manager_id){
             $transferdata = Transfer::where('id', $typeId)->orWhere('handover_manager_id', $manager)->orderBy('created_at', 'desc')->get();
         }else{
-            $transferdata = Transfer::where('id', $typeId)->orWhere('handover_manager_id', $manager)->orWhere('employee_manager_id', $manager)->orderBy('created_at', 'desc')->get();
+            $transferdata = Transfer::where('id', $typeId)->orderBy('created_at', 'desc')->get();
         }
         $productIds = [];
         $createdDates = [];
