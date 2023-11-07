@@ -59,7 +59,7 @@ class UserController extends Controller
     }
     public function index()
     {
-        $users = User::with(['department', 'designation'])->get()->sortByDesc('id');
+        $users = User::with(['department', 'designation'])->orderBy('created_at', 'DESC')->get();
 
         return view('Backend.Page.User.all_users', compact('users'));
     }
@@ -331,7 +331,7 @@ class UserController extends Controller
             }
         }
 
-        
+
         $totalitasset=($itasset-$itreturns)-$ittransfer;
         $totalnonitasset=($nonitasset-$nonitreturns)-$nonittransfer;
         $totalcomponent=($component-$compnentreturns)-$componenttransfer;

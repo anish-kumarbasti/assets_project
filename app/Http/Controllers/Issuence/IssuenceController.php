@@ -316,8 +316,8 @@ class IssuenceController extends Controller
         }
         $user = User::where('employee_id', $userdetail)->first();
         $transferuser = User::where('employee_id', $handoveruserdetail)->first();
-        // dd($transferuser);
         $users = DB::table('notifications')->Where('type', 'App\Notifications\TransferNotification')->first();
+        dd($users);
         return view('Backend.Page.Issuence.accept-transfer', compact('products', 'user', 'transferdata', 'users', 'transferuser', 'description', 'transactioncode', 'createdDates', 'id'));
     }
     public function approvemanager($id)
@@ -526,13 +526,11 @@ class IssuenceController extends Controller
     public function all_transfer()
     {
         if (Auth::check()) {
-            $transfer = Auth::user();
-            // $return = AssetReturn::where('product_id', $transfer->employee_id)->get();
-            $return = AssetReturn::when(isset($transfer->product_id), function ($query) use ($transfer) {
-                return $query->where('product_id', $transfer->employee_id);
-            })
-                ->get();
-            return view('Backend.Page.Employee.all_transfer', compact('return'));
+            $user = Auth::user();
+            $userdata = $user->employee_id;
+            $transferdata = Transfer::where('employee_id',$userdata)->get();
+            // dd($transferdata);
+            return view('Backend.Page.Employee.all_transfer', compact('transferdata'));
         } else {
             return redirect()->back();
         }

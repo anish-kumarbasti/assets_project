@@ -20,6 +20,7 @@
                             <thead>
                                 <tr>
                                     <th>SL</th>
+                                    <th>Transaction Code</th>
                                     <th>Products</th>
                                     <th>Employee Name</th>
                                     <th>Employee Manager</th>
@@ -35,6 +36,7 @@
                                 @foreach ($transfers as $transfer)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
+                                        <td>{{$transfer->transfers_transaction_code??''}}</td>
                                         <td>
                                             @foreach ($product as $value)
                                                 <a id="detail"
