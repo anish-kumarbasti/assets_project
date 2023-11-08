@@ -3,17 +3,17 @@
 @section('Style-Area')
 <style>
      .add-category-button {
-            background-color: transparent; 
-            border: 1px solid #37236B; 
-            color: #37236B; 
+            background-color: transparent;
+            border: 1px solid #37236B;
+            color: #37236B;
             padding: 10px 10px;
             cursor: pointer;
-            transition: background-color 0.3s, color 0.3s; 
+            transition: background-color 0.3s, color 0.3s;
             border-radius: 10px;
         }
 
         .add-category-button:hover {
-            background-color: #37236B; 
+            background-color: #37236B;
             color: #fff;
         }
     .status-tab {
@@ -56,12 +56,12 @@
             <div class="row">
             <div class="col-sm-6">
                 <button class="add-category-button" style="margin-top: 2px;" id="showStatus">Select Status</button>&nbsp;
-                <button class="add-category-button" style="margin-top: 2px;" id="showEmp">Employee Code</button>&nbsp;
-                <button class="add-category-button" style="margin-top: 2px;" id="showAssetCode">Asset Code</button>&nbsp;
+                {{-- <button class="add-category-button" style="margin-top: 2px;" id="showEmp">Employee Code</button>&nbsp; --}}
+                <button class="add-category-button" style="margin-top: 2px;" id="showAssetCode">Employee & Asset Code</button>&nbsp;
             </div>
             <div class="col-sm-6">
                 <button class="add-category-button" style="margin-top: 2px;" id="showAssetCategory">Select Location</button>&nbsp;
-                <button class="add-category-button" style="margin-top: 2px;" id="showAssetC">Select Asset Category</button>&nbsp;
+                {{-- <button class="add-category-button" style="margin-top: 2px;" id="Transaction">Transaction Code</button>&nbsp; --}}
                 <button class="add-category-button" style="margin-top: 2px;" id="showAsset">Select Asset</button>&nbsp;
             </div>
         </div>
@@ -83,19 +83,29 @@
             </div>
         </div>
     </div>
+    {{-- @dd(session('data1','data2','data3','data4')) --}}
     <div class="card-body">
         <form class="search-form" action="{{route('search-reports')}}" method="GET">
             @csrf
             <div class="row p-3">
-                <div class="col-sm-6 mb-3">
-                    <label for="start_date">Transaction from</label>
+                <div class="col-sm-4 mb-3">
+                    <label for="asset">Select Asset Type <b style="color: red;">*</b></label>
+                    <select id="assettype" class="form-select" name="assettype" aria-label="Default select example">
+                        <option value="">All Asset Type</option>
+                        @foreach ($assettype as $assettypes)
+                        <option value="{{$assettypes->id}}">{{$assettypes->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-sm-4 mb-3">
+                    <label for="start_date">Transaction From</label>
                     <input type="date" class="form-control" name="start_date" id="dateInput">
                 </div>
-                <div class="col-sm-6 mb-3">
+                <div class="col-sm-4 mb-3">
                     <label for="end_date">To Transaction</label>
                     <input type="date" class="form-control" name="end_date" id="dateInputs">
                 </div>
-                <div class="col-sm-6 mb-3" id="addLocation" style="display: none;">
+                <div class="col-sm-4 mb-3" id="addLocation" style="display: none;">
                     <label for="location">Select Location</label>
                     <select id="location" class="form-select" name="location" aria-label="Default select example">
                         <option value="">All Location</option>
@@ -104,16 +114,7 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-sm-6 mb-3" id="addAssetC" style="display: none;">
-                    <label for="asset">Select Asset Category</label>
-                    <select id="assettype" class="form-select" name="assettype" aria-label="Default select example">
-                        <option value="">All Asset Category</option>
-                        @foreach ($assettype as $assettypes)
-                        <option value="{{$assettypes->id}}">{{$assettypes->name}}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-sm-6 mb-3" id="addAsset" style="display: none;">
+                <div class="col-sm-4 mb-3" id="addAsset" style="display: none;">
                     <label for="asset">Select Asset </label>
                     <select id="asset" class="form-select" name="asset" aria-label="Default select example">
                         <option value="">All Asset</option>
@@ -122,7 +123,7 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-sm-6 mb-3" id="addStatus" style="display: none;">
+                <div class="col-sm-4 mb-3" id="addStatus" style="display: none;">
                     <label for="status">Select Status</label>
                     <select id="status" class="form-select" name="status" aria-label="Default select example">
                         <option value="">All Status</option>
@@ -131,77 +132,298 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-sm-6 mb-3" id="addEmp" style="display: none;">
+                <div class="col-sm-4 mb-3" id="addEmp" style="display: none;">
                     <label for="employee_id">Employee Code</label>
                     <input type="text" class="form-control" name="employee_id" id="employee_id">
                 </div>
-                <div class="col-sm-6 mb-3" id="addAssetcode" style="display: none;">
+                <div class="col-sm-4 mb-3" id="addAssetcode" style="display: none;">
                     <label for="product_number">Asset Code</label>
                     <input type="text" name="product_number" class="form-control" id="product_number">
                 </div>
-
+                {{-- <div class="col-sm-4 mb-3" id="transaction" style="display: none;">
+                    <label for="transaction_code">Transaction Code</label>
+                    <input type="text" name="transaction_code" class="form-control" id="transaction_code">
+                </div> --}}
             </div>
             <div class="col-sm-12 text-end mb-3">
                 <button class="btn btn-warning">Search</button>
             </div>
         </form>
     </div>
-    @if(isset($data))
-    <div class="card">
-        <div class="card-header pb-0 d-flex justify-content-between">
-            <div class="btn btn-group">
-                <button class="btn btn-primary" id="copy-button"><i class="far fa-copy"></i> Copy</button>
-                <button class="btn btn-secondary" id="csvButton"><i class="fas fa-file-csv"></i> CSV</button>
-                <a class="btn btn-success" href="{{route('getPDF',['data'=>session('data')])}}">
-                    <i class="fas fa-file-pdf"></i> PDF
-                </a>
-                <a class="btn btn-info" href="{{route('getPrint',['data'=>session('data')])}}"><i class="fas fa-print"></i> Print</a>
-            </div>
+@if(isset($data1))
+<div class="card">
+    <div class="card-header pb-0 d-flex justify-content-between">
+        <div class="btn btn-group">
+            <button class="btn btn-primary" id="copy-button"><i class="far fa-copy"></i> Copy</button>
+            <button class="btn btn-secondary" id="csvButton"><i class="fas fa-file-csv"></i> CSV</button>
+            <a class="btn btn-success" href="{{route('getPDF',['data'=>session('data1')])}}">
+                <i class="fas fa-file-pdf"></i> PDF
+            </a>
+            <a class="btn btn-info" href="{{route('getPrint',['data'=>session('data1')])}}"><i class="fas fa-print"></i> Print</a>
         </div>
-        <div class="card-body">
-        <div class="col-sm-12 basic">
-        <div class="table-responsive theme-scrollbar">
-            <table class="display" id="basic-1">
-                <thead>
-                    <tr class="text-center">
-                        <th>SL</th>
-                        <th>Asset Code</th>
-                        <th>Serial Number</th>
-                        <th>Specification</th>
-                        <th>Asset Type</th>
-                        <th>Asset </th>
-                        <th>Model</th>
-                        <th>Purchase Date</th>
-                        <th>Purchase Cost</th>
-                        <th>Location</th>
-                        <th>Sub-Location</th>
-                        <th>Status</th>
-                        <th>Warranty</th>
-                    </tr>
-                </thead>
-                <tbody>
-                   
-                    @foreach ($data as $asset)
-                    <tr class="copy-content text-center">
-                        <td>{{$loop->iteration}}</td>
-                        <td>{{$asset->product_number??'N/A'}}</td>
-                        <td>{{$asset->serial_number??'N/A'}}</td>
-                        <td class="ellipsis">{{$asset->specification??'N/A'}} <p>{{$asset->attributes->name??'N/A'}}</p></td>
-                        <td>{{$asset->asset_type->name??'N/A'}}</td>
-                        <td>{{$asset->assetmain->name??'N/A'}}</td>
-                        <td>{{$asset->brandmodel->name??'N/A'}}</td>
-                        <td>{{\Carbon\Carbon::parse($asset->created_at)->format('d-m-y')??'N/A'}}</td>
-                        <td>{{$asset->price??'N/A'}}</td>
-                        <td>{{$asset->location->name??'N/A'}}</td>
-                        <td>{{$asset->sublocation->name??'N/A'}}</td>
-                        <td><span class=" custom-btn  {{$asset->statuses->status??''}}"> {{$asset->statuses->name??'N/A'}}</span></td>
-                        <td>{{$asset->product_warranty??'N/A'}}</td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+    </div>
+    <div class="card-body">
+    <div class="col-sm-12 basic">
+    <div class="table-responsive theme-scrollbar">
+        <table class="display" id="basic-1">
+            <thead>
+                <tr>
+                    <th>SL</th>
+                    <th>Asset Code</th>
+                    <th>Serial Number</th>
+                    <th>Asset Type</th>
+                    <th>Asset</th>
+                    <th>Brand</th>
+                    <th>Brand Model</th>
+                    <th>Attribute</th>
+                    <th>Configuration</th>
+                    {{-- <th>Age</th> --}}
+                    <th>Price</th>
+                    <th>Status</th>
+                    <th>Warranty</th>
+                    {{-- <th>Timeline</th> --}}
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach ($data1 as $asset)
+                <tr class="copy-content text-center">
+                    <td>{{$loop->iteration}}</td>
+                    <td>{{$asset->product_number??'N/A'}}</td>
+                    <td>{{$asset->serial_number??'N/A'}}</td>
+                    <td>{{$asset->asset_type->name??'N/A'}}</td>
+                    {{-- <td class="ellipsis">{{$asset->specification??'N/A'}} <p>{{$asset->attributes->name??'N/A'}}</p></td> --}}
+                    <td>{{$asset->assetmain->name??'N/A'}}</td>
+                    <td>{{$asset->brand->name??'N/A'}}</td>
+                    <td>{{$asset->brandmodel->name??'N/A'}}</td>
+                    {{-- <td>{{\Carbon\Carbon::parse($asset->created_at)->format('d-m-y')??'N/A'}}</td> --}}
+                    <td>{{ $asset->attributes->name??'N/A' }} {{ $asset->atribute_value??'' }}</td>
+                    <td class="ellipsis">{{ $asset->configuration ?? 'N/A' }}</td>
+                    {{-- <td>{{ $stock->ageInYears }} years and {{ $stock->ageInMonths }} months</td> --}}
+                    <td> ₹{{ $asset->price ?? 'N/A' }}</td>
+                    <td><span class=" custom-btn  {{$asset->statuses->status??''}}"> {{$asset->statuses->name??'N/A'}}</span></td>
+                    <td>{{$asset->product_warranty??'N/A'}}</td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
+</div>
+@endif
+@if(isset($data2))
+<div class="card">
+    <div class="card-header pb-0 d-flex justify-content-between">
+        <div class="btn btn-group">
+            <button class="btn btn-primary" id="copy-button"><i class="far fa-copy"></i> Copy</button>
+            <button class="btn btn-secondary" id="csvButton"><i class="fas fa-file-csv"></i> CSV</button>
+            <a class="btn btn-success" href="{{route('getPDF',['data'=>session('data2')])}}">
+                <i class="fas fa-file-pdf"></i> PDF
+            </a>
+            <a class="btn btn-info" href="{{route('getPrint',['data'=>session('data2')])}}"><i class="fas fa-print"></i> Print</a>
         </div>
-   </div>
+    </div>
+    <div class="card-body">
+    <div class="col-sm-12 basic">
+    <div class="table-responsive theme-scrollbar">
+        <table class="display" id="basic-1">
+            <thead>
+                <tr>
+                   <th>SL</th>
+                   <th>Asset Code</th>
+                   <th>Asset</th>
+                   <th>Asset Type</th>
+                   <th>Brand</th>
+                   <th>Brand Model</th>
+                   <th>Specification</th>
+                   <th>Age</th>
+                   <th>Quantity</th>
+                   <th>In-stock</th>
+                   <th>Allocate</th>
+                   <th>Under Repair</th>
+                   <th>Stolen</th>
+                   <th>Scraped</th>
+                   {{-- <th>Status</th> --}}
+                </tr>
+             </thead>
+             <tbody>
+                @foreach ($data2 as $key => $nonit)
+                <tr>
+                   <td>{{$nonit->id}}</td>
+                   <td>{{$nonit->product_number??''}}</td>
+                   <td>{{$nonit->assetmain->name??'' }}</td>
+                   <td>{{$nonit->asset_type->name??'' }}</td>
+                   <td>{{$nonit->brand->name??'' }}</td>
+                   <td>{{$nonit->brandmodel->name??'' }}</td>
+                   <td class="ellipsis">{{$nonit->specification??''}}</td>
+                   <td>{{ $nonit->ageInYears }} years and {{ $nonit->ageInMonths }} months</td>
+                   <td>
+                      <span class="badge rounded-pill badge-light-success">{{$nonit->quantity??''}}</span>
+                   </td>
+                   <td>
+                      <span class="badge rounded-pill badge-light-success">{{$availableQuantity[$key]}}</span>
+                   </td>
+                   <td>
+                      <span class="badge rounded-pill badge-light-success">{{$allottedCount}}</span>
+                   </td>
+                   <td>
+                      <span class="badge rounded-pill badge-light-success">{{$underRepairCount}}</span>
+                   </td>
+                   <td>
+                      <span class="badge rounded-pill badge-light-success">{{$scrappedCount}}</span>
+                   </td>
+                   <td>
+                      <span class="badge rounded-pill badge-light-success">{{$scrappedCount}}</span>
+                   </td>
+                   {{-- <td><span class=" custom-btn  {{$nonit->statuses->status??''}}"> {{$nonit->statuses->name??'N/A'}}</span></td> --}}
+                </tr>
+                @endforeach
+
+             </tbody>
+        </table>
+    </div>
+</div>
+</div>
+</div>
+@endif
+@if(isset($data3))
+<div class="card">
+    <div class="card-header pb-0 d-flex justify-content-between">
+        <div class="btn btn-group">
+            <button class="btn btn-primary" id="copy-button"><i class="far fa-copy"></i> Copy</button>
+            <button class="btn btn-secondary" id="csvButton"><i class="fas fa-file-csv"></i> CSV</button>
+            <a class="btn btn-success" href="{{route('getPDF',['data'=>session('data3')])}}">
+                <i class="fas fa-file-pdf"></i> PDF
+            </a>
+            <a class="btn btn-info" href="{{route('getPrint',['data'=>session('data3')])}}"><i class="fas fa-print"></i> Print</a>
+        </div>
+    </div>
+    <div class="card-body">
+    <div class="col-sm-12 basic">
+    <div class="table-responsive theme-scrollbar">
+        <table class="display" id="basic-1">
+            <thead>
+                <tr>
+                    <th>SL</th>
+                    <th>Asset Code</th>
+                    <th>Asset</th>
+                    <th>Asset Type</th>
+                    <th>Liscence Number</th>
+                    <th>Configuration</th>
+                    <th>Age</th>
+                    <th>Quantity</th>
+                    <th>In-stock</th>
+                    <th>Allocate</th>
+                    {{-- <th>Status</th> --}}
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($data3 as $key => $software)
+                    <tr>
+                        <td>{{ $software->id }}</td>
+                        <td>{{ $software->product_number ?? '' }}</td>
+                        <td>{{ $software->assetmain->name ?? '' }}</td>
+                        <td>{{$software->asset_type->name??'' }}</td>
+                        <td>{{ $software->liscence_number ?? '' }}</td>
+                        <td>{{ $software->configuration ?? '' }}</td>
+                        <td>{{ $software->ageInYears }} years and {{ $software->ageInMonths }} months</td>
+                        <td>
+                            <span
+                                class="badge rounded-pill badge-light-success">{{ $software->quantity ?? '' }}</span>
+                        </td>
+                        <td>
+                            <span
+                                class="badge rounded-pill badge-light-success">{{ $availableQuantity[$key] }}</span>
+                        </td>
+                        <td>
+                            <span class="badge rounded-pill badge-light-success">{{ $allottedCount }}</span>
+                        </td>
+                        {{-- <td><span class=" custom-btn  {{$software->statuses->status??''}}"> {{$software->statuses->name??'N/A'}}</span></td> --}}
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
+</div>
+@endif
+@if(isset($data4))
+<div class="card">
+    <div class="card-header pb-0 d-flex justify-content-between">
+        <div class="btn btn-group">
+            <button class="btn btn-primary" id="copy-button"><i class="far fa-copy"></i> Copy</button>
+            <button class="btn btn-secondary" id="csvButton"><i class="fas fa-file-csv"></i> CSV</button>
+            <a class="btn btn-success" href="{{route('getPDF',['data'=>session('data4')])}}">
+                <i class="fas fa-file-pdf"></i> PDF
+            </a>
+            <a class="btn btn-info" href="{{route('getPrint',['data'=>session('data4')])}}"><i class="fas fa-print"></i> Print</a>
+        </div>
+    </div>
+    <div class="card-body">
+    <div class="col-sm-12 basic">
+    <div class="table-responsive theme-scrollbar">
+        <table class="display" id="basic-1">
+            <thead>
+                <tr>
+                    <th>SL</th>
+                    <th>Asset Code</th>
+                    <th>Asset</th>
+                    <th>Asset Type</th>
+                    <th>Brand</th>
+                    <th>Brand Model</th>
+                    <th>Specification</th>
+                    <th>Age</th>
+                    <th>Quantity</th>
+                    <th>In-stock</th>
+                    <th>Allocate</th>
+                    <th>Under Repair</th>
+                    <th>Stolen</th>
+                    <th>Scraped</th>
+                    {{-- <th>Allocations</th> --}}
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($data4 as $key => $component)
+                    <tr>
+                        <td>{{ $component->id }}</td>
+                        <td>{{ $component->product_number ?? '' }}</td>
+                        <td>{{ $component->assetmain->name ?? '' }}</td>
+                        <td>{{$component->asset_type->name??'' }}</td>
+                        <td>{{ $component->brand->name ?? '' }}</td>
+                        <td>{{ $component->brandmodel->name ?? '' }}</td>
+
+                        <td class="ellipsis">{{ $component->specification ?? '' }}</td>
+                        <td>{{ $component->ageInYears }} years and {{ $component->ageInMonths }} months</td>
+                        <td>
+                            <span
+                                class="badge rounded-pill badge-light-success">{{ $component->quantity ?? '' }}</span>
+                        </td>
+                        <td>
+                            <span class="badge rounded-pill badge-light-success">{{$availableQuantity[$key]}}</span>
+                         </td>
+                        <td>
+                            <span
+                                class="badge rounded-pill badge-light-success">{{ $allottedCount[$component->product_number] ?? 0 }}</span>
+                        </td>
+                        <td>
+                            <span
+                                class="badge rounded-pill badge-light-success">{{ $underRepairCount[$component->product_number] ?? 0 }}</span>
+                        </td>
+                        <td>
+                            <span class="badge rounded-pill badge-light-success">{{ $scrappedCount }}</span>
+                        </td>
+                        <td>
+                            <span
+                                class="badge rounded-pill badge-light-success">{{ $scrappedCount }}<span>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
 </div>
 </div>
 @endif
@@ -223,13 +445,13 @@
                 $('#addStatus').toggle();
             });
             $('#showEmp').click(function() {
-                $('#addEmp').toggle();
             });
             $('#showAssetCode').click(function() {
+                $('#addEmp').toggle();
                 $('#addAssetcode').toggle();
             });
-            $('#showAssetC').click(function() {
-                $('#addAssetC').toggle();
+            $('#Transaction').click(function() {
+                $('#transaction').toggle();
             });
             $('#showAssetCategory').click(function(){
                 $('#addLocation').toggle();
@@ -254,7 +476,7 @@
 <script>
     let today = new Date();
     let dd = String(today.getDate()).padStart(2, '0');
-    let mm = String(today.getMonth() + 1).padStart(2, '0'); 
+    let mm = String(today.getMonth() + 1).padStart(2, '0');
     let yyyy = today.getFullYear();
     today = yyyy + '-' + mm + '-' + dd;
     document.getElementById('dateInput').value = today;
