@@ -22,26 +22,37 @@ class TransferController extends Controller
     {
         $auth = Auth::user()->employee_id;
         $reason = TransferReason::all();
-        $issue = Issuence::where('employee_id', $auth)->distinct()->pluck('product_id');
         $Issuestatus = Status::where('name', 'Accepted by User')->first();
-        $Transferstatus = Status::where('name', 'Transferred by Manager')->first();
+        $Transferstatus = Status::where('name', 'Transferred')->first();
         $data = collect([]);
-
-        if ($issue != '') {
-            foreach ($issue as $issue) {
-                $product_id = json_decode($issue);
-                $datas = Stock::whereIn('id', $product_id)
+        $transfer = Transfer::where('handover_employee_id', $auth)->distinct()->pluck('product_id');
+        $issuance = Issuence::where('employee_id', $auth)->distinct()->pluck('product_id');
+        if ($transfer->isNotEmpty()) {
+            foreach ($transfer as $transferItem) {
+                $product_id = json_decode($transferItem);
+                $transferData = Stock::whereIn('id', $product_id)
                     ->where(function ($query) use ($Issuestatus, $Transferstatus) {
                         $query->where('status_available', $Issuestatus->id)
                             ->orWhere('status_available', $Transferstatus->id);
                     })
                     ->get();
-                $data = $data->concat($datas);
+                $data = $data->concat($transferData);
             }
-            return view('Backend.Page.Transfer.transfer', compact('data', 'reason', 'auth'));
         }
-
-        return view('Backend.Page.Transfer.transfer', compact('reason', 'data', 'auth'));
+        if ($issuance->isNotEmpty()) {
+            foreach ($issuance as $issuanceItem) {
+                $product_id = json_decode($issuanceItem);
+                $issuanceData = Stock::whereIn('id', $product_id)
+                    ->where(function ($query) use ($Issuestatus, $Transferstatus) {
+                        $query->where('status_available', $Issuestatus->id)
+                            ->orWhere('status_available', $Transferstatus->id);
+                    })
+                    ->get();
+                $data = $data->concat($issuanceData);
+            }
+        }
+        // dd($data);
+        return view('Backend.Page.Transfer.transfer', compact('data', 'reason', 'auth'));
     }
 
     public function store(Request $request)
@@ -91,13 +102,12 @@ class TransferController extends Controller
         $assetmanager->notify(new TransferNotification($assetmanager));
         $managertoUser->notify(new TransferNotification($managertoUser));
         $assettomanager->notify(new TransferNotification($assettomanager));
-        $count=0;
-        $a=[];
-        $lastFourRecords=DB::table('notifications')
+        $count = 0;
+        $a = [];
+        $lastFourRecords = DB::table('notifications')
             ->orderBy('created_at', 'desc')
             ->take(4)
             ->update(['transfer_id' => $transfer->id]);
-       
 
         return back()->with('success', 'Asset Transferred successfully.');
         // } catch (QueryException $e) {
@@ -120,35 +130,37 @@ class TransferController extends Controller
         return view('Backend.Page.Transfer.all-transfer', compact('transfers', 'product'));
     }
 
-    public function showtransfer(Request $request,$id){
+    public function showtransfer(Request $request, $id)
+    {
         $transfer = Transfer::find($id);
         $emp = $transfer->employee_id;
         $emptransfer = $transfer->handover_employee_id;
-        $find = User::where('employee_id',$emp)->first();
+        $find = User::where('employee_id', $emp)->first();
         // dd($find);
-        $find2 = User::where('employee_id',$emptransfer)->first();
+        $find2 = User::where('employee_id', $emptransfer)->first();
         // dd($find2);
         $handovermanager = $transfer->handover_manager_id;
         $user = User::find($handovermanager);
         $product = $transfer->product_id;
         $products = json_decode($product);
         $productdata = Stock::find($products);
-        $request->session()->put('id',$id);
-        return view('Backend.Page.Transfer.showtransfer',compact('transfer','user','productdata','find2','find','id'));
+        $request->session()->put('id', $id);
+        return view('Backend.Page.Transfer.showtransfer', compact('transfer', 'user', 'productdata', 'find2', 'find', 'id'));
     }
-    public function print_transfer($id){
+    public function print_transfer($id)
+    {
         $transfer = Transfer::find($id);
         $emp = $transfer->employee_id;
         $emptransfer = $transfer->handover_employee_id;
-        $find = User::where('employee_id',$emp)->first();
+        $find = User::where('employee_id', $emp)->first();
         // dd($find);
-        $find2 = User::where('employee_id',$emptransfer)->first();
+        $find2 = User::where('employee_id', $emptransfer)->first();
         // dd($find2);
         $handovermanager = $transfer->handover_manager_id;
         $user = User::find($handovermanager);
         $product = $transfer->product_id;
         $products = json_decode($product);
         $productdata = Stock::find($products);
-        return view('Backend.Page.Transfer.transfer-print',compact('transfer','user','productdata','find2','find'));
+        return view('Backend.Page.Transfer.transfer-print', compact('transfer', 'user', 'productdata', 'find2', 'find'));
     }
 }
