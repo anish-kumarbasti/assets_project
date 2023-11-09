@@ -124,11 +124,28 @@
                                 @foreach (auth()->user()->notifications as $notification)
                                     <div class="flex-shrink-0"><i data-feather="shopping-cart"></i></div>
                                     <div class="flex-grow-1">
-                                        @if (Auth::check() && Auth::user()->role_id == 6)
+                                        @php
+                                            $controllerrole = App\Models\Role::where('name', 'Asset Controller')->first();
+                                        @endphp
+                                        @if ((Auth::check() && Auth::user()->role_id == 6) || Auth::user()->role_id == 4)
                                             @if ($notification->type == 'App\Notifications\TransferAcceptNotification')
                                                 <p><b>{{ $notification->data['name'] ?? '' }}</b>&nbsp;&nbsp;<a
                                                         href="{{ route('markasread-manager-transferaccept', $notification->id) }}">
                                                         New Notification of Transfer Accept by the Employee !</a><span
+                                                        class="pull-right">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span>
+                                                </p>
+                                            @elseif($notification->type == 'App\Notifications\TransferNotification')
+                                                <p><b>{{ $notification->data['name'] ?? '' }}</b>&nbsp;&nbsp;<a
+                                                        href="{{ route('markasread-transfer', ['id' => $notification->id, 'typeId' => $notification->transfer_id]) }}">Employee
+                                                        New Transfer
+                                                        Notification!</a><span
+                                                        class="pull-right">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span>
+                                                </p>
+                                            @elseif($notification->type == 'App\Notifications\IssuenceNotification')
+                                                <p><b>{{ $notification->data['name'] ?? '' }}</b>&nbsp;&nbsp;<a
+                                                        href="{{ route('markasread', ['id' => $notification->id, 'typeId' => $notification->issuance_id]) }}">Employee
+                                                        New
+                                                        Notification!</a><span
                                                         class="pull-right">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span>
                                                 </p>
                                             @else
@@ -141,13 +158,13 @@
                                         @elseif (Auth::check() && Auth::user()->role_id == 3)
                                             @if ($notification->type == 'App\Notifications\TransferNotification')
                                                 <p><b>{{ $notification->data['name'] ?? '' }}</b>&nbsp;&nbsp;<a
-                                                        href="{{ route('markasread-transfer-manager', ['id' => $notification->id,'typeId'=>$notification->transfer_id]) }}">Manager
+                                                        href="{{ route('markasread-transfer-manager', ['id' => $notification->id, 'typeId' => $notification->transfer_id]) }}">Manager
                                                         New Notification of Transfer!</a><span
                                                         class="pull-right">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span>
                                                 </p>
                                             @elseif ($notification->type == 'App\Notifications\ReturnNotification')
                                                 <p><b>{{ $notification->data['name'] ?? '' }}</b>&nbsp;&nbsp;<a
-                                                        href="{{ route('markasread-manager-return', ['id' => $notification->id,'typeId'=>$notification->return_id]) }}">Manager
+                                                        href="{{ route('markasread-manager-return', ['id' => $notification->id, 'typeId' => $notification->return_id]) }}">Manager
                                                         New Notification for Return!</a><span
                                                         class="pull-right">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span>
                                                 </p>
@@ -175,13 +192,13 @@
                                         @else
                                             @if ($notification->type == 'App\Notifications\TransferNotification')
                                                 <p><b>{{ $notification->data['name'] ?? '' }}</b>&nbsp;&nbsp;<a
-                                                        href="{{ route('markasread-transfer', ['id' => $notification->id,'typeId'=>$notification->transfer_id]) }}">Employee
+                                                        href="{{ route('markasread-transfer', ['id' => $notification->id, 'typeId' => $notification->transfer_id]) }}">Employee
                                                         New Transfer
                                                         Notification!</a><span
                                                         class="pull-right">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span>
                                                 </p>
                                             @else
-                                                {{-- @if($notification->issuance_id) --}}
+                                                {{-- @if ($notification->issuance_id) --}}
                                                 <p><b>{{ $notification->data['name'] ?? '' }}</b>&nbsp;&nbsp;<a
                                                         href="{{ route('markasread', ['id' => $notification->id, 'typeId' => $notification->issuance_id]) }}">Employee
                                                         New

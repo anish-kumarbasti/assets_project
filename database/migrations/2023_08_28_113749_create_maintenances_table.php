@@ -16,10 +16,10 @@ return new class extends Migration
             $table->string('asset_type_id')->nullable();
             $table->string('asset_id')->nullable();
             $table->string('product_id');
-            $table->string('asset_number');
-            $table->string('supplier_id');
-            $table->string('start_date');
-            $table->string('end_date');
+            $table->string('asset_number')->nullable();
+            $table->string('supplier_id')->nullable();
+            $table->string('start_date')->nullable();
+            $table->string('end_date')->nullable();
             $table->timestamps();
         });
     }
