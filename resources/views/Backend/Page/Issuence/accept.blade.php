@@ -181,14 +181,14 @@
                             <tbody>
                                 @foreach ($products as $product)
                                     <form
-                                        action="{{ Auth::check() && Auth::user()->role_id == 2 ? route('accept-asset', $product->id) : route('accept-asset-manager', $product->id) }}">
+                                        action="{{ route('accept-asset', $product->id) }}">
                                         <tr>
                                             <td>{{ $product->product_number ?? '' }}</td>
                                             <td>
                                                 <div class="d-flex"><img class="img-fluid align-top circle"
                                                         src="../assets/images/dashboard/default/01.png" alt="">
                                                     <div class="flex-grow-1"><a
-                                                            href="{{ route('accept-detail-asset', $product->id) }}"><span>{{  $product->asset_type->name }}</span></a>
+                                                            href="{{ route('accept-detail-asset', $product->id) }}"><span>{{ $product->asset_type->name }}</span></a>
 
                                                         <p class="mb-0">
                                                             {{-- @foreach ($createdDates as $issuedata)
@@ -200,43 +200,25 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            @if (Auth::check() && Auth::user()->role_id == 2)
-                                                <td>{{ $product->assetmain->name }}</td>
-                                                <td>{{ $product->product_info}}</td>
-                                                <td class="text-end">
-                                                    @if ($product->status_available == 15)
-                                                        <div class="btn-group" role="group" aria-label="Action Buttons">
-                                                            <button class="btn btn-primary action-button"
-                                                                type="submit">Accept</button>
-                                                            <button class="btn btn-danger action-button" type="button"
-                                                                data-toggle="modal" data-target="#rejectionModal"
-                                                                onclick="setProductIdToReject('{{ $product->id }}')">Reject</button>
-                                                        </div>
-                                                    @elseif ($product->status_available == 4)
-                                                        <button class="btn btn-danger btn-block action-button"
-                                                            type="button" style="width: 100%;">Rejected</button>
-                                                    @else
-                                                        <button class="btn btn-success btn-block action-button"
-                                                            type="button" style="width: 100%;">Accepted</button>
-                                                    @endif
-                                                </td>
-                                            @elseif (Auth::check() && Auth::user()->role_id == 3)
-                                                <td>Hello A new Asset ({{ $product->product_info }}) has been
-                                                    issued. to
-                                                    the ({{ $user->first_name }} {{ $user->last_name }})</td>
-                                                <td class="text-end">
-                                                    @if ($product->status_available == 15)
-                                                        <a class="btn btn-success"
-                                                            href="{{ route('approve-manager', $product->id) }}">Approve</a>
-                                                        <a class="btn btn-danger"
-                                                            href="{{ route('denied-manager', $product->id) }}">Denied</a>
-                                                    @elseif ($product->status_available == 14)
-                                                        <a class="btn btn-danger" type="button">Denied.</a>
-                                                    @else
-                                                        <a class="btn btn-success" type="button">Approved.</a>
-                                                    @endif
-                                                </td>
-                                            @endif
+                                            <td>{{ $product->assetmain->name }}</td>
+                                            <td>{{ $product->product_info }}</td>
+                                            <td class="text-end">
+                                                @if ($product->status_available == 15)
+                                                    <div class="btn-group" role="group" aria-label="Action Buttons">
+                                                        <button class="btn btn-primary action-button"
+                                                            type="submit">Accept</button>
+                                                        <button class="btn btn-danger action-button" type="button"
+                                                            data-toggle="modal" data-target="#rejectionModal"
+                                                            onclick="setProductIdToReject('{{ $product->id }}')">Reject</button>
+                                                    </div>
+                                                @elseif ($product->status_available == 4)
+                                                    <button class="btn btn-danger btn-block action-button" type="button"
+                                                        style="width: 100%;">Rejected</button>
+                                                @else
+                                                    <button class="btn btn-success btn-block action-button" type="button"
+                                                        style="width: 100%;">Accepted</button>
+                                                @endif
+                                            </td>
                                         </tr>
                                     </form>
                                 @endforeach

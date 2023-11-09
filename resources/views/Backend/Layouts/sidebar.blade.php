@@ -183,8 +183,8 @@ background-color:#1d0950!important;
                 <li class="sidebar-list {{ request()->is(['asset-maintenances*', 'receive-maintenance*']) ? 'active' : '' }}">
                     <a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="plus-square"></i><span>Maintenance</span></a>
                     <ul class="sidebar-submenu">
-                        <li class="{{ request()->is(['asset-maintenances*']) ? 'active' : '' }}"><a href="{{ route('assets-maintenances') }}">Add Maintenance</a></li>
-                        <li class="{{ request()->is(['receive-maintenance*']) ? 'active' : '' }}"><a href="{{ route('receive-maintenance') }}">Receive Maintenance</a></li>
+                        <li class="{{ request()->is(['asset-maintenances*']) ? 'active' : '' }}"><a href="{{ route('assets-maintenances') }}">Send</a></li>
+                        <li class="{{ request()->is(['receive-maintenance*']) ? 'active' : '' }}"><a href="{{ route('receive-maintenance') }}">Receive</a></li>
                     </ul>
                 </li>
                 @endcan

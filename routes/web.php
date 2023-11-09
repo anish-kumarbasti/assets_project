@@ -308,6 +308,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('import-department', [DepartmentController::class, 'import'])->name('import.department');
     //Maintenances
     Route::get('maintenance', [MaintenanceController::class, 'index']);
+    Route::get('recieve-asset/{id}', [MaintenanceController::class, 'recieveasset'])->name('recieve.product');
+    Route::get('recieve-product/{id}', [MaintenanceController::class, 'AssetRecieve'])->name('recieve-asset');
     Route::get('asset-maintenances', [MaintenanceController::class, 'maintenances'])->name('assets-maintenances');
     Route::post('asset-maintenance', [MaintenanceController::class, 'maintenance_save'])->name('maintenance-save');
     Route::get('maintainans-edit/{id}', [MaintenanceController::class, 'edit'])->name('maintenance-edit');

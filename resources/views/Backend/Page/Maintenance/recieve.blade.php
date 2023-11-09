@@ -138,6 +138,11 @@
                                 @endforeach
                             </small>
                         </div>
+                        <div class="col-md-12 text-end text-muted">
+                            <small>
+                                {{ $datatime }}
+                            </small>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -168,52 +173,35 @@
                         <table class="table table-bordered">
                             <thead>
                                 <th>Asset Code</th>
+                                <th>Asset Type</th>
+                                <th>Asset</th>
                                 <th>Product</th>
-                                <th>Description</th>
                                 <th>Action</th>
                             </thead>
                             <tbody>
                                 @foreach ($products as $product)
                                     <form
-                                        action="">
+                                        action="{{ route('recieve-asset', $product->id) }}">
                                         <tr>
-                                            <td>
-                                                {{ $product->product_number ?? 'N/A' }}
-                                            </td>
+                                            <td>{{ $product->product_number ?? '' }}</td>
                                             <td>
                                                 <div class="d-flex"><img class="img-fluid align-top circle"
                                                         src="../assets/images/dashboard/default/01.png" alt="">
                                                     <div class="flex-grow-1"><a
-                                                            href="{{ route('accept-detail-asset', $product->id) }}"><span>{{ $product->product_info }}</span></a>
-                                                        {{-- <p class="mb-0">
-                                                            @foreach ($createdDates as $issuedata)
-                                                                {{ Carbon\Carbon::parse($issuedata)->diffForHumans() }}
-                                                            @endforeach
-                                                        </p> --}}
-                                                        <p class="mb-0">
-                                                            {{ Carbon\Carbon::parse($product->created_at)->diffForHumans() }}
-                                                        </p>
+                                                            href="{{ route('accept-detail-asset', $product->id) }}"><span>{{ $product->asset_type->name }}</span></a>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>Hello User A new Asset ({{ $product->product_info }}) has been
-                                                Transfred to you.
-                                                please
-                                                accept to the
-                                                request!</td>
+                                            <td>{{ $product->assetmain->name }}</td>
+                                            <td>{{ $product->product_info }}</td>
                                             <td class="text-end">
-                                                @if ($product->status_available == 8)
+                                                @if ($product->status_available == 12)
                                                     <div class="btn-group" role="group" aria-label="Action Buttons">
-                                                        <a class="btn btn-primary action-button"
-                                                            href="{{ route('transfer-accept', $product->id) }}">Accept</a>&nbsp;
-                                                        <button class="btn btn-danger action-button" type="button" data-toggle="modal"
-                                                            data-target="#rejectionModal"
-                                                            onclick="setProductIdToReject('{{ $product->id }}')">Reject</button>
+                                                        <button class="btn btn-primary action-button" type="submit">Recieve</button>
                                                     </div>
-                                                @elseif ($product->status_available == 4)
-                                                    <button class="btn btn-danger action-button" style="width: 100%;" type="button">Rejected</button>
                                                 @else
-                                                    <button class="btn btn-success action-button" style="width: 100%;" type="button">Accepted</button>
+                                                    <button class="btn btn-success btn-block action-button" type="button"
+                                                        style="width: 100%;">Recieved</button>
                                                 @endif
                                             </td>
                                         </tr>
