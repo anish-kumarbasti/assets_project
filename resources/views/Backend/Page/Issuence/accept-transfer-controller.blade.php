@@ -84,7 +84,6 @@
             color: #4FAAD5 !important;
             font-size: 20px;
         }
-
         input[readonly] {
             background-color: white !important;
         }
@@ -124,19 +123,41 @@
                 <div class="card-body">
                     <div class="row p-3">
                         <div class="col-md-5">
-                            <h4>Transaction Code:</h4>
+                            <h5>Transaction Code:</h5>
                             <input class="form-control mt-3" value="{{ $transactioncode }}" readonly>
-                        </div>
+                            </div>
+
                         <div class="col-md-7">
-                            <h4>Description:</h4>
+                            <h5>Description:</h5>
                             <textarea readonly disabled cols="30" rows="3" autofocus class="form-control mt-3">{{ $description }}</textarea>
                         </div>
                         <div class="col-md-12 mt-5 text-end fw-bold">
                             <small>
-                                @foreach ($createdDates as $issuedata)
+                                {{-- @foreach ($createdDates as $issuedata)
                                     {{ Carbon\Carbon::parse($issuedata)->diffForHumans() }}
-                                @endforeach
+                                @endforeach --}}
                             </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row p-3">
+                        <div class="col-md-5">
+                            <h5>Employee From</h5>
+                            EMP ID:
+                            <input class="form-control mt-3" value="{{ $namehand->employee_id??'' }}" readonly>
+                            EMP Name:
+                            <input class="form-control mt-3" value="{{ $namehand ? $namehand->first_name : 'N/A' }} {{ $namehand ? $namehand->last_name : 'N/A' }}" readonly>
+                        </div>
+
+                        <div class="col-md-7">
+                            <h5>Handover ID</h5>
+                            EMP ID:
+                            <input class="form-control mt-3" value="{{ $name->employee_id??''}}" readonly>
+                            EMP Name:
+                            <input class="form-control mt-3" value="{{ $name ? $name->first_name : 'N/A' }} {{ $name ? $name->last_name : 'N/A' }}" readonly>
                         </div>
                     </div>
                 </div>
@@ -147,7 +168,7 @@
                         <div class="flex-grow-1">
                             <p class="square-after f-w-600 header-text-primary">Asset Requests<i class="fa fa-circle"> </i>
                             </p>
-                            <h4>Asset Requests</h4>
+                            <h4>Asset Transfers</h4>
                         </div>
                         <div class="setting-list">
                             <ul class="list-unstyled setting-option">
@@ -169,55 +190,48 @@
                             <thead>
                                 <th>Asset Code</th>
                                 <th>Product</th>
-                                <th>Description</th>
+                                <th>Asset Type</th>
+                                <th>Asset</th>
+                                <th>Price</th>
                                 <th>Action</th>
                             </thead>
                             <tbody>
                                 @foreach ($products as $product)
-                                    <form
-                                        action="">
                                         <tr>
-                                            <td>
-                                                {{ $product->product_number ?? 'N/A' }}
-                                            </td>
+                                            <td>{{ $product->product_number??'N/A' }}</td>
                                             <td>
                                                 <div class="d-flex"><img class="img-fluid align-top circle"
                                                         src="../assets/images/dashboard/default/01.png" alt="">
                                                     <div class="flex-grow-1"><a
                                                             href="{{ route('accept-detail-asset', $product->id) }}"><span>{{ $product->product_info }}</span></a>
-                                                        {{-- <p class="mb-0">
-                                                            @foreach ($createdDates as $issuedata)
-                                                                {{ Carbon\Carbon::parse($issuedata)->diffForHumans() }}
-                                                            @endforeach
-                                                        </p> --}}
                                                         <p class="mb-0">
-                                                            {{ Carbon\Carbon::parse($product->created_at)->diffForHumans() }}
+                                                            {{-- {{ Carbon\Carbon::parse($transferdata->created_at)->diffForHumans() }} --}}
                                                         </p>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>Hello User A new Asset ({{ $product->product_info }}) has been
-                                                Transfred to you.
-                                                please
-                                                accept to the
-                                                request!</td>
-                                            <td class="text-end">
-                                                @if ($product->status_available == 8 || $product->status_available == 17)
+                                            @if (Auth::user()->department_id == $transferuser->department_id)
+                                                <td>{{$product->asset_type->name??'N/A'}}</td>
+                                                <td>{{$product->assetmain->name??'N/A'}}</td>
+                                                <td>{{$product->price??'N/A'}}</td>
+                                                <td class="text-end">
+                                                    @if ($product->status_available == 8)
                                                     <div class="btn-group" role="group" aria-label="Action Buttons">
-                                                        <a class="btn btn-primary action-button"
-                                                            href="{{ route('transfer-accept', $product->id) }}">Accept</a>&nbsp;
-                                                        <button class="btn btn-danger action-button" type="button" data-toggle="modal"
-                                                            data-target="#rejectionModal"
-                                                            onclick="setProductIdToReject('{{ $product->id }}')">Reject</button>
+                                                    <a class="btn btn-success action-button" href="{{route('approve-transfer-controller',['id'=>$product->id,'nid'=>$id])}}">Approve</a>
+                                                    <a class="btn btn-danger action-button" href="{{route('denied-transfer-controller',$product->id)}}">Denied</a>
                                                     </div>
-                                                @elseif ($product->status_available == 4)
-                                                    <button class="btn btn-danger action-button" style="width: 100%;" type="button">Rejected</button>
-                                                @else
-                                                    <button class="btn btn-success action-button" style="width: 100%;" type="button">Accepted</button>
-                                                @endif
-                                            </td>
+                                                    @elseif ($product->status_available == 18)
+                                                    <a class="btn btn-danger action-button" style="width: 100%;" type="button">Denied.</a>
+                                                    @else
+                                                    <a class="btn btn-success action-button" style="width: 100%;" type="button">Approved.</a>
+                                                    @endif
+                                                </td>
+                                            @else
+                                            <td>{{$product->asset_type->name??'N/A'}}</td>
+                                            <td>{{$product->assetmain->name??'N/A'}}</td>
+                                            <td>{{$product->price??'N/A'}}</td>
+                                            @endif
                                         </tr>
-                                    </form>
                                 @endforeach
                             </tbody>
                         </table>

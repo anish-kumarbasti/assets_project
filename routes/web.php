@@ -104,6 +104,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('denied-manager/{id}', [IssuenceController::class, 'deniedmanager'])->name('denied-manager');
     Route::get('approve-transfer-manager/{id}/{nid}', [IssuenceController::class, 'approvetransfermanager'])->name('approve-transfer-manager');
     Route::get('denied-transfer-manager/{id}', [IssuenceController::class, 'deniedtransfermanager'])->name('denied-transfer-manager');
+    Route::get('approve-transfer-controller/{id}/{nid}', [IssuenceController::class, 'approvetransfercontroller'])->name('approve-transfer-controller');
+    Route::get('denied-transfer-controller/{id}', [IssuenceController::class, 'deniedtransfercontroller'])->name('denied-transfer-controller');
     Route::get('markasread-controller/{id}', [IssuenceController::class, 'markasreadcontroller'])->name('markasread-controller');
     Route::post('rejection/', [IssuenceController::class, 'rejection'])->name('rejection');
     Route::get('accept-asset/{id}', [IssuenceController::class, 'AssetAccept'])->name('accept-asset');
