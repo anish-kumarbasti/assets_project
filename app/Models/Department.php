@@ -11,6 +11,6 @@ class Department extends Model
     use HasFactory, SoftDeletes;
     protected $fillable = [
         'name',
-
+        'unique_id',
     ];
 }

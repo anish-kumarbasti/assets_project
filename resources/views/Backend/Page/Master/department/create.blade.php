@@ -22,9 +22,14 @@
                 <div class="card-item">
                     <div class="row p-3">
                         <div class="col-md-12 mb-4">
-                            <label class="form-label" for="validationCustom01">Add Department</label>
-                            <input class="form-control" id="validationCustom01" type="text" value="{{old('name')}}" name="name" required="" data-bs-original-title="" title="" placeholder="Enter Department Name">
+                            <label class="form-label" for="validationCustom01">Department Name</label>
+                            <input class="form-control mb-2" id="validationCustom01" type="text" value="{{old('name')}}" name="name" required="" data-bs-original-title="" title="" placeholder="Enter Department Name">
                             @error('name')
+                            <span class="text-danger">{{$message}}</span>
+                            @enderror
+                            <label class="form-label" for="validationCustom02">Department Id</label>
+                            <input class="form-control" id="validationCustom02" type="text" value="DEP" name="unique" required="" data-bs-original-title="" title="" placeholder="Enter Department Id">
+                            @error('unique')
                             <span class="text-danger">{{$message}}</span>
                             @enderror
                         </div>
@@ -51,7 +56,8 @@
                     <thead>
                         <tr>
                             <th>SL</th>
-                            <th>Name</th>
+                            <th>Department ID</th>
+                            <th>Department Name</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -60,6 +66,7 @@
                         @foreach ($departments as $department)
                         <tr>
                             <td>{{ $department->id }}</td>
+                            <td>{{ $department->unique_id }}</td>
                             <td>{{ $department->name }}</td>
                             <td class="w-20">
                                 <label class="mb-0 switch">

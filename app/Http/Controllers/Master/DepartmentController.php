@@ -57,21 +57,17 @@ class DepartmentController extends Controller
                 'min:2',
                 Rule::notIn(['']),
             ],
+            'unique' => 'required|unique:departments,name,except,id'
         ], [
             'name.regex' => 'The :attribute may only contain letters and spaces. Numbers and special characters are not allowed.',
         ]);
-
-        // Create the department using the Department model
+        // dd($request->all());
         Department::create([
             'name' => $request->name,
-            // Add other fields if needed
+            'unique_id'=>$request->unique,
         ]);
-
-        // Redirect back to the list of departments
         return redirect('/departments')->with('message', 'Department created successfully.');
     }
-
-    // Show the list of departments
     public function index()
     {
         $departments = Department::all();
@@ -98,7 +94,7 @@ class DepartmentController extends Controller
                 'regex:/^[A-Za-z]+( [A-Za-z]+)*$/',
                 'min:2',
                 Rule::notIn(['']),
-            ],
+            ],'unique' => 'required|unique:departments,name,except,id'
         ], [
             'name.regex' => 'The :attribute may only contain letters and spaces. Numbers and special characters are not allowed.',
         ]);
@@ -107,10 +103,8 @@ class DepartmentController extends Controller
         $department = Department::findOrFail($id);
         $department->update([
             'name' => $request->name,
-            // Add other fields if needed
+            'unique_id'=>$request->unique,
         ]);
-
-        // Redirect back to the list of departments
         return redirect('departments')->with('message', 'Department updated Successfully!');
     }
 

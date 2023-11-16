@@ -18,8 +18,13 @@
                     <div class="row p-3">
                         <div class="col-md-12 mb-4">
                             <label class="form-label" for="name">Department Name</label>
-                            <input class="form-control @error('name') is-invalid @enderror" id="name" type="text" name="name" value="{{ old('name', $department->name) }}" required>
+                            <input class="form-control @error('name') is-invalid @enderror mb-2" id="name" type="text" name="name" value="{{ old('name', $department->name) }}" required>
                             @error('name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                            <label class="form-label" for="unique">Department ID</label>
+                            <input class="form-control @error('unique') is-invalid @enderror" id="unique" type="text" name="unique" value="{{ old('name', $department->unique_id) }}" required>
+                            @error('unique')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
