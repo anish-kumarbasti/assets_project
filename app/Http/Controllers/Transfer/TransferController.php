@@ -118,12 +118,11 @@ class TransferController extends Controller
             $managerUser->notify(new TransferNotification($managerUser));
             $assetmanager->notify(new TransferNotification($assetmanager));
             $managertoUser->notify(new TransferNotification($managertoUser));
-            $assettomanager->notify(new TransferNotification($assettomanager));
             $count = 0;
             $a = [];
             $lastFourRecords = DB::table('notifications')
                 ->orderBy('created_at', 'desc')
-                ->take(4)
+                ->take(3)
                 ->update(['transfer_id' => $transfer->id]);
         }
         return back()->with('success', 'Asset Transferred successfully.');

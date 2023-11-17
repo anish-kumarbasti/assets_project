@@ -120,10 +120,13 @@ class AssetController extends Controller
     public function destroy($id)
     {
         $asset = Asset::find($id);
-        if ($asset) {
-            $asset->delete();
+        $referencesExist = $asset->stocks()->exists();
+        // dd($referencesExist);
+        if ($referencesExist) {
+            return response()->json(['success' => false, 'message' => 'Asset is referenced in one or more tables and cannot be deleted.']);
         }
-        return response()->json(['success' => true]);
+        $asset->delete();
+        return response()->json(['success' => true, 'message' => 'Asset deleted successfully.']);
     }
 
     public function nonitasset()

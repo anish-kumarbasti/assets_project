@@ -11,6 +11,14 @@ class Department extends Model
     use HasFactory, SoftDeletes;
     protected $fillable = [
         'name',
-
+        'unique_id',
     ];
+    public function users()
+    {
+        return $this->hasMany(User::class,'department_id','id');
+    }
+    public function designations()
+    {
+        return $this->hasMany(Designation::class,'department_id','id');
+    }
 }

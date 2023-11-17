@@ -15,4 +15,8 @@ class Attribute extends Model
     {
         return $this->belongsTo(AssetType::class, 'asset_type_id');
     }
+    public function stocks()
+    {
+        return $this->hasMany(Stock::class,'attribute','id');
+    }
 }

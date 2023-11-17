@@ -14,5 +14,10 @@ class Supplier extends Model
         'email',
         'phone',
         'address',
+        'supplier_id',
     ];
+    public function stocks()
+    {
+        return $this->hasMany(Stock::class,'supplier','id');
+    }
 }

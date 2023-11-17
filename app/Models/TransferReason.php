@@ -11,4 +11,8 @@ class TransferReason extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = [];
+    public function transfers()
+    {
+        return $this->hasMany(Transfer::class,'reason_id','id');
+    }
 }

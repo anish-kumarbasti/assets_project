@@ -86,8 +86,12 @@ class SubLocationController extends Controller
     }
     public function destroy(SubLocationModel $sublocation)
     {
+        $referencesExist = $sublocation->users()->exists() || $sublocation->issuances()->exists();
+        if ($referencesExist) {
+            return response()->json(['success' => false, 'message' => 'Sub Location is referenced in one or more tables and cannot be deleted.']);
+        }
         $sublocation->delete();
-        return response()->json(['success' => true]);
+        return response()->json(['success' => true, 'message' => 'Sub Location deleted successfully.']);
     }
     public function updateStatus(Request $request, $sublocationId)
     {

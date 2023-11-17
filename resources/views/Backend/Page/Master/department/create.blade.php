@@ -1,8 +1,68 @@
 @extends('Backend.Layouts.panel')
 
 @section('Style-Area')
-@endsection
+    <style>
+        .swal2-popup {
+            text-align: center;
+        }
+    </style>
+    <style>
+        /* Custom styles for breadcrumbs */
+        .breadcrumbs-dark ol.breadcrumbs {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
 
+        .breadcrumbs-dark ol.breadcrumbs li {
+            font-size: 14px;
+            /* Adjust font size as needed */
+            color: #555;
+            /* Adjust text color as needed */
+        }
+
+        .breadcrumbs-dark ol.breadcrumbs li:not(:last-child):after {
+            content: ">";
+            margin-left: 10px;
+            margin-right: 10px;
+            color: #777;
+        }
+
+        .breadcrumbs-dark ol.breadcrumbs li.text-muted {
+            color: #333;
+            font-weight: bold;
+        }
+        .breadcrumbs-dark ol.breadcrumbs li.text-muted a {
+            color: #333;
+            font-weight: bold;
+        }
+        .breadcrumbs-dark ol.breadcrumbs li.active a {
+            color: #333;
+            font-weight: bold;
+        }
+        .breadcrumbs-dark ol.breadcrumbs li.active a:hover {
+            color: blue;
+        }
+    </style>    
+@endsection
+@section('breadcrumbs')
+    <div class="breadcrumbs-dark pb-0 pt-2" id="breadcrumbs-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col s10 m6 l6">
+                    <ol class="breadcrumbs mb-2">
+                        <li class="text-muted">Dashboard</li>
+                        <li class="text-muted">Master</li>
+                        <li class="text-muted"><a href="{{url('department')}}" class="text-muted">Department</a></li>
+                        <li class="active"><a href="{{url('departments/create')}}">Add-Department</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
 @section('Content-Area')
 @if (session('message'))
 <div id="alerts" class="alert alert-success inverse alert-dismissible fade show" role="alert"><i class="icon-thumb-up alert-center"></i>
@@ -22,9 +82,14 @@
                 <div class="card-item">
                     <div class="row p-3">
                         <div class="col-md-12 mb-4">
-                            <label class="form-label" for="validationCustom01">Add Department</label>
-                            <input class="form-control" id="validationCustom01" type="text" value="{{old('name')}}" name="name" required="" data-bs-original-title="" title="" placeholder="Enter Department Name">
+                            <label class="form-label" for="validationCustom01">Department Name</label>
+                            <input class="form-control mb-2" id="validationCustom01" type="text" value="{{old('name')}}" name="name" required="" data-bs-original-title="" title="" placeholder="Enter Department Name">
                             @error('name')
+                            <span class="text-danger">{{$message}}</span>
+                            @enderror
+                            <label class="form-label" for="validationCustom02">Department Id</label>
+                            <input class="form-control" id="validationCustom02" type="text" value="DEP" name="unique" required="" data-bs-original-title="" title="" placeholder="Enter Department Id">
+                            @error('unique')
                             <span class="text-danger">{{$message}}</span>
                             @enderror
                         </div>
@@ -51,7 +116,8 @@
                     <thead>
                         <tr>
                             <th>SL</th>
-                            <th>Name</th>
+                            <th>Department ID</th>
+                            <th>Department Name</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -60,6 +126,7 @@
                         @foreach ($departments as $department)
                         <tr>
                             <td>{{ $department->id }}</td>
+                            <td>{{ $department->unique_id }}</td>
                             <td>{{ $department->name }}</td>
                             <td class="w-20">
                                 <label class="mb-0 switch">

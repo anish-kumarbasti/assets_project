@@ -40,6 +40,65 @@
 
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/fontawesome.min.css" integrity="sha384-QYIZto+st3yW+o8+5OHfT6S482Zsvz2WfOzpFSXMF9zqeLcFV0/wlZpMtyFcZALm" crossorigin="anonymous">
+<style>
+    /* Custom styles for breadcrumbs */
+    .breadcrumbs-dark ol.breadcrumbs {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        align-items: center;
+    }
+
+    .breadcrumbs-dark ol.breadcrumbs li {
+        font-size: 14px;
+        /* Adjust font size as needed */
+        color: #555;
+        /* Adjust text color as needed */
+    }
+
+    .breadcrumbs-dark ol.breadcrumbs li:not(:last-child):after {
+        content: ">";
+        margin-left: 10px;
+        margin-right: 10px;
+        color: #777;
+    }
+
+    .breadcrumbs-dark ol.breadcrumbs li.text-muted {
+        color: #333;
+        font-weight: bold;
+    }
+
+    .breadcrumbs-dark ol.breadcrumbs li.text-muted a {
+        color: #333;
+        font-weight: bold;
+    }
+
+    .breadcrumbs-dark ol.breadcrumbs li.active a {
+        color: #333;
+        font-weight: bold;
+    }
+
+    .breadcrumbs-dark ol.breadcrumbs li.active a:hover {
+        color: blue;
+    }
+</style>
+@endsection
+@section('breadcrumbs')
+<div class="breadcrumbs-dark pb-0 pt-2" id="breadcrumbs-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col s10 m6 l6">
+                <ol class="breadcrumbs mb-2">
+                    <li class="text-muted">Dashboard</li>
+                    <li class="text-muted">Reports</li>
+                    {{-- <li class="text-muted"><a href="{{ url('department') }}" class="text-muted">Department</a></li> --}}
+                    <li class="active"><a href="{{ url('all-reports') }}">All Reports</a></li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('Content-Area')

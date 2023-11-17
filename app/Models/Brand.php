@@ -13,4 +13,12 @@ class Brand extends Model
     protected $fillable = [
         'name',
     ];
+    public function stocks()
+    {
+        return $this->hasMany(Stock::class,'brand_id','id');
+    }
+    public function brandmodels()
+    {
+        return $this->hasMany(Brandmodel::class,'brand_id','id');
+    }
 }
