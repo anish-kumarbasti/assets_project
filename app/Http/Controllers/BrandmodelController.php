@@ -116,12 +116,14 @@ class BrandmodelController extends Controller
      */
     public function destroy(string $id)
     {
-        $brand = Brandmodel::find($id);
-        // dd($brand);
-        if ($brand) {
-            $brand->delete();
+        $Brand = Brandmodel::find($id);
+        $referencesExist = $Brand->stocks()->exists();
+        // dd($referencesExist);
+        if ($referencesExist) {
+            return response()->json(['success' => false, 'message' => 'Brand is referenced in one or more tables and cannot be deleted.']);
         }
-        return response()->json(['success' => true]);
+        $Brand->delete();
+        return response()->json(['success' => true, 'message' => 'Brand deleted successfully.']);
     }
     public function updateStatus(Request $request, Brandmodel $brand)
     {

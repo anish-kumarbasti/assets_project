@@ -25,7 +25,7 @@ class TransferReasonController extends Controller
         if (!empty($transferReasons)) {
             $transferReasons->restore();
         }
-        TransferReason::find($id)->update(['status'=>true]);
+        TransferReason::find($id)->update(['status' => true]);
         return redirect()->route('transfer-reasons.index')->with('success', 'Brand Restore Successfully');
     }
     public function forceDelete($id)
@@ -34,7 +34,6 @@ class TransferReasonController extends Controller
         $transferReasons->forceDelete();
         return response()->json(['success' => true]);
     }
-
 
     public function create()
     {
@@ -75,13 +74,21 @@ class TransferReasonController extends Controller
 
     public function destroy(TransferReason $transferReason)
     {
-        if($transferReason->status == true){
-            TransferReason::find($transferReason->id)->update(['status'=>false]);
+        if ($transferReason->status == true) {
+            TransferReason::find($transferReason->id)->update(['status' => false]);
+            $referencesExist = $transferReason->transfers()->exists();
+            if ($referencesExist) {
+                return response()->json(['success' => false, 'message' => 'Reason is referenced in one or more tables and cannot be deleted.']);
+            }
             $transferReason->delete();
-            return response()->json(['success' => true]);
-        }else{
+            return response()->json(['success' => true, 'message' => 'Supplier deleted successfully.']);
+        } else {
+            $referencesExist = $transferReason->transfers()->exists();
+            if ($referencesExist) {
+                return response()->json(['success' => false, 'message' => 'Supplier is referenced in one or more tables and cannot be deleted.']);
+            }
             $transferReason->delete();
-            return response()->json(['success' => true]);   
+            return response()->json(['success' => true, 'message' => 'Supplier deleted successfully.']);
         }
     }
     public function updateStatus(Request $request, TransferReason $reason)
@@ -91,13 +98,13 @@ class TransferReasonController extends Controller
         ]);
         if ($reason->status == 1) {
             TransferReason::where('id', $reason->id)->update([
-                'status' => 0
+                'status' => 0,
             ]);
         } else {
             TransferReason::where('id', $reason->id)->update([
-                'status' => 1
+                'status' => 1,
             ]);
         }
-        return response()->json(['success' => true]);;
+        return response()->json(['success' => true]);
     }
 }

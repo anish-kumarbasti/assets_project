@@ -18,4 +18,8 @@ class Brandmodel extends Model
     {
         return $this->belongsTo('App\Models\Brand', 'brand_id');
     }
+    public function stocks()
+    {
+        return $this->hasMany(Stock::class,'brand_model_id','id');
+    }
 }

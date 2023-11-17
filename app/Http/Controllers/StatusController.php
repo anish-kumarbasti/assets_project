@@ -73,8 +73,12 @@ class StatusController extends Controller
     }
     public function destroy($id)
     {
-        $data = Status::find($id);
-        $data->delete($data);
-        return response()->json(['success' => true]);
+        $Status = Status::find($id);
+        $referencesExist = $Status->stocks()->exists();
+        if ($referencesExist) {
+            return response()->json(['success' => false, 'message' => 'Status is referenced in one or more tables and cannot be deleted.']);
+        }
+        $Status->delete();
+        return response()->json(['success' => true, 'message' => 'Status deleted successfully.']);
     }
 }

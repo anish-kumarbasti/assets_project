@@ -14,4 +14,8 @@ class Asset extends Model
     {
         return $this->belongsTo('App\Models\AssetType', 'asset_type_id', 'id');
     }
+    public function stocks()
+    {
+        return $this->hasMany(Stock::class,'asset','id');
+    }
 }

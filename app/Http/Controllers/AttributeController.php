@@ -98,9 +98,13 @@ class AttributeController extends Controller
 
     public function destroy($id)
     {
-        $attribute = Attribute::findOrFail($id);
+        $attribute = Attribute::find($id);
+        $referencesExist = $attribute->stocks()->exists();
+        if ($referencesExist) {
+            return response()->json(['success' => false, 'message' => 'Attribute is referenced in one or more tables and cannot be deleted.']);
+        }
         $attribute->delete();
-        return response()->json(['success' => true]);
+        return response()->json(['success' => true, 'message' => 'Attribute deleted successfully.']);
     }
     public function updateStatus(Request $request, Attribute $attribute)
     {

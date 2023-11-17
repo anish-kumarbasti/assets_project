@@ -167,7 +167,7 @@
                             } else {
                                 Swal.fire(
                                     'Error',
-                                    'Failed to trash the file.',
+                                    data.message || 'Failed to trash the file.',
                                     'error'
                                 );
                             }

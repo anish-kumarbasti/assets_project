@@ -94,8 +94,12 @@ class LocationController extends Controller
     }
     public function destroy(Location $location)
     {
+        $referencesExist = $location->users()->exists() || $location->issuances()->exists() || $location->sublocations()->exists();
+        // dd($referencesExist);
+        if ($referencesExist) {
+            return response()->json(['success' => false, 'message' => 'location is referenced in one or more tables and cannot be deleted.']);
+        }
         $location->delete();
-
-        return response()->json(['success' => true]);
+        return response()->json(['success' => true, 'message' => 'location deleted successfully.']);
     }
 }

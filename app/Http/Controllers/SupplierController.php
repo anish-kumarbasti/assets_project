@@ -56,16 +56,17 @@ class SupplierController extends Controller
                 'min:2',
                 Rule::notIn(['']),
             ],
+            'unique' => 'required|unique:suppliers,supplier_id,except,id',
         ], [
             'name.regex' => 'The :attribute may only contain letters and spaces. Numbers and special characters are not allowed.',
         ]);
-
 
         Supplier::create([
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
             'address' => $request->address,
+            'supplier_id' => $request->unique,
         ]);
         return redirect()->route('suppliers.index')->with('message', 'Supplier Add successfully!');
     }
@@ -89,6 +90,7 @@ class SupplierController extends Controller
                 'min:2',
                 Rule::notIn(['']),
             ],
+            'unique' => 'required|unique:suppliers,supplier_id,except,id',
         ], [
             'name.regex' => 'The :attribute may only contain letters and spaces. Numbers and special characters are not allowed.',
         ]);
@@ -98,14 +100,21 @@ class SupplierController extends Controller
         $supplier->email = $validatedData['email'];
         $supplier->phone = $validatedData['phone'];
         $supplier->address = $validatedData['address'];
+        $supplier->supplier_id = $validatedData['unique'];
         $supplier->save();
 
         return redirect()->route('suppliers.index')->with('message', 'Supplier Update Successfully');
     }
     public function destroy($id)
     {
+        // dd($id);
         $supplier = Supplier::find($id);
+        $referencesExist = $supplier->stocks()->exists();
+        // dd($referencesExist);
+        if ($referencesExist) {
+            return response()->json(['success' => false, 'message' => 'Supplier is referenced in one or more tables and cannot be deleted.']);
+        }
         $supplier->delete();
-        return response()->json(['success' => true]);
+        return response()->json(['success' => true, 'message' => 'Supplier deleted successfully.']);
     }
 }

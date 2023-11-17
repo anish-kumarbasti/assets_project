@@ -33,13 +33,10 @@ class DepartmentController extends Controller
     public function forceDelete($id)
     {
         $departments = Department::withTrashed()->find($id);
-
         if (!$departments) {
             return response()->json(['success' => false], 404);
         }
-
         $departments->forceDelete();
-
         return response()->json(['success' => true]);
     }
 
@@ -112,11 +109,14 @@ class DepartmentController extends Controller
     public function destroy($id)
     {
         // Find the department and delete it
-        $department = Department::findOrFail($id);
+        $department = Department::find($id);
+        $referencesExist = $department->users()->exists() || $department->designations()->exists();
+        // dd($referencesExist);
+        if ($referencesExist) {
+            return response()->json(['success' => false, 'message' => 'Department is referenced in one or more tables and cannot be deleted.']);
+        }
         $department->delete();
-
-        // Redirect back to the list of departments
-        return response()->json(['success' => true]);
+        return response()->json(['success' => true, 'message' => 'Department deleted successfully.']);
     }
     public function updateStatus(Request $request, Department $department)
     {
@@ -139,7 +139,6 @@ class DepartmentController extends Controller
     }
     public function import(Request $request){
         Excel::import(new DepartmentImport, $request->file('file'));
-
         return redirect()->back();
     }
 }

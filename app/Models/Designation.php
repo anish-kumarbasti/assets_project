@@ -13,4 +13,8 @@ class Designation extends Model
     {
         return $this->belongsTo('App\Models\Department', 'department_id', 'id');
     }
+    public function users()
+    {
+        return $this->hasMany(User::class,'designation_id','id');
+    }
 }

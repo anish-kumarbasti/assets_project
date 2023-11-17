@@ -14,4 +14,8 @@ class Status extends Model
         'name',
         'status'
     ];
+    public function stocks()
+    {
+        return $this->hasMany(Stock::class,'status_available','id');
+    }
 }

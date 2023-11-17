@@ -6,8 +6,55 @@
             text-align: center;
         }
     </style>
-@endsection
+    <style>
+        /* Custom styles for breadcrumbs */
+        .breadcrumbs-dark ol.breadcrumbs {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
 
+        .breadcrumbs-dark ol.breadcrumbs li {
+            font-size: 14px;
+            /* Adjust font size as needed */
+            color: #555;
+            /* Adjust text color as needed */
+        }
+
+        .breadcrumbs-dark ol.breadcrumbs li:not(:last-child):after {
+            content: ">";
+            margin-left: 10px;
+            margin-right: 10px;
+            color: #777;
+        }
+
+        .breadcrumbs-dark ol.breadcrumbs li.active a {
+            color: #333;
+            font-weight: bold;
+        }
+
+        .breadcrumbs-dark ol.breadcrumbs li.active a:hover {
+            color: blue;
+        }
+    </style>
+@endsection
+@section('breadcrumbs')
+    <div class="breadcrumbs-dark pb-0 pt-2" id="breadcrumbs-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col s10 m6 l6">
+                    <ol class="breadcrumbs mb-2">
+                        <li class="text-muted">Dashboard</li>
+                        <li class="text-muted">Master</li>
+                        <li class="active"><a href="{{ url('department') }}">Department</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
 @section('Content-Area')
     @if (session('message'))
         <div id="alert-message" class="alert alert-success inverse alert-dismissible fade show" role="alert"><i
@@ -96,7 +143,7 @@
             button.addEventListener('click', function() {
                 const Id = this.getAttribute('data-id');
                 const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-                // Show SweetAlert2 confirmation dialog
+
                 Swal.fire({
                     title: 'Are you sure?',
                     text: "You won't be able to revert this!",
@@ -107,32 +154,32 @@
                     confirmButtonText: 'Yes, trash it!'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        // Send AJAX request to the server to delete the item
                         fetch('/departments/' + Id, {
                                 method: 'delete',
                                 headers: {
-                                    'X-CSRF-TOKEN': csrfToken, // Include the CSRF token in the headers
-                                    'Content-Type': 'application/json' // Set the content type
+                                    'X-CSRF-TOKEN': csrfToken,
+                                    'Content-Type': 'application/json'
                                 }
-                                // You can set headers and other options here
                             })
-                            .then(response => response.json())
-
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Network response was not ok');
+                                }
+                                return response.json();
+                            })
                             .then(data => {
-
-                                if ('success' in data && data.success) {
+                                if (data.success) {
                                     Swal.fire(
                                         'Trashed!',
                                         'Your file has been trashed.',
                                         'success'
                                     ).then(() => {
-                                        location
-                                    .reload(); // Reload the page after the alert is closed
+                                        location.reload();
                                     });
                                 } else {
                                     Swal.fire(
                                         'Error',
-                                        'Failed to trash the file.',
+                                        data.message || 'Failed to trash the file.',
                                         'error'
                                     );
                                 }
@@ -143,6 +190,7 @@
                                     'An error occurred while trashing the file.',
                                     'error'
                                 );
+                                console.error('Error during fetch operation:', error);
                             });
                     }
                 });

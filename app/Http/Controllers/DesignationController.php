@@ -100,9 +100,13 @@ class DesignationController extends Controller
 
     public function destroy($id)
     {
+        // dd($id);
         $designation = Designation::find($id);
+        $referencesExist = $designation->users()->exists();
+        if ($referencesExist) {
+            return response()->json(['success' => false, 'message' => 'Designation is referenced in one or more tables and cannot be deleted.']);
+        }
         $designation->delete();
-
-        return response()->json(['success' => true]);
+        return response()->json(['success' => true, 'message' => 'Designation deleted successfully.']);
     }
 }

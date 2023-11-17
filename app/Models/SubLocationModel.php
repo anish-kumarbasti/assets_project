@@ -17,4 +17,12 @@ class SubLocationModel extends Model
     {
         return $this->belongsTo(Location::class, 'location_id');
     }
+    public function users()
+    {
+        return $this->hasMany(User::class,'sub_location_id','id');
+    }
+    public function issuances()
+    {
+        return $this->hasMany(Issuence::class,'sub_location_id','id');
+    }
 }
