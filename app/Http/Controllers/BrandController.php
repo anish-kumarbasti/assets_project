@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\BrandExport;
+use App\Imports\BrandImport;
 use App\Models\Brand;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BrandController extends Controller
 {
@@ -126,15 +129,36 @@ class BrandController extends Controller
         ]);
         if ($brand->status == 1) {
             Brand::where('id', $brand->id)->update([
-                'status' => 0
+                'status' => 0,
             ]);
         } else {
             Brand::where('id', $brand->id)->update([
-                'status' => 1
+                'status' => 1,
             ]);
         }
         // dd($brand);
 
         return redirect()->route('create-brand')->with('success', 'brand status updated successfully.');
+    }
+    public function export()
+    {
+        return Excel::download(new BrandExport(), 'Brand_format.xlsx');
+    }
+    public function import(Request $request)
+    {
+        $this->validate($request, [
+            'select_file' => 'required|mimes:xls,xlsx',
+        ]);
+        $path = $request->file('select_file')->getRealPath();
+        $data = Excel::toCollection(new BrandImport(), $path)->first()->skip(1);
+        foreach ($data as $row) {
+            Brand::updateOrCreate(
+                ['name' => $row[0]],
+                [
+                    'name' => $row[0],
+                ]
+            );
+        }
+        return redirect()->route('create-brand')->with('message', 'Data imported successfully.');
     }
 }

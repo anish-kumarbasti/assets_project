@@ -2,20 +2,16 @@
 
 namespace App\Imports;
 
-use App\Models\Department;
-use Maatwebsite\Excel\Concerns\ToModel;
+use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Concerns\ToCollection;
 
-class DepartmentImport implements ToModel
+class DepartmentImport implements ToCollection
 {
     /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
+    * @param Collection $collection
     */
-    public function model(array $row)
+    public function collection(Collection $row)
     {
-        return new Department([
-            'name'=>$row[0],
-        ]);
+        return $row;
     }
 }

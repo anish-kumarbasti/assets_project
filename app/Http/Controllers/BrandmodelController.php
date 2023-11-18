@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\BrandModelExport;
+use App\Imports\BrandModelImport;
 use App\Models\Brand;
 use App\Models\Brandmodel;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BrandmodelController extends Controller
 {
@@ -15,7 +18,6 @@ class BrandmodelController extends Controller
     {
         $brands = Brand::all();
         $brandmodel = Brandmodel::all();
-        // dd($brands);
         return view('Backend.Page.Master.brandmodel.create', compact('brands', 'brandmodel'));
     }
     public function trash()
@@ -92,14 +94,13 @@ class BrandmodelController extends Controller
         return view('Backend.Page.Master.brandmodel.edit', compact('brandmodel', 'brands'));
     }
 
-
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'brand_id' => 'required|integer'
+            'brand_id' => 'required|integer',
         ]);
         // dd($id);
         $brand = Brandmodel::find($id)->update([
@@ -133,15 +134,47 @@ class BrandmodelController extends Controller
         ]);
         if ($brand->status == 1) {
             Brandmodel::where('id', $brand->id)->update([
-                'status' => 0
+                'status' => 0,
             ]);
         } else {
             Brandmodel::where('id', $brand->id)->update([
-                'status' => 1
+                'status' => 1,
             ]);
         }
         // dd($brand);
 
         return redirect()->route('create-brand')->with('success', 'brand Model status updated successfully.');
+    }
+    public function export()
+    {
+        return Excel::download(new BrandModelExport(), 'BrandModel_format.xlsx');
+    }
+    public function import(Request $request)
+    {
+        $this->validate($request, [
+            'select_file' => 'required|mimes:xls,xlsx',
+        ]);
+        // dd($request);
+        $path = $request->file('select_file')->getRealPath();
+        $data = Excel::toCollection(new BrandModelImport(), $path)->first()->skip(1);
+        foreach ($data as $row) {
+            $brand = Brand::updateOrCreate(
+                ['name' => $row[0]],
+                [
+                    'name' => $row[0],
+                ]
+            );
+            $myString = $row[1];
+            $myArray = explode(',', $myString);
+            foreach ($myArray as $value) {
+                Brandmodel::updateOrCreate(
+                    ['name' => $value],
+                    [
+                        'brand_id' => $brand->id,
+                    ]
+                );
+            }
+        }
+        return redirect()->route('brand-model.index')->with('message', 'Data imported successfully.');
     }
 }

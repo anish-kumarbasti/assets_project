@@ -2,20 +2,16 @@
 
 namespace App\Imports;
 
-use App\Models\Location;
-use Maatwebsite\Excel\Concerns\ToModel;
+use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Concerns\ToCollection;
 
-class LocationImport implements ToModel
+class LocationImport implements ToCollection
 {
     /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
+    * @param Collection $collection
     */
-    public function model(array $row)
+    public function collection(Collection $collection)
     {
-        return new Location([
-            //
-        ]);
+        return $collection;
     }
 }

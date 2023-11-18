@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\master;
 
+use App\Exports\ReasonExport;
 use App\Http\Controllers\Controller;
+use App\Imports\ReasonImport;
 use App\Models\TransferReason;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TransferReasonController extends Controller
 {
@@ -106,5 +109,26 @@ class TransferReasonController extends Controller
             ]);
         }
         return response()->json(['success' => true]);
+    }
+    public function export()
+    {
+        return Excel::download(new ReasonExport(), 'Reason_format.xlsx');
+    }
+    public function import(Request $request)
+    {
+        $this->validate($request, [
+            'select_file' => 'required|mimes:xls,xlsx',
+        ]);
+        $path = $request->file('select_file')->getRealPath();
+        $data = Excel::toCollection(new ReasonImport(), $path)->first()->skip(1);
+        foreach ($data as $row) {
+            TransferReason::updateOrCreate(
+                ['reason' => $row[0]],
+                [
+                    'reason' => $row[0],
+                ]
+            );
+        }
+        return redirect()->route('transfer-reasons.index')->with('message', 'Data imported successfully.');
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\AssetExport;
+use App\Imports\AssetImport;
 use App\Models\Asset;
 use App\Models\AssetType;
 use App\Models\Disposal;
@@ -11,13 +13,13 @@ use App\Models\Stock;
 use App\Models\Transfer;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AssetController extends Controller
 {
     public function index()
     {
         $assets = Asset::with('AssetName')->get();
-        // dd($assets);
         return view('Backend.Page.Master.assets.index', compact('assets'));
     }
     public function trash()
@@ -278,5 +280,36 @@ class AssetController extends Controller
     public function softwaretimeline()
     {
         return view('Backend.Page.Stock.timeline');
+    }
+    public function export()
+    {
+        return Excel::download(new AssetExport(), 'asset_format.xlsx');
+    }
+    public function import(Request $request)
+    {
+        $this->validate($request, [
+            'select_file' => 'required|mimes:xls,xlsx',
+        ]);
+        $path = $request->file('select_file')->getRealPath();
+        $data = Excel::toCollection(new AssetImport(), $path)->first()->skip(1);
+        foreach ($data as $row) {
+            $asset = AssetType::updateOrCreate(
+                ['name' => $row[0]],
+                [
+                    'name' => $row[0],
+                ]
+            );
+            $myString = $row[1];
+            $myArray = explode(',', $myString);
+            foreach ($myArray as $value) {
+                Asset::updateOrCreate(
+                    ['name' => $value],
+                    [
+                        'asset_type_id' => $asset->id,
+                    ]
+                );
+            }
+        }
+        return redirect()->route('assets.index')->with('message', 'Data imported successfully.');
     }
 }

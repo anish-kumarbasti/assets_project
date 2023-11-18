@@ -2,20 +2,16 @@
 
 namespace App\Imports;
 
-use App\Models\SubLocation;
-use Maatwebsite\Excel\Concerns\ToModel;
+use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Concerns\ToCollection;
 
-class SubLocationImport implements ToModel
+class SubLocationImport implements ToCollection
 {
     /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
+    * @param Collection $collection
     */
-    public function model(array $row)
+    public function collection(Collection $collection)
     {
-        return new SubLocation([
-            //
-        ]);
+        return $collection;
     }
 }
