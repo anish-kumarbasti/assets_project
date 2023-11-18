@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Designation extends Model
 {
     use HasFactory, SoftDeletes;
+    protected $guarded=[];
     public function department()
     {
         return $this->belongsTo('App\Models\Department', 'department_id', 'id');

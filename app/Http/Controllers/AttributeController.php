@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\AttributeExport;
+use App\Imports\AttributeImport;
 use App\Models\AssetType;
 use App\Models\Attribute;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AttributeController extends Controller
 {
@@ -121,5 +124,36 @@ class AttributeController extends Controller
                 'status' => 1
             ]);
         }
+    }
+    public function export()
+    {
+        return Excel::download(new AttributeExport(), 'Attribute_format.xlsx');
+    }
+    public function import(Request $request)
+    {
+        $this->validate($request, [
+            'select_file' => 'required|mimes:xls,xlsx',
+        ]);
+        $path = $request->file('select_file')->getRealPath();
+        $data = Excel::toCollection(new AttributeImport(), $path)->first()->skip(1);
+        foreach ($data as $row) {
+            $asset = AssetType::updateOrCreate(
+                ['name' => $row[0]],
+                [
+                    'name' => $row[0],
+                ]
+            );
+            $myString = $row[1];
+            $myArray = explode(',', $myString);
+            foreach ($myArray as $value) {
+                Attribute::updateOrCreate(
+                    ['name' => $value],
+                    [
+                        'asset_type_id' => $asset->id,
+                    ]
+                );
+            }
+        }
+        return redirect()->route('attributes-index')->with('message', 'Data imported successfully.');
     }
 }

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('asset_type_id');
-            $table->string('status');
+            $table->string('status')->default(1);
             $table->timestamps();
         });
     }

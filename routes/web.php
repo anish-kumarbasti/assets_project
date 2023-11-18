@@ -1,43 +1,41 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\RolesController;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\PermissionController;
-use App\Http\Controllers\Stock\StockController;
-use App\Http\Controllers\Backend\HomeController;
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\LocationController;
-use App\Http\Controllers\Master\AssetNameController;
-use App\Http\Controllers\AssetTypeController;
 use App\Http\Controllers\AssetController;
+use App\Http\Controllers\AssetTypeController;
+use App\Http\Controllers\AttributeController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\BrandmodelController;
-use App\Http\Controllers\Disposal\DisposalController;
-use App\Http\Controllers\Issuence\IssuenceController;
-use App\Http\Controllers\Master\DepartmentController;
-use App\Http\Controllers\Transfer\TransferController;
-use App\Http\Controllers\DesignationController;
-use App\Http\Controllers\SubLocationController;
-use App\Http\Controllers\AttributeController;
-use App\Http\Controllers\SearchController;
-use App\Http\Controllers\SupplierController;
-use App\Http\Controllers\MaintenanceController;
-use App\Http\Controllers\ReportController;
-use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\ChartDashboardController;
+use App\Http\Controllers\DesignationController;
+use App\Http\Controllers\Disposal\DisposalController;
 use App\Http\Controllers\ForgotPasswordController;
-use App\Http\Controllers\SendEmailController;
+use App\Http\Controllers\Issuence\IssuenceController;
+use App\Http\Controllers\LocationController;
+use App\Http\Controllers\MaintenanceController;
+use App\Http\Controllers\Master\AssetNameController;
+use App\Http\Controllers\Master\DepartmentController;
 use App\Http\Controllers\Master\TransferReasonController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\RolesController;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\SendEmailController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StatusController;
+use App\Http\Controllers\Stock\StockController;
+use App\Http\Controllers\SubLocationController;
+use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\Transfer\ReturnController;
+use App\Http\Controllers\Transfer\TransferController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DepartmentImportController;
 
 /*
-
-
 
 |--------------------------------------------------------------------------
 | Web Routes
@@ -47,7 +45,7 @@ use App\Http\Controllers\Transfer\ReturnController;
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "web" middleware group. Make something great!
 |
-*/
+ */
 
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('/');
 Route::post('check-login', [LoginController::class, 'login'])->name('check-login');
@@ -74,8 +72,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::delete('permissions/{id}', [PermissionController::class, 'destroy']);
 
-    Route::get('users/trash',[UserController::class,'trash'])->name('users.trash');
-    Route::get('users/restore{id}',[UserController::class,'restore'])->name('users.restore');
+    Route::get('users/trash', [UserController::class, 'trash'])->name('users.trash');
+    Route::get('users/restore{id}', [UserController::class, 'restore'])->name('users.restore');
     Route::get('users', [UserController::class, 'index'])->name('users.index');
     Route::get('show', [UserController::class, 'showUsers'])->name('users.show');
     Route::get('users/create', [UserController::class, 'create'])->name('users.create');
@@ -113,8 +111,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('accept-asset-manager/{id}', [IssuenceController::class, 'AssetAcceptmanager'])->name('accept-asset-manager');
     Route::get('accept-asset-detail/{id}', [IssuenceController::class, 'AssetAcceptdetail'])->name('accept-detail-asset');
     //return by user and approve by manager
-    Route::get('approve/return/manager/{id}',[IssuenceController::class,'approvereturnmanager'])->name('approve.return.manager');
-    Route::get('denied/return/manager/{id}',[IssuenceController::class,'deniedreturnmanager'])->name('denied.return.manager');
+    Route::get('approve/return/manager/{id}', [IssuenceController::class, 'approvereturnmanager'])->name('approve.return.manager');
+    Route::get('denied/return/manager/{id}', [IssuenceController::class, 'deniedreturnmanager'])->name('denied.return.manager');
     // Transfer Reason
     Route::get('trash/transfer-reasons', [TransferReasonController::class, 'trash'])->name('trash.transfer-reasons');
     Route::get('restore/transfer-reasons/{id}', [TransferReasonController::class, 'restore'])->name('restore.transfer-reasons');
@@ -127,8 +125,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('transfer-reasons/{transferReason}', [TransferReasonController::class, 'destroy'])->name('transfer-reasons.destroy');
     Route::post('/reason-status/{reason}', [TransferReasonController::class, 'updateStatus'])->name('transfer.updateStatus');
     //Stock
-    Route::get('stocks/trash',[StockController::class,'trash'])->name('stocks.trash');
-    Route::get('restore/stocks{id}',[StockController::class,'restore'])->name('restore.stocks');
+    Route::get('stocks/trash', [StockController::class, 'trash'])->name('stocks.trash');
+    Route::get('restore/stocks{id}', [StockController::class, 'restore'])->name('restore.stocks');
     Route::post('/filter-data', [StockController::class, 'filter'])->name('filter.data');
     Route::get('/generate/number', [StockController::class, 'generateNumber']);
     Route::post('/get-brand-models/{brandId}', [StockController::class, 'getBrandModels']);
@@ -274,7 +272,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('/model-permanently-delete/{id}', [BrandmodelController::class, 'forceDelete']);
 
     //Reports
-    Route::get('search/report',[ReportController::class,'search_report'])->name('search-reports');
+    Route::get('search/report', [ReportController::class, 'search_report'])->name('search-reports');
     Route::get('all-reports', [ReportController::class, 'allreport'])->name('all-reports');
     Route::get('asset-activity-report', [ReportController::class, 'activity_report'])->name('activity-reports');
     Route::get('assets-report-status', [ReportController::class, 'report_status'])->name('report-status');
@@ -358,7 +356,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/suppliers/{id}', [SupplierController::class, 'update'])->name('suppliers.update');
     Route::delete('/suppliers/{id}', [SupplierController::class, 'destroy'])->name('suppliers.destroy');
 
-
     Route::get('/application-setting', [SettingController::class, 'index'])->name('settings.application');
     Route::put('/application-settings', [SettingController::class, 'createOrUpdate'])->name('settings.application.storeOrUpdate');
 
@@ -374,7 +371,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/cover-photo', [ChangePasswordController::class, 'coverPhoto'])->name('cover_photo');
     Route::put('/update-cover-photo', [ChangePasswordController::class, 'updateCoverPhoto'])->name('update_cover_photo');
 
-
     Route::get('/forget-password', [ForgotPasswordController::class, 'forgetPassword'])->name('forget.password');
     Route::post('/forget-password', [ForgotPasswordController::class, 'forgetPasswordPost'])->name('forget.password.post');
     Route::get('/reset-password/{token}', [ForgotPasswordController::class, 'resetPassword'])->name('reset.password');
@@ -388,12 +384,43 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/issuences/all', [IssuenceController::class, 'showAll'])->name('issuances.all');
     Route::get('/fetch-Card-info', [IssuenceController::class, 'CardInfo'])->name('fetch-Card-info');
     Route::post('update/stock/status', [IssuenceController::class, 'updatestockstatus'])->name('update.stock.status');
-    Route::post('/get-assets-by-type/{id}', [AssetController::class,'getAssetsByType'])->name('get-assets-by-type');
-    Route::post('/get-asset-details-on-stock/{id}', [AssetController::class,'getAssetDetailsonStock']);
-    Route::get('issuence/show/product/{id}',[IssuenceController::class,'showissuence'])->name('issuence.show.product');
-    Route::get('transfer/show/product/{id}',[TransferController::class,'showtransfer'])->name('transfer.show.product');
-    Route::get('print/transfer/{id}',[TransferController::class,'print_transfer'])->name('print-transfer');
-    Route::get('return/all',[ReturnController::class,'allreturn'])->name('return/all');
-    Route::get('report/return/{id}',[ReturnController::class,'report_return'])->name('report.return');
-    Route::get('employee/all/return',[ReturnController::class,'employee_all_return'])->name('employee.all.return');
+    Route::post('/get-assets-by-type/{id}', [AssetController::class, 'getAssetsByType'])->name('get-assets-by-type');
+    Route::post('/get-asset-details-on-stock/{id}', [AssetController::class, 'getAssetDetailsonStock']);
+    Route::get('issuence/show/product/{id}', [IssuenceController::class, 'showissuence'])->name('issuence.show.product');
+    Route::get('transfer/show/product/{id}', [TransferController::class, 'showtransfer'])->name('transfer.show.product');
+    Route::get('print/transfer/{id}', [TransferController::class, 'print_transfer'])->name('print-transfer');
+    Route::get('return/all', [ReturnController::class, 'allreturn'])->name('return/all');
+    Route::get('report/return/{id}', [ReturnController::class, 'report_return'])->name('report.return');
+    Route::get('employee/all/return', [ReturnController::class, 'employee_all_return'])->name('employee.all.return');
+
+    //Department Import
+    Route::get('/download-format', [DepartmentImportController::class,'downloadformat'])->name('import.download-format');
+    Route::post('/import', [DepartmentImportController::class,'store'])->name('import.store');
+    //Designation Import
+    Route::get('/download-format-designation', [DesignationController::class,'export'])->name('import.download-format-designation');
+    Route::post('/import', [DesignationController::class,'import'])->name('import.store.designation');
+    //Asset Import
+    Route::get('/download-format-asset', [AssetController::class,'export'])->name('import.download-format-asset');
+    Route::post('/import', [AssetController::class,'import'])->name('import.store.asset');
+    //Brand Import
+    Route::get('/download-format-brand', [BrandController::class,'export'])->name('import.download-format-brand');
+    Route::post('/import', [BrandController::class,'import'])->name('import.store.brand');
+    //Location Import
+    Route::get('/download-format-location', [locationController::class,'export'])->name('import.download-format-location');
+    Route::post('/import', [locationController::class,'import'])->name('import.store.location');
+    //BrandModel Import
+    Route::get('/download-format-brandmodel', [brandmodelController::class,'export'])->name('import.download-format-brandmodel');
+    Route::post('/import', [brandmodelController::class,'import'])->name('import.store.brandmodel');
+    //SubLocation Import
+    Route::get('/download-format-sublocation', [sublocationController::class,'export'])->name('import.download-format-sublocation');
+    Route::post('/import', [sublocationController::class,'import'])->name('import.store.sublocation');
+    //Supplier Import
+    Route::get('/download-format-supplier', [supplierController::class,'export'])->name('import.download-format-supplier');
+    Route::post('/import', [supplierController::class,'import'])->name('import.store.supplier');
+    //Attribute Import
+    Route::get('/download-format-attribute', [attributeController::class,'export'])->name('import.download-format-attribute');
+    Route::post('/import-attribute', [attributeController::class,'import'])->name('imports.stores.attributes');
+    //Reason Import
+    Route::get('/download-format-reason', [transferreasonController::class,'export'])->name('import.download-format-reason');
+    Route::post('/import-reason', [transferreasonController::class,'import'])->name('import.store.reason');
 });

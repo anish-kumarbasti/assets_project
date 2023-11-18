@@ -66,10 +66,51 @@
     </div>
 @endsection
 @section('Content-Area')
+    @if (count($errors) > 0)
+        <div class="alert alert-danger">
+            Upload Validation Error<br><br>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <div class="col-sm-12">
         <div class="card">
             <div class="card-header pb-0">
                 <h4>Add Supplier</h4>
+                <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal"
+                    data-bs-target="#importModal">
+                    Import Data
+                </button>
+            </div>
+            <div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Import Data</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{ route('import.store.supplier') }}" method="post"
+                                enctype="multipart/form-data">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="select_file">Choose File:</label>
+                                    <input type="file" name="select_file" class="form-control" accept=".xls, .xlsx">
+                                </div>
+                                <a href="{{ route('import.download-format-supplier') }}"
+                                    class="btn btn-secondary">Download
+                                    Format</a>
+                                <button type="submit" class="btn btn-primary">Upload</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="card-body">
                 <form class="needs-validation" action="{{ route('suppliers.store') }}" method="POST">
@@ -112,8 +153,8 @@
                         </div>
                         <div class="col-md-6">
                             <label for="address">Address</label>
-                            <textarea name="address" autocomplete="new-address" autocorrect="off" autocapitalize="none" placeholder="Enter Address"
-                                value="{{ old('address') }}" class="form-control" required></textarea>
+                            <textarea name="address" autocomplete="new-address" autocorrect="off" autocapitalize="none"
+                                placeholder="Enter Address" value="{{ old('address') }}" class="form-control" required></textarea>
                             @error('address')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror

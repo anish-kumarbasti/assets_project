@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\SubLocationExport;
+use App\Imports\SubLocationImport;
 use App\Models\Location;
 use App\Models\SubLocationModel;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SubLocationController extends Controller
 {
@@ -96,19 +99,50 @@ class SubLocationController extends Controller
     public function updateStatus(Request $request, $sublocationId)
     {
 
-
         $location = SubLocationModel::findOrFail($sublocationId);
 
         if ($location->status == 0) {
             SubLocationModel::where('id', $sublocationId)->update([
-                'status' => 1
+                'status' => 1,
             ]);
         } else {
             SubLocationModel::where('id', $sublocationId)->update([
-                'status' => 0
+                'status' => 0,
             ]);
         }
 
         return response()->json(['message' => 'Sub location Type status updated successfully']);
+    }
+    public function export()
+    {
+        return Excel::download(new SubLocationExport(), 'SubLocation_format.xlsx');
+    }
+    public function import(Request $request)
+    {
+        $this->validate($request, [
+            'select_file' => 'required|mimes:xls,xlsx',
+        ]);
+        // dd($request);
+        $path = $request->file('select_file')->getRealPath();
+        $data = Excel::toCollection(new SubLocationImport(), $path)->first()->skip(1);
+        foreach ($data as $row) {
+            $brand = Location::updateOrCreate(
+                ['name' => $row[0]],
+                [
+                    'name' => $row[0],
+                ]
+            );
+            $myString = $row[1];
+            $myArray = explode(',', $myString);
+            foreach ($myArray as $value) {
+                SubLocationModel::updateOrCreate(
+                    ['name' => $value],
+                    [
+                        'location_id' => $brand->id,
+                    ]
+                );
+            }
+        }
+        return redirect()->route('sublocation-index')->with('message', 'Data imported successfully.');
     }
 }

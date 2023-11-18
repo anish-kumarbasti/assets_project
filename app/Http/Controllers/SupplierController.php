@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\SupplierExport;
+use App\Imports\SupplierImport;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SupplierController extends Controller
 {
@@ -116,5 +119,30 @@ class SupplierController extends Controller
         }
         $supplier->delete();
         return response()->json(['success' => true, 'message' => 'Supplier deleted successfully.']);
+    }
+    public function export()
+    {
+        return Excel::download(new SupplierExport(), 'Supplier_format.xlsx');
+    }
+    public function import(Request $request)
+    {
+        $this->validate($request, [
+            'select_file' => 'required|mimes:xls,xlsx',
+        ]);
+        // dd($request);
+        $path = $request->file('select_file')->getRealPath();
+        $data = Excel::toCollection(new SupplierImport(), $path)->first()->skip(1);
+        foreach ($data as $row) {
+            $brand = Supplier::updateOrCreate(
+                ['supplier_id' => $row[0]],
+                [
+                    'name' => $row[1],
+                    'email' => $row[2],
+                    'phone' => $row[3],
+                    'address' => $row[4],
+                ]
+            );
+        }
+        return redirect()->route('suppliers.index')->with('message', 'Data imported successfully.');
     }
 }

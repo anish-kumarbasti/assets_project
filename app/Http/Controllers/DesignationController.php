@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Designation;
+use App\Exports\DesignationExport;
+use App\Imports\DesignationImport;
 use App\Models\Department;
+use App\Models\Designation;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DesignationController extends Controller
 {
@@ -34,7 +37,6 @@ class DesignationController extends Controller
         $designations->forceDelete();
         return response()->json(['success' => true]);
     }
-
 
     public function create()
     {
@@ -108,5 +110,37 @@ class DesignationController extends Controller
         }
         $designation->delete();
         return response()->json(['success' => true, 'message' => 'Designation deleted successfully.']);
+    }
+    public function export()
+    {
+        return Excel::download(new DesignationExport(), 'designations_format.xlsx');
+    }
+    public function import(Request $request)
+    {
+        $this->validate($request, [
+            'select_file' => 'required|mimes:xls,xlsx',
+        ]);
+        // dd($request);
+        $path = $request->file('select_file')->getRealPath();
+        $data = Excel::toCollection(new DesignationImport(), $path)->first()->skip(1);
+        foreach ($data as $row) {
+            $department = Department::updateOrCreate(
+                ['name' => $row[0]],
+                [
+                    'name' => $row[0],
+                ]
+            );
+            $myString = $row[1];
+            $myArray = explode(',', $myString);
+            foreach ($myArray as $value) {
+                Designation::updateOrCreate(
+                    ['designation' => $value],
+                    [
+                        'department_id' => $department->id,
+                    ]
+                );
+            }
+        }
+        return redirect()->route('designations.index')->with('message', 'Data imported successfully.');
     }
 }
