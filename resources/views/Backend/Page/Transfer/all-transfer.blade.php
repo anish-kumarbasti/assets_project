@@ -89,6 +89,7 @@
                                     <th>Description</th>
                                     <th>Created At</th>
                                     <th>Action</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -109,8 +110,13 @@
                                         <td>{{ $transfer->description ?? '' }}</td>
                                         <td>{{ $transfer->created_at ?? '' }}</td>
                                         <td>
-                                            <a class="btn btn-primary"
+                                            <a class="btn btn-outline-dark"
                                                 href="{{ route('transfer.show.product', $transfer->id) }}">View</a>&nbsp;
+                                        </td>
+                                        <td>
+                                            @foreach ($product as $products)
+                                            <a class="{{$products->statuses->status}}" >{{$products->statuses->name}}</a>&nbsp;
+                                            @endforeach
                                         </td>
                                     </tr>
                                 @endforeach
