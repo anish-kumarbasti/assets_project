@@ -19,7 +19,6 @@
 
         .btna label {
             white-space: nowrap;
-            /* Prevent text wrapping */
         }
 
         input[type="radio"].toggle {
@@ -50,7 +49,7 @@
             border-radius: 10px;
         }
 
-        input[type="radio"].toggle-right:checked+label::before {
+        input[type="radio"].toggle-middle:checked+label::before {
             content: 'Return';
             padding: 10px;
             color: white;
@@ -61,6 +60,14 @@
 
         input[type="radio"].toggle-left:checked+label::before {
             content: 'Transfer';
+            padding: 10px;
+            color: white;
+            border: none;
+            font-weight: bold;
+            transform: translateX(0);
+        }
+        input[type="radio"].toggle-right:checked+label::before {
+            content: 'Maintenance';
             padding: 10px;
             color: white;
             border: none;
@@ -173,19 +180,24 @@
     <div class="col-sm-12">
         <div class="card-item border mt-3 card">
             <div class="card-header pb-0 d-flex text-center switch-button-container">
-                <div class="float-left col-sm-6 mt-2">
+                <div class="float-left col-sm-3 mt-2">
                     <h4>Choose Type:</h4>
                 </div>
-                <div class="col-sm-6 mb-4 text-end">
+                <div class="col-sm-9 mb-4 text-end">
                     <a href="{{ url('transfer') }}" class="btna">
                         <input type="radio" class="toggle toggle-left" name="transfer-return" value="transfer"
                             id="transfer-radio">
                         <label for="transfer-radio">Transfer</label>
                     </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <a href="{{ route('return') }}" class="btna">
-                        <input type="radio" class="toggle toggle-right" name="transfer-return" value="return"
+                        <input type="radio" class="toggle toggle-middle" name="transfer-return" value="return"
                             id="return-radio" checked>
                         <label for="return-radio">Return</label>
+                    </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="{{ route('user.apply') }}" class="btna">
+                        <input type="radio" class="toggle toggle-right" name="transfer-return" value="maintenance"
+                            id="maintenance-radio">
+                        <label for="maintenance-radio">Maintenance</label>
                     </a>
                 </div>
             </div>
@@ -201,6 +213,7 @@
                         <thead>
                             <tr>
                                 <th>Asset Code</th>
+                                <th>Serial Number</th>
                                 <th>Product</th>
                                 <th>Asset Type</th>
                                 <th>Asset</th>
@@ -212,6 +225,7 @@
                                 @foreach ($data as $asset)
                                     <tr class="unselected" data-card-id="{{ $asset->id }}">
                                         <td>{{ $asset->product_number ?? 'N/A' }}</td>
+                                        <td>{{ $asset->serial_number ?? 'N/A' }}</td>
                                         {{-- <td>{{ $asset->brand->name ?? 'N/A' }}</td> --}}
                                         <td width="20%;">{{ $asset->product_info ?? 'N/A' }}</td>
                                         <td>{{ $asset->asset_type->name ?? 'N/A' }}</td>
@@ -260,6 +274,7 @@
 
         const transferButton = document.querySelector('#transfer-radio');
         const returnButton = document.querySelector('#return-radio');
+        const maintenancebutton = document.querySelector('#maintenance-radio');
 
         transferButton.addEventListener('click', function() {
             window.location.href = "{{ url('transfer') }}";
@@ -267,6 +282,9 @@
 
         returnButton.addEventListener('click', function() {
             window.location.href = "{{ route('return') }}";
+        });
+        maintenancebutton.addEventListener('click', function() {
+            window.location.href = "{{ route('user.apply') }}";
         });
 
         function addRow(button) {

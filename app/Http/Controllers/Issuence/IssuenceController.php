@@ -535,10 +535,13 @@ class IssuenceController extends Controller
     }
     public function showAll()
     {
-        $issuences = Issuence::with(['assetType', 'asset', 'stock'])
-            ->get();
-
-        return view('Backend.Page.Issuence.all-issuence', compact('issuences'));
+        $issuences = Issuence::with(['assetType', 'asset', 'stock'])->get();
+        $products = [];
+        foreach ($issuences as $key => $value) {
+            $id = json_decode($value->product_id);
+            $products[] = Stock::where('id', $id)->first();
+        }
+        return view('Backend.Page.Issuence.all-issuence', compact('issuences','products'));
     }
 
     public function showissuence($id)

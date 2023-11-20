@@ -102,16 +102,17 @@
             border-radius: 10px;
         }
 
-        input[type="radio"].toggle-right:checked+label::before {
-            content: 'Maintenance';
+        input[type="radio"].toggle-middle:checked+label::before {
+            content: 'Return';
             padding: 10px;
             color: white;
             font-weight: bold;
             transform: translateX(0);
             border: none;
         }
-        input[type="radio"].toggle-middle:checked+label::before {
-            content: 'Return';
+
+        input[type="radio"].toggle-right:checked+label::before {
+            content: 'Maintenance';
             padding: 10px;
             color: white;
             font-weight: bold;
@@ -168,43 +169,43 @@
             display: flex;
             align-items: center;
         }
-     
+
         .breadcrumbs-dark ol.breadcrumbs li {
             font-size: 14px;
             /* Adjust font size as needed */
             color: #555;
             /* Adjust text color as needed */
         }
-     
+
         .breadcrumbs-dark ol.breadcrumbs li:not(:last-child):after {
             content: ">";
             margin-left: 10px;
             margin-right: 10px;
             color: #777;
         }
-     
+
         .breadcrumbs-dark ol.breadcrumbs li.text-muted {
             color: #333;
             font-weight: bold;
         }
-     
+
         .breadcrumbs-dark ol.breadcrumbs li.text-muted a {
             color: #333;
             font-weight: bold;
         }
-     
+
         .breadcrumbs-dark ol.breadcrumbs li.active a {
             color: #333;
             font-weight: bold;
         }
-     
+
         .breadcrumbs-dark ol.breadcrumbs li.active a:hover {
             color: blue;
         }
-     </style>
-     @endsection
-     @section('breadcrumbs')
-     <div class="breadcrumbs-dark pb-0 pt-2" id="breadcrumbs-wrapper">
+    </style>
+@endsection
+@section('breadcrumbs')
+    <div class="breadcrumbs-dark pb-0 pt-2" id="breadcrumbs-wrapper">
         <div class="container">
             <div class="row">
                 <div class="col s10 m6 l6">
@@ -212,13 +213,13 @@
                         <li class="text-muted">Dashboard</li>
                         <li class="text-muted">Transfer/Return</li>
                         {{-- <li class="text-muted"><a href="{{ url('department') }}" class="text-muted">Department</a></li> --}}
-                        <li class="active"><a href="{{ url('transfer') }}">Transfer</a></li>
+                        <li class="active"><a href="{{ route('user.apply') }}">Maintenance</a></li>
                     </ol>
                 </div>
             </div>
         </div>
-     </div>
-     @endsection
+    </div>
+@endsection
 
 @section('Content-Area')
     @if (session('success'))
@@ -242,26 +243,6 @@
         </div>
     @endif
     <!-- Modal -->
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Employee Id</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <label class="form-label" for="employeeId">Employee's ID</label>
-                    <input class="form-control" type="search" name="employeeId" id="employeeId">
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Understood</button>
-                </div>
-            </div>
-        </div>
-    </div>
     {{-- <div class="col-sm-12"> --}}
     <div class="col-sm-12">
         <div class="card-item border mt-3 card">
@@ -272,7 +253,7 @@
                 <div class="col-sm-9 mb-4 text-end">
                     <a href="{{ url('transfer') }}" class="btna">
                         <input type="radio" class="toggle toggle-left" name="transfer-return" value="transfer"
-                            id="transfer-radio" checked>
+                            id="transfer-radio">
                         <label for="transfer-radio">Transfer</label>
                     </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <a href="{{ route('return') }}" class="btna">
@@ -281,14 +262,14 @@
                         <label for="return-radio">Return</label>
                     </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <a href="{{ route('user.apply') }}" class="btna">
-                        <input type="radio" class="toggle toggle-right" name="transfer-return" value="maintenance"
-                            id="maintenance-radio">
+                        <input type="radio" class="toggle toggle-right" name="transfer-return" value="return"
+                            id="maintenance-radio" checked>
                         <label for="maintenance-radio">Maintenance</label>
                     </a>
                 </div>
             </div>
         </div>
-        <form class="needs-validation" method="post" action="{{ route('transfer-store') }}" novalidate="">
+        <form class="needs-validation" method="post" action="{{ route('user.send') }}" novalidate="">
             @csrf
             <div class="card" id="employee-step">
                 <div class="card-header pb-0">
@@ -335,11 +316,11 @@
             <div class="card mt-3" id="select-asset-step">
                 <div class="card-body">
                     <div class="card-head">
-                        <h4>Transfer Details</h4>
+                        <h4>Maintenance Details</h4>
                     </div>
                     <div class="row mx-4">
-                        <div class="col-md-12 mt-2 mb-4">
-                            <label class="form-label" for="validationCustom01">Transfer Reason:</label>
+                        <div class="col-md-4 mt-2 mb-4">
+                            <label class="form-label" for="validationCustom01">Maintenance Reason:</label>
                             <select class="form-control" aria-label="Default select example" name="reason"
                                 id="transferTypeSelect">
                                 <option selected>Select Reason</option>
@@ -354,58 +335,41 @@
                             @enderror
 
                         </div>
-                        <div class="col-md-12 mb-4">
-                            <label class="form-label" for="employeeId">Handover to Employee's</label>
-                            <input class="form-control"name="handoverId" data-bs-original-title="" title=""
-                                placeholder="Enter Employee's ID" id="handoveremployeeId" oninput="handover()"
-                                onkeydown="return event.key != 'Enter';" required>
-                            @error('handoverId')
+                        <div class="col-md-4 mt-2 mb-4">
+                            <label class="form-label" for="validationCustom01">Maintenance Date:</label>
+                            <input type="date" class="form-control" name="date" id="date">
+                            @error('date')
+                                <span class="text-danger">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="col-md-4 mt-2 mb-4">
+                            <label class="form-label" for="validationCustom01">Maintenance Time:</label>
+                            <input type="time" class="form-control" name="time" id="time">
+                            @error('time')
                                 <span class="text-danger">
                                     {{ $message }}
                                 </span>
                             @enderror
                         </div>
                     </div>
-                    <div class="card-item border mt-3 card mx-4" id="handoveremployee" style="display: none;">
-                        <div class="row p-3">
-                            <div class="col-md-4 mb-4">
-                                <label class="form-label" for="validationCustom01">Name:</label>
-                                <input class="form-control" id="employeename" type="text" data-bs-original-title=""
-                                    title="" placeholder="Abhi" readonly>
-                            </div>
-                            <div class="col-md-4 mb-4">
-                                <label class="form-label" for="validationCustom01">Department:</label>
-                                <input class="form-control" id="department" type="text" data-bs-original-title=""
-                                    title="" placeholder="IT Department" readonly>
-                            </div>
-                            <div class="col-md-4 mb-4">
-                                <label class="form-label" for="validationCustom01">Designation:</label>
-                                <input class="form-control" id="designation" type="text" data-bs-original-title=""
-                                    title="" placeholder="HR" readonly>
-                                <input type="hidden" name="employeeId" value="{{ $auth }}">
-                            </div>
+                    <div class="row mx-4">
+                        <div class="col-md-12 mb-4">
+                            <label class="form-label" for="validationCustom01">Description</label>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="" name="description" rows="3"></textarea>
+                            @error('description')
+                                <span class="text-danger">
+                                    {{ $message }}
+                                </span>
+                            @enderror
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="card mt-3" id="additional-details-step">
-                <div class="card-header">
-                    <h4>Description</h4>
-                </div>
-                <div class="row px-5">
-                    <div class="col-md-12 mb-4">
-                        <label class="form-label" for="validationCustom01">Description</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="" name="description" rows="3"></textarea>
-                        @error('description')
-                            <span class="text-danger">
-                                {{ $message }}
-                            </span>
-                        @enderror
+                    <div class="footer-item mt-3 mb-3 d-flex justify-content-end">
+                        <button class="btn btn-primary mt-2" type="submit" data-bs-original-title=""
+                            title="">Proceed
+                            Request</button>
                     </div>
-                </div>
-                <div class="footer-item mt-3 mb-3 d-flex justify-content-end">
-                    <button class="btn btn-primary mt-2" type="submit" data-bs-original-title="" title="">Proceed
-                        Request</button>
                 </div>
             </div>
         </form>
@@ -419,14 +383,14 @@
     <script>
         const transferButton = document.querySelector('#transfer-radio');
         const returnButton = document.querySelector('#return-radio');
-        const miantenance = document.querySelector('#maintenance-radio');
+        const maintenance = document.querySelector('#maintenance-radio');
         transferButton.addEventListener('click', function() {
             window.location.href = "{{ url('transfer') }}";
         });
         returnButton.addEventListener('click', function() {
             window.location.href = "{{ route('return') }}";
         });
-        miantenance.addEventListener('click', function() {
+        maintenance.addEventListener('click', function() {
             window.location.href = "{{ route('user.apply') }}";
         });
         $(document).ready(function() {
@@ -508,6 +472,13 @@
                     }
                 });
             });
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentDate = new Date();
+            const formattedDate = currentDate.toISOString().slice(0, 10);
+            const formattedTime = currentDate.toTimeString().slice(0, 5);
+            document.getElementById('date').value = formattedDate;
+            document.getElementById('time').value = formattedTime;
         });
     </script>
 @endsection

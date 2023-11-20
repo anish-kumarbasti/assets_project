@@ -246,6 +246,7 @@
                             <thead>
                                 <tr>
                                     <th>Asset Code</th>
+                                    <th>Serial Number</th>
                                     <th>Product</th>
                                     <th>Asset Type</th>
                                     <th>Asset</th>
@@ -257,6 +258,7 @@
                                     @foreach ($data as $asset)
                                         <tr data-card-id="{{ $asset->id }}">
                                             <td>{{ $asset->product_number ?? 'N/A' }}</td>
+                                            <td>{{ $asset->serial_number ?? 'N/A' }}</td>
                                             <td width="20%;">{{ $asset->product_info ?? 'N/A' }}</td>
                                             <td>{{ $asset->asset_type->name ?? 'N/A' }}</td>
                                             <td>{{ $asset->assetmain->name ?? 'N/A' }}</td>
@@ -280,7 +282,7 @@
                     <h4>Maintenance Details</h4>
                 </div>
                 <div class="row mx-4">
-                    <div class="col-md-6 mt-2 mb-4">
+                    <div class="col-md-4 mt-2 mb-4">
                         <label class="form-label" for="validationCustom01">Select Maintenance User:</label>
                         <select class="form-control" aria-label="Default select example" name="user"
                             id="transferTypeSelect">
@@ -294,10 +296,19 @@
                             </span>
                         @enderror
                     </div>
-                    <div class="col-md-6 mt-2 mb-4">
-                        <label class="form-label" for="validationCustom01">Start Date:</label>
-                        <input type="date" name="start_date" id="validationCustom01">
+                    <div class="col-md-4 mt-2 mb-4">
+                        <label class="form-label" for="date">Start Date:</label>
+                        <input type="date" name="start_date" id="date1" class="form-control">
                         @error('start_date')
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="col-md-4 mt-2 mb-4">
+                        <label class="form-label" for="date">End Date:</label>
+                        <input type="date" name="end_date" id="date2" class="form-control">
+                        @error('end_date')
                             <span class="text-danger">
                                 {{ $message }}
                             </span>
@@ -380,6 +391,12 @@
                     }
                 });
             });
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentDate = new Date();
+            const formattedDate = currentDate.toISOString().slice(0, 10);
+            document.getElementById('date1').value = formattedDate;
+            document.getElementById('date2').value = formattedDate;
         });
     </script>
 @endsection

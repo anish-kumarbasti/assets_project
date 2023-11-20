@@ -103,7 +103,12 @@ class ReturnController extends Controller
     public function allreturn()
     {
         $data = AssetReturn::all();
-        return view('Backend.Page.Transfer.all-return', compact('data'));
+        $products = [];
+        foreach ($data as $key => $value) {
+            $id = json_decode($value->product_id);
+            $products[] = Stock::where('id', $id)->first();
+        }
+        return view('Backend.Page.Transfer.all-return', compact('data','products'));
     }
     public function report_return($id)
     {

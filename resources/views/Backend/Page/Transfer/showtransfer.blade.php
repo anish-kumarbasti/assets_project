@@ -289,8 +289,10 @@
                                 <div class="card-body p-5">
                                     @foreach ($productdata as $data)
                                         <div class="d-flex mb-5 p-2 mt-3">
-                                            <div style="height:25px;width:25px;border-radius:50%;background:#6520ff;color:white;">
-                                                <div style="transform:translate(10px,2px);" class="fw-bold">{{ $loop->iteration }}</div>
+                                            <div
+                                                style="height:25px;width:25px;border-radius:50%;background:#6520ff;color:white;">
+                                                <div style="transform:translate(10px,2px);" class="fw-bold">
+                                                    {{ $loop->iteration }}</div>
                                             </div>
                                             <div><b class="text-dark mx-2">Product</b></div>
                                         </div>
@@ -426,6 +428,7 @@
                         <table class="table table-bordered">
                             <thead>
                                 <th>Asset Code</th>
+                                <th>Serial Number</th>
                                 <th>Asset Type</th>
                                 <th>Asset</th>
                                 <th>Product</th>
@@ -434,13 +437,15 @@
                             <tbody>
                                 @foreach ($productdata as $stock)
                                     <tr>
-                                        <td>{{ $stock->product_number ?? '' }}</td>
+                                        <td>{{ $stock->product_number ?? 'N/A' }}</td>
+                                        <td>{{ $stock->serial_number ?? 'N/A' }}</td>
                                         <td>{{ $stock->asset_type->name ?? '' }}</td>
                                         <td>{{ $stock->assetmain->name ?? 'N/A' }}</td>
                                         <td>{{ $stock->configuration ?? '' }}</td>
                                         <td>
-                                            <button class="btn btn-success btn-block action-button"type="button"
-                                                style="width: 100%;">Accepted</button>
+                                            <a class="{{ $stock->statuses->status }} action-button"
+                                                style="width: 100%;">{{ $stock->statuses->name }}</a>
+
                                         </td>
                                     </tr>
                                 @endforeach

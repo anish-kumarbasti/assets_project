@@ -162,11 +162,62 @@
                         </div>
                     </div>
                 </div>
+                <div class="container">
+                    @foreach ($stock as $data)
+                        @if ($data->status_available == 15)
+                            <div class="d-flex mb-3 p-2 mt-2">
+                                <div style="height:25px;width:25px;border-radius:50%;background:#6520ff;color:white;">
+                                    <div style="transform:translate(10px,2px);" class="fw-bold">
+                                        {{ $loop->iteration }}</div>
+                                </div>
+                                <div><b class="text-dark mx-2">Product</b></div>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar progress-bar bg-primary" role="progressbar" style="width:50%">
+                                    Issue Applied
+                                </div>
+                            </div>
+                        @elseif ($data->status_available == 3)
+                            <div class="d-flex mb-3 p-2 mt-2">
+                                <div style="height:25px;width:25px;border-radius:50%;background:#6520ff;color:white;">
+                                    <div style="transform:translate(10px,2px);" class="fw-bold">
+                                        {{ $loop->iteration }}</div>
+                                </div>
+                                <div><b class="text-dark mx-2">Product</b></div>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar progress-bar bg-primary" role="progressbar" style="width:50%">
+                                    Issue Applied
+                                </div>
+                                <div class="progress-bar progress-bar bg-success" role="progressbar" style="width:50%">
+                                    Accepted by Employee
+                                </div>
+                            </div>
+                        @else
+                            <div class="d-flex mb-3 p-2 mt-2">
+                                <div style="height:25px;width:25px;border-radius:50%;background:#6520ff;color:white;">
+                                    <div style="transform:translate(10px,2px);" class="fw-bold">
+                                        {{ $loop->iteration }}</div>
+                                </div>
+                                <div><b class="text-dark mx-2">Product</b></div>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar progress-bar bg-primary" role="progressbar" style="width:50%">
+                                    Issue Applied
+                                </div>
+                                <div class="progress-bar progress-bar bg-danger" role="progressbar" style="width:50%">
+                                    Failed
+                                </div>
+                            </div>
+                        @endif
+                    @endforeach
+                </div>
                 <div class="card-body">
                     <div class="table-responsive theme-scrollbar">
                         <table class="table table-bordered">
                             <thead>
                                 <th>Asset Code</th>
+                                <th>Serial Number</th>
                                 <th>Asset Type</th>
                                 <th>Asset</th>
                                 <th>Product</th>
@@ -176,12 +227,13 @@
                                 @foreach ($stock as $stock)
                                     <tr>
                                         <td>{{$stock->product_number??''}}</td>
+                                        <td>{{$stock->serial_number??'N/A'}}</td>
                                         <td>{{$stock->asset_type->name??''}}</td>
                                         <td>{{$stock->assetmain->name??'N/A'}}</td>
                                         <td>{{$stock->configuration??''}}</td>
                                         <td>
-                                            <button class="btn btn-success btn-block action-button"type="button" style="width: 100%;">Accepted</button>
-                                        </td>
+                                            <a class="{{ $stock->statuses->status }} action-button"
+                                                style="width: 100%;">{{ $stock->statuses->name }}</a>                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

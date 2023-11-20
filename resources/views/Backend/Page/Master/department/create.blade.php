@@ -105,7 +105,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form action="{{ route('import.store') }}" method="post" enctype="multipart/form-data">
+                                <form action="{{ route('import.store.department') }}" method="post" enctype="multipart/form-data">
                                     @csrf
                                     <div class="form-group">
                                         <label for="select_file">Choose File:</label>

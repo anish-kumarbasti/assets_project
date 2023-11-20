@@ -57,9 +57,9 @@
                 <div class="col s10 m6 l6">
                     <ol class="breadcrumbs mb-2">
                         <li class="text-muted">Dashboard</li>
-                        <li class="text-muted">Transfer/Return</li>
+                        <li class="text-muted">Maintenance</li>
                         {{-- <li class="text-muted"><a href="{{ url('department') }}" class="text-muted">Department</a></li> --}}
-                        <li class="active"><a href="{{ url('transfer/all') }}">All Transfer</a></li>
+                        <li class="active"><a href="{{ url('maintenance/applications') }}">Application</a></li>
                     </ol>
                 </div>
             </div>
@@ -70,54 +70,46 @@
     <div class="col-sm-12">
         <div class="card">
             <div class="card-header pb-0">
-                <h3>All Transfers</h3>
+                <h3>All Returns</h3>
             </div>
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive theme-scrollbar">
                         <table class="display" id="basic-1">
                             <thead>
-                                <tr>
+                                <tr class="text-center">
                                     <th>SL</th>
                                     <th>Transaction Code</th>
-                                    {{-- <th>Products</th> --}}
-                                    <th>Employee Name</th>
-                                    <th>Employee Manager</th>
-                                    <th>Handover Employee</th>
-                                    <th>Handover Manager</th>
-                                    <th>Transfer Reason</th>
+                                    <th>EMP Name</th>
+                                    <th>Maintenance Reason</th>
                                     <th>Description</th>
-                                    <th>Created At</th>
+                                    <th>Maintenance DateTime</th>
                                     <th>Action</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($transfers as $key => $transfer)
-                                    <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $transfer->transfers_transaction_code ?? '' }}</td>
-                                        <td>{{ $transfer->user->first_name ?? '' }} ({{ $transfer->employee_id ?? '' }})
-                                        </td>
-                                        <td>{{ $transfer->manager->first_name ?? '' }}({{ $transfer->manager->employee_id ?? '' }})
-                                        </td>
-                                        <td>{{ $transfer->handoveruser->first_name ?? '' }}
-                                            ({{ $transfer->handoveruser->employee_id ?? '' }})
-                                        </td>
-                                        <td>{{ $transfer->handovermanager->first_name ?? '' }}
-                                            ({{ $transfer->handovermanager->employee_id ?? '' }})</td>
-                                        <td>{{ $transfer->reason->reason ?? '' }}</td>
-                                        <td>{{ $transfer->description ?? '' }}</td>
-                                        <td>{{ $transfer->created_at ?? '' }}</td>
+                                @foreach ($maintain as $key => $data)
+                                    <tr class="text-center">
+                                        <td>{{ $data->id }}</td>
+                                        <td>{{ $data->transaction_code }}</td>
                                         <td>
-                                            <a class="btn btn-outline-dark"
-                                                href="{{ route('transfer.show.product', $transfer->id) }}">View</a>&nbsp;
+                                            @if (isset($employee[$key]->first_name))
+                                                {{$employee[$key]->first_name}}({{$employee[$key]->employee_id}})
+                                            @endif
+                                        </td>
+                                        <td>{{$data->reason->reason}}</td>
+                                        <td>{{$data->description}}</td>
+                                        <td>{{$data->date_time}}</td>
+                                        <td>
+                                            <a href="{{ route('report.maintenance', $data->id) }}"
+                                                class="btn btn-success">View</a>
                                         </td>
                                         <td>
-                                            @if (isset($product[$key]->statuses))
-                                                @if ($product[$key]->statuses->name == 'Transferred')
+                                            @if (isset($products[$key]->statuses))
+                                                @if ($products[$key]->status_available == 12)
                                                     <a
-                                                        class="{{ $product[$key]->statuses->status }}">{{ $product[$key]->statuses->name }}</a>
+                                                        class="{{ $products[$key]->statuses->status }}">Maintenance</a>
                                                 @else
                                                     <a class="btn btn-danger">Pending</a>&nbsp;
                                                 @endif

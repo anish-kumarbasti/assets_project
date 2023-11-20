@@ -238,6 +238,8 @@ background-color:#1d0950!important;
                         <a class="sidebar-link sidebar-title" href="javascript:void(0)" data-tab-name="Maintenance"><i
                                 data-feather="plus-square"></i><span>Maintenance</span></a>
                         <ul class="sidebar-submenu">
+                            <li class="{{ request()->is(['all-applications*']) ? 'active' : '' }}"><a
+                                    href="{{ route('all-applications') }}">All Applications</a></li>
                             <li class="{{ request()->is(['asset-maintenances*']) ? 'active' : '' }}"><a
                                     href="{{ route('assets-maintenances') }}">Send</a></li>
                             <li class="{{ request()->is(['receive-maintenance*']) ? 'active' : '' }}"><a
