@@ -85,42 +85,55 @@
                                     <th>Manager ID</th>
                                     <th>Return Reason</th>
                                     <th>Action</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($data as $return)
+                                @foreach ($data as $key => $return)
                                     <tr class="text-center">
                                         @php
-                                        $product=json_decode($return->product_id);
-                                        $userId = $return->return_by_user;
-                                        $mangerId = $return->manager_user_id;
+                                            $product = json_decode($return->product_id);
+                                            $userId = $return->return_by_user;
+                                            $mangerId = $return->manager_user_id;
                                         @endphp
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{$return->return_transaction_code??'N/A'}}</td>
+                                        <td>{{ $return->return_transaction_code ?? 'N/A' }}</td>
                                         {{-- <td>{{ isset(App\Models\Stock::find($product[0])->product_number) ? (App\Models\Stock::find($product[0]))->product_number : 'N/A' }}</td> --}}
                                         <td>
                                             @if (is_numeric($userId))
-                                            @php
-                                            $user = App\Models\User::find($userId);
-                                            @endphp
-                                            {{ $user ? $user->first_name : 'N/A' }} {{ $user ? $user->last_name : 'N/A' }}
+                                                @php
+                                                    $user = App\Models\User::find($userId);
+                                                @endphp
+                                                {{ $user ? $user->first_name : 'N/A' }}
+                                                {{ $user ? $user->last_name : 'N/A' }}
                                             @else
                                                 N/A
                                             @endif
                                         </td>
                                         <td>
                                             @if (is_numeric($mangerId))
-                                            @php
-                                                $manager = App\Models\User::find($mangerId);
-                                            @endphp
-                                            {{ $manager ? $manager->employee_id : 'N/A' }}
+                                                @php
+                                                    $manager = App\Models\User::find($mangerId);
+                                                @endphp
+                                                {{ $manager ? $manager->employee_id : 'N/A' }}
                                             @else
                                                 N/A
                                             @endif
                                         </td>
-                                        <td>{{$return->reason??'N/A'}}</td>
+                                        <td>{{ $return->reason ?? 'N/A' }}</td>
                                         <td>
-                                            <a href="{{route('report.return',$return->id)}}" class="btn btn-success">View</a>
+                                            <a href="{{ route('report.return', $return->id) }}"
+                                                class="btn btn-success">View</a>
+                                        </td>
+                                        <td>
+                                            @if (isset($products[$key]->statuses))
+                                                @if ($products[$key]->statuses->name == 'Instock')
+                                                    <a
+                                                        class="{{ $products[$key]->statuses->status }}">Returned</a>
+                                                @else
+                                                    <a class="btn btn-danger">Pending</a>&nbsp;
+                                                @endif
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

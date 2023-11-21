@@ -148,6 +148,11 @@
                                                         Notification!</a><span
                                                         class="pull-right">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span>
                                                 </p>
+                                            @elseif($notification->type == 'App\Notifications\MaintenanceNotification')
+                                                <p><b>{{ $notification->data['name'] ?? '' }}</b>&nbsp;&nbsp;<a
+                                                        href="{{route('markasread-applications',$notification->id)}}">New Asset is Under Maintenance by Employee</a><span
+                                                        class="pull-right">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</span>
+                                                </p>
                                             @else
                                                 <p><b>{{ Auth::user()->first_name }}</b>&nbsp;&nbsp;<a
                                                         href="{{ route('markasread-controller', $notification->id) }}">New

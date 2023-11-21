@@ -7,17 +7,88 @@ use App\Models\Asset;
 use App\Models\AssetType;
 use App\Models\Issuence;
 use App\Models\Maintenance;
+use App\Models\MaintenanceUser;
+use App\Models\Role;
 use App\Models\Status;
 use App\Models\Stock;
 use App\Models\Supplier;
 use App\Models\Transfer;
 use App\Models\TransferReason;
+use App\Models\User;
+use App\Notifications\MaintenanceNotification;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class MaintenanceController extends Controller
 {
+    public function maintenanceUser(Request $request){
+        $auth = Auth::user()->employee_id;
+        $reason = TransferReason::all();
+        $Issuestatus = Status::where('name', 'Accepted by User')->first();
+        $Transferstatus = Status::where('name', 'Transferred')->first();
+        $data = collect([]);
+        $transfer = Transfer::where('handover_employee_id', $auth)->distinct()->pluck('product_id');
+        $issuance = Issuence::where('employee_id', $auth)->distinct()->pluck('product_id');
+        if ($transfer->isNotEmpty()) {
+            foreach ($transfer as $transferItem) {
+                $product_id = json_decode($transferItem);
+                $transferData = Stock::whereIn('id', $product_id)
+                    ->where(function ($query) use ($Issuestatus, $Transferstatus) {
+                        $query->where('status_available', $Issuestatus->id)
+                            ->orWhere('status_available', $Transferstatus->id);
+                    })
+                    ->get();
+                $data = $data->concat($transferData);
+            }
+        }
+        if ($issuance->isNotEmpty()) {
+            foreach ($issuance as $issuanceItem) {
+                $product_id = json_decode($issuanceItem);
+                $issuanceData = Stock::whereIn('id', $product_id)
+                    ->where(function ($query) use ($Issuestatus, $Transferstatus) {
+                        $query->where('status_available', $Issuestatus->id)
+                            ->orWhere('status_available', $Transferstatus->id);
+                    })
+                    ->get();
+                $data = $data->concat($issuanceData);
+            }
+        }
+        // dd($data);
+        return view('Backend.Page.Maintenance.apply_user', compact('data', 'reason', 'auth'));
+    }
+    public function sendUser(Request $request){
+        $request->validate([
+            'selectedAssets'=>'required|array',
+            'reason'=>'required',
+            'description'=>'required',
+        ]);
+        $user = User::where('id', Auth::user()->id)->first();
+        $assetcontroller = Role::where('name', 'Asset Controller')->first();
+        $assetmanager = User::where('role_id', $assetcontroller->id)
+        ->where('department_id', $user->department_id)->first() ?? null;
+        $random = 'MAINUS' . str_pad(mt_rand(1111111, 9999999), 5, '0', STR_PAD_LEFT);
+        $dateTime = Carbon::createFromFormat('Y-m-d H:i', $request->date . ' ' . $request->time);
+        $usermaintenance = MaintenanceUser::create([
+            'product_id'=>json_encode($request->selectedAssets),
+            'maintenance_reason'=>$request->reason,
+            'description'=>$request->description,
+            'perform_by_user'=>Auth::user()->id,
+            'controller_id'=>$assetmanager->id,
+            'transaction_code'=>$random,
+            'date_time'=>$dateTime,
+            'status'=>Status::where('name', 'Maintainence Pending')->first()->id,
+        ]);
+        foreach ($request->selectedAssets as $productId) {
+            $stock = Stock::find($productId);
+            $stock->update([
+                'status_available' => Status::where('name', 'Maintainence Pending')->first()->id,
+            ]);
+        }
+        $assetmanager->notify(new MaintenanceNotification($assetmanager));
+        return back()->with('success', 'Asset in Under Maintenance');
+    }
     public function recieveasset($id)
     {
         // dd($id);
@@ -81,36 +152,50 @@ class MaintenanceController extends Controller
     public function maintenances()
     {
         $auth = Auth::user()->employee_id;
+        $authid = Auth::id();
         $reason = TransferReason::all();
-        $Issuestatus = Status::where('name', 'Accepted by User')->first();
-        $Transferstatus = Status::where('name', 'Transferred')->first();
+        // $Issuestatus = Status::where('name', 'Accepted by User')->first();
+        // $Transferstatus = Status::where('name', 'Transferred')->first();
+        $maintainstatus = Status::where('name', 'Maintainence Pending')->first();
         $data = collect([]);
-        $transfer = Transfer::where('handover_employee_id', $auth)->distinct()->pluck('product_id');
-        $issuance = Issuence::where('employee_id', $auth)->distinct()->pluck('product_id');
-        if ($transfer->isNotEmpty()) {
-            foreach ($transfer as $transferItem) {
-                $product_id = json_decode($transferItem);
-                $transferData = Stock::whereIn('id', $product_id)
-                    ->where(function ($query) use ($Issuestatus, $Transferstatus) {
-                        $query->where('status_available', $Issuestatus->id)
-                            ->orWhere('status_available', $Transferstatus->id);
+        // $transfer = Transfer::where('handover_employee_id', $auth)->distinct()->pluck('product_id');
+        // $issuance = Issuence::where('employee_id', $auth)->distinct()->pluck('product_id');
+        $maintainance = MaintenanceUser::where('controller_id', $authid)->distinct()->pluck('product_id');
+        // if ($transfer->isNotEmpty()) {
+        //     foreach ($transfer as $transferItem) {
+        //         $product_id = json_decode($transferItem);
+        //         $transferData = Stock::whereIn('id', $product_id)
+        //             ->where(function ($query) use ($Issuestatus, $Transferstatus) {
+        //                 $query->where('status_available', $Issuestatus->id)
+        //                     ->orWhere('status_available', $Transferstatus->id);
+        //             })
+        //             ->get();
+        //         $data = $data->concat($transferData);
+        //     }
+        // }
+        if ($maintainance->isNotEmpty()) {
+            foreach ($maintainance as $maintain) {
+                $product_id = json_decode($maintain);
+                $maintainData = Stock::whereIn('id', $product_id)
+                    ->where(function ($query) use ($maintainstatus) {
+                        $query->where('status_available', $maintainstatus->id);
                     })
                     ->get();
-                $data = $data->concat($transferData);
+                $data = $data->concat($maintainData);
             }
         }
-        if ($issuance->isNotEmpty()) {
-            foreach ($issuance as $issuanceItem) {
-                $product_id = json_decode($issuanceItem);
-                $issuanceData = Stock::whereIn('id', $product_id)
-                    ->where(function ($query) use ($Issuestatus, $Transferstatus) {
-                        $query->where('status_available', $Issuestatus->id)
-                            ->orWhere('status_available', $Transferstatus->id);
-                    })
-                    ->get();
-                $data = $data->concat($issuanceData);
-            }
-        }
+        // if ($issuance->isNotEmpty()) {
+        //     foreach ($issuance as $issuanceItem) {
+        //         $product_id = json_decode($issuanceItem);
+        //         $issuanceData = Stock::whereIn('id', $product_id)
+        //             ->where(function ($query) use ($Issuestatus, $Transferstatus) {
+        //                 $query->where('status_available', $Issuestatus->id)
+        //                     ->orWhere('status_available', $Transferstatus->id);
+        //             })
+        //             ->get();
+        //         $data = $data->concat($issuanceData);
+        //     }
+        // }
         // dd($data);
         return view('Backend.Page.Maintenance.send', compact('data', 'reason', 'auth'));
     }
@@ -122,6 +207,7 @@ class MaintenanceController extends Controller
             'selectedAssets' => 'required|array',
             'user' => 'required|max:30',
             'start_date'=>'required',
+            'end_date'=>'required',
         ]);
         $randomNumber = 'MAIN' . str_pad(mt_rand(1111111, 9999999), 5, '0', STR_PAD_LEFT);
         $maintenance = Maintenance::Create([
@@ -130,7 +216,11 @@ class MaintenanceController extends Controller
             'description' => $request->description,
             'maintenance_user_id' => $request->user,
             'start_date'=>$request->start_date,
+            'end_date'=>$request->end_date,
             'transaction_id'=> $randomNumber,
+            'asset_number'=>0,  
+            'supplier_id'=>0,
+            'asset_price'=>0, 
         ]);
         foreach ($request->selectedAssets as $productId) {
             $stock = Stock::find($productId);
@@ -236,5 +326,54 @@ class MaintenanceController extends Controller
         ]);
 
         return response()->json(['message' => 'Data updated successfully']);
+    }
+    public function application(){
+        $auth = Auth::id();
+        $maintain = MaintenanceUser::where('controller_id',$auth)->get();
+        $employee = [];
+        $products = [];
+        foreach ($maintain as $key => $value) {
+            $id = json_decode($value->product_id);
+            $employee[] = User::where('id',$value->perform_by_user)->first();
+            foreach($id as $data){
+            $products[] = Stock::where('id', $data)->first();
+            }
+        }
+        return view('Backend.Page.Maintenance.application',compact('maintain','products','employee'));
+    }
+    public function markasreadapplication($id){
+        if ($id) {
+            auth()->user()->unreadNotifications->where('id', $id)->markAsRead();
+        }
+        $auth = Auth::id();
+        $maintain = MaintenanceUser::where('controller_id',$auth)->get();
+        $employee = [];
+        $products = [];
+        foreach ($maintain as $key => $value) {
+            $id = json_decode($value->product_id);
+            $employee[] = User::where('id',$value->perform_by_user)->first();
+            foreach($id as $data){
+            $products[] = Stock::where('id', $data)->first();
+            }
+        }
+        return view('Backend.Page.Maintenance.application',compact('maintain','products','employee'));
+    }
+    public function report_maintenance($id)
+    {
+        $data = MaintenanceUser::find($id);
+        $user = $data->perform_by_user;
+        $manager = $data->controller_id;
+        $mang = User::find($manager);
+        $username = User::find($user);
+        // dd($username);
+        $product = $data->product_id;
+        $retproduct = json_decode($product);
+        $products=[];
+        foreach($retproduct as $value){
+        $products[] = Stock::find($value);
+        }
+        // dd($products);
+        return view('Backend.Page.maintenance.all-application', compact('data', 'username', 'mang', 'products'));
+
     }
 }

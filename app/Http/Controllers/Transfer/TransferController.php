@@ -138,10 +138,10 @@ class TransferController extends Controller
     public function showAll()
     {
         $transfers = Transfer::with('user')->get();
-        $product = '';
-        foreach ($transfers as $data) {
+        $product = [];
+        foreach ($transfers as $key => $data) {
             $id = json_decode($data->product_id);
-            $product = Stock::where('id', $id)->get();
+            $product[] = Stock::where('id', $id)->first();
         }
         return view('Backend.Page.Transfer.all-transfer', compact('transfers', 'product'));
     }

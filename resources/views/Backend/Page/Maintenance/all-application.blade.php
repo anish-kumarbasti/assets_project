@@ -126,10 +126,10 @@
                         </div>
                         <div class="col-md-6">
                             <div class="p-1">
-                                Manager ID:<input class="form-control mt-3" value="{{ $mang->employee_id ?? '' }}" readonly>
+                                Controller (Emp ID):<input class="form-control mt-3" value="{{ $mang->employee_id ?? '' }}" readonly>
                             </div>
                             <div class="p-1">
-                                Manager Name:<input class="form-control mt-3"
+                                Controller Name:<input class="form-control mt-3"
                                     value="{{ $mang->first_name ?? 'N/A' }} {{ $mang->last_name ?? 'N/A' }}" readonly>
                             </div>
                         </div>
@@ -142,13 +142,13 @@
                         <div class="col-md-5">
                             <div class="p-2">
                                 <h5>Transaction Code:</h5>
-                                <input class="form-control mt-3" value="{{ $data->return_transaction_code ?? 'N/A' }}"
+                                <input class="form-control mt-3" value="{{ $data->transaction_code ?? 'N/A' }}"
                                     readonly>
                             </div>
                         </div>
                         <div class="col-md-7">
                             <h5>Description:</h5>
-                            <textarea readonly disabled cols="30" rows="3" autofocus class="form-control mt-3">{{ $data->reason ?? 'N/A' }}</textarea>
+                            <textarea readonly disabled cols="30" rows="3" autofocus class="form-control mt-3">{{ $data->description ?? 'N/A' }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -170,56 +170,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="container">
-                    @foreach ($products as $data)
-                        @if ($data->status_available == 9)
-                            <div class="d-flex mb-5 p-2 mt-2">
-                                <div style="height:25px;width:25px;border-radius:50%;background:#6520ff;color:white;">
-                                    <div style="transform:translate(10px,2px);" class="fw-bold">
-                                        {{ $loop->iteration }}</div>
-                                </div>
-                                <div><b class="text-dark mx-2">Product</b></div>
-                            </div>
-                            <div class="progress">
-                                <div class="progress-bar progress-bar bg-primary" role="progressbar" style="width:50%">
-                                    Return Applied
-                                </div>
-                            </div>
-                        @elseif ($data->status_available == 1)
-                            <div class="d-flex mb-5 p-2 mt-2">
-                                <div style="height:25px;width:25px;border-radius:50%;background:#6520ff;color:white;">
-                                    <div style="transform:translate(10px,2px);" class="fw-bold">
-                                        {{ $loop->iteration }}</div>
-                                </div>
-                                <div><b class="text-dark mx-2">Product</b></div>
-                            </div>
-                            <div class="progress">
-                                <div class="progress-bar progress-bar bg-primary" role="progressbar" style="width:50%">
-                                    Return Applied
-                                </div>
-                                <div class="progress-bar progress-bar bg-success" role="progressbar" style="width:50%">
-                                    Approved by Manager
-                                </div>
-                            </div>
-                        @else
-                            <div class="d-flex mb-5 p-2 mt-2">
-                                <div style="height:25px;width:25px;border-radius:50%;background:#6520ff;color:white;">
-                                    <div style="transform:translate(10px,2px);" class="fw-bold">
-                                        {{ $loop->iteration }}</div>
-                                </div>
-                                <div><b class="text-dark mx-2">Product</b></div>
-                            </div>
-                            <div class="progress">
-                                <div class="progress-bar progress-bar bg-primary" role="progressbar" style="width:50%">
-                                    Return Applied
-                                </div>
-                                <div class="progress-bar progress-bar bg-danger" role="progressbar" style="width:50%">
-                                    Failed
-                                </div>
-                            </div>
-                        @endif
-                    @endforeach
-                </div>
                 <div class="card-body">
                     <div class="table-responsive theme-scrollbar">
                         <table class="table table-bordered">
@@ -238,7 +188,7 @@
                                         <td>{{ $stock->serial_number ?? 'N/A' }}</td>
                                         <td>{{ $stock->asset_type->name ?? '' }}</td>
                                         <td>{{ $stock->assetmain->name ?? 'N/A' }}</td>
-                                        <td>{{ $stock->configuration ?? '' }}</td>
+                                        <td>{{ $stock->product_info ?? '' }}</td>
                                         <td>
                                             <a class="{{ $stock->statuses->status }} action-button"
                                                 style="width: 100%;">{{ $stock->statuses->name }}</a>

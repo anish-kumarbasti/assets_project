@@ -2,24 +2,16 @@
 
 namespace App\Imports;
 
-use App\Models\AssetType;
-use App\Models\Department;
-use FontLib\Table\Type\name;
-use Maatwebsite\Excel\Concerns\ToModel;
+use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Concerns\ToCollection;
 
-class UserImport implements ToModel
+class UserImport implements ToCollection
 {
     /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
+    * @param Collection $collection
     */
-    public function model(array $row)
+    public function collection(Collection $collection)
     {
-        return new AssetType([
-
-            'name'=>$row[0],
-            'status'=> $row[1],
-        ]);
+        return $collection;
     }
 }

@@ -102,44 +102,147 @@
             background-color: #f0f0f0 !important;
             color: #333;
         }
+
+        .card-stepper {
+            z-index: 0
+        }
+
+        #progressbar-2 {
+            color: #455A64;
+        }
+
+        #progressbar-2 li {
+            list-style-type: none;
+            font-size: 13px;
+            width: 33.33%;
+            float: left;
+            position: relative;
+        }
+
+        #progressbar-2 #step1:before {
+            content: '\f058';
+            font-family: "Font Awesome 5 Free";
+            color: #fff;
+            width: 37px;
+            margin-left: 0px;
+            padding-left: 0px;
+        }
+
+        #progressbar-2 #step2:before {
+            content: '\f058';
+            font-family: "Font Awesome 5 Free";
+            color: #fff;
+            width: 37px;
+        }
+
+        #progressbar-2 #step3:before {
+            content: '\f058';
+            font-family: "Font Awesome 5 Free";
+            color: #fff;
+            width: 37px;
+            margin-right: 0;
+            text-align: center;
+        }
+
+        #progressbar-2 #step4:before {
+            content: '\f111';
+            font-family: "Font Awesome 5 Free";
+            color: #fff;
+            width: 37px;
+            margin-right: 0;
+            text-align: center;
+        }
+
+        #progressbar-2 li:before {
+            line-height: 37px;
+            display: block;
+            font-size: 12px;
+            background: #c5cae9;
+            border-radius: 50%;
+        }
+
+        #progressbar-2 li:after {
+            content: '';
+            width: 100%;
+            height: 10px;
+            background: #c5cae9;
+            position: absolute;
+            left: 0%;
+            right: 0%;
+            top: 15px;
+            z-index: -1;
+        }
+
+        #progressbar-2 li:nth-child(1):after {
+            left: 1%;
+            width: 100%
+        }
+
+        #progressbar-2 li:nth-child(2):after {
+            left: 1%;
+            width: 100%;
+        }
+
+        #progressbar-2 li:nth-child(3):after {
+            left: 1%;
+            width: 100%;
+            /* background: #c5cae9 !important; */
+        }
+
+        #progressbar-2 li:nth-child(4) {
+            left: 0;
+            width: 37px;
+        }
+
+        #progressbar-2 li:nth-child(4):after {
+            left: 0;
+            width: 0;
+        }
+
+        #progressbar-2 li.active:before,
+        #progressbar-2 li.active:after {
+            background: #6520ff;
+        }
     </style>
 @endsection
 @section('Content-Area')
     <div class="row">
         <div class="col-xl-12">
             <div class="card">
-                <div class="col-sm-12 text-end p-2">
-                    {{-- @dd($id) --}}
-                    {{-- <a class="btn btn-info" href="{{route('print-transfer',['id'=>session('id')])}}"><i class="fas fa-print"></i> Print</a> --}}
-                </div>
                 <div class="card-body">
                     <div class="row p-3">
                         <div class="col-md-4">
                             <div class="p-1">
                                 <h5>Employee From</h5>
-                                EMP ID:<input class="form-control mt-3" value="{{$transfer->employee_id??'N/A'}}" readonly>
+                                EMP ID:<input class="form-control mt-3" value="{{ $transfer->employee_id ?? 'N/A' }}"
+                                    readonly>
                             </div>
                             <div class="p-1">
-                                EMP Name:<input class="form-control mt-3" value="{{$find->first_name??'N/A'}} {{$find->last_name??'N/A'}}" readonly>
+                                EMP Name:<input class="form-control mt-3"
+                                    value="{{ $find->first_name ?? 'N/A' }} {{ $find->last_name ?? 'N/A' }}" readonly>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="p-1">
                                 <h5>Approved By</h5>
-                                Manager ID:<input class="form-control mt-3" value="{{$user->employee_id??'N/A'}}" readonly>
+                                Manager ID:<input class="form-control mt-3" value="{{ $user->employee_id ?? 'N/A' }}"
+                                    readonly>
                             </div>
                             <div class="p-1">
                                 Manager Name:
-                                <input class="form-control mt-3" value="{{$user->first_name??'N/A'}} {{$user->last_name??'N/A'}}" readonly>
+                                <input class="form-control mt-3"
+                                    value="{{ $user->first_name ?? 'N/A' }} {{ $user->last_name ?? 'N/A' }}" readonly>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="p-1">
                                 <h5>Handover ID</h5>
-                                EMP ID:<input class="form-control mt-3" value="{{$transfer->handover_employee_id??'N/A'}}" readonly>
+                                EMP ID:<input class="form-control mt-3"
+                                    value="{{ $transfer->handover_employee_id ?? 'N/A' }}" readonly>
                             </div>
                             <div class="p-1">
-                                EMP Name:<input class="form-control mt-3" value="{{$find2->first_name??'N/A'}} {{$find2->last_name??'N/A'}}" readonly>
+                                EMP Name:<input class="form-control mt-3"
+                                    value="{{ $find2->first_name ?? 'N/A' }} {{ $find2->last_name ?? 'N/A' }}" readonly>
                             </div>
                         </div>
                     </div>
@@ -150,13 +253,14 @@
                     <div class="row p-3">
                         <div class="col-md-5">
                             <div class="p-2">
-                            <h5>Transaction Code:</h5>
-                            <input class="form-control mt-3" value="{{$transfer->transfers_transaction_code??'N/A'}}" readonly>
+                                <h5>Transaction Code:</h5>
+                                <input class="form-control mt-3"
+                                    value="{{ $transfer->transfers_transaction_code ?? 'N/A' }}" readonly>
                             </div>
                         </div>
                         <div class="col-md-7">
                             <h5>Description:</h5>
-                            <textarea readonly disabled cols="30" rows="3" autofocus class="form-control mt-3">{{$transfer->description??''}}</textarea>
+                            <textarea readonly disabled cols="30" rows="3" autofocus class="form-control mt-3">{{ $transfer->description ?? '' }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -178,11 +282,153 @@
                         </div>
                     </div>
                 </div>
+                <div class="container py-5 h-100">
+                    <div class="row d-flex justify-content-center align-items-center h-100">
+                        <div class="col-12">
+                            <div class="card card-stepper text-black" style="border-radius: 16px;">
+                                <div class="card-body p-5">
+                                    @foreach ($productdata as $data)
+                                        <div class="d-flex mb-5 p-2 mt-3">
+                                            <div
+                                                style="height:25px;width:25px;border-radius:50%;background:#6520ff;color:white;">
+                                                <div style="transform:translate(10px,2px);" class="fw-bold">
+                                                    {{ $loop->iteration }}</div>
+                                            </div>
+                                            <div><b class="text-dark mx-2">Product</b></div>
+                                        </div>
+                                        @if ($data->status_available == 16)
+                                            <ul id="progressbar-2"
+                                                class="d-flex justify-content-between mx-0 mt-0 mb-5 px-0 pt-0 pb-2">
+                                                <li class="step0 active text-center" id="step1"></li>
+                                                <li class="step0 active text-center" id="step2"></li>
+                                                <li class="step0 active text-center" id="step3"></li>
+                                                <li class="step0 text-muted text-end" id="step4"></li>
+                                            </ul>
+                                        @elseif ($data->status_available == 8)
+                                            <ul id="progressbar-2"
+                                                class="d-flex justify-content-between mx-0 mt-0 mb-5 px-0 pt-0 pb-2">
+                                                <li class="step0 active text-center" id="step1"></li>
+                                                <li class="step0 active text-center" id="step2"></li>
+                                                <li class="step0 text-muted text-end" id="step3"></li>
+                                                <li class="step0 text-muted text-end" id="step4"></li>
+                                            </ul>
+                                        @elseif ($data->status_available == 17)
+                                            <ul id="progressbar-2"
+                                                class="d-flex justify-content-between mx-0 mt-0 mb-5 px-0 pt-0 pb-2">
+                                                <li class="step0 active text-center" id="step1"></li>
+                                                <li class="step0 active text-center" id="step2"></li>
+                                                <li class="step0 active text-center" id="step3"></li>
+                                                <li class="step0 text-muted text-end" id="step4"></li>
+                                            </ul>
+                                        @elseif ($data->status_available == 5)
+                                            <ul id="progressbar-2"
+                                                class="d-flex justify-content-between mx-0 mt-0 mb-5 px-0 pt-0 pb-2">
+                                                <li class="step0 active text-center" id="step1"></li>
+                                                <li class="step0 active text-center" id="step2"></li>
+                                                <li class="step0 active text-center" id="step3"></li>
+                                                <li class="step0 active text-center" id="step4"></li>
+                                            </ul>
+                                        @endif
+                                        <div class="d-flex justify-content-between">
+                                            @if ($data->status_available == 16)
+                                                <div class="d-lg-flex align-items-center">
+                                                    <i class="fas fa-clipboard-list fa-3x me-lg-4 mb-3 mb-lg-0"></i>
+                                                    <div>
+                                                        <p class="fw-bold mb-1">Transfer</p>
+                                                        <p class="fw-bold mb-0">Applied</p>
+                                                    </div>
+                                                </div>
+                                                <div class="d-lg-flex align-items-center">
+                                                    <i class="fa-3x me-lg-4 mb-3 mb-lg-0"></i>
+                                                </div>
+                                                <div class="d-lg-flex align-items-center">
+                                                    <i class="me-lg-4 mb-3 mb-lg-0"></i>
+                                                </div>
+                                                <div class="d-lg-flex align-items-center">
+                                                    <i class="me-lg-4 mb-3 mb-lg-0"></i>
+                                                </div>
+                                            @elseif ($data->status_available == 8)
+                                                <div class="d-lg-flex align-items-center">
+                                                    {{-- <i class="fas fa-clipboard-list fa-3x me-lg-4 mb-3 mb-lg-0"></i> --}}
+                                                    <div>
+                                                        <p class="fw-bold mb-1">Transfer</p>
+                                                        <p class="fw-bold mb-0">Applied</p>
+                                                    </div>
+                                                </div>
+                                                <div class="d-lg-flex align-items-center">
+                                                    {{-- <i class="fas fa-box-open fa-3x me-lg-4 mb-3 mb-lg-0"></i> --}}
+                                                    <div>
+                                                        <p class="fw-bold mb-1">Approved</p>
+                                                        <p class="fw-bold mb-0">by Manager</p>
+                                                    </div>
+                                                </div>
+                                                <div class="d-lg-flex align-items-center">
+                                                    {{-- <i class="fa-3x me-lg-4 mb-3 mb-lg-0"></i> --}}
+                                                    <div></div>
+                                                </div>
+                                                <div class="d-lg-flex align-items-center">
+                                                    {{-- <i class="me-lg-4 mb-3 mb-lg-0"></i> --}}
+                                                    <div></div>
+                                                </div>
+                                            @elseif ($data->status_available == 17)
+                                                <div class="d-lg-flex align-items-center">
+                                                    <div>
+                                                        <p class="fw-bold mb-1">Transfer</p>
+                                                        <p class="fw-bold mb-0">Applied</p>
+                                                    </div>
+                                                </div>
+                                                <div class="d-lg-flex align-items-center">
+                                                    <div>
+                                                        <p class="fw-bold mb-1">Transfer</p>
+                                                        <p class="fw-bold mb-0">by Manager</p>
+                                                    </div>
+                                                </div>
+                                                <div class="d-lg-flex align-items-center">
+                                                    <div>
+                                                        <p class="fw-bold mb-1">Transfer by</p>
+                                                        <p class="fw-bold mb-0">Controller</p>
+                                                    </div>
+                                                </div>
+                                                <div class="d-lg-flex align-items-center">
+                                                </div>
+                                            @elseif ($data->status_available == 5)
+                                                <div class="d-lg-flex align-items-center">
+                                                    <div>
+                                                        <p class="fw-bold mb-1">Transfer</p>
+                                                        <p class="fw-bold mb-0">Applied</p>
+                                                    </div>
+                                                </div>
+                                                <div class="d-lg-flex align-items-center">
+                                                    <div>
+                                                        <p class="fw-bold mb-1">Transfer</p>
+                                                        <p class="fw-bold mb-0">by Manager</p>
+                                                    </div>
+                                                </div>
+                                                <div class="d-lg-flex align-items-center">
+                                                    <div>
+                                                        <p class="fw-bold mb-1">Transfer by</p>
+                                                        <p class="fw-bold mb-0">Controller</p>
+                                                    </div>
+                                                </div>
+                                                <div class="d-lg-flex align-items-center">
+                                                    <div>
+                                                        <p class="fw-bold mb-1">Transfered</p>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="card-body">
                     <div class="table-responsive theme-scrollbar">
                         <table class="table table-bordered">
                             <thead>
                                 <th>Asset Code</th>
+                                <th>Serial Number</th>
                                 <th>Asset Type</th>
                                 <th>Asset</th>
                                 <th>Product</th>
@@ -191,12 +437,15 @@
                             <tbody>
                                 @foreach ($productdata as $stock)
                                     <tr>
-                                        <td>{{$stock->product_number??''}}</td>
-                                        <td>{{$stock->asset_type->name??''}}</td>
-                                        <td>{{$stock->assetmain->name??'N/A'}}</td>
-                                        <td>{{$stock->configuration??''}}</td>
+                                        <td>{{ $stock->product_number ?? 'N/A' }}</td>
+                                        <td>{{ $stock->serial_number ?? 'N/A' }}</td>
+                                        <td>{{ $stock->asset_type->name ?? '' }}</td>
+                                        <td>{{ $stock->assetmain->name ?? 'N/A' }}</td>
+                                        <td>{{ $stock->configuration ?? '' }}</td>
                                         <td>
-                                            <button class="btn btn-success btn-block action-button"type="button" style="width: 100%;">Accepted</button>
+                                            <a class="{{ $stock->statuses->status }} action-button"
+                                                style="width: 100%;">{{ $stock->statuses->name }}</a>
+
                                         </td>
                                     </tr>
                                 @endforeach

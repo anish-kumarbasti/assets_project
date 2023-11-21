@@ -308,6 +308,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('import-department', [DepartmentController::class, 'import'])->name('import.department');
     //Maintenances
     Route::get('maintenance', [MaintenanceController::class, 'index']);
+    Route::get('maintenance/apply', [MaintenanceController::class, 'maintenanceUser'])->name('user.apply');
+    Route::post('maintenance/apply', [MaintenanceController::class, 'sendUser'])->name('user.send');
+    Route::get('maintenance/applications', [MaintenanceController::class, 'application'])->name('all-applications');
+    Route::get('markasread/applications/{id}', [MaintenanceController::class, 'markasreadapplication'])->name('markasread-applications');
+    Route::get('report/maintenance/{id}', [MaintenanceController::class, 'report_maintenance'])->name('report.maintenance');
     Route::get('recieve-asset/{id}', [MaintenanceController::class, 'recieveasset'])->name('recieve.product');
     Route::get('recieve-product/{id}', [MaintenanceController::class, 'AssetRecieve'])->name('recieve-asset');
     Route::get('asset-maintenances', [MaintenanceController::class, 'maintenances'])->name('assets-maintenances');
@@ -395,32 +400,35 @@ Route::group(['middleware' => 'auth'], function () {
 
     //Department Import
     Route::get('/download-format', [DepartmentImportController::class,'downloadformat'])->name('import.download-format');
-    Route::post('/import', [DepartmentImportController::class,'store'])->name('import.store');
+    Route::post('/import/department', [DepartmentImportController::class,'store'])->name('import.store.department');
     //Designation Import
     Route::get('/download-format-designation', [DesignationController::class,'export'])->name('import.download-format-designation');
-    Route::post('/import', [DesignationController::class,'import'])->name('import.store.designation');
+    Route::post('/import/designation', [DesignationController::class,'import'])->name('import.store.designation');
     //Asset Import
     Route::get('/download-format-asset', [AssetController::class,'export'])->name('import.download-format-asset');
-    Route::post('/import', [AssetController::class,'import'])->name('import.store.asset');
+    Route::post('/import/asset', [AssetController::class,'import'])->name('import.store.asset');
     //Brand Import
     Route::get('/download-format-brand', [BrandController::class,'export'])->name('import.download-format-brand');
-    Route::post('/import', [BrandController::class,'import'])->name('import.store.brand');
+    Route::post('/import/brand', [BrandController::class,'import'])->name('import.store.brand');
     //Location Import
     Route::get('/download-format-location', [locationController::class,'export'])->name('import.download-format-location');
-    Route::post('/import', [locationController::class,'import'])->name('import.store.location');
+    Route::post('/import/location', [locationController::class,'import'])->name('import.store.location');
     //BrandModel Import
     Route::get('/download-format-brandmodel', [brandmodelController::class,'export'])->name('import.download-format-brandmodel');
-    Route::post('/import', [brandmodelController::class,'import'])->name('import.store.brandmodel');
+    Route::post('/import/brandmodel', [brandmodelController::class,'import'])->name('import.store.brandmodel');
     //SubLocation Import
     Route::get('/download-format-sublocation', [sublocationController::class,'export'])->name('import.download-format-sublocation');
-    Route::post('/import', [sublocationController::class,'import'])->name('import.store.sublocation');
+    Route::post('/import/sublocation', [sublocationController::class,'import'])->name('import.store.sublocation');
     //Supplier Import
     Route::get('/download-format-supplier', [supplierController::class,'export'])->name('import.download-format-supplier');
-    Route::post('/import', [supplierController::class,'import'])->name('import.store.supplier');
+    Route::post('/import/supplier', [supplierController::class,'import'])->name('import.store.supplier');
     //Attribute Import
     Route::get('/download-format-attribute', [attributeController::class,'export'])->name('import.download-format-attribute');
     Route::post('/import-attribute', [attributeController::class,'import'])->name('imports.stores.attributes');
     //Reason Import
     Route::get('/download-format-reason', [transferreasonController::class,'export'])->name('import.download-format-reason');
     Route::post('/import-reason', [transferreasonController::class,'import'])->name('import.store.reason');
+    //User Import
+    Route::get('/download-format-user', [UserController::class,'export'])->name('import.download-format-user');
+    Route::post('/import-user', [UserController::class,'import'])->name('import.store.user');
 });

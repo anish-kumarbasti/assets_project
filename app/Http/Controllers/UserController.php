@@ -2,35 +2,40 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\UserExport;
+use App\Imports\UserImport;
 use App\Models\AssetReturn;
 use App\Models\BusinessSetting;
 use App\Models\Department;
 use App\Models\Designation;
 use App\Models\Issuence;
 use App\Models\Location;
-use App\Models\Status;
 use App\Models\Stock;
 use App\Models\SubLocationModel;
+use App\Models\Supplier;
 use App\Models\Transfer;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
 //use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Hash;
-use App\Models\User;
 use Illuminate\Support\Facades\Mail;
+use Maatwebsite\Excel\Facades\Excel;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
-    public function trash(){
+    public function trash()
+    {
         $users = User::onlyTrashed(['department', 'designation'])->get();
-        return view('Backend.Page.User.trash',compact('users'));
+        return view('Backend.Page.User.trash', compact('users'));
     }
-    public function restore($id){
+    public function restore($id)
+    {
         $user = User::withTrashed()->findOrFail($id);
-        if(!empty($user)){
+        if (!empty($user)) {
             $user->restore();
         }
-        return redirect()->route('users.index')->with('success','User Restore Successfully');
+        return redirect()->route('users.index')->with('success', 'User Restore Successfully');
     }
     public function assignRoles(User $user)
     {
@@ -135,7 +140,7 @@ class UserController extends Controller
             'gender' => $request->gender,
             'age' => $request->age,
             'location_id' => $request->location_id,
-            'sub_location_id' => $request->sub_location_id
+            'sub_location_id' => $request->sub_location_id,
 
         ]);
         $department = Department::where('id', $request->department_id)->first();
@@ -174,7 +179,6 @@ class UserController extends Controller
         $sublocation = SubLocationModel::where('location_id', $locationId)->pluck('name', 'id');
         return response()->json($sublocation);
     }
-
 
     /**
      * Show the form for editing the specified resource.
@@ -237,6 +241,8 @@ class UserController extends Controller
             $image->move($destinationPath, $imagess);
             $pathcover = $destinationPath . '/' . $imagess;
         }
+        $user->profile_photo = $pathprofile;
+        $user->cover_photo = $pathcover;
         $user->update();
         return redirect()->route('users.index')->with('success', 'User updated successfully!');
     }
@@ -262,48 +268,47 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $issueproduct = Issuence::where('employee_id', $user->employee_id)->count();
-        $itasset=Issuence::where('employee_id', $user->employee_id)->where('asset_type_id',1)->count();
-        $nonitasset=Issuence::where('employee_id', $user->employee_id)->where('asset_type_id',2)->count();
-        $component=Issuence::where('employee_id', $user->employee_id)->where('asset_type_id',4)->count();
-        $software=Issuence::where('employee_id', $user->employee_id)->where('asset_type_id',3)->count();
+        $itasset = Issuence::where('employee_id', $user->employee_id)->where('asset_type_id', 1)->count();
+        $nonitasset = Issuence::where('employee_id', $user->employee_id)->where('asset_type_id', 2)->count();
+        $component = Issuence::where('employee_id', $user->employee_id)->where('asset_type_id', 4)->count();
+        $software = Issuence::where('employee_id', $user->employee_id)->where('asset_type_id', 3)->count();
         $transfer = Transfer::where('employee_id', $user->employee_id)->count();
         $returns = AssetReturn::where('return_by_user', $user->id)->count();
         $returnproducts = json_decode(AssetReturn::where('return_by_user', $user->id)->pluck('product_id'));
-        $ittransfer=0;
-        $nonittransfer=0;
-        $componenttransfer=0;
-        $softwaretransfer=0;
+        $ittransfer = 0;
+        $nonittransfer = 0;
+        $componenttransfer = 0;
+        $softwaretransfer = 0;
 
         $transferProducts = Transfer::where('employee_id', $user->employee_id)->pluck('product_id');
 
-                $ittransfer = 0;
-                $nonittransfer = 0;
-                $componenttransfer = 0;
-                $softwaretransfer = 0;
+        $ittransfer = 0;
+        $nonittransfer = 0;
+        $componenttransfer = 0;
+        $softwaretransfer = 0;
 
-                if ($transferProducts) {
-                    foreach ($transferProducts as $product) {
-                        $decodedProducts= json_decode($product);
-                        $transferProduct = Stock::find($decodedProducts[0]);
+        if ($transferProducts) {
+            foreach ($transferProducts as $product) {
+                $decodedProducts = json_decode($product);
+                $transferProduct = Stock::find($decodedProducts[0]);
 
-                        if ($transferProduct) {
-                            if ($transferProduct->asset_type_id == 1) {
-                                $ittransfer = $ittransfer + 1;
-                            }
-                            if ($transferProduct->asset_type_id == 2) {
-                                $nonittransfer = $nonittransfer + 1;
-                            }
-                            if ($transferProduct->asset_type_id == 4) {
-                                $componenttransfer = $componenttransfer + 1;
-                            }
-                            if ($transferProduct->asset_type_id == 3) {
-                                $softwaretransfer = $softwaretransfer + 1;
-                            }
-                        }
+                if ($transferProduct) {
+                    if ($transferProduct->asset_type_id == 1) {
+                        $ittransfer = $ittransfer + 1;
                     }
-
-
+                    if ($transferProduct->asset_type_id == 2) {
+                        $nonittransfer = $nonittransfer + 1;
+                    }
+                    if ($transferProduct->asset_type_id == 4) {
+                        $componenttransfer = $componenttransfer + 1;
+                    }
+                    if ($transferProduct->asset_type_id == 3) {
+                        $softwaretransfer = $softwaretransfer + 1;
+                    }
                 }
+            }
+
+        }
 
         $itreturns = 0;
         $nonitreturns = 0;
@@ -331,17 +336,80 @@ class UserController extends Controller
             }
         }
 
+        $totalitasset = ($itasset - $itreturns) - $ittransfer;
+        $totalnonitasset = ($nonitasset - $nonitreturns) - $nonittransfer;
+        $totalcomponent = ($component - $compnentreturns) - $componenttransfer;
+        $totalsoftware = ($software - $softwarereturns) - $softwaretransfer;
 
-        $totalitasset=($itasset-$itreturns)-$ittransfer;
-        $totalnonitasset=($nonitasset-$nonitreturns)-$nonittransfer;
-        $totalcomponent=($component-$compnentreturns)-$componenttransfer;
-        $totalsoftware=($software-$softwarereturns)-$softwaretransfer;
-
-
-        return view('Backend.Page.User.user-profile', compact('user', 'issueproduct', 'transfer', 'returns','totalitasset','totalnonitasset','totalcomponent','totalsoftware'));
+        return view('Backend.Page.User.user-profile', compact('user', 'issueproduct', 'transfer', 'returns', 'totalitasset', 'totalnonitasset', 'totalcomponent', 'totalsoftware'));
     }
     public function usersprofile()
     {
         return view('Backend.Page.User.user-profile');
+    }
+    public function export()
+    {
+        return Excel::download(new UserExport(), 'User_format.xlsx');
+    }
+    public function import(Request $request)
+    {
+        $this->validate($request, [
+            'select_file' => 'required|mimes:xls,xlsx',
+        ]);
+        $path = $request->file('select_file')->getRealPath();
+        $data = Excel::toCollection(new UserImport(), $path)->first()->skip(1);
+        foreach ($data as $row) {
+            $names = explode(' ', $row[1], 2);
+            $department = Department::updateOrCreate(
+                ['unique_id' => $row[7]],
+                [
+                    'name' => $row[8],
+                    'unique_id' => $row[7],
+                ]
+            );
+            $designation = Designation::updateOrCreate(
+                ['designation' => $row[9]],
+                [
+                    'designation' => $row[9],
+                    'department_id' => $department->id,
+                ]
+            );
+            $location = Location::updateOrCreate(
+                ['name' => $row[10]],
+                [
+                    'name' => $row[10],
+                ]
+            );
+            $sublocation = SubLocationModel::updateOrCreate(
+                ['name' => $row[11]],
+                [
+                    'name' => $row[11],
+                    'location_id'=>$location->id,
+                ]
+            );
+            $role = Role::updateOrCreate(
+                ['name' => $row[12]],
+                ['name' => $row[12]]
+            );
+            User::updateOrCreate(
+                ['employee_id' => $row[0]],
+                [
+                    'employee_id' => $row[0],
+                    'first_name' => $names[0],
+                    'last_name' => $names[1],
+                    'email' => $row[2],
+                    'mobile_number' => $row[3],
+                    'age' => $row[4],
+                    'gender' => $row[5],
+                    'password' => Hash::make($row[6]),
+                    'department_id' => $department->id,
+                    'designation_id' => $designation->id,
+                    'location_id' => $location->id,
+                    'sub_location_id' => $sublocation->id,
+                    'role_id' => $role->id,
+                ]
+            );
+        }
+        return redirect()->route('users.index')->with('message', 'Data imported successfully.');
     }
 }
