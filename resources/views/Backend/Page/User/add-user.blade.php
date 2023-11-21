@@ -1,71 +1,110 @@
 @extends('Backend.Layouts.panel')
 
 @section('Style-Area')
-<style>
-    /* Custom styles for breadcrumbs */
-    .breadcrumbs-dark ol.breadcrumbs {
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-        display: flex;
-        align-items: center;
-    }
+    <style>
+        /* Custom styles for breadcrumbs */
+        .breadcrumbs-dark ol.breadcrumbs {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
 
-    .breadcrumbs-dark ol.breadcrumbs li {
-        font-size: 14px;
-        /* Adjust font size as needed */
-        color: #555;
-        /* Adjust text color as needed */
-    }
+        .breadcrumbs-dark ol.breadcrumbs li {
+            font-size: 14px;
+            /* Adjust font size as needed */
+            color: #555;
+            /* Adjust text color as needed */
+        }
 
-    .breadcrumbs-dark ol.breadcrumbs li:not(:last-child):after {
-        content: ">";
-        margin-left: 10px;
-        margin-right: 10px;
-        color: #777;
-    }
+        .breadcrumbs-dark ol.breadcrumbs li:not(:last-child):after {
+            content: ">";
+            margin-left: 10px;
+            margin-right: 10px;
+            color: #777;
+        }
 
-    .breadcrumbs-dark ol.breadcrumbs li.text-muted {
-        color: #333;
-        font-weight: bold;
-    }
+        .breadcrumbs-dark ol.breadcrumbs li.text-muted {
+            color: #333;
+            font-weight: bold;
+        }
 
-    .breadcrumbs-dark ol.breadcrumbs li.text-muted a {
-        color: #333;
-        font-weight: bold;
-    }
+        .breadcrumbs-dark ol.breadcrumbs li.text-muted a {
+            color: #333;
+            font-weight: bold;
+        }
 
-    .breadcrumbs-dark ol.breadcrumbs li.active a {
-        color: #333;
-        font-weight: bold;
-    }
+        .breadcrumbs-dark ol.breadcrumbs li.active a {
+            color: #333;
+            font-weight: bold;
+        }
 
-    .breadcrumbs-dark ol.breadcrumbs li.active a:hover {
-        color: blue;
-    }
-</style>
+        .breadcrumbs-dark ol.breadcrumbs li.active a:hover {
+            color: blue;
+        }
+    </style>
 @endsection
 @section('breadcrumbs')
-<div class="breadcrumbs-dark pb-0 pt-2" id="breadcrumbs-wrapper">
-    <div class="container">
-        <div class="row">
-            <div class="col s10 m6 l6">
-                <ol class="breadcrumbs mb-2">
-                    <li class="text-muted">Dashboard</li>
-                    <li class="text-muted">User-Management</li>
-                    {{-- <li class="text-muted"><a href="{{ url('department') }}" class="text-muted"></a></li> --}}
-                    <li class="active"><a href="{{ url('users/create') }}">Add-Users</a></li>
-                </ol>
+    <div class="breadcrumbs-dark pb-0 pt-2" id="breadcrumbs-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col s10 m6 l6">
+                    <ol class="breadcrumbs mb-2">
+                        <li class="text-muted">Dashboard</li>
+                        <li class="text-muted">User-Management</li>
+                        {{-- <li class="text-muted"><a href="{{ url('department') }}" class="text-muted"></a></li> --}}
+                        <li class="active"><a href="{{ url('users/create') }}">Add-Users</a></li>
+                    </ol>
+                </div>
             </div>
         </div>
     </div>
-</div>
 @endsection
 @section('Content-Area')
+    @if (count($errors) > 0)
+        <div class="alert alert-danger">
+            Upload Validation Error<br><br>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+    <div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Import Data</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ url('import-user') }}" method="post" enctype="multipart/form-data">
+                        @csrf
+                        <div class="form-group">
+                            <label for="select_file">Choose File:</label>
+                            <input type="file" name="select_file" class="form-control" accept=".xls, .xlsx">
+                        </div>
+                        <a href="{{ route('import.download-format-user') }}" class="btn btn-secondary">Download
+                            Format</a>
+                        <button type="submit" class="btn btn-primary">Upload</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="col-sm-12">
         <div class="card">
             <div class="card-header pb-0">
                 <h4>User Info</h4>
+                <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal"
+                    data-bs-target="#importModal">
+                    Import Data
+                </button>
             </div>
             <div class="card-body">
                 <form action="{{ route('users.store') }}" method="post" enctype="multipart/form-data">
@@ -90,8 +129,8 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="email">Email</label>
-                                <input class="form-control" id="email" name="email" type="email"
-                                    placeholder="Email" autocomplete="off">
+                                <input class="form-control" id="email" name="email" type="email" placeholder="Email"
+                                    autocomplete="off">
                                 @error('email')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
@@ -106,8 +145,8 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="Age">Age</label>
-                                <input class="form-control" autocomplete="off" id="Age" name="age" type="number"
-                                    placeholder="Enter Age">
+                                <input class="form-control" autocomplete="off" id="Age" name="age"
+                                    type="number" placeholder="Enter Age">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="gender">Gender</label>
@@ -241,7 +280,8 @@
                         dataType: 'json',
                         success: function(data) {
                             $('#designation').empty();
-                            $('#designation').append('<option value="">Select Designation</option>');
+                            $('#designation').append(
+                                '<option value="">Select Designation</option>');
                             $.each(data, function(key, value) {
                                 $('#designation').append('<option value="' + key +
                                     '">' + value + '</option>');
@@ -259,7 +299,8 @@
                         dataType: 'json',
                         success: function(data) {
                             $('#sublocation').empty();
-                            $('#sublocation').append('<option value="">Select sublocation</option>');
+                            $('#sublocation').append(
+                                '<option value="">Select sublocation</option>');
                             $.each(data, function(key, value) {
                                 $('#sublocation').append('<option value="' + key +
                                     '">' + value + '</option>');

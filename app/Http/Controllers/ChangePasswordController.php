@@ -44,11 +44,11 @@ class ChangePasswordController extends Controller
     ]);
 
     $user = Auth::user();
-
-    if ($request->hasFile('photo')) {
-        // Store and update the user's profile photo
-        $photoPath = $request->file('photo')->store('profile_photos', 'public');
-        $user->profile_photo = $photoPath;
+    if ($image = $request->file('photo')) {
+        $destinationPath = 'images';
+        $imagess = date('YmdHis') . random_int(1, 10000) . "." . $image->getClientOriginalExtension();
+        $image->move($destinationPath, $imagess);
+        $user->profile_photo = $destinationPath . '/' . $imagess;
         $user->save();
     }
 
@@ -62,11 +62,11 @@ public function updateCoverPhoto(Request $request)
     ]);
 
     $user = Auth::user();
-
-    if ($request->hasFile('cover_photo')) {
-        // Store and update the user's cover photo
-        $coverPhotoPath = $request->file('cover_photo')->store('cover_photos', 'public');
-        $user->cover_photo = $coverPhotoPath;
+    if ($image = $request->file('cover_photo')) {
+        $destinationPath = 'images';
+        $imagess = date('YmdHis') . random_int(1, 10000) . "." . $image->getClientOriginalExtension();
+        $image->move($destinationPath, $imagess);
+        $user->cover_photo = $destinationPath . '/' . $imagess;
         $user->save();
     }
 

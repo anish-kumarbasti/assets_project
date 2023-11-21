@@ -428,4 +428,7 @@ Route::group(['middleware' => 'auth'], function () {
     //Reason Import
     Route::get('/download-format-reason', [transferreasonController::class,'export'])->name('import.download-format-reason');
     Route::post('/import-reason', [transferreasonController::class,'import'])->name('import.store.reason');
+    //User Import
+    Route::get('/download-format-user', [UserController::class,'export'])->name('import.download-format-user');
+    Route::post('/import-user', [UserController::class,'import'])->name('import.store.user');
 });
