@@ -198,7 +198,7 @@ class MaintenanceController extends Controller
         //     }
         // }
         // dd($data);
-        $suppliers = MaintenanceSupplier::all();
+        $suppliers = Supplier::all();
         return view('Backend.Page.Maintenance.send', compact('data', 'reason', 'auth','suppliers'));
     }
     public function maintenance_save(Request $request)

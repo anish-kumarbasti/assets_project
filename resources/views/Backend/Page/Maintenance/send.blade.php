@@ -288,7 +288,7 @@
                             id="transferTypeSelect">
                             <option selected>Select User</option>
                             @foreach ($suppliers as $data)
-                                <option value="{{$data->id}}">{{$data->name}}({{$data->MaintenanceSupllierID}})</option>
+                                <option value="{{$data->id}}">{{$data->name}}({{$data->supplier_id}})</option>
                             @endforeach
                         </select>
                         @error('user')
