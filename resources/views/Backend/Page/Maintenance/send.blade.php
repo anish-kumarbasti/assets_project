@@ -287,8 +287,9 @@
                         <select class="form-control" aria-label="Default select example" name="user"
                             id="transferTypeSelect">
                             <option selected>Select User</option>
-                            <option value="1">User1</option>
-                            <option value="2">User2</option>
+                            @foreach ($suppliers as $data)
+                                <option value="{{$data->id}}">{{$data->name}}({{$data->supplier_id}})</option>
+                            @endforeach
                         </select>
                         @error('user')
                             <span class="text-danger">

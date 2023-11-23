@@ -34,6 +34,7 @@ use App\Http\Controllers\Transfer\TransferController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DepartmentImportController;
+use App\Http\Controllers\MaintenanceSupplierController;
 
 /*
 
@@ -360,6 +361,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/suppliers/{id}/edit', [SupplierController::class, 'edit'])->name('suppliers.edit');
     Route::post('/suppliers/{id}', [SupplierController::class, 'update'])->name('suppliers.update');
     Route::delete('/suppliers/{id}', [SupplierController::class, 'destroy'])->name('suppliers.destroy');
+    Route::get('maintenance/suppliers', [MaintenanceSupplierController::class, 'index'])->name('maintenance.suppliers.index');
+    Route::post('maintenance/suppliers', [MaintenanceSupplierController::class, 'store'])->name('maintenance.suppliers.store');
+    Route::get('maintenance/suppliers/create', [MaintenanceSupplierController::class, 'create'])->name('maintenance.suppliers.create');
+    Route::get('maintenance/suppliers/{id}/edit', [MaintenanceSupplierController::class, 'edit'])->name('maintenance.suppliers.edit');
+    Route::post('maintenance/suppliers/{id}', [MaintenanceSupplierController::class, 'update'])->name('maintenance.suppliers.update');
+    Route::delete('maintenance/suppliers/{id}', [MaintenanceSupplierController::class, 'destroy'])->name('maintenance.suppliers.destroy');
 
     Route::get('/application-setting', [SettingController::class, 'index'])->name('settings.application');
     Route::put('/application-settings', [SettingController::class, 'createOrUpdate'])->name('settings.application.storeOrUpdate');
@@ -422,6 +429,9 @@ Route::group(['middleware' => 'auth'], function () {
     //Supplier Import
     Route::get('/download-format-supplier', [supplierController::class,'export'])->name('import.download-format-supplier');
     Route::post('/import/supplier', [supplierController::class,'import'])->name('import.store.supplier');
+    //Maintenance Supplier Import
+    Route::get('/download-format-maintenance-supplier', [maintenancesupplierController::class,'export'])->name('import.download-format-maintenancesupplier');
+    Route::post('/import/maintenance-supplier', [maintenancesupplierController::class,'import'])->name('import.store.maintenancesupplier');
     //Attribute Import
     Route::get('/download-format-attribute', [attributeController::class,'export'])->name('import.download-format-attribute');
     Route::post('/import-attribute', [attributeController::class,'import'])->name('imports.stores.attributes');
@@ -431,4 +441,7 @@ Route::group(['middleware' => 'auth'], function () {
     //User Import
     Route::get('/download-format-user', [UserController::class,'export'])->name('import.download-format-user');
     Route::post('/import-user', [UserController::class,'import'])->name('import.store.user');
+    //Stock Import
+    Route::get('/download-format-stock', [StockController::class,'export'])->name('import.download-format-stock');
+    Route::post('/import-stock', [StockController::class,'import'])->name('import.store.stock');
 });

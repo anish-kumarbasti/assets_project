@@ -92,7 +92,7 @@
                                     @endphp
                                     <td>{{$loop->iteration}}</td>
                                     <td>{{$maintain->transaction_id??'N/A'}}</td>
-                                    <td>{{ $maintain->maintenance_user_id??'N/A' }}</td>
+                                    <td>{{ $maintain->suppliers->name??'N/A' }}</td>
                                     {{-- <td>{{ isset(App\Models\Stock::find($product[0])->product_number) ? (App\Models\Stock::find($product[0]))->product_number : 'N/A' }}</td>
                                     <td>{{ isset(App\Models\AssetType::find($issuence->asset_type_id)->name) ? App\Models\AssetType::find($issuence->asset_type_id)->name : 'N/A' }}</td>
                                     <td>{{ isset(App\Models\AssetType::find($issuence->asset_id)->name) ? App\Models\Asset::find($issuence->asset_id)->name : 'N/A' }}</td>

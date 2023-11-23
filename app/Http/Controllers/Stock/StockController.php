@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Stock;
 
+use App\Exports\StockExport;
 use App\Helpers\TimelineHelper;
 use App\Http\Controllers\Controller;
+use App\Imports\StockImport;
 use App\Models\Asset;
 use App\Models\AssetType;
 use App\Models\Attribute;
@@ -16,9 +18,9 @@ use App\Models\Stock;
 use App\Models\SubLocationModel;
 use App\Models\Supplier;
 use App\Models\Timeline;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use PhpParser\Node\Stmt\Return_;
+use Maatwebsite\Excel\Facades\Excel;
 
 class StockController extends Controller
 {
@@ -87,16 +89,16 @@ class StockController extends Controller
 
         foreach ($stocks as $stock) {
             $groupedStocks[] = [
-                'product_number'=>$stock->product_number,
-                'serial_number'=>$stock->serial_number,
+                'product_number' => $stock->product_number,
+                'serial_number' => $stock->serial_number,
                 'product_info' => $stock->product_info,
                 'asset_type' => $stock->asset_type->name,
-                'assetmain' => $stock->assetmain->name??'',
-                'instocks' => $this->countStatus(collect([$stock]),[1]),
+                'assetmain' => $stock->assetmain->name ?? '',
+                'instocks' => $this->countStatus(collect([$stock]), [1]),
                 'allottedCount' => $this->countStatus(collect([$stock]), [2, 3]),
                 'scrappedCount' => Disposal::where('product_info', $stock->id)->count(),
                 'underRepairCount' => $this->countStatus(collect([$stock]), [12]),
-                'stolen'=>$this->countStatus(collect([$stock]),[11]),
+                'stolen' => $this->countStatus(collect([$stock]), [11]),
             ];
         }
 
@@ -112,16 +114,16 @@ class StockController extends Controller
         }
         $stock = Stock::where(function ($query) {
             $query->where('status_available', 1)
-            ->orWhere('status_available', 1);
+                ->orWhere('status_available', 1);
         })->where('asset_type_id', $itAssetType->id)->get();
-        foreach($stock as $product){
+        foreach ($stock as $product) {
             $createdDate = $product->created_at;
             $currentDate = $product->product_warranty;
             $ageInYears = $createdDate->diffInYears($currentDate);
             $ageInMonths = $createdDate->diffInMonths($currentDate);
 
-            $product -> ageInYears =$ageInYears;
-            $product -> ageInMonths =$ageInMonths;
+            $product->ageInYears = $ageInYears;
+            $product->ageInMonths = $ageInMonths;
         }
         $allocated = Stock::where(function ($query) {
             $query->where('status_available', 2)
@@ -152,14 +154,14 @@ class StockController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'asset_type'=>'required',
-            'asset' =>'required',
-            'price'=>'required',
-            'product_info'=>'required',
-            'generate_number'=>'required',
-            'location'=>'required',
-            'sublocation'=>'required',
-            'supplier'=>'required',
+            'asset_type' => 'required',
+            'asset' => 'required',
+            'price' => 'required',
+            'product_info' => 'required',
+            'generate_number' => 'required',
+            'location' => 'required',
+            'sublocation' => 'required',
+            'supplier' => 'required',
             'specification' => [
                 'max:255',
                 function ($attribute, $value, $fail) {
@@ -208,7 +210,7 @@ class StockController extends Controller
     public function ShowStock()
     {
         $stock = Stock::with('statuses')->get();
-        foreach($stock as $product){
+        foreach ($stock as $product) {
             $createdDate = $product->created_at;
             $currentDate = $product->product_warranty;
             // $software = $product->expiry_date;
@@ -216,8 +218,8 @@ class StockController extends Controller
             $ageInYears = $createdDate->diffInYears($currentDate);
             $ageInMonths = $createdDate->diffInMonths($currentDate);
 
-            $product -> ageInYears =$ageInYears;
-            $product -> ageInMonths =$ageInMonths;
+            $product->ageInYears = $ageInYears;
+            $product->ageInMonths = $ageInMonths;
         }
         return view('Backend.Page.Stock.all-stock', compact('stock'));
     }
@@ -258,13 +260,13 @@ class StockController extends Controller
         $request->validate([
             'price' => 'required|integer|min:1',
             'product_info' => 'required',
-            'asset_type'=>'required',
-            'asset' =>'required',
-            'price'=>'required',
-            'generate_number'=>'required',
-            'location'=>'required',
-            'sublocation'=>'required',
-            'supplier'=>'required',
+            'asset_type' => 'required',
+            'asset' => 'required',
+            'price' => 'required',
+            'generate_number' => 'required',
+            'location' => 'required',
+            'sublocation' => 'required',
+            'supplier' => 'required',
         ]);
 
         $data = Stock::find($id)->update([
@@ -304,7 +306,7 @@ class StockController extends Controller
     {
         $stock = Stock::findOrFail($id);
         $stock->delete();
-        return response()->json(['success'=>true]);
+        return response()->json(['success' => true]);
     }
     public function filter(Request $request)
     {
@@ -313,15 +315,113 @@ class StockController extends Controller
         $data = Stock::with('assetmain', 'brandmodel', 'brand')->whereBetween('created_at', [$startdate, $endDate])->get();
         return response()->json($data);
     }
-    public function trash(){
+    public function trash()
+    {
         $stock = Stock::onlyTrashed()->get();
-        return view('Backend.Page.Stock.trash',compact('stock'));
+        return view('Backend.Page.Stock.trash', compact('stock'));
     }
-    public function restore($id){
-        $restore=Stock::withTrashed()->findOrFail($id);
-        if(!empty($restore)){
+    public function restore($id)
+    {
+        $restore = Stock::withTrashed()->findOrFail($id);
+        if (!empty($restore)) {
             $restore->restore();
         }
-        return redirect()->route('all.stock')->with('success','Stock Restore Successfully');
+        return redirect()->route('all.stock')->with('success', 'Stock Restore Successfully');
+    }
+    public function export()
+    {
+        return Excel::download(new StockExport(), 'Stock_format.xlsx');
+    }
+    public function import(Request $request)
+    {
+        $this->validate($request, [
+            'select_file' => 'required|mimes:xls,xlsx',
+        ]);
+        $path = $request->file('select_file')->getRealPath();
+        $data = Excel::toCollection(new StockImport(), $path)->first()->skip(1);
+        foreach ($data as $row) {
+            $warrantyDate = (is_int($row[19])?Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[19])): null); 
+            $expiryDate = (is_int($row[20])?Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[20])): null); 
+            $assettype = AssetType::updateOrCreate(
+                ['name' => $row[0]],
+                [
+                    'name' => $row[0],
+                ]
+            );
+            $asset = Asset::updateOrCreate(
+                ['name' => $row[1]],
+                [
+                    'name' => $row[1],
+                    'asset_type_id' => $assettype->id,
+                ]
+            );
+            $location = Location::updateOrCreate(
+                ['name' => $row[11]],
+                [
+                    'name' => $row[11],
+                ]
+            );
+            $sublocation = SubLocationModel::updateOrCreate(
+                ['name' => $row[12]],
+                [
+                    'name' => $row[12],
+                    'location_id' => $location->id,
+                ]
+            );
+            $brand = Brand::updateOrCreate(
+                ['name' => $row[2]],
+                [
+                    'name' => $row[2],
+                ]
+            );
+            $brand_model = Brandmodel::updateOrCreate(
+                ['name' => $row[3]],
+                [
+                    'name' => $row[3],
+                    'brand_id' => $brand->id,
+                ]
+            );
+            $supplier = Supplier::updateOrCreate(
+                ['supplier_id' => $row[16]],
+                [
+                    'name' => $row[17],
+                    'supplier_id' => $row[16],
+                ]
+            );
+            $attribute = Attribute::updateOrCreate(
+                ['name' => $row[9]],
+                [
+                    'name' => $row[9],
+                    'asset_type_id'=>$assettype->id,
+                ]
+            ); 
+            Stock::updateOrCreate(
+                ['product_number' => $row[8]],
+                [
+                    'product_info' => $row[4],
+                    'asset_type_id' => $assettype->id,
+                    'asset' => $asset->id,
+                    'brand_id' => $brand->id,
+                    'brand_model_id' => $brand_model->id,
+                    'location_id' => $location->id,
+                    'sublocation_id' => $sublocation->id,
+                    'configuration' => $row[14],
+                    'serial_number' => $row[5],
+                    'price' => $row[18],
+                    'host_name' => $row[13],
+                    'product_number' => $row[8],
+                    'product_warranty' => $warrantyDate,
+                    'attribute' => $attribute->id,
+                    'atribute_value' => $row[10],
+                    'quantity' => $row[7],
+                    'specification' => $row[15],
+                    'expiry_date' => $expiryDate,
+                    'supplier' => $supplier->id,
+                    'liscence_number'=>$row[6],
+                    'status_available' => Status::where('name','Instock')->first()->id,
+                ]
+            );
+        }
+        return redirect()->route('all.stock')->with('message', 'Data imported successfully.');
     }
 }

@@ -7,6 +7,7 @@ use App\Models\Asset;
 use App\Models\AssetType;
 use App\Models\Issuence;
 use App\Models\Maintenance;
+use App\Models\MaintenanceSupplier;
 use App\Models\MaintenanceUser;
 use App\Models\Role;
 use App\Models\Status;
@@ -197,7 +198,8 @@ class MaintenanceController extends Controller
         //     }
         // }
         // dd($data);
-        return view('Backend.Page.Maintenance.send', compact('data', 'reason', 'auth'));
+        $suppliers = Supplier::all();
+        return view('Backend.Page.Maintenance.send', compact('data', 'reason', 'auth','suppliers'));
     }
     public function maintenance_save(Request $request)
     {
