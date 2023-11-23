@@ -127,6 +127,41 @@
             <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
+    @if (count($errors) > 0)
+        <div class="alert alert-danger">
+            Upload Validation Error<br><br>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+    <div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Import Data</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ url('import-stock') }}" method="post" enctype="multipart/form-data">
+                        @csrf
+                        <div class="form-group">
+                            <label for="select_file">Choose File:</label>
+                            <input type="file" name="select_file" class="form-control" accept=".xls, .xlsx">
+                        </div>
+                        <a href="{{ route('import.download-format-stock') }}" class="btn btn-secondary">Download
+                            Format</a>
+                        <button type="submit" class="btn btn-primary">Upload</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="col-sm-12">
         <form class="needs-validation" enctype="multipart/form-data" method="POST"
             action="{{ isset($stockedit) ? route('update.stock', $stockedit->id) : route('store.stock') }}">
@@ -134,6 +169,10 @@
             <div class="card">
                 <div class="card-header pb-0">
                     <h4>{{ isset($stockedit) ? 'Update Stock' : 'Add Stock' }}</h4>
+                    <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal"
+                        data-bs-target="#importModal">
+                        Import Data
+                    </button>
                 </div>
                 <div class="card-body">
                     <div class="card-item border mb-3 p-2">
@@ -200,7 +239,8 @@
                         <div class="row p-3">
                             <div class="col-md-4">
                                 <label class="form-label" for="validationCustom01">Product Info</label>
-                                <input class="form-control" value="{{ isset($stockedit) ? $stockedit->product_info : '' }}"
+                                <input class="form-control"
+                                    value="{{ isset($stockedit) ? $stockedit->product_info : '' }}"
                                     id="validationCustom01" type="text" name="product_info" data-bs-original-title=""
                                     title="" placeholder="Enter Product Info">
                                 @error('product_info')
@@ -326,7 +366,7 @@
                                     @foreach ($supplier as $supplier)
                                         <option value="{{ $supplier->id }}"
                                             {{ isset($stockedit) && $stockedit->supplier == $supplier->id ? 'selected' : '' }}>
-                                            {{ $supplier->name }}
+                                            {{ $supplier->name }}({{$supplier->supplier_id}})
                                         </option>
                                     @endforeach
                                 </select>

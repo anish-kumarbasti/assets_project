@@ -95,6 +95,10 @@ background-color:#1d0950!important;
                                 <li class="{{ request()->is(['suppliers*']) ? 'active' : '' }}"><a
                                         href="{{ url('suppliers') }}">Suppliers</a></li>
                             @endcan
+                            @can('view_supplier')
+                                <li class="{{ request()->is(['maintenance-supplier*']) ? 'active' : '' }}"><a
+                                        href="{{ url('maintenance/suppliers') }}">Maintenance Suppliers</a></li>
+                            @endcan
                             @can('view_asset_status')
                                 <li class="{{ request()->is(['add-status*']) ? 'active' : '' }}"><a
                                         href="{{ url('add-status') }}">All Status</a></li>
