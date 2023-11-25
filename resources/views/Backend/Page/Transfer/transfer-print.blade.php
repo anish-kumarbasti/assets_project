@@ -107,6 +107,11 @@
             background-color: #f0f0f0 !important;
             color: #333;
         }
+        /* Add this to your CSS file */
+td.narrow-width {
+    width: 400px; /* Adjust the width as needed */
+}
+
     </style>
 </head>
 <body>
@@ -115,46 +120,104 @@
         <div class="col-xl-12">
             <div class="card">
             <div class="card-body">
-            <h4 class="text-center">Employee Transfer Reports</h4>
+            <h4 class="text-center"><b>ASSET TRANSFER FORM </b></h4>
+            </div>
+            <div class="card-body">
+                <b>  When completed and signed by the Manager and Asset Controller of initial/receiver department. Please forword this form to the finance department.</b> 
             </div>
         </div>
         </div>
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-body">
-                    <div class="row p-3">
-                        <div class="col-md-4">
-                            <div class="p-1">
-                                <h5>Employee From</h5>
-                                EMP ID:<input class="form-control mt-3" value="{{$transfer->employee_id??'N/A'}}" readonly>
-                            </div>
-                            <div class="p-1">
-                                EMP Name:<input class="form-control mt-3" value="{{$find->first_name??'N/A'}} {{$find->last_name??'N/A'}}" readonly>
-                            </div>
+                    <h4>TRANSFER INFORMATION :</h4>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="p-2">
+                                <h6>Transaction Code: {{$transfer->transfers_transaction_code??'N/A'}}</h6>
+                                </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="p-1">
-                                <h5>Approved By</h5>
-                                Manager ID:<input class="form-control mt-3" value="{{$user->employee_id??'N/A'}}" readonly>
-                            </div>
-                            <div class="p-1">
-                                Manager Name:
-                                <input class="form-control mt-3" value="{{$user->first_name??'N/A'}} {{$user->last_name??'N/A'}}" readonly>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="p-1">
-                                <h5>Handover ID</h5>
-                                EMP ID:<input class="form-control mt-3" value="{{$transfer->handover_employee_id??'N/A'}}" readonly>
-                            </div>
-                            <div class="p-1">
-                                EMP Name:<input class="form-control mt-3" value="{{$find2->first_name??'N/A'}} {{$find2->last_name??'N/A'}}" readonly>
-                            </div>
+                        <div class="col-sm-6">
+                            <div class="p-2">
+                                <h6>Date and Time : {{$transfer->created_at??'N/A'}}</h6>
+                                </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="card">
+                <div class="card-body">
+                    <div class="row p-3">
+                        <h5>Employee Details :</h5>
+                        <div class="col-md-4">
+                            <div class="p-1">
+                                From :<input class="form-control mt-3" value="{{$find->first_name??'N/A'}} {{$find->last_name??'N/A'}}  ({{$transfer->employee_id??'N/A'}})" readonly>
+                            </div>
+                            {{-- <div class="p-1">
+                                EMP Name:<input class="form-control mt-3" value="{{$find->first_name??'N/A'}} {{$find->last_name??'N/A'}}" readonly>
+                            </div> --}}
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-1">
+                                Handover To:<input class="form-control mt-3" value="{{$find2->first_name??'N/A'}} {{$find2->last_name??'N/A'}} ({{$transfer->handover_employee_id??'N/A'}})" readonly>
+                            </div>
+                            {{-- <div class="p-1">
+                                Manager Name:
+                                <input class="form-control mt-3" value="{{$user->first_name??'N/A'}} {{$user->last_name??'N/A'}}" readonly>
+                            </div> --}}
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-1">
+                                <h5>Description:</h5>
+                                <textarea readonly disabled cols="30" rows="3" autofocus class="form-control mt-3">{{$transfer->description??''}}</textarea>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row p-3">
+                        <h5>Location Details :</h5>
+                        <div class="col-md-6">
+                            <div class="p-1">
+                                From :<input class="form-control mt-3" value="{{$find->location->name??'N/A'}} ({{$find->slocation->name??'N/A'}})" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-1">
+                                To :<input class="form-control mt-3" value="{{$find2->location->name??'N/A'}} ({{$find2->slocation->name??'N/A'}})" readonly>
+                            </div>
+                    </div>
+                </div>
+            </div>   
+            <div class="card">
+                <div class="card-body">
+                    <h4>Approved By :</h4>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="p-2">
+                                <h5>Initial:</h5>
+                                <b>Manager Info:</b>
+                                <input class="form-control mt-3" readonly>
+                                <br>
+                                <b>Asset Controller Info:</b>
+                                <input class="form-control mt-3" readonly>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="p-2">
+                                <h5>Receiver :</h5>
+                                <b>Manager Info:</b>
+                                <input class="form-control mt-3" value="{{$user->first_name??'N/A'}} {{$user->last_name??'N/A'}}   ({{$user->employee_id??''}})" readonly>
+                                <br>
+                                <b>Asset Controller Info:</b>
+                                <input class="form-control mt-3" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{-- <div class="card">
                 <div class="card-body">
                     <div class="row p-3">
                         <div class="col-md-5">
@@ -165,11 +228,11 @@
                         </div>
                         <div class="col-md-7">
                             <h5>Description:</h5>
-                            <textarea readonly disabled cols="30" rows="3" autofocus class="form-control mt-3">{{$transfer->description??''}}</textarea>
+                           
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <div class="card appointment-detail">
                 <div class="card-header pb-0">
                     <div class="d-flex justify-content-between">
@@ -188,29 +251,96 @@
                     </div>
                 </div>
                 <div class="card-body">
+                    <h4>Assets Details:</h4>
                     <div class="table-responsive theme-scrollbar">
                         <table class="table table-bordered">
                             <thead>
-                                <th>Asset Code</th>
+                                <th>Asset Code </th>
+                                <th>Serial Number</th>
                                 <th>Asset Type</th>
                                 <th>Asset</th>
-                                <th>Product</th>
-                                <th>Action</th>
+                                <th>Product Info</th>
+                                <th>Warranty</th>
+                                <th>Supplier</th>
                             </thead>
                             <tbody>
                                 @foreach ($productdata as $stock)
                                     <tr>
                                         <td>{{$stock->product_number??''}}</td>
+                                        <td>{{$stock->serial_number??''}}</td>
                                         <td>{{$stock->asset_type->name??''}}</td>
                                         <td>{{$stock->assetmain->name??'N/A'}}</td>
-                                        <td>{{$stock->configuration??''}}</td>
-                                        <td>
-                                            <button class="btn btn-success btn-block action-button"type="button" style="width: 100%;">Accepted</button>
-                                        </td>
+                                        <td class="narrow-width">{{$stock->configuration ?? ''}}</td>
+                                        <td>{{$stock->product_warranty??''}}</td>
+                                        <td>{{$stock->getsupplier->name??''}}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h4>Signatures:</h4>
+                    <div class="table-responsive theme-scrollbar">
+                        <table class="table table-bordered">
+                            <thead>
+                                <th>Description</th>
+                                <th>IT Department(For IT Assets)</th>
+                                <th>Initial Department</th>
+                                <th>Receiver Department</th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td> <b>Name </b> </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Title </b></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Signature </b></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Date </b></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Department Head Signature </b></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h4>FOR FINANCIAL SERVICE USE ONLY :</h4>
+                    <br>
+                    <div class="row">
+                        <div class="col-12">
+                        <pre><b>Date Recevied:</b>___________________<b>Date entered in Banner:</b>_______________________________________________________________
+Initials:______________________________________________________________________________________________________________
+Comments_______________________________________________________________________________________________________________
+_______________________________________________________________________________________________________________________
+_______________________________________________________________________________________________________________________
+_______________________________________________________________________________________________________________________
+_______________________________________________________________________________________________________________________</pre>
+</div>
                     </div>
                 </div>
             </div>
@@ -220,13 +350,6 @@
 <script>
     window.onload = function() {
         window.print();
-        var printw = window.open('', '_blank');
-        var printwindow = setInterval(function() {
-            if (printw && printw.closed) {
-                window.location.href = "{{url('asset-activity-report')}}";
-                clearInterval(printwindow);
-            }
-        });
     };
 </script>
 </body>

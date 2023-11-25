@@ -43,7 +43,7 @@ background-color:#1d0950!important;
                         @elseif (Auth::user()->role_id == 3)
                             <li class="{{ request()->is(['user_dashboard*']) ? 'active' : '' }}"><a
                                     href="{{ url('user_dashboard') }}">Manager Dashboard</a></li>
-                        @elseif (Auth::user()->role_id == 6)
+                        @elseif (Auth::user()->role_id == 4)
                             <li class="{{ request()->is(['user_dashboard*']) ? 'active' : '' }}"><a
                                     href="{{ url('user_dashboard') }}">Controller Dashboard</a></li>
                         @else

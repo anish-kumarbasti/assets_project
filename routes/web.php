@@ -399,6 +399,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/get-assets-by-type/{id}', [AssetController::class, 'getAssetsByType'])->name('get-assets-by-type');
     Route::post('/get-asset-details-on-stock/{id}', [AssetController::class, 'getAssetDetailsonStock']);
     Route::get('issuence/show/product/{id}', [IssuenceController::class, 'showissuence'])->name('issuence.show.product');
+    Route::get('issueance/print/{id}', [IssuenceController::class, 'issueprint'])->name('issuance.print');
     Route::get('transfer/show/product/{id}', [TransferController::class, 'showtransfer'])->name('transfer.show.product');
     Route::get('print/transfer/{id}', [TransferController::class, 'print_transfer'])->name('print-transfer');
     Route::get('return/all', [ReturnController::class, 'allreturn'])->name('return/all');
@@ -406,42 +407,36 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('employee/all/return', [ReturnController::class, 'employee_all_return'])->name('employee.all.return');
 
     //Department Import
-    Route::get('/download-format', [DepartmentImportController::class,'downloadformat'])->name('import.download-format');
-    Route::post('/import/department', [DepartmentImportController::class,'store'])->name('import.store.department');
+    Route::get('/download-format', [DepartmentImportController::class, 'downloadformat'])->name('import.download-format');
+    Route::post('/import/department', [DepartmentImportController::class, 'store'])->name('import.store.department');
     //Designation Import
-    Route::get('/download-format-designation', [DesignationController::class,'export'])->name('import.download-format-designation');
-    Route::post('/import/designation', [DesignationController::class,'import'])->name('import.store.designation');
+    Route::get('/download-format-designation', [DesignationController::class, 'export'])->name('import.download-format-designation');
+    Route::post('/import/designation', [DesignationController::class, 'import'])->name('import.store.designation');
     //Asset Import
-    Route::get('/download-format-asset', [AssetController::class,'export'])->name('import.download-format-asset');
-    Route::post('/import/asset', [AssetController::class,'import'])->name('import.store.asset');
+    Route::get('/download-format-asset', [AssetController::class, 'export'])->name('import.download-format-asset');
+    Route::post('/import/asset', [AssetController::class, 'import'])->name('import.store.asset');
     //Brand Import
-    Route::get('/download-format-brand', [BrandController::class,'export'])->name('import.download-format-brand');
-    Route::post('/import/brand', [BrandController::class,'import'])->name('import.store.brand');
+    Route::get('/download-format-brand', [BrandController::class, 'export'])->name('import.download-format-brand');
+    Route::post('/import/brand', [BrandController::class, 'import'])->name('import.store.brand');
     //Location Import
-    Route::get('/download-format-location', [locationController::class,'export'])->name('import.download-format-location');
-    Route::post('/import/location', [locationController::class,'import'])->name('import.store.location');
+    Route::get('/download-format-location', [locationController::class, 'export'])->name('import.download-format-location');
+    Route::post('/import/location', [locationController::class, 'import'])->name('import.store.location');
     //BrandModel Import
-    Route::get('/download-format-brandmodel', [brandmodelController::class,'export'])->name('import.download-format-brandmodel');
-    Route::post('/import/brandmodel', [brandmodelController::class,'import'])->name('import.store.brandmodel');
+    Route::get('/download-format-brandmodel', [brandmodelController::class, 'export'])->name('import.download-format-brandmodel');
+    Route::post('/import/brandmodel', [brandmodelController::class, 'import'])->name('import.store.brandmodel');
     //SubLocation Import
-    Route::get('/download-format-sublocation', [sublocationController::class,'export'])->name('import.download-format-sublocation');
-    Route::post('/import/sublocation', [sublocationController::class,'import'])->name('import.store.sublocation');
+    Route::get('/download-format-sublocation', [sublocationController::class, 'export'])->name('import.download-format-sublocation');
+    Route::post('/import/sublocation', [sublocationController::class, 'import'])->name('import.store.sublocation');
     //Supplier Import
     Route::get('/download-format-supplier', [supplierController::class,'export'])->name('import.download-format-supplier');
     Route::post('/import/supplier', [supplierController::class,'import'])->name('import.store.supplier');
-    //Maintenance Supplier Import
-    Route::get('/download-format-maintenance-supplier', [maintenancesupplierController::class,'export'])->name('import.download-format-maintenancesupplier');
-    Route::post('/import/maintenance-supplier', [maintenancesupplierController::class,'import'])->name('import.store.maintenancesupplier');
     //Attribute Import
-    Route::get('/download-format-attribute', [attributeController::class,'export'])->name('import.download-format-attribute');
-    Route::post('/import-attribute', [attributeController::class,'import'])->name('imports.stores.attributes');
+    Route::get('/download-format-attribute', [attributeController::class, 'export'])->name('import.download-format-attribute');
+    Route::post('/import-attribute', [attributeController::class, 'import'])->name('imports.stores.attributes');
     //Reason Import
-    Route::get('/download-format-reason', [transferreasonController::class,'export'])->name('import.download-format-reason');
-    Route::post('/import-reason', [transferreasonController::class,'import'])->name('import.store.reason');
+    Route::get('/download-format-reason', [transferreasonController::class, 'export'])->name('import.download-format-reason');
+    Route::post('/import-reason', [transferreasonController::class, 'import'])->name('import.store.reason');
     //User Import
     Route::get('/download-format-user', [UserController::class,'export'])->name('import.download-format-user');
     Route::post('/import-user', [UserController::class,'import'])->name('import.store.user');
-    //Stock Import
-    Route::get('/download-format-stock', [StockController::class,'export'])->name('import.download-format-stock');
-    Route::post('/import-stock', [StockController::class,'import'])->name('import.store.stock');
 });
