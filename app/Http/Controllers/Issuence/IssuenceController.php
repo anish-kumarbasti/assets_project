@@ -83,6 +83,7 @@ class IssuenceController extends Controller
             if (!$user) {
                 return back()->with('error', 'User not found.');
             }
+            // dd($user);
             $managerUser = User::where('role_id', 3)->where('department_id', $user->department_id)->first();
             $dateTime = Carbon::createFromFormat('Y-m-d H:i', $request->date . ' ' . $request->time);
             $selectedStocks = Stock::whereIn('id', $request->selectedAssets)->get();
@@ -111,12 +112,14 @@ class IssuenceController extends Controller
             $selectedStocks->each(function ($stock) {
                 $stock->update(['status_available' => Status::where('name', 'Issue Pending')->first()->id]);
             });
+            // dd($selectedStocks);
             $assetcontroller = Role::where('name', 'Asset Controller')->first();
             $assetmanager = User::where('role_id', $assetcontroller->id)
                 ->where('department_id', $user->department_id)
                 ->first();
             $notification = new IssuenceNotification($user);
             $user->notify($notification);
+            // dd($notification);
             DB::table('notifications')
                 ->orderBy('created_at', 'desc')
                 ->limit(1)
@@ -541,7 +544,7 @@ class IssuenceController extends Controller
             $id = json_decode($value->product_id);
             $products[] = Stock::where('id', $id)->first();
         }
-        return view('Backend.Page.Issuence.all-issuence', compact('issuences','products'));
+        return view('Backend.Page.Issuence.all-issuence', compact('issuences', 'products'));
     }
 
     public function showissuence($id)
@@ -556,6 +559,20 @@ class IssuenceController extends Controller
         $issuances = json_decode($data);
         $stock = Stock::find($issuances);
         return view('Backend.Page.Issuence.showissuence', compact('stock', 'issue', 'user', 'assetc'));
+    }
+
+    public function issueprint($id)
+    {
+        $issue = Issuence::find($id);
+        $data = $issue->product_id;
+        $empname = $issue->employee_id;
+        $user = User::where('employee_id', $empname)->first();
+        $rolid = $user->department_id;
+        $assetc = User::where('department_id', $rolid)->orWhere('role_id', 6)->first();
+        // dd($assetc);
+        $issuances = json_decode($data);
+        $stock = Stock::find($issuances);
+        return view('Backend.Page.Issuence.issue-print', compact('stock', 'issue', 'user', 'assetc'));
     }
 
     public function AssetAcceptdetail($id)

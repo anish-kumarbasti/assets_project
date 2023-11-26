@@ -83,6 +83,7 @@
                                     <th>Issuing Date and Time</th>
                                     <th>Action</th>
                                     <th>Status</th>
+                                    <th>Print</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -113,6 +114,10 @@
                                                     <a class="btn btn-danger">Pending</a>&nbsp;
                                                 @endif
                                             @endif
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-primary"
+                                                href="{{ route('issuance.print', $issuence->id) }}">Print</a>
                                         </td>
                                     </tr>
                                 @endforeach

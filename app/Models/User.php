@@ -13,7 +13,7 @@ use Spatie\Permission\Models\Role;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles,SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -58,14 +58,18 @@ class User extends Authenticatable
     ];
     public function department()
     {
-        return $this->belongsTo(Department::class,'department_id');
+        return $this->belongsTo(Department::class, 'department_id');
     }
     public function designation()
     {
-        return $this->belongsTo(Designation::class,'designation_id');
+        return $this->belongsTo(Designation::class, 'designation_id');
     }
     public function location()
     {
         return $this->belongsTo(Location::class);
+    }
+    public function slocation()
+    {
+        return $this->belongsTo(SubLocationModel::class);
     }
 }

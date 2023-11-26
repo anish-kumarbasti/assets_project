@@ -90,6 +90,7 @@
                                     <th>Created At</th>
                                     <th>Action</th>
                                     <th>Status</th>
+                                    <th>Print</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -122,6 +123,10 @@
                                                     <a class="btn btn-danger">Pending</a>&nbsp;
                                                 @endif
                                             @endif
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-outline-dark"
+                                                href="{{ route('print-transfer', $transfer->id) }}">Print</a>&nbsp;
                                         </td>
                                     </tr>
                                 @endforeach
