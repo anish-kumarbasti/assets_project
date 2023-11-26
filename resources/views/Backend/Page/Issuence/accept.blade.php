@@ -173,6 +173,7 @@
                         <table class="table table-bordered">
                             <thead>
                                 <th>Asset Code</th>
+                                <th>Serial Number</th>
                                 <th>Asset Type</th>
                                 <th>Asset</th>
                                 <th>Product</th>
@@ -184,6 +185,7 @@
                                         action="{{ route('accept-asset', $product->id) }}">
                                         <tr>
                                             <td>{{ $product->product_number ?? '' }}</td>
+                                            <td>{{ $product->serial_number ?? '' }}</td>
                                             <td>
                                                 <div class="d-flex"><img class="img-fluid align-top circle"
                                                         src="../assets/images/dashboard/default/01.png" alt="">

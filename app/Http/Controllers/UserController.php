@@ -12,7 +12,6 @@ use App\Models\Issuence;
 use App\Models\Location;
 use App\Models\Stock;
 use App\Models\SubLocationModel;
-use App\Models\Supplier;
 use App\Models\Transfer;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -279,9 +278,7 @@ class UserController extends Controller
         $nonittransfer = 0;
         $componenttransfer = 0;
         $softwaretransfer = 0;
-
         $transferProducts = Transfer::where('employee_id', $user->employee_id)->pluck('product_id');
-
         $ittransfer = 0;
         $nonittransfer = 0;
         $componenttransfer = 0;
@@ -290,20 +287,21 @@ class UserController extends Controller
         if ($transferProducts) {
             foreach ($transferProducts as $product) {
                 $decodedProducts = json_decode($product);
-                $transferProduct = Stock::find($decodedProducts[0]);
-
-                if ($transferProduct) {
-                    if ($transferProduct->asset_type_id == 1) {
-                        $ittransfer = $ittransfer + 1;
-                    }
-                    if ($transferProduct->asset_type_id == 2) {
-                        $nonittransfer = $nonittransfer + 1;
-                    }
-                    if ($transferProduct->asset_type_id == 4) {
-                        $componenttransfer = $componenttransfer + 1;
-                    }
-                    if ($transferProduct->asset_type_id == 3) {
-                        $softwaretransfer = $softwaretransfer + 1;
+                foreach ($decodedProducts as $decodedProducts) {
+                    $transferProduct = Stock::find($decodedProducts);
+                    if ($transferProduct) {
+                        if ($transferProduct->asset_type_id == 1) {
+                            $ittransfer = $ittransfer + 1;
+                        }
+                        if ($transferProduct->asset_type_id == 2) {
+                            $nonittransfer = $nonittransfer + 1;
+                        }
+                        if ($transferProduct->asset_type_id == 4) {
+                            $componenttransfer = $componenttransfer + 1;
+                        }
+                        if ($transferProduct->asset_type_id == 3) {
+                            $softwaretransfer = $softwaretransfer + 1;
+                        }
                     }
                 }
             }
@@ -316,22 +314,22 @@ class UserController extends Controller
         $compnentreturns = 0;
 
         if ($returnproducts) {
-            $productIDs = implode(',', $returnproducts);
-            $productID = json_decode($productIDs);
-
-            foreach ($productID as $return) {
-                $returnProducts = Stock::find($return);
-                if ($returnProducts->asset_type_id == 1) {
-                    $itreturns = $itreturns + 1;
-                }
-                if ($returnProducts->asset_type_id == 2) {
-                    $nonitreturns = $nonitreturns + 1;
-                }
-                if ($returnProducts->asset_type_id == 4) {
-                    $compnentreturns = $compnentreturns + 1;
-                }
-                if ($returnProducts->asset_type_id == 3) {
-                    $softwarereturns = $softwarereturns + 1;
+            foreach ($returnproducts as $returnproducts) {
+                $productID = json_decode($returnproducts);
+                foreach ($productID as $return) {
+                    $returnProducts = Stock::find($return);
+                    if ($returnProducts->asset_type_id == 1) {
+                        $itreturns = $itreturns + 1;
+                    }
+                    if ($returnProducts->asset_type_id == 2) {
+                        $nonitreturns = $nonitreturns + 1;
+                    }
+                    if ($returnProducts->asset_type_id == 4) {
+                        $compnentreturns = $compnentreturns + 1;
+                    }
+                    if ($returnProducts->asset_type_id == 3) {
+                        $softwarereturns = $softwarereturns + 1;
+                    }
                 }
             }
         }
@@ -384,7 +382,7 @@ class UserController extends Controller
                 ['name' => $row[11]],
                 [
                     'name' => $row[11],
-                    'location_id'=>$location->id,
+                    'location_id' => $location->id,
                 ]
             );
             $role = Role::updateOrCreate(

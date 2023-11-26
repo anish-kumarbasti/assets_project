@@ -189,6 +189,7 @@
                         <table class="table table-bordered">
                             <thead>
                                 <th>Asset Code</th>
+                                <th>Serial Number</th>
                                 <th>Product</th>
                                 <th>Asset Type</th>
                                 <th>Asset</th>
@@ -199,6 +200,7 @@
                                 @foreach ($products as $product)
                                         <tr>
                                             <td>{{ $product->product_number??'N/A' }}</td>
+                                            <td>{{ $product->serial_number??'N/A' }}</td>
                                             <td>
                                                 <div class="d-flex"><img class="img-fluid align-top circle"
                                                         src="../assets/images/dashboard/default/01.png" alt="">
