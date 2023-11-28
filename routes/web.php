@@ -371,6 +371,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/application-setting', [SettingController::class, 'index'])->name('settings.application');
     Route::put('/application-settings', [SettingController::class, 'createOrUpdate'])->name('settings.application.storeOrUpdate');
 
+    Route::get('user-profile', [SettingController::class, 'user_profile'])->name('user.profile');
     Route::get('/user-setting', [ChangePasswordController::class, 'index'])->name('settings.user');
     Route::post('/update-password', [ChangePasswordController::class, 'changePassword'])->name('update_password');
     Route::post('update-profile-photo', [ChangePasswordController::class, 'updateProfilePhoto'])->name('profile.photo.update');
@@ -428,8 +429,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/download-format-sublocation', [sublocationController::class, 'export'])->name('import.download-format-sublocation');
     Route::post('/import/sublocation', [sublocationController::class, 'import'])->name('import.store.sublocation');
     //Supplier Import
-    Route::get('/download-format-supplier', [supplierController::class,'export'])->name('import.download-format-supplier');
-    Route::post('/import/supplier', [supplierController::class,'import'])->name('import.store.supplier');
+    Route::get('/download-format-supplier', [supplierController::class, 'export'])->name('import.download-format-supplier');
+    Route::post('/import/supplier', [supplierController::class, 'import'])->name('import.store.supplier');
     //Attribute Import
     Route::get('/download-format-attribute', [attributeController::class, 'export'])->name('import.download-format-attribute');
     Route::post('/import-attribute', [attributeController::class, 'import'])->name('imports.stores.attributes');
@@ -437,6 +438,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/download-format-reason', [transferreasonController::class, 'export'])->name('import.download-format-reason');
     Route::post('/import-reason', [transferreasonController::class, 'import'])->name('import.store.reason');
     //User Import
-    Route::get('/download-format-user', [UserController::class,'export'])->name('import.download-format-user');
-    Route::post('/import-user', [UserController::class,'import'])->name('import.store.user');
+    Route::get('/download-format-user', [UserController::class, 'export'])->name('import.download-format-user');
+    Route::post('/import-user', [UserController::class, 'import'])->name('import.store.user');
 });
