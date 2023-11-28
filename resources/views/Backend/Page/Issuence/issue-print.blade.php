@@ -107,143 +107,110 @@
             background-color: #f0f0f0 !important;
             color: #333;
         }
+        td.narrow-width {
+            width: 500px; /* Adjust the width as needed */
+        }
     </style>
 </head>
 <body>
     <div class="row">
         <div class="col-xl-12">
+            <h4 class="text-center"><b>ASSET ACKNOWLEDGEMENT FORM </b></h4>
             <div class="card">
                 <div class="card-body">
                     <div class="row p-3">
                         <div class="col-md-6">
                             <div class="p-1">
-                                {{-- <h5>Employee From</h5> --}}
-                                {{-- @dd($user) --}}
-                                Asset Controller ID:<input class="form-control mt-3" value="{{$assetc->employee_id??'Other Department Controller issue Product'}}" readonly>
+                                {{-- Asset Controller ID:<input class="form-control mt-3" value="{{$assetc->employee_id??'Other Department Controller issue Product'}}" readonly> --}}
+                                <b>Transaction Code: </b>  {{$issue->transaction_code??'N/A'}}
                             </div>
-                            <div class="p-1">
+                            {{-- <div class="p-1">
                                 Asset Controller Name:<input class="form-control mt-3" value="{{$assetc->first_name??'N/A'}} {{$assetc->last_name??'N/A'}}" readonly>
-                            </div>
+                            </div> --}}
                         </div>
                         <div class="col-md-6">
                             <div class="p-1">
-                                EMP Name:<input class="form-control mt-3" value="{{$user->employee_id??'N/A'}}" readonly>
+                                <b>Date And Time:</b>  {{$issue->created_at??'N/A'}}
+                                {{-- EMP Name:<input class="form-control mt-3" value="{{$user->employee_id??'N/A'}}" readonly> --}}
                             </div>
-                            <div class="p-1">
+                            {{-- <div class="p-1">
                                 EMP Name:<input class="form-control mt-3" value="{{$user->first_name??'N/A'}} {{$user->last_name??'N/A'}}" readonly>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
             </div>
             <div class="card">
                 <div class="card-body">
+                    <h4>EMPLOYEE DETAILS:</h4>
                     <div class="row p-3">
-                        <div class="col-md-5">
-                            <h5>Transaction Code:</h5>
-                            <input class="form-control mt-3" value="{{$issue->transaction_code??'N/A'}}" readonly>
+                        <b>Employee:</b>
+                        <div class="col-md-6">
+                            Name:  {{$user->first_name??'N/A'}} {{$user->last_name??'N/A'}} <br>
+                            Department:  {{$user->department->name??'N/A'}} <br>
+                            Mobile Number:  {{$user->mobile_number??'N/A'}} <br>
+                            Based Location:  {{$user->slocation->name??'N/A'}} <br><br>
+
+                            Iqama / ID Number:  ____________________________________ <br><br>
+
+                            <b>Manager :</b> <br>
+                            Name:  {{$user->first_name??'N/A'}} {{$user->last_name??'N/A'}} <br>
+                            Employee ID:  {{$user->employee_id??'N/A'}} <br>
+                            {{-- <input class="form-control mt-3" value="{{$issue->transaction_code??'N/A'}}" readonly> --}}
                         </div>
-                        <div class="col-md-7">
-                            <h5>Description:</h5>
-                            <textarea readonly disabled cols="30" rows="3" autofocus class="form-control mt-3">{{$issue->description??''}}</textarea>
+                        <div class="col-md-6">
+                            Employee ID:  {{$user->employee_id??'N/A'}} <br>
+                            Designation:  {{$user->designation->name??'N/A'}} <br>
+                            Email ID:  {{$user->email??'N/A'}} <br><br><br>
+
+                            TNT GLID:/FedEx ID:  ___________________________________ <br><br>
+
+                            <b>Asset Controller :</b> <br>
+                            Name:  {{$assetc->first_name??'N/A'}} {{$assetc->last_name??'N/A'}} <br>
+                            Employee ID:  {{$assetc->employee_id??'N/A'}} <br>
+                            {{-- <textarea readonly disabled cols="30" rows="3" autofocus class="form-control mt-3">{{$issue->description??''}}</textarea> --}}
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="card appointment-detail">
-                <div class="card-header pb-0">
-                    <div class="d-flex justify-content-between">
-                        <div class="setting-list">
-                            <ul class="list-unstyled setting-option">
-                                <li>
-                                    <div class="setting-light"><i class="icon-layout-grid2"></i></div>
-                                </li>
-                                <li><i class="view-html fa fa-code font-white"></i></li>
-                                <li><i class="icofont icofont-maximize full-card font-white"></i></li>
-                                <li><i class="icofont icofont-minus minimize-card font-white"></i></li>
-                                <li><i class="icofont icofont-refresh reload-card font-white"></i></li>
-                                <li><i class="icofont icofont-error close-card font-white"> </i></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="container">
-                    @foreach ($stock as $data)
-                        @if ($data->status_available == 15)
-                            <div class="d-flex mb-3 p-2 mt-2">
-                                <div style="height:25px;width:25px;border-radius:50%;background:#6520ff;color:white;">
-                                    <div style="transform:translate(10px,2px);" class="fw-bold">
-                                        {{ $loop->iteration }}</div>
-                                </div>
-                                <div><b class="text-dark mx-2">Product</b></div>
-                            </div>
-                            <div class="progress">
-                                <div class="progress-bar progress-bar bg-primary" role="progressbar" style="width:50%">
-                                    Issue Applied
-                                </div>
-                            </div>
-                        @elseif ($data->status_available == 3)
-                            <div class="d-flex mb-3 p-2 mt-2">
-                                <div style="height:25px;width:25px;border-radius:50%;background:#6520ff;color:white;">
-                                    <div style="transform:translate(10px,2px);" class="fw-bold">
-                                        {{ $loop->iteration }}</div>
-                                </div>
-                                <div><b class="text-dark mx-2">Product</b></div>
-                            </div>
-                            <div class="progress">
-                                <div class="progress-bar progress-bar bg-primary" role="progressbar" style="width:50%">
-                                    Issue Applied
-                                </div>
-                                <div class="progress-bar progress-bar bg-success" role="progressbar" style="width:50%">
-                                    Accepted by Employee
-                                </div>
-                            </div>
-                        @else
-                            <div class="d-flex mb-3 p-2 mt-2">
-                                <div style="height:25px;width:25px;border-radius:50%;background:#6520ff;color:white;">
-                                    <div style="transform:translate(10px,2px);" class="fw-bold">
-                                        {{ $loop->iteration }}</div>
-                                </div>
-                                <div><b class="text-dark mx-2">Product</b></div>
-                            </div>
-                            <div class="progress">
-                                <div class="progress-bar progress-bar bg-primary" role="progressbar" style="width:50%">
-                                    Issue Applied
-                                </div>
-                                <div class="progress-bar progress-bar bg-danger" role="progressbar" style="width:50%">
-                                    Failed
-                                </div>
-                            </div>
-                        @endif
-                    @endforeach
-                </div>
+            <div class="card">
                 <div class="card-body">
-                    <div class="table-responsive theme-scrollbar">
-                        <table class="table table-bordered">
-                            <thead>
-                                <th>Asset Code</th>
-                                <th>Serial Number</th>
-                                <th>Asset Type</th>
-                                <th>Asset</th>
-                                <th>Product</th>
-                                <th>Action</th>
-                            </thead>
-                            <tbody>
-                                @foreach ($stock as $stock)
-                                    <tr>
-                                        <td>{{$stock->product_number??''}}</td>
-                                        <td>{{$stock->serial_number??'N/A'}}</td>
-                                        <td>{{$stock->asset_type->name??''}}</td>
-                                        <td>{{$stock->assetmain->name??'N/A'}}</td>
-                                        <td>{{$stock->configuration??''}}</td>
-                                        <td>
-                                            <a class="{{ $stock->statuses->status }} action-button"
-                                                style="width: 100%;">{{ $stock->statuses->name }}</a>                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                <h4>TRANSFER INFORMATION :</h4><br>
+                <div class="table-responsive theme-scrollbar">
+                    <table class="table table-bordered">
+                        <thead>
+                            <th>Asset Code</th>
+                            <th>Serial Number</th>
+                            <th>Asset Type</th>
+                            <th>Asset</th>
+                            <th>Product Info</th>
+                            <th>Warranty</th>
+                            <th>Supplier</th>
+                        </thead>
+                        <tbody>
+                            @foreach ($stock as $stock)
+                                <tr>
+                                    <td>{{$stock->product_number??''}}</td>
+                                    <td>{{$stock->serial_number??'N/A'}}</td>
+                                    <td>{{$stock->asset_type->name??''}}</td>
+                                    <td>{{$stock->assetmain->name??'N/A'}}</td>
+                                    <td class="narrow-width">{{$stock->configuration??''}}</td>
+                                    <td>{{$stock->product_warranty??'N/A'}}</td>
+                                    <td>{{$stock->getsupplier->name??'N/A'}}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body p-4">
+                    <p>On the date of _____________ , I____________ I received' Asset owned and issued by SAB Express LLC. <br><br>
+                    In doing so, I, do in fact understand that I am solely responsible for these devices untile it is returned to the SUB Express IT Department. While under my care, I acknowledge that any physical or accidental damage is my fault and I will be held accountable for it. <br><br>
+                    While using these Assets & laptop device, I will not commit any acts of cyber terrorism/crime, illeggal activity share any company information with unauthorized user, search for or watch or store explicit content, install any software without IT consent, or lead laptop to friends or family members. I will strictly use these Asset & laptop for work/business purpose. <br><br>
+                    By signing this document,'am accepting and agreeing and agreeing to the terms of use for these Asset & laptop.
+                    </p><br><br><br>
+                   <pre><b>Employee Signature:</b>____________________________                                    <b>Date:</b>__________________________  </pre> 
                 </div>
             </div>
         </div>
