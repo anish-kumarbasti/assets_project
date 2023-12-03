@@ -230,11 +230,12 @@ class IssuenceController extends Controller
             $description = [];
             $employee = [];
             $handempl = [];
+            $handoveruserdetail = [];
             foreach ($transferdata as $issuedatas) {
                 $productIds[] = json_decode($issuedatas->product_id);
                 $createdDates[] = $issuedatas->created_at;
                 $userdetail[] = $issuedatas->employee_id;
-                $handoveruserdetail[] = $issuedatas->handover_employee_id;
+                $handoveruserdetail = $issuedatas->handover_employee_id;
                 $transactioncode = $issuedatas->transfers_transaction_code;
                 $description = $issuedatas->description;
                 $handempl = $issuedatas->handover_employee_id;
@@ -349,11 +350,12 @@ class IssuenceController extends Controller
         $description = [];
         $employee = [];
         $handempl = [];
+        $handoveruserdetail = [];
         foreach ($transferdata as $issuedatas) {
             $productIds[] = json_decode($issuedatas->product_id);
             $createdDates[] = $issuedatas->created_at;
             $userdetail[] = $issuedatas->employee_id;
-            $handoveruserdetail[] = $issuedatas->handover_employee_id;
+            $handoveruserdetail = $issuedatas->handover_employee_id;
             $transactioncode = $issuedatas->transfers_transaction_code;
             $description = $issuedatas->description;
             $handempl = $issuedatas->handover_employee_id;
