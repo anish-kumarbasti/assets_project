@@ -272,8 +272,8 @@
                 <li class="profile-nav onhover-dropdown">
                     <div class="account-user"><i data-feather="user"></i></div>
                     <ul class="profile-dropdown onhover-show-div">
-                        <!-- <li><a href="user-profile.html"><i data-feather="user"></i><span>Account</span></a></li>
-                        <li><a href="email_inbox.html"><i data-feather="mail"></i><span>Inbox</span></a></li> -->
+                        <li><a href="{{ route('user.profile')}}"><i data-feather="user"></i><span>Profile</span></a></li>
+                       <!--  <li><a href="email_inbox.html"><i data-feather="mail"></i><span>Inbox</span></a></li> -->
                         <li><a href="{{ route('settings.user') }}"><i
                                     data-feather="settings"></i><span>Settings</span></a></li>
                         <li><a href="{{ route('logout') }}"><i data-feather="log-in"> </i><span>Log Out</span></a>
