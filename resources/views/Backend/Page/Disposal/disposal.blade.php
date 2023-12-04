@@ -60,9 +60,9 @@
             <div class="col s10 m6 l6">
                 <ol class="breadcrumbs mb-2">
                     <li class="text-muted">Dashboard</li>
-                    <li class="text-muted">Depreciation</li>
+                    <li class="text-muted">Disposal</li>
                     {{-- <li class="text-muted"><a href="{{ url('department') }}" class="text-muted">Department</a></li> --}}
-                    <li class="active"><a href="{{ url('disposal') }}">Depreciations</a></li>
+                    <li class="active"><a href="{{ url('disposal') }}">Disposal</a></li>
                 </ol>
             </div>
         </div>
@@ -87,7 +87,7 @@
 <div class="col-sm-12">
     <div class="card">
         <div class="card-header pb-0">
-            <h4>Depreciation</h4>
+            <h4>Disposal</h4>
             <hr>
         </div>
         <div class="card-header pb-0 d-flex justify-content-between">
@@ -100,12 +100,12 @@
                 </div>
             </div>
             <a class="btn btn-primary text-end m-b-30" id="openModalButton" data-toggle="modal" data-target="#exampleModal"> <i class="fa fa-plus"></i>
-                Add Depreciation</a>
+                Add Disposal</a>
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header border-bottom">
-                            <h4 class="modal-title text-primary" id="exampleModalLabel"> Add Depreciation</h4>
+                            <h4 class="modal-title text-primary" id="exampleModalLabel"> Add Disposal</h4>
                             <button type="button" class="close rounded" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
