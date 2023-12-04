@@ -226,9 +226,9 @@ class IssuenceController extends Controller
             $productIds = [];
             $createdDates = [];
             $userdetail = [];
-            $transactioncode = [];
-            $description = [];
-            $employee = [];
+            $transactioncode = '';
+            $description = '';
+            $employee = '';
             $handempl = [];
             $handoveruserdetail = [];
             foreach ($transferdata as $issuedatas) {

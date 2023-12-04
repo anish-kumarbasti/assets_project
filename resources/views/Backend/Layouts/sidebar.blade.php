@@ -218,11 +218,11 @@ background-color:#1d0950!important;
                 @endcan
                 @can('view_depreciation')
                     <li class="sidebar-list {{ request()->is(['disposal*']) ? 'active' : '' }}">
-                        <a class="sidebar-link sidebar-title" href="javascript:void(0)" data-tab-name="Depreciation"><i
-                                data-feather="trash"></i><span>Depreciation</span></a>
+                        <a class="sidebar-link sidebar-title" href="javascript:void(0)" data-tab-name="Disposal"><i
+                                data-feather="trash"></i><span>Disposal</span></a>
                         <ul class="sidebar-submenu">
                             <li class="{{ request()->is(['disposal*']) ? 'active' : '' }}"><a
-                                    href="{{ url('disposal') }}">Add Depreciation</a> </li>
+                                    href="{{ url('disposal') }}">Add Disposal</a> </li>
                         </ul>
                     </li>
                 @endcan
