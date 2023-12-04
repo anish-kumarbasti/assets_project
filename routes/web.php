@@ -440,4 +440,7 @@ Route::group(['middleware' => 'auth'], function () {
     //User Import
     Route::get('/download-format-user', [UserController::class, 'export'])->name('import.download-format-user');
     Route::post('/import-user', [UserController::class, 'import'])->name('import.store.user');
+    //User Import
+    Route::get('/download-format-stock', [StockController::class, 'export'])->name('import.download-format-stock');
+    Route::post('/import-stock', [StockController::class, 'import'])->name('import.store.stock');
 });
