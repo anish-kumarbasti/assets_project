@@ -120,7 +120,7 @@ td.narrow-width {
         <div class="col-xl-12">
             <div class="card">
             <div class="card-body">
-            <h4 class="text-center"><b>ASSET TRANSFER FORM </b></h4>
+            <h4 class="text-center"><b>ASSET TRANSFER REPORT </b></h4>
             </div>
             <div class="card-body">
                 <b>  When completed and signed by the Manager and Asset Controller of initial/receiver department. Please forword this form to the finance department.</b> 
@@ -147,26 +147,19 @@ td.narrow-width {
             </div>
             <div class="card">
                 <div class="card-body">
-                    <div class="row p-3">
+                    <div class="row">
                         <h5>Employee Details :</h5>
-                        <div class="col-md-4">
+                        <div class="col-sm-4">
                             <div class="p-1">
                                 From :<input class="form-control mt-3" value="{{$find->first_name??'N/A'}} {{$find->last_name??'N/A'}}  ({{$transfer->employee_id??'N/A'}})" readonly>
                             </div>
-                            {{-- <div class="p-1">
-                                EMP Name:<input class="form-control mt-3" value="{{$find->first_name??'N/A'}} {{$find->last_name??'N/A'}}" readonly>
-                            </div> --}}
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-sm-4">
                             <div class="p-1">
                                 Handover To:<input class="form-control mt-3" value="{{$find2->first_name??'N/A'}} {{$find2->last_name??'N/A'}} ({{$transfer->handover_employee_id??'N/A'}})" readonly>
                             </div>
-                            {{-- <div class="p-1">
-                                Manager Name:
-                                <input class="form-control mt-3" value="{{$user->first_name??'N/A'}} {{$user->last_name??'N/A'}}" readonly>
-                            </div> --}}
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-sm-4">
                             <div class="p-1">
                                 <h5>Description:</h5>
                                 <textarea readonly disabled cols="30" rows="3" autofocus class="form-control mt-3">{{$transfer->description??''}}</textarea>
@@ -178,12 +171,12 @@ td.narrow-width {
                 <div class="card-body">
                     <div class="row p-3">
                         <h5>Location Details :</h5>
-                        <div class="col-md-6">
+                        <div class="col-sm-6">
                             <div class="p-1">
                                 From :<input class="form-control mt-3" value="{{$find->location->name??'N/A'}} ({{$find->slocation->name??'N/A'}})" readonly>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-sm-6">
                             <div class="p-1">
                                 To :<input class="form-control mt-3" value="{{$find2->location->name??'N/A'}} ({{$find2->slocation->name??'N/A'}})" readonly>
                             </div>
@@ -198,10 +191,10 @@ td.narrow-width {
                             <div class="p-2">
                                 <h5>Initial:</h5>
                                 <b>Manager Info:</b>
-                                <input class="form-control mt-3" readonly>
+                                <input class="form-control mt-3" value="{{$employeemanid->first_name??'N/A'}} {{$employeemanid->last_name??'N/A'}}    ({{$employeemanid->employee_id??''}})" readonly>
                                 <br>
                                 <b>Asset Controller Info:</b>
-                                <input class="form-control mt-3" readonly>
+                                <input class="form-control mt-3" value="{{$assetcontroller->first_name??'N/A'}} {{$assetcontroller->last_name??'N/A'}}    ({{$assetcontroller->employee_id??''}})" readonly>
                             </div>
                         </div>
                         <div class="col-sm-6">
@@ -211,7 +204,7 @@ td.narrow-width {
                                 <input class="form-control mt-3" value="{{$user->first_name??'N/A'}} {{$user->last_name??'N/A'}}   ({{$user->employee_id??''}})" readonly>
                                 <br>
                                 <b>Asset Controller Info:</b>
-                                <input class="form-control mt-3" readonly>
+                                <input class="form-control mt-3" value="{{$assetcontroller1->first_name??'N/A'}} {{$assetcontroller1->last_name??'N/A'}}    ({{$assetcontroller1->employee_id??''}})" readonly>
                             </div>
                         </div>
                     </div>

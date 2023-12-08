@@ -166,17 +166,23 @@ class TransferController extends Controller
     public function print_transfer($id)
     {
         $transfer = Transfer::find($id);
+        // dd($transfer);
         $emp = $transfer->employee_id;
         $emptransfer = $transfer->handover_employee_id;
         $find = User::where('employee_id', $emp)->first();
-        // dd($find);
         $find2 = User::where('employee_id', $emptransfer)->first();
-        // dd($find2);
         $handovermanager = $transfer->handover_manager_id;
-        $user = User::find($handovermanager);
+        $user = User::where('id', $handovermanager)->first();
+        $empmngid = $transfer->employee_manager_id;
+        $employeemanid = User::where('id', $empmngid)->first();
         $product = $transfer->product_id;
         $products = json_decode($product);
         $productdata = Stock::find($products);
-        return view('Backend.Page.Transfer.transfer-print', compact('transfer', 'user', 'productdata', 'find2', 'find'));
+
+        $assetcontrollerrol = Role::where('name', 'Asset Controller')->first();
+        $assetcontroller = User::where('role_id', $assetcontrollerrol->id)
+            ->where('department_id', $find->department_id)->first() ?? null;
+        $assetcontroller1 = User::where('role_id', $assetcontrollerrol->id)->where('department_id', $find2->department_id)->first() ?? null;
+        return view('Backend.Page.Transfer.transfer-print', compact('transfer', 'assetcontroller', 'assetcontroller1', 'user', 'productdata', 'employeemanid', 'find2', 'find'));
     }
 }
