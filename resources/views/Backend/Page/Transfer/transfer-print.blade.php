@@ -213,13 +213,13 @@ td.narrow-width {
             {{-- <div class="card">
                 <div class="card-body">
                     <div class="row p-3">
-                        <div class="col-md-5">
+                        <div class="col-sm-5">
                             <div class="p-2">
                             <h5>Transaction Code:</h5>
                             <input class="form-control mt-3" value="{{$transfer->transfers_transaction_code??'N/A'}}" readonly>
                             </div>
                         </div>
-                        <div class="col-md-7">
+                        <div class="col-sm-7">
                             <h5>Description:</h5>
                            
                         </div>
@@ -339,6 +339,22 @@ ________________________________________________________________________________
             </div>
         </div>
     </div>
+    <br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 </div>
 
 <div class="row">
@@ -347,23 +363,15 @@ ________________________________________________________________________________
         <div class="card">
             <div class="card-body">
                 <div class="row p-3">
-                    <div class="col-md-6">
+                    <div class="col-sm-6">
                         <div class="p-1">
-                            {{-- Asset Controller ID:<input class="form-control mt-3" value="{{$assetc->employee_id??'Other Department Controller issue Product'}}" readonly> --}}
                             <b>Transaction Code: </b>  {{$transfer->transfers_transaction_code??'N/A'}}
                         </div>
-                        {{-- <div class="p-1">
-                            Asset Controller Name:<input class="form-control mt-3" value="{{$assetc->first_name??'N/A'}} {{$assetc->last_name??'N/A'}}" readonly>
-                        </div> --}}
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-sm-6">
                         <div class="p-1">
                             <b>Date And Time:</b>  {{$transfer->created_at??'N/A'}}
-                            {{-- EMP Name:<input class="form-control mt-3" value="{{$user->employee_id??'N/A'}}" readonly> --}}
                         </div>
-                        {{-- <div class="p-1">
-                            EMP Name:<input class="form-control mt-3" value="{{$user->first_name??'N/A'}} {{$user->last_name??'N/A'}}" readonly>
-                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -373,7 +381,7 @@ ________________________________________________________________________________
                 <h4>EMPLOYEE DETAILS:</h4>
                 <div class="row p-3">
                     <b>Employee:</b>
-                    <div class="col-md-6">
+                    <div class="col-sm-6">
                         Name:  {{$find->first_name??'N/A'}} {{$find->last_name??'N/A'}} <br>
                         Department:  {{$find->department->name??'N/A'}} <br>
                         Mobile Number:  {{$find->mobile_number??'N/A'}} <br>
@@ -386,7 +394,7 @@ ________________________________________________________________________________
                         Employee ID:  {{$user->employee_id??'N/A'}} <br>
                         {{-- <input class="form-control mt-3" value="{{$issue->transaction_code??'N/A'}}" readonly> --}}
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-sm-6">
                         Employee ID:  {{$find2->employee_id??'N/A'}} <br>
                         Designation:  {{$find2->designation->name??'N/A'}} <br>
                         Email ID:  {{$find2->email??'N/A'}} <br><br><br>
