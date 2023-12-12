@@ -566,15 +566,18 @@ class IssuenceController extends Controller
     public function issueprint($id)
     {
         $issue = Issuence::find($id);
+        // dd($issue);
         $data = $issue->product_id;
         $empname = $issue->employee_id;
         $user = User::where('employee_id', $empname)->first();
-        $rolid = $user->department_id;
-        $assetc = User::where('department_id', $rolid)->orWhere('role_id', 6)->first();
-        // dd($assetc);
+        $assetcontrollerrol = Role::where('name', 'Asset Controller')->first();
+        $assetc = User::where('role_id', $assetcontrollerrol->id)
+            ->where('department_id', $user->department_id)->first() ?? null;
+        $manager = $issue->employee_manager_id;
+        $mng = User::findOrFail($manager);
         $issuances = json_decode($data);
         $stock = Stock::find($issuances);
-        return view('Backend.Page.Issuence.issue-print', compact('stock', 'issue', 'user', 'assetc'));
+        return view('Backend.Page.Issuence.issue-print', compact('stock', 'issue', 'user', 'assetc', 'mng'));
     }
 
     public function AssetAcceptdetail($id)

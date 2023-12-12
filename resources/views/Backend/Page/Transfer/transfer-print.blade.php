@@ -48,7 +48,7 @@
             color: #aaa;
         }
 
-        .left-header .input-group {
+        .left-header .input-group {input-no-border 
             padding: 12px 15px !important;
             border-radius: 10px;
             overflow: hidden;
@@ -90,7 +90,7 @@
             font-size: 20px;
         }
 
-        input[readonly] {
+        input[readonlinput-no-border y] {
             background-color: white !important;
         }
 
@@ -107,10 +107,17 @@
             background-color: #f0f0f0 !important;
             color: #333;
         }
+        pre {
+        overflow: hidden;
+    }
         /* Add this to your CSS file */
 td.narrow-width {
     width: 400px; /* Adjust the width as needed */
 }
+.input-no-border {
+    border: none;
+}
+
 
     </style>
 </head>
@@ -118,17 +125,17 @@ td.narrow-width {
 <div class="container-fluid">
     <div class="row">
         <div class="col-xl-12">
-            <div class="card">
+            {{-- <div class="card"> --}}
             <div class="card-body">
-            <h4 class="text-center"><b>ASSET TRANSFER REPORT </b></h4>
+                <h4 class="text-center"><b>ASSET TRANSFER REPORT </b></h4>
             </div>
             <div class="card-body">
-                <b>  When completed and signed by the Manager and Asset Controller of initial/receiver department. Please forword this form to the finance department.</b> 
+                <b>  When completed and signed by the Manager and Asset Controller of initial/receiver department. Please forword this form to the finance department.</b> <br><br>
             </div>
         </div>
-        </div>
+        {{-- </div> --}}
         <div class="col-xl-12">
-            <div class="card">
+            {{-- <div class="card"> --}}
                 <div class="card-body">
                     <h4>TRANSFER INFORMATION :</h4>
                     <div class="row">
@@ -144,46 +151,46 @@ td.narrow-width {
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="card">
+            {{-- </div> --}}
+            {{-- <div class="card"> --}}
                 <div class="card-body">
                     <div class="row">
                         <h5>Employee Details :</h5>
                         <div class="col-sm-4">
                             <div class="p-1">
-                                From :<input class="form-control mt-3" value="{{$find->first_name??'N/A'}} {{$find->last_name??'N/A'}}  ({{$transfer->employee_id??'N/A'}})" readonly>
+                                From :<p> {{$find->first_name??'N/A'}} {{$find->last_name??'N/A'}}  ({{$transfer->employee_id??'N/A'}})</p>
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div class="p-1">
-                                Handover To:<input class="form-control mt-3" value="{{$find2->first_name??'N/A'}} {{$find2->last_name??'N/A'}} ({{$transfer->handover_employee_id??'N/A'}})" readonly>
+                                Handover To:<p> {{$find2->first_name??'N/A'}} {{$find2->last_name??'N/A'}} ({{$transfer->handover_employee_id??'N/A'}})</p>
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div class="p-1">
                                 <h5>Description:</h5>
-                                <textarea readonly disabled cols="30" rows="3" autofocus class="form-control mt-3">{{$transfer->description??''}}</textarea>
+                                <p>{{$transfer->description??''}}</p>
                             </div>
                     </div>
                 </div>
-            </div>
-            <div class="card">
+            {{-- </div> --}}
+            {{-- <div class="card"> --}}
                 <div class="card-body">
                     <div class="row p-3">
                         <h5>Location Details :</h5>
                         <div class="col-sm-6">
                             <div class="p-1">
-                                From :<input class="form-control mt-3" value="{{$find->location->name??'N/A'}} ({{$find->slocation->name??'N/A'}})" readonly>
+                                From :<p>{{$find->location->name??'N/A'}} ({{$find->slocation->name??'N/A'}})</p>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="p-1">
-                                To :<input class="form-control mt-3" value="{{$find2->location->name??'N/A'}} ({{$find2->slocation->name??'N/A'}})" readonly>
+                                To :<p>{{$find2->location->name??'N/A'}} ({{$find2->slocation->name??'N/A'}})</p>
                             </div>
                     </div>
                 </div>
-            </div>   
-            <div class="card">
+            {{-- </div>    --}}
+            {{-- <div class="card"> --}}
                 <div class="card-body">
                     <h4>Approved By :</h4>
                     <div class="row">
@@ -191,42 +198,23 @@ td.narrow-width {
                             <div class="p-2">
                                 <h5>Initial:</h5>
                                 <b>Manager Info:</b>
-                                <input class="form-control mt-3" value="{{$employeemanid->first_name??'N/A'}} {{$employeemanid->last_name??'N/A'}}    ({{$employeemanid->employee_id??''}})" readonly>
-                                <br>
+                                <p>{{$employeemanid->first_name??'N/A'}} {{$employeemanid->last_name??'N/A'}}    ({{$employeemanid->employee_id??''}})</p>
                                 <b>Asset Controller Info:</b>
-                                <input class="form-control mt-3" value="{{$assetcontroller->first_name??'N/A'}} {{$assetcontroller->last_name??'N/A'}}    ({{$assetcontroller->employee_id??''}})" readonly>
+                                <p> {{$assetcontroller->first_name??'N/A'}} {{$assetcontroller->last_name??'N/A'}}    ({{$assetcontroller->employee_id??''}})</p>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="p-2">
                                 <h5>Receiver :</h5>
                                 <b>Manager Info:</b>
-                                <input class="form-control mt-3" value="{{$user->first_name??'N/A'}} {{$user->last_name??'N/A'}}   ({{$user->employee_id??''}})" readonly>
-                                <br>
+                                <p> {{$user->first_name??'N/A'}} {{$user->last_name??'N/A'}}   ({{$user->employee_id??''}})</p>
                                 <b>Asset Controller Info:</b>
-                                <input class="form-control mt-3" value="{{$assetcontroller1->first_name??'N/A'}} {{$assetcontroller1->last_name??'N/A'}}    ({{$assetcontroller1->employee_id??''}})" readonly>
+                                <p> {{$assetcontroller1->first_name??'N/A'}} {{$assetcontroller1->last_name??'N/A'}}    ({{$assetcontroller1->employee_id??''}})</p>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            {{-- <div class="card">
-                <div class="card-body">
-                    <div class="row p-3">
-                        <div class="col-sm-5">
-                            <div class="p-2">
-                            <h5>Transaction Code:</h5>
-                            <input class="form-control mt-3" value="{{$transfer->transfers_transaction_code??'N/A'}}" readonly>
-                            </div>
-                        </div>
-                        <div class="col-sm-7">
-                            <h5>Description:</h5>
-                           
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
-            <div class="card appointment-detail">
+            <div class=" appointment-detail">
                 <div class="card-header pb-0">
                     <div class="d-flex justify-content-between">
                         <div class="setting-list">
@@ -252,9 +240,9 @@ td.narrow-width {
                                 <th>Serial Number</th>
                                 <th>Asset Type</th>
                                 <th>Asset</th>
-                                <th>Product Info</th>
-                                <th>Warranty</th>
-                                <th>Supplier</th>
+                                <th>Attribute</th>
+                                {{-- <th>Warranty</th>
+                                <th>Supplier</th> --}}
                             </thead>
                             <tbody>
                                 @foreach ($productdata as $stock)
@@ -263,9 +251,9 @@ td.narrow-width {
                                         <td>{{$stock->serial_number??''}}</td>
                                         <td>{{$stock->asset_type->name??''}}</td>
                                         <td>{{$stock->assetmain->name??'N/A'}}</td>
-                                        <td class="narrow-width">{{$stock->configuration ?? ''}}</td>
-                                        <td>{{$stock->product_warranty??''}}</td>
-                                        <td>{{$stock->getsupplier->name??''}}</td>
+                                        <td>{{$stock->attributes->name ?? ''}} {{$stock->atribute_value ??''}}</td>
+                                        {{-- <td>{{$stock->product_warranty??''}}</td>
+                                        <td>{{$stock->getsupplier->name??''}}</td> --}}
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -273,7 +261,7 @@ td.narrow-width {
                     </div>
                 </div>
             </div>
-            <div class="card">
+            {{-- <div class="card"> --}}
                 <div class="card-body">
                     <h4>Signatures:</h4>
                     <div class="table-responsive theme-scrollbar">
@@ -319,8 +307,8 @@ td.narrow-width {
                         </table>
                     </div>
                 </div>
-            </div>
-            <div class="card">
+            {{-- </div> --}}
+            {{-- <div class="card"> --}}
                 <div class="card-body">
                     <h4>FOR FINANCIAL SERVICE USE ONLY :</h4>
                     <br>
@@ -338,8 +326,11 @@ ________________________________________________________________________________
                 </div>
             </div>
         </div>
-    </div>
-    <br>
+    {{-- </div> --}}
+ <br>
+<br>
+<br>
+<br>
 <br>
 <br>
 <br>
@@ -359,8 +350,8 @@ ________________________________________________________________________________
 
 <div class="row">
     <div class="col-xl-12">
-        <h4 class="text-center"><b>ASSET ACKNOWLEDGEMENT FORM </b></h4>
-        <div class="card">
+        <h4 class="text-center"><b> ACKNOWLEDGEMENT REPORT </b></h4>
+        {{-- <div class="card"> --}}
             <div class="card-body">
                 <div class="row p-3">
                     <div class="col-sm-6">
@@ -375,8 +366,8 @@ ________________________________________________________________________________
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="card">
+        {{-- </div> --}}
+        {{-- <div class="card"> --}}
             <div class="card-body">
                 <h4>EMPLOYEE DETAILS:</h4>
                 <div class="row p-3">
@@ -392,7 +383,7 @@ ________________________________________________________________________________
                         <b>Manager :</b> <br>
                         Name:  {{$user->first_name??'N/A'}} {{$user->last_name??'N/A'}} <br>
                         Employee ID:  {{$user->employee_id??'N/A'}} <br>
-                        {{-- <input class="form-control mt-3" value="{{$issue->transaction_code??'N/A'}}" readonly> --}}
+                        {{-- <input class="input-no-border form-control mt-3" value="{{$issue->transaction_code??'N/A'}}" readonly> --}}
                     </div>
                     <div class="col-sm-6">
                         Employee ID:  {{$find2->employee_id??'N/A'}} <br>
@@ -408,8 +399,8 @@ ________________________________________________________________________________
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="card">
+        {{-- </div> --}}
+        {{-- <div class="card"> --}}
             <div class="card-body">
             <h4>TRANSFER INFORMATION :</h4><br>
             <div class="table-responsive theme-scrollbar">
@@ -419,7 +410,7 @@ ________________________________________________________________________________
                         <th>Serial Number</th>
                         <th>Asset Type</th>
                         <th>Asset</th>
-                        <th>Product Info</th>
+                        <th>Attribute</th>
                         <th>Warranty</th>
                         <th>Supplier</th>
                     </thead>
@@ -430,7 +421,7 @@ ________________________________________________________________________________
                                 <td>{{$stock->serial_number??'N/A'}}</td>
                                 <td>{{$stock->asset_type->name??''}}</td>
                                 <td>{{$stock->assetmain->name??'N/A'}}</td>
-                                <td class="narrow-width">{{$stock->configuration??''}}</td>
+                                <td>{{$stock->attributes->name??''}} {{$stock->atribute_value??''}}</td>
                                 <td>{{$stock->product_warranty??'N/A'}}</td>
                                 <td>{{$stock->getsupplier->name??'N/A'}}</td>
                             </tr>
@@ -438,18 +429,18 @@ ________________________________________________________________________________
                     </tbody>
                 </table>
             </div>
-        </div>
-        <div class="card">
-            <div class="card-body p-4">
+        {{-- </div> --}}
+        {{-- <div class="card"> --}}
+            <div class="card-body p-4 form-control">
                 <p>On the date of _____________ , I____________ I received' Asset owned and issued by SAB Express LLC. <br><br>
                 In doing so, I, do in fact understand that I am solely responsible for these devices untile it is returned to the SUB Express IT Department. While under my care, I acknowledge that any physical or accidental damage is my fault and I will be held accountable for it. <br><br>
                 While using these Assets & laptop device, I will not commit any acts of cyber terrorism/crime, illeggal activity share any company information with unauthorized user, search for or watch or store explicit content, install any software without IT consent, or lead laptop to friends or family members. I will strictly use these Asset & laptop for work/business purpose. <br><br>
                 By signing this document,'am accepting and agreeing and agreeing to the terms of use for these Asset & laptop.
                 </p><br><br><br>
-               <pre><b>Employee Signature:</b>____________________________                                    <b>Date:</b>__________________________  </pre> 
+               <pre><b>Employee Signature:</b>____________________________            <b>Date:</b>__________________________  </pre> 
             </div>
         </div>
-    </div>
+    {{-- </div> --}}
 </div>
 <script>
     window.onload = function() {

@@ -110,42 +110,32 @@
         td.narrow-width {
             width: 500px; /* Adjust the width as needed */
         }
+        pre {
+            overflow: hidden;
+        }
     </style>
 </head>
 <body>
     <div class="row">
         <div class="col-xl-12">
-            <h4 class="text-center"><b>ASSET ACKNOWLEDGEMENT FORM </b></h4>
-            <div class="card">
-                <div class="card-body">
+            <h4 class="text-center"><b>ASSET ACKNOWLEDGEMENT REPORT </b></h4>
+            <div class="card-body">
                     <div class="row p-3">
-                        <div class="col-md-6">
+                        <div class="col-sm-6">
                             <div class="p-1">
-                                {{-- Asset Controller ID:<input class="form-control mt-3" value="{{$assetc->employee_id??'Other Department Controller issue Product'}}" readonly> --}}
                                 <b>Transaction Code: </b>  {{$issue->transaction_code??'N/A'}}
                             </div>
-                            {{-- <div class="p-1">
-                                Asset Controller Name:<input class="form-control mt-3" value="{{$assetc->first_name??'N/A'}} {{$assetc->last_name??'N/A'}}" readonly>
-                            </div> --}}
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-sm-6">
                             <div class="p-1">
                                 <b>Date And Time:</b>  {{$issue->created_at??'N/A'}}
-                                {{-- EMP Name:<input class="form-control mt-3" value="{{$user->employee_id??'N/A'}}" readonly> --}}
-                            </div>
-                            {{-- <div class="p-1">
-                                EMP Name:<input class="form-control mt-3" value="{{$user->first_name??'N/A'}} {{$user->last_name??'N/A'}}" readonly>
-                            </div> --}}
-                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="card">
-                <div class="card-body">
+            <div class="card-body">
                     <h4>EMPLOYEE DETAILS:</h4>
                     <div class="row p-3">
                         <b>Employee:</b>
-                        <div class="col-md-6">
+                        <div class="col-sm-6">
                             Name:  {{$user->first_name??'N/A'}} {{$user->last_name??'N/A'}} <br>
                             Department:  {{$user->department->name??'N/A'}} <br>
                             Mobile Number:  {{$user->mobile_number??'N/A'}} <br>
@@ -154,11 +144,10 @@
                             Iqama / ID Number:  ____________________________________ <br><br>
 
                             <b>Manager :</b> <br>
-                            Name:  {{$user->first_name??'N/A'}} {{$user->last_name??'N/A'}} <br>
-                            Employee ID:  {{$user->employee_id??'N/A'}} <br>
-                            {{-- <input class="form-control mt-3" value="{{$issue->transaction_code??'N/A'}}" readonly> --}}
+                            Name:  {{$mng->first_name??'N/A'}} {{$mng->last_name??'N/A'}} <br>
+                            Employee ID:  {{$mng->employee_id??'N/A'}} <br>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-sm-6">
                             Employee ID:  {{$user->employee_id??'N/A'}} <br>
                             Designation:  {{$user->designation->name??'N/A'}} <br>
                             Email ID:  {{$user->email??'N/A'}} <br><br><br>
@@ -168,12 +157,9 @@
                             <b>Asset Controller :</b> <br>
                             Name:  {{$assetc->first_name??'N/A'}} {{$assetc->last_name??'N/A'}} <br>
                             Employee ID:  {{$assetc->employee_id??'N/A'}} <br>
-                            {{-- <textarea readonly disabled cols="30" rows="3" autofocus class="form-control mt-3">{{$issue->description??''}}</textarea> --}}
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="card">
                 <div class="card-body">
                 <h4>TRANSFER INFORMATION :</h4><br>
                 <div class="table-responsive theme-scrollbar">
@@ -202,17 +188,14 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
-            <div class="card">
                 <div class="card-body p-4">
                     <p>On the date of _____________ , I____________ I received' Asset owned and issued by SAB Express LLC. <br><br>
                     In doing so, I, do in fact understand that I am solely responsible for these devices untile it is returned to the SUB Express IT Department. While under my care, I acknowledge that any physical or accidental damage is my fault and I will be held accountable for it. <br><br>
                     While using these Assets & laptop device, I will not commit any acts of cyber terrorism/crime, illeggal activity share any company information with unauthorized user, search for or watch or store explicit content, install any software without IT consent, or lead laptop to friends or family members. I will strictly use these Asset & laptop for work/business purpose. <br><br>
                     By signing this document,'am accepting and agreeing and agreeing to the terms of use for these Asset & laptop.
                     </p><br><br><br>
-                   <pre><b>Employee Signature:</b>____________________________                                    <b>Date:</b>__________________________  </pre> 
+                   <pre><b>Employee Signature:</b>____________________________                  <b>Date:</b>__________________________  </pre> 
                 </div>
-            </div>
         </div>
     </div>
     <script>
