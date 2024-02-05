@@ -56,7 +56,7 @@ background-color:#1d0950!important;
                     <li
                         class="sidebar-list {{ request()->is(['department*', 'designations*', 'assets-type*', 'assets*', 'brand*', 'brand-model*', 'location*', 'sublocation*', 'attributes*', 'suppliers*', 'add-status*', 'transfer-reasons*']) ? 'active' : '' }}">
                         <a class="sidebar-link sidebar-title" href="javascript:void(0)" data-tab-name="Master"><i
-                                data-feather="airplay"></i><span>Masters</span></a>
+                                data-feather="airplay"></i><span>Master</span></a>
                         <ul class="sidebar-submenu">
                             @can('View_Department')
                                 <li class="{{ request()->is(['department*']) ? 'active' : '' }}"><a

@@ -281,7 +281,7 @@ class UserController extends Controller
         $transferProducts = Transfer::where('employee_id', $user->employee_id)->pluck('product_id');
         $ittransfer = 0;
         $nonittransfer = 0;
-        $componenttransfer = 0;
+        $componenttransfer = 0;   
         $softwaretransfer = 0;
 
         if ($transferProducts) {

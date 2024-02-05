@@ -159,7 +159,7 @@ class AssetController extends Controller
         $underRepairCount = $this->countStatus($matchingData, [12]);
         $transferredCount = $this->countStatus($matchingData, [5, 8]);
         $columns = ['SL', 'Asset Code', 'Asset', 'Brand', 'Brand Model', 'Specification', 'Age', 'Quantity', 'In-stock', 'Allocated', 'Under Repair', 'Stolen', 'Scraped', 'Allocations'];
-        return view('Backend.Page.It-Asset.non-it-stock', compact('matchingData', 'availableQuantity', 'allottedCount', 'underRepairCount', 'scrappedCount', 'transferredCount','columns'));
+        return view('Backend.Page.It-Asset.non-it-stock', compact('matchingData', 'availableQuantity', 'allottedCount', 'underRepairCount', 'scrappedCount', 'transferredCount', 'columns'));
     }
     private function countStatus($data, $statusValues)
     {
@@ -167,13 +167,14 @@ class AssetController extends Controller
             return in_array($item->status_available, $statusValues);
         })->count();
     }
-    public function allocation($id){
+    public function allocation($id)
+    {
         $issuedata = Issuence::whereJsonContains('id', $id)->with('user')->get();
         $product = '';
         foreach ($issuedata as $data) {
             $product = Stock::where('id', $data->id)->get();
         }
-        return view('Backend.Page.It-Asset.view-allocation-non-it', compact('issuedata','product'));
+        return view('Backend.Page.It-Asset.view-allocation-non-it', compact('issuedata', 'product'));
     }
     public function assetscomponent()
     {
@@ -206,7 +207,7 @@ class AssetController extends Controller
         $transferredCount = $this->countStatus($assteComponent, [5, 8]);
         $availableQuantity = $assteComponent->pluck('availableQuantity');
         $columns = ['SL', 'Asset Code', 'Asset', 'Brand', 'Brand Model', 'Specification', 'Age', 'Quantity', 'In-stock', 'Allocated', 'Under Repair', 'Stolen', 'Scraped', 'Allocations'];
-        return view('Backend.Page.It-Asset.assets-components', compact('assteComponent','columns','availableQuantity', 'allottedCount', 'underRepairCount', 'scrappedCount', 'transferredCount'));
+        return view('Backend.Page.It-Asset.assets-components', compact('assteComponent', 'columns', 'availableQuantity', 'allottedCount', 'underRepairCount', 'scrappedCount', 'transferredCount'));
     }
     public function getAssetsByType(Request $request, $id)
     {
@@ -238,7 +239,7 @@ class AssetController extends Controller
         $transferredCount = $this->countStatus($softwareData, [5, 8]);
         $availableQuantity = $softwareData->pluck('availableQuantity');
         $columns = ['SL', 'Asset Code', 'Asset', 'Configuration', 'Age', 'Quantity', 'In-stock', 'Allocated', 'Allocations'];
-        return view('Backend.Page.It-Asset.assets-software', compact('softwareData','availableQuantity','columns','allottedCount', 'transferredCount'));
+        return view('Backend.Page.It-Asset.assets-software', compact('softwareData', 'availableQuantity', 'columns', 'allottedCount', 'transferredCount'));
     }
     public function getAssetDetails($assetTypeId)
     {
